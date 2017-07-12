@@ -3,8 +3,8 @@ package com.fundit
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v7.app.AppCompatActivity
-import android.view.MenuItem
 import android.widget.TextView
+import com.fundit.a.C
 
 class HomeActivity : AppCompatActivity() {
 
@@ -12,16 +12,20 @@ class HomeActivity : AppCompatActivity() {
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
-            R.id.navigation_home -> {
-                mTextMessage!!.setText(R.string.title_home)
+            R.id.navigation_newsFeed -> {
+                mTextMessage!!.text = item.title
                 return@OnNavigationItemSelectedListener true
             }
-            R.id.navigation_dashboard -> {
-                mTextMessage!!.setText(R.string.title_dashboard)
+            R.id.navigation_inbox -> {
+                mTextMessage!!.text = item.title
                 return@OnNavigationItemSelectedListener true
             }
-            R.id.navigation_notifications -> {
-                mTextMessage!!.setText(R.string.title_notifications)
+            R.id.navigation_myCampaigns -> {
+                mTextMessage!!.text = item.title
+                return@OnNavigationItemSelectedListener true
+            }
+            R.id.navigation_browse -> {
+                mTextMessage!!.text = item.title
                 return@OnNavigationItemSelectedListener true
             }
         }
@@ -35,6 +39,8 @@ class HomeActivity : AppCompatActivity() {
         mTextMessage = findViewById(R.id.message) as TextView
         val navigation = findViewById(R.id.navigation) as BottomNavigationView
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+
+
     }
 
 }
