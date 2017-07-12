@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/colorBackground"
+    android:orientation="vertical"
     tools:context="com.fundit.OrganizationAccountActivity">
     <include
         android:id="@+id/toolbar"
@@ -31,7 +31,7 @@
             android:layout_marginBottom="5dp"
             android:padding="10dp"
             android:textColor="#000"
-            android:background="@color/white"
+            android:background="@drawable/background_txt_border"
             android:textColorHint="@color/colorIcon" />
         <TextView
             android:layout_width="wrap_content"
@@ -48,7 +48,7 @@
             android:layout_marginBottom="5dp"
             android:padding="10dp"
             android:textColor="#000"
-            android:background="@color/white"
+            android:background="@drawable/background_txt_border"
             android:textColorHint="@color/colorIcon" />
         <TextView
             android:layout_width="wrap_content"
@@ -64,7 +64,7 @@
             android:layout_marginBottom="5dp"
             android:padding="10dp"
             android:textColor="#000"
-            android:background="@color/white"
+            android:background="@drawable/background_txt_border"
             android:textColorHint="@color/colorIcon" />
         <TextView
             android:layout_width="wrap_content"
