@@ -12,10 +12,10 @@ import com.fundit.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MyCampaignsFragment extends Fragment {
+public class PastCampaignFragment extends Fragment {
 
 
-    public MyCampaignsFragment() {
+    public PastCampaignFragment() {
         // Required empty public constructor
     }
 
@@ -24,7 +24,7 @@ public class MyCampaignsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_my_campaigns, container, false);
+        return inflater.inflate(R.layout.fragment_past_campaign, container, false);
     }
 
 }
