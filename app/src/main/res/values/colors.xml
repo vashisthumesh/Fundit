@@ -16,4 +16,6 @@
 
     <color name="colorBackgroundTotalPrice">#CFECD3</color>
     <color name="colorBackgroundRaisedPrice">#4CAECE</color>
+
+    <color name="lightGrey200">#f5f5f5</color>
 </resources>
