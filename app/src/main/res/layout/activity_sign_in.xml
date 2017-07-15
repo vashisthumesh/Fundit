@@ -96,14 +96,61 @@
                 android:textSize="20sp" />
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="15dp"
-                android:gravity="center_horizontal"
+                android:gravity="center"
                 android:orientation="horizontal">
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/black"
+                    android:layout_weight="5"
+                    android:layout_gravity="center"
+                    android:visibility="invisible"
+                    />
 
-                <Button
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/black"
+                    android:layout_weight="6"
+                    android:layout_gravity="center"
+                    >
+
+                </View>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="or"
+                    android:gravity="center"
+                    android:layout_weight="6"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:id="@+id/txt_or"
+                    />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/black"
+                    android:layout_weight="6"
+                    android:layout_gravity="center"
+                    >
+
+                </View>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#fff"
+                    android:backgroundTint="#66ffffff"
+                    android:layout_weight="5"
+                    android:layout_gravity="center"
+                    android:visibility="invisible"
+                    />
+               <!-- <Button
                     android:layout_width="280dp"
                     android:layout_height="30dp"
                     android:layout_gravity="center"
@@ -112,14 +159,14 @@
                     android:text="Log in With Facebook"
                     android:textAllCaps="false"
                     android:textColor="#fff"
-                    android:textSize="20sp" />
+                    android:textSize="20sp" />-->
 
             </LinearLayout>
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="45dp"
+                android:layout_marginTop="25dp"
                 android:gravity="center_horizontal"
                 android:orientation="horizontal">
 
