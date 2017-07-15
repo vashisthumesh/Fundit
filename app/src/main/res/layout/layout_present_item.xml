@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/txt_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="5dp"
+        android:textColor="@color/colorText"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        tools:text="Help Robotics Team Build a Bot!"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/colorPrimary"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:text="Place Order"
+        android:textAllCaps="false"
+        android:textColor="@color/colorText"/>
+
+    <TextView
+        android:id="@+id/txt_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:textColor="@color/colorText"
+        android:textSize="16sp"
+        tools:text="*description/what its for*"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="Fundspot Partner:"
+            android:textColor="@color/colorText"
+            android:textSize="14sp"/>
+
+        <TextView
+            android:id="@+id/txt_fundspotPartner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:textColor="@color/colorText"
+            android:textSize="14sp"
+            tools:text="Appolo's Pizza"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="Item:"
+            android:textColor="@color/colorText"
+            android:textSize="14sp"/>
+
+        <TextView
+            android:id="@+id/txt_item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:textColor="@color/colorText"
+            android:textSize="14sp"
+            tools:text="1 large - topping pizza for $10"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="Goal:"
+            android:textColor="@color/colorText"
+            android:textSize="14sp"/>
+
+        <TextView
+            android:id="@+id/txt_goal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:textColor="@color/colorText"
+            android:textSize="14sp"
+            tools:text="$5000"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <include layout="@layout/layout_raised_price"/>
+
+        <TextView
+            android:id="@+id/txt_statistic_clickable"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:fontFamily="sans-serif-condensed"
+            android:padding="5dp"
+            android:text="Statistics"
+            android:textColor="@color/colorPrimary"
+            android:textSize="16sp"
+            android:textStyle="bold"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="% Split:"
+            android:textColor="@color/colorText"
+            android:textSize="14sp"/>
+
+        <TextView
+            android:id="@+id/txt_split"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:textColor="@color/colorText"
+            android:textSize="14sp"
+            tools:text="60/40"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="Dates:"
+            android:textColor="@color/colorText"
+            android:textSize="14sp"/>
+
+        <TextView
+            android:id="@+id/txt_dates"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:textColor="@color/colorText"
+            android:textSize="14sp"
+            tools:text="Sept 14th to Oct 14th"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="Members:"
+            android:textColor="@color/colorText"
+            android:textSize="14sp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txt_members"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:textColor="@color/colorText"
+                android:textSize="14sp"
+                tools:text="Aliya Nayeem, Evan Sach, Luke Duke, Chris B, Duval Pu, Micheal Dee, Rajal Parbadia, Tom Selvan"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="See more"
+                android:padding="5dp"
+                android:id="@+id/txt_seeMore"
+                android:textColor="#0000FF"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add Members"
+                android:padding="5dp"
+                android:id="@+id/txt_addMember"
+                android:textColor="#0000FF"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="Message:"
+            android:textColor="@color/colorText"
+            android:textSize="14sp"/>
+
+        <TextView
+            android:id="@+id/txt_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:textColor="@color/colorText"
+            android:textSize="14sp"
+            tools:text="Hey guys, sell as much as you can and the best seller gets $10!"/>
+
+    </LinearLayout>
+
+</LinearLayout>
