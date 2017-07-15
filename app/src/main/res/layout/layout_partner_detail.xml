@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <ImageView
+            android:id="@+id/img_profilePic"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_weight="1.5"
+            android:maxWidth="400dp"
+            android:padding="10dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/txt_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:gravity="center"
+                android:padding="5dp"
+                android:textColor="@color/colorText"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                tools:text="Virginiya Tech Bhangra"/>
+
+            <TextView
+                android:id="@+id/txt_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="5dp"
+                android:textColor="@color/colorText"
+                android:textSize="17sp"
+                tools:text="Blacksburg, VA"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btn_joinUs"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:textAllCaps="false"
+                    android:background="@color/colorPrimary"
+                    android:text="Join Us"
+                    android:textColor="@color/colorText"/>
+
+                <Button
+                    android:id="@+id/btn_follow"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:layout_margin="5dp"
+                    android:textAllCaps="false"
+                    android:layout_weight="1"
+                    android:background="@color/colorPrimary"
+                    android:text="Follow"
+                    android:textColor="@color/colorText"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="About Us:"
+            android:textColor="@color/colorText"
+            android:textSize="16dp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/txt_aboutUs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:textColor="@color/colorText"
+            android:textSize="16dp"
+            tools:text="We are a dance team that strives to promote Punjabi dance throughout out community. We participate in competitions across the nation and spread the Hokie pride!\n*facebook link*"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="Fundraise Split:"
+            android:textColor="@color/colorText"
+            android:textSize="16dp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/txt_fundraiseSplit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:textColor="@color/colorText"
+            android:textSize="16dp"
+            tools:text="40% goes on you!"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="Current Campaign:"
+            android:textColor="@color/colorText"
+            android:textSize="16dp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/txt_currentCampaign"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:textColor="@color/colorText"
+            android:textSize="16dp"
+            tools:text="Panda Express"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="Past Campaigns:"
+            android:textColor="@color/colorText"
+            android:textSize="16dp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/txt_pastCampaigns"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:textColor="@color/colorText"
+            android:textSize="16dp"
+            tools:text="Thai This Food Truck, Panda Express, Chipotle, Appolos, Next Door Bake Shop, etc."/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="10dp"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/btn_message"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_margin="5dp"
+            android:background="@color/colorPrimary"
+            android:text="Message"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:textAllCaps="false"
+            android:textColor="@color/colorText"/>
+
+
+        <Button
+            android:id="@+id/btn_requestToCampaign"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_margin="5dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:background="@color/colorPrimary"
+            android:text="Request to Campaign"
+            android:textAllCaps="false"
+            android:textColor="@color/colorText"/>
+    </LinearLayout>
+
+</LinearLayout>
