@@ -21,6 +21,7 @@
 
 
         <TextView
+            android:id="@+id/tv_organization"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
@@ -34,6 +35,7 @@
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/tv_fundspot"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
@@ -47,6 +49,7 @@
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/tv_General_member"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
