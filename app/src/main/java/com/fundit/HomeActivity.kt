@@ -22,6 +22,7 @@ import com.fundit.fragmet.MyProfileFragment
 
 class HomeActivity : AppCompatActivity() {
 
+    var ac=null
     internal var list_navigation: ListView? = null
     var headerView: View? = null
     var navigationAdapter: LeftNavigationAdapter? = null
@@ -86,32 +87,32 @@ class HomeActivity : AppCompatActivity() {
         } else if (position == 5) {
 
         } else if (position == 6) {
-            var intent = Intent(this,FundraiserSettings::class.java)
+            val intent = Intent(this,FundraiserSettings::class.java)
             startActivity(intent)
         } else if (position == 7) {
 
         } else if (position == 8) {
 
         } else if (position == 9) {
-            var intent = Intent(this,SignInActivity::class.java)
+            val intent = Intent(this,SignInActivity::class.java)
             startActivity(intent)
         } else if (position == 10) {
-            var intent = Intent(this,AccountTypeActivity::class.java)
+            val intent = Intent(this,AccountTypeActivity::class.java)
             startActivity(intent)
         } else if (position == 11) {
-            var intent = Intent(this,OrganizationAccountActivity::class.java)
+            val intent = Intent(this,OrganizationAccountActivity::class.java)
             startActivity(intent)
         } else if (position == 12) {
-            var intent = Intent(this,VerificationActivity::class.java)
+            val intent = Intent(this,VerificationActivity::class.java)
             startActivity(intent)
         } else if (position == 13) {
-            var intent = Intent(this,OrganizationProfileActivity::class.java)
+            val intent = Intent(this,OrganizationProfileActivity::class.java)
             startActivity(intent)
         } else if (position == 14) {
-            var intent = Intent(this,GeneralMemberProfileActivity::class.java)
+            val intent = Intent(this,GeneralMemberProfileActivity::class.java)
             startActivity(intent)
         } else if (position == 15) {
-            var intent = Intent(this,FundSpotProfile::class.java)
+            val intent = Intent(this,FundSpotProfile::class.java)
             startActivity(intent)
         }
     }
