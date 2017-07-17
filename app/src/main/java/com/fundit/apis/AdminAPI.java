@@ -4,6 +4,7 @@ import com.fundit.a.W;
 import com.fundit.model.AppModel;
 import com.fundit.model.AreaResponse;
 import com.fundit.model.CategoryResponse;
+import com.fundit.model.RegisterResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -41,7 +42,9 @@ public interface AdminAPI {
     @POST(W.UNIQUE_EMAIL)
     Call<AppModel> checkUniqueMail(@Field("email_id") String emailID);
 
-
+    @FormUrlEncoded
+    @POST(W.REGISTER_USER)
+    Call<RegisterResponse> registerUser(@Field("role_id") String role_id,@Field("title") String title,@Field("first_name") String first_name,@Field("last_name")String last_name,@Field("email_id")String email_id,@Field("password")String password);
 
 
 }

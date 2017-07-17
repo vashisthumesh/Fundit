@@ -17,4 +17,5 @@ public class W {
     public static final String CATEGORY_LIST="Category/app_get_category";
 
     public static final String UNIQUE_EMAIL="User/app_check_unique_email";
+    public static final String REGISTER_USER="User/app_register";
 }
