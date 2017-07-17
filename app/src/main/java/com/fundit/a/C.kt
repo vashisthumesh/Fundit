@@ -9,7 +9,7 @@ import com.fundit.R
 /**
  * Created by Nivida new on 12-Jul-17.
  */
-object C{
+class C{
 
     fun findToolbarCenteredText(context: Activity): Toolbar {
         return context.findViewById(R.id.toolbarCenterText) as Toolbar
@@ -18,4 +18,8 @@ object C{
     fun showToast(context: Context, message: String) {
         Toast.makeText(context,message,Toast.LENGTH_SHORT).show()
     }
+
+    var ORGANIZATION: String = "2"
+    var FUNDSPOT: String = "3"
+    var GENERAL_MEMBER: String = "4"
 }

@@ -1,5 +1,6 @@
 package com.fundit.apis;
 
+import com.fundit.a.C;
 import com.fundit.a.W;
 import com.fundit.model.AppModel;
 import com.fundit.model.AreaResponse;
@@ -45,6 +46,5 @@ public interface AdminAPI {
     @FormUrlEncoded
     @POST(W.REGISTER_USER)
     Call<RegisterResponse> registerUser(@Field("role_id") String role_id,@Field("title") String title,@Field("first_name") String first_name,@Field("last_name")String last_name,@Field("email_id")String email_id,@Field("password")String password);
-
 
 }
