@@ -41,7 +41,7 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun setupToolbar() {
-        toolbar = C.findToolbarCenteredText(this)
+        toolbar = C::findToolbarCenteredText.call(this)
         actionTitle = findViewById(R.id.actionTitle) as TextView
         //actionTitle?.text = ""
         setSupportActionBar(toolbar)
