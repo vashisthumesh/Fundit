@@ -12,7 +12,7 @@ public class RegisterResponse extends AppModel {
         return data;
     }
 
-    class Data{
+    public class Data{
         String user_id="";
 
         public String getUser_id() {
