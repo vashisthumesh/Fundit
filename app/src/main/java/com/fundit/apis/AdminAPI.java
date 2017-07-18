@@ -6,6 +6,7 @@ import com.fundit.model.AppModel;
 import com.fundit.model.AreaResponse;
 import com.fundit.model.CategoryResponse;
 import com.fundit.model.RegisterResponse;
+import com.fundit.model.UniqueEmailResponse;
 import com.fundit.model.VerifyResponse;
 
 import retrofit2.Call;
@@ -42,11 +43,11 @@ public interface AdminAPI {
 
     @FormUrlEncoded
     @POST(W.UNIQUE_EMAIL)
-    Call<AppModel> checkUniqueMail(@Field("email_id") String emailID);
+    Call<UniqueEmailResponse> checkUniqueMail(@Field("email_id") String emailID);
 
     @FormUrlEncoded
     @POST(W.REGISTER_USER)
-    Call<RegisterResponse> registerUser(@Field("role_id") String role_id,@Field("title") String title,@Field("first_name") String first_name,@Field("last_name")String last_name,@Field("email_id")String email_id,@Field("password")String password);
+    Call<RegisterResponse> registerUser(@Field("role_id") String role_id,@Field("title") String title,@Field("first_name") String first_name,@Field("last_name")String last_name,@Field("email_id")String email_id,@Field("password")String password, @Field("anroid_device_id") String deviceID);
 
     @FormUrlEncoded
     @POST(W.USER_LOGIN)

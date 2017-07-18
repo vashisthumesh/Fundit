@@ -19,6 +19,8 @@ object C{
     const val FUNDSPOT: String = "3"
     const val GENERAL_MEMBER: String = "4"
 
+    const val VERIFIED:String ="1"
+
     fun findToolbarCenteredText(context: Activity): Toolbar {
         return context.findViewById(R.id.toolbarCenterText) as Toolbar
     }
