@@ -39,7 +39,7 @@ object C{
 
     fun validEmail(email: String): Boolean{
 
-        val pattern: Pattern = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\\\.[A-Z]{2,6}\$",Pattern.CASE_INSENSITIVE)
+        val pattern: Pattern = Pattern.compile("[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}\" + \"\\\\@\" + \"[a-zA-Z0-9][a-zA-Z0-9\\\\-]{1,64}\" + \"(\" +\n" + "\"\\\\.\" + \"[a-zA-Z0-9][a-zA-Z0-9\\-]{2,6}",Pattern.CASE_INSENSITIVE)
         val match: Matcher = pattern.matcher(email)
 
         return match.matches()

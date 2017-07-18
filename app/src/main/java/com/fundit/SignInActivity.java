@@ -17,7 +17,6 @@ import com.fundit.apis.AdminAPI;
 import com.fundit.apis.ServiceGenerator;
 import com.fundit.helper.CustomDialog;
 import com.fundit.model.AppModel;
-import com.fundit.model.RegisterResponse;
 import com.fundit.model.VerifyResponse;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
@@ -148,7 +147,7 @@ public class SignInActivity extends AppCompatActivity {
 
         final Dialog dialog_forget = new Dialog(SignInActivity.this);
         LayoutInflater inflater = SignInActivity.this.getLayoutInflater();
-        final View dialogView = inflater.inflate(R.layout.Dialog_Forget_password, null);
+        final View dialogView = inflater.inflate(R.layout.dialog_forget_password, null);
         //setting custom layout to dialog
         dialog_forget.setContentView(dialogView);
         dialog_forget.setTitle("Send Email");
