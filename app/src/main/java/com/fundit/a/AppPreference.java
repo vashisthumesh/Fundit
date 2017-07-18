@@ -16,6 +16,8 @@ public class AppPreference {
     String userID="";
     String userRoleID="";
     String tokenHash="";
+    String userData="";
+    String memberData = "";
 
     public AppPreference(Context context) {
         preferences=context.getSharedPreferences(FILE_NAME,Context.MODE_PRIVATE);
@@ -52,5 +54,21 @@ public class AppPreference {
 
     public void setTokenHash(String tokenHash) {
         editor.putString("tokenHash",tokenHash).commit();
+    }
+
+    public String getUserData() {
+        return preferences.getString("userData","");
+    }
+
+    public void setUserData(String userData) {
+        editor.putString("userData",userData);
+    }
+
+    public String getMemberData() {
+        return preferences.getString("memberData","");
+    }
+
+    public void setMemberData(String memberData) {
+        editor.putString("memberData",memberData);
     }
 }
