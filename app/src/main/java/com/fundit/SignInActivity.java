@@ -1,17 +1,28 @@
 package com.fundit;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.fundit.a.AppPreference;
+import com.fundit.a.C;
 import com.fundit.apis.AdminAPI;
 import com.fundit.apis.ServiceGenerator;
+import com.fundit.helper.CustomDialog;
 import com.fundit.model.RegisterResponse;
 import com.fundit.model.VerifyResponse;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.gson.Gson;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -23,13 +34,21 @@ public class SignInActivity extends AppCompatActivity {
     TextView tv_forget_password;
     Button bt_signin,bt_Create_account;
 
+    AppPreference preference;
+
+    CustomDialog dialog;
+
     AdminAPI adminAPI;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
-        fetchid();
         adminAPI= ServiceGenerator.getAPIClass();
+        preference=new AppPreference(this);
+        dialog=new CustomDialog(this);
+
+        fetchid();
+
     }
 
     private void fetchid() {
@@ -43,33 +62,76 @@ public class SignInActivity extends AppCompatActivity {
         bt_signin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Call<VerifyResponse> responseCall=adminAPI.signInUser("","","");
-                responseCall.enqueue(new Callback<VerifyResponse>() {
-                    @Override
-                    public void onResponse(Call<VerifyResponse> call, Response<VerifyResponse> response) {
-                        VerifyResponse verifyResponse=response.body();
-                        if(verifyResponse!=null){
-                            if(verifyResponse.isStatus()){
-                                verifyResponse.getData().getUser();
+                if (ed_input_email.getText().toString().trim().equalsIgnoreCase("")) {
+                    Toast.makeText(SignInActivity.this, "Please Enter Email Address", Toast.LENGTH_LONG).show();
+                    // GlobalFile.CustomToast(Activity_Login.this,"Please Enter Email Address",getLayoutInflater());
+
+                } else if (validateEmail1(ed_input_email.getText().toString()) != true) {
+                    Toast.makeText(SignInActivity.this, "Please enter valid email address", Toast.LENGTH_LONG).show();
+                } else if (ed_input_password.getText().toString().trim().equalsIgnoreCase("")) {
+                    Toast.makeText(SignInActivity.this, "Please Enter Your Password", Toast.LENGTH_LONG).show();
+                } else {
+                    String email=ed_input_email.getText().toString().trim();
+                    String password=ed_input_password.getText().toString().trim();
+                    String firebase_token= FirebaseInstanceId.getInstance().getToken();
+                    dialog.show();
+                    Call<VerifyResponse> responseCall=adminAPI.signInUser(email,password,firebase_token);
+                    responseCall.enqueue(new Callback<VerifyResponse>() {
+                        @Override
+                        public void onResponse(Call<VerifyResponse> call, Response<VerifyResponse> response) {
+                            dialog.dismiss();
+                            VerifyResponse verifyResponse=response.body();
+                            if(verifyResponse!=null){
+                                if(verifyResponse.isStatus()){
+                                    String userData= new Gson().toJson(verifyResponse.getData().getUser());
+                                    String memberData = "";
+                                    if(verifyResponse.getData().getUser().getRole_id().equals(C.ORGANIZATION)){
+                                        memberData = new Gson().toJson(verifyResponse.getData().getOrganization());
+                                    }
+                                    else if(verifyResponse.getData().getUser().getRole_id().equals(C.FUNDSPOT)){
+                                        memberData = new Gson().toJson(verifyResponse.getData().getFundspot());
+                                    }
+                                    else if(verifyResponse.getData().getUser().getRole_id().equals(C.GENERAL_MEMBER)){
+                                        memberData = new Gson().toJson(verifyResponse.getData().getMember());
+                                    }
+
+                                    preference.setLoggedIn(true);
+                                    preference.setUserID(verifyResponse.getData().getUser().getId());
+                                    preference.setUserRoleID(verifyResponse.getData().getUser().getRole_id());
+                                    preference.setTokenHash(verifyResponse.getData().getUser().getTokenhash());
+                                    preference.setUserData(userData);
+                                    preference.setMemberData(memberData);
+                                    Intent in=new Intent(SignInActivity.this,HomeActivity.class);
+                                    in.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    startActivity(in);
+
+                                }
+                                else {
+                                    C.INSTANCE.showToast(getApplicationContext(),verifyResponse.getMessage());
+                                }
                             }
-                            else {
-                                verifyResponse.getMessage();
+                            else{
+                                C.INSTANCE.defaultError(getApplicationContext());
                             }
                         }
-                        else{
 
+                        @Override
+                        public void onFailure(Call<VerifyResponse> call, Throwable t) {
+                            dialog.dismiss();
+                            C.INSTANCE.errorToast(getApplicationContext(),t);
                         }
-                    }
+                    });
 
-                    @Override
-                    public void onFailure(Call<VerifyResponse> call, Throwable t) {
-
-                    }
-                });
+                }
             }
         });
 
-
+        tv_forget_password.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            showdialog();
+            }
+        });
 
         bt_Create_account.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,5 +143,45 @@ public class SignInActivity extends AppCompatActivity {
         });
     }
 
+    private void showdialog() {
 
+        final Dialog dialog = new Dialog(SignInActivity.this);
+        LayoutInflater inflater = SignInActivity.this.getLayoutInflater();
+        final View dialogView = inflater.inflate(R.layout.Dialog_Forget_password, null);
+        //setting custom layout to dialog
+        dialog.setContentView(dialogView);
+        dialog.setTitle("Send Email");
+
+        final EditText Email =(EditText)dialogView.findViewById(R.id.ed_forget_pass_email);
+        final Button bt_cancel=(Button)dialogView.findViewById(R.id.bt_cancel);
+        final Button bt_send=(Button)dialogView.findViewById(R.id.bt_send);
+
+        bt_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Email.setText("");
+                dialog.cancel();
+            }
+        });
+        bt_send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+
+    }
+
+    private boolean validateEmail1(String email) {
+        // TODO Auto-generated method stub
+
+        Pattern pattern;
+        Matcher matcher;
+        String EMAIL_PATTERN = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+        pattern = Pattern.compile(EMAIL_PATTERN);
+        matcher = pattern.matcher(email);
+        return matcher.matches();
+
+    }
 }
