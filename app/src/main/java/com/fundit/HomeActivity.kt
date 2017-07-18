@@ -41,11 +41,13 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun setupToolbar() {
-        toolbar = C::findToolbarCenteredText.call(this)
+        toolbar = C.findToolbarCenteredText(this)
         actionTitle = findViewById(R.id.actionTitle) as TextView
         //actionTitle?.text = ""
         setSupportActionBar(toolbar)
     }
+
+
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         //menuInflater.inflate(R.menu.navigation, menu)

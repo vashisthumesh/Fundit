@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.fundit.a.C;
+
 public class AccountTypeActivity extends AppCompatActivity {
 
 
@@ -30,23 +32,30 @@ public class AccountTypeActivity extends AppCompatActivity {
         tv_organization.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent in=new Intent(AccountTypeActivity.this,OrganizationAccountActivity.class);
-                in.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(in);
+                Intent intent=new Intent(AccountTypeActivity.this,OrganizationAccountActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra("roleID", C.ORGANIZATION);
+                startActivity(intent);
             }
         });
 
         tv_fundspot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent=new Intent(AccountTypeActivity.this,OrganizationAccountActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra("roleID", C.FUNDSPOT);
+                startActivity(intent);
             }
         });
 
         tv_General_member.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent=new Intent(AccountTypeActivity.this,OrganizationAccountActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra("roleID", C.GENERAL_MEMBER);
+                startActivity(intent);
             }
         });
     }

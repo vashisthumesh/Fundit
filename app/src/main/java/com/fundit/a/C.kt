@@ -7,11 +7,17 @@ import android.widget.Toast
 import com.fundit.R
 import java.net.ConnectException
 import java.net.UnknownHostException
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 
 /**
  * Created by Nivida new on 12-Jul-17.
  */
-class C{
+object C{
+
+    const val ORGANIZATION: String = "2"
+    const val FUNDSPOT: String = "3"
+    const val GENERAL_MEMBER: String = "4"
 
     fun findToolbarCenteredText(context: Activity): Toolbar {
         return context.findViewById(R.id.toolbarCenterText) as Toolbar
@@ -29,7 +35,15 @@ class C{
         showToast(context,"Something went wrong\nPlease try again later!")
     }
 
-    open fun errorToast(context: Context, t: Throwable): Unit{
+    fun validEmail(email: String): Boolean{
+
+        val pattern: Pattern = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\\\.[A-Z]{2,6}\$",Pattern.CASE_INSENSITIVE)
+        val match: Matcher = pattern.matcher(email)
+
+        return match.matches()
+    }
+
+    fun errorToast(context: Context, t: Throwable): Unit{
         when(t){
             is ConnectException -> noInternet(context)
             is UnknownHostException -> noInternet(context)
@@ -37,7 +51,5 @@ class C{
         }
     }
 
-    var ORGANIZATION: String = "2"
-    var FUNDSPOT: String = "3"
-    var GENERAL_MEMBER: String = "4"
+
 }
