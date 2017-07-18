@@ -16,6 +16,7 @@ import com.fundit.a.C;
 import com.fundit.apis.AdminAPI;
 import com.fundit.apis.ServiceGenerator;
 import com.fundit.helper.CustomDialog;
+import com.fundit.model.AppModel;
 import com.fundit.model.RegisterResponse;
 import com.fundit.model.VerifyResponse;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -145,12 +146,12 @@ public class SignInActivity extends AppCompatActivity {
 
     private void showdialog() {
 
-        final Dialog dialog = new Dialog(SignInActivity.this);
+        final Dialog dialog_forget = new Dialog(SignInActivity.this);
         LayoutInflater inflater = SignInActivity.this.getLayoutInflater();
         final View dialogView = inflater.inflate(R.layout.Dialog_Forget_password, null);
         //setting custom layout to dialog
-        dialog.setContentView(dialogView);
-        dialog.setTitle("Send Email");
+        dialog_forget.setContentView(dialogView);
+        dialog_forget.setTitle("Send Email");
 
         final EditText Email =(EditText)dialogView.findViewById(R.id.ed_forget_pass_email);
         final Button bt_cancel=(Button)dialogView.findViewById(R.id.bt_cancel);
@@ -160,12 +161,43 @@ public class SignInActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Email.setText("");
-                dialog.cancel();
+                dialog_forget.cancel();
             }
         });
         bt_send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                dialog.show();
+                Call<AppModel> forgetpasswordcall=adminAPI.forgetPassword("");
+
+                forgetpasswordcall.enqueue(new Callback<AppModel>() {
+                    @Override
+                    public void onResponse(Call<AppModel> call, Response<AppModel> response) {
+                        dialog.dismiss();
+                        AppModel  appModel=response.body();
+                        if(appModel!=null){
+                            if(appModel.isStatus()){
+                                C.INSTANCE.showToast(getApplicationContext(),appModel.getMessage());
+
+                                dialog_forget.dismiss();
+
+                            }
+                            else {
+                                C.INSTANCE.showToast(getApplicationContext(),appModel.getMessage());
+                            }
+                        }
+                        else{
+                            C.INSTANCE.defaultError(getApplicationContext());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<AppModel> call, Throwable t) {
+                        dialog.dismiss();
+                        C.INSTANCE.errorToast(getApplicationContext(),t);
+                    }
+                });
+
 
             }
         });

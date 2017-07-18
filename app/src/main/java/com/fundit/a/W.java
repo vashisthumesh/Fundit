@@ -18,4 +18,5 @@ public class W {
 
     public static final String UNIQUE_EMAIL="User/app_check_unique_email";
     public static final String REGISTER_USER="User/app_register";
+    public static final String FORGET_PASSWORD="User/app_forgot_password";
 }

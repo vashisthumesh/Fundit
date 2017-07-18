@@ -51,4 +51,9 @@ public interface AdminAPI {
     @FormUrlEncoded
     @POST(W.USER_LOGIN)
     Call<VerifyResponse> signInUser(@Field("email_id")String email_id,@Field("password")String password,@Field("anroid_device_id")String anroid_device_id );
+
+    @FormUrlEncoded
+    @POST(W.FORGET_PASSWORD)
+    Call<AppModel> forgetPassword(@Field("email_id")String email_id);
+
 }
