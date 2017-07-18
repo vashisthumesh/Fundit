@@ -46,6 +46,14 @@ public class CustomDialog extends ProgressDialog {
 
 	}
 
+	public void setMessage(String comment){
+		this.comment=comment;
+	}
+
+	public void resetMessage(){
+		this.comment="Please wait...";
+	}
+
 	@Override
 	public void show() {
 		super.show();
