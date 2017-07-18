@@ -57,4 +57,8 @@ public interface AdminAPI {
     @POST(W.FORGET_PASSWORD)
     Call<AppModel> forgetPassword(@Field("email_id")String email_id);
 
+    @FormUrlEncoded
+    @POST(W.USER_VERIFICATION)
+    Call<VerifyResponse> userVerification(@Field("user_id")String user_id,@Field("otp")String otp);
+
 }
