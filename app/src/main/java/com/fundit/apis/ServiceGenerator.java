@@ -22,6 +22,7 @@ public class ServiceGenerator {
     public static AdminAPI getAPIClass(){
         Retrofit retrofit=new Retrofit.Builder()
                 .baseUrl(W.BASE_URL)
+                .addConverterFactory(StringConverterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         return retrofit.create(AdminAPI.class);

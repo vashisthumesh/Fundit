@@ -61,7 +61,7 @@ public class AppPreference {
     }
 
     public void setUserData(String userData) {
-        editor.putString("userData",userData);
+        editor.putString("userData", userData).commit();
     }
 
     public String getMemberData() {
@@ -69,6 +69,6 @@ public class AppPreference {
     }
 
     public void setMemberData(String memberData) {
-        editor.putString("memberData",memberData);
+        editor.putString("memberData", memberData).commit();
     }
 }

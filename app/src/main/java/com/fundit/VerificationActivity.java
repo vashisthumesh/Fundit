@@ -1,8 +1,8 @@
 package com.fundit;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -75,6 +75,7 @@ public class VerificationActivity extends AppCompatActivity {
                                 if(verifyResponse.getData().getUser().getRole_id().equals(C.ORGANIZATION)){
                                     Intent in=new Intent(VerificationActivity.this,OrganizationProfileActivity.class);
                                     in.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    in.putExtra("firstTime", true);
                                     startActivity(in);
                                 }
                                 else if(verifyResponse.getData().getUser().getRole_id().equals(C.FUNDSPOT)){

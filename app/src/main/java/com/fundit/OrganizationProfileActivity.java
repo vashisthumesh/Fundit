@@ -76,6 +76,7 @@ public class OrganizationProfileActivity extends AppCompatActivity {
 
         try {
             user = new Gson().fromJson(preference.getUserData(), User.class);
+            Log.e("userData", preference.getUserData());
         } catch (Exception e) {
             Log.e("Exception", e.getMessage());
         }
@@ -97,9 +98,14 @@ public class OrganizationProfileActivity extends AppCompatActivity {
 
         stateAdapter = new ArrayAdapter<String>(this, R.layout.spinner_textview, stateNames);
         cityAdapter = new ArrayAdapter<String>(this, R.layout.spinner_textview, cityNames);
+        schoolAdapter = new ArrayAdapter<String>(this, R.layout.spinner_textview, schoolNames);
+        subSchoolAdapter = new ArrayAdapter<String>(this, R.layout.spinner_textview, subSchoolNames);
 
         spn_state.setAdapter(stateAdapter);
-        spn_city.setAdapter(stateAdapter);
+        spn_city.setAdapter(cityAdapter);
+        spn_schoolType.setAdapter(schoolAdapter);
+        spn_schoolSubType.setAdapter(subSchoolAdapter);
+
 
         img_profilePic = (ImageView) findViewById(R.id.img_profilePic);
 
@@ -214,6 +220,12 @@ public class OrganizationProfileActivity extends AppCompatActivity {
                 int cityPosition = spn_city.getSelectedItemPosition();
                 int schoolPosition = spn_schoolType.getSelectedItemPosition();
                 int subSchoolPosition = spn_schoolSubType.getSelectedItemPosition();
+
+                Log.e("token", preference.getTokenHash());
+                Log.e("userID", preference.getUserID());
+
+                Log.e("positions", statePosition + " " + cityPosition + " " + schoolPosition + " " + subSchoolPosition);
+                Log.e("sizes", stateItems.size() + " " + cityItems.size() + " " + schoolItems.size() + " " + subSchoolItems.size());
 
                 if (title.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter organization title");

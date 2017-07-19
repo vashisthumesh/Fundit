@@ -2,9 +2,9 @@ package com.fundit;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,7 +14,6 @@ import com.fundit.a.C;
 import com.fundit.apis.AdminAPI;
 import com.fundit.apis.ServiceGenerator;
 import com.fundit.helper.CustomDialog;
-import com.fundit.model.AppModel;
 import com.fundit.model.RegisterResponse;
 import com.fundit.model.UniqueEmailResponse;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -142,7 +141,7 @@ public class OrganizationAccountActivity extends AppCompatActivity {
                 }
 
                 if(email.isEmpty()){
-                    C.INSTANCE.showToast(getApplicationContext(),"Please enter valid email id");
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter email id");
                     return;
                 }
 
@@ -208,6 +207,11 @@ public class OrganizationAccountActivity extends AppCompatActivity {
                             C.INSTANCE.errorToast(getApplicationContext(),t);
                         }
                     });
+                    return;
+                }
+
+                if (checkedForUniqueEmail) {
+                    sendRegistrationData(title, firstName, lastName, email, password);
                 }
 
             }
