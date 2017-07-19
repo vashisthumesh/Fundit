@@ -3,22 +3,22 @@ package com.fundit
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
+import android.util.Log
 import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.ListView
 import android.widget.TextView
+import com.fundit.a.AppPreference
 import com.fundit.a.C
 import com.fundit.fragmet.HomeFragment
-import com.fundit.fragmet.MyCampaignsFragment
 import com.fundit.fragmet.MyProfileFragment
+import com.fundit.fundspot.MyProductsFragment
 
 class HomeActivity : AppCompatActivity() {
 
@@ -26,15 +26,18 @@ class HomeActivity : AppCompatActivity() {
     internal var list_navigation: ListView? = null
     var headerView: View? = null
     var navigationAdapter: LeftNavigationAdapter? = null
-    var menuList = arrayOf("Home", "My Profile", "My Coupons", "My Orders", "Banks and Cards", "Settings", "Invite Friends", "Help", "Sign In", "Account Type", "Organization A/C", "Verification", "Organization Profile", "General Member Profile", "Fundspot Profile")
+    var menuList = arrayOf("Home", "My Profile", "My Coupons", "My Orders", "Banks and Cards", "Settings", "Invite Friends", "Help", "Sign In", "Account Type", "Organization A/C", "Verification", "Organization Profile", "General Member Profile", "Fundspot Profile", "Logout")
     var fragment: Fragment? = null
     var fm: FragmentManager? = null
     var toolbar: Toolbar? = null
     var actionTitle: TextView? = null
+    var preference: AppPreference? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
+
+        preference = AppPreference(this)
 
         fetchIDs()
         setupToolbar()
@@ -55,9 +58,19 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun fetchIDs() {
-        fragment = HomeFragment()
+
+        Log.e("roleID", preference?.userRoleID)
+
+        when (preference?.userRoleID) {
+            C.ORGANIZATION -> fragment = HomeFragment()
+            C.FUNDSPOT -> fragment = MyProductsFragment()
+            C.GENERAL_MEMBER -> fragment = HomeFragment()
+            else -> fragment = HomeFragment()
+        }
+
         fm = supportFragmentManager
         val transaction = fm?.beginTransaction()
+
         transaction?.replace(R.id.content,fragment)
         transaction?.commit()
 
@@ -116,6 +129,18 @@ class HomeActivity : AppCompatActivity() {
         } else if (position == 15) {
             val intent = Intent(this,FundSpotProfile::class.java)
             startActivity(intent)
+        } else if (position == 16) {
+            preference?.isLoggedIn = false
+            preference?.userID = ""
+            preference?.userRoleID = ""
+            preference?.tokenHash = ""
+            preference?.userData = ""
+            preference?.memberData = ""
+
+            val intent = Intent(this, SignInActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+            startActivity(intent)
+            finish()
         }
     }
 

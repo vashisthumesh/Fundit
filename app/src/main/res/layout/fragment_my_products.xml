@@ -1,0 +1,43 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.fundit.fundspot.MyProductsFragment">
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:padding="5dp"
+        android:text="My Products"
+        android:textColor="@color/colorPrimary"
+        android:textSize="18sp"
+        />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ListView
+            android:id="@+id/list_products"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@color/lightGrey200"
+            android:dividerHeight="1dp"/>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/btn_floating_add"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="end|bottom"
+            android:layout_margin="10dp"
+            android:background="@color/white"
+            android:src="@drawable/ic_add_button"/>
+
+    </FrameLayout>
+
+
+</LinearLayout>

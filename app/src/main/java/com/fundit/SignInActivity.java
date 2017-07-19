@@ -2,8 +2,8 @@ package com.fundit;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -46,6 +46,13 @@ public class SignInActivity extends AppCompatActivity {
         adminAPI= ServiceGenerator.getAPIClass();
         preference=new AppPreference(this);
         dialog=new CustomDialog(this);
+
+        if (preference.isLoggedIn()) {
+            Intent intent = new Intent(this, HomeActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finish();
+        }
 
         fetchid();
 
@@ -200,6 +207,8 @@ public class SignInActivity extends AppCompatActivity {
 
             }
         });
+
+        dialog_forget.show();
 
 
     }

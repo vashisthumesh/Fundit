@@ -65,6 +65,8 @@ public interface AdminAPI {
 
     @Multipart
     @POST(W.EDIT_ORGANIZATION_PROFILE)
-    Call<VerifyResponse> editOrganizationProfile(@Part("user_id") String userID, @Part("tokenhash") String token, @Part("state_id") String stateID, @Part("city_id") String cityID, @Part("location") String address, @Part("zip_code") String zipCode, @Part("type_id") String typeID, @Part("sub_type_id") String subSchoolID, @Part("description") String description, @Part("contact_info") String contactInfo, @Part MultipartBody.Part profileImage);
+    Call<VerifyResponse> editOrganizationProfile(@Part("user_id") String userID, @Part("tokenhash") String token, @Part("title") String title, @Part("state_id") String stateID, @Part("city_id") String cityID, @Part("location") String address, @Part("zip_code") String zipCode, @Part("type_id") String typeID, @Part("sub_type_id") String subSchoolID, @Part("description") String description, @Part("contact_info") String contactInfo, @Part MultipartBody.Part profileImage);
+
+
 
 }

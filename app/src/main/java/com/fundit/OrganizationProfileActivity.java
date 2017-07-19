@@ -249,7 +249,7 @@ public class OrganizationProfileActivity extends AppCompatActivity {
                     C.INSTANCE.showToast(getApplicationContext(), "Please select profile image");
                 } else {
                     dialog.show();
-                    Call<VerifyResponse> profileResponse = adminAPI.editOrganizationProfile(preference.getUserID(), preference.getTokenHash(), stateItems.get(statePosition).getId(), cityItems.get(cityPosition).getId(), address1, zipcode, schoolItems.get(schoolPosition).getId(), subSchoolItems.get(subSchoolPosition).getId(), description, contactInfo, ServiceGenerator.prepareFilePart("image", imagePath));
+                    Call<VerifyResponse> profileResponse = adminAPI.editOrganizationProfile(preference.getUserID(), preference.getTokenHash(), title, stateItems.get(statePosition).getId(), cityItems.get(cityPosition).getId(), address1, zipcode, schoolItems.get(schoolPosition).getId(), subSchoolItems.get(subSchoolPosition).getId(), description, contactInfo, ServiceGenerator.prepareFilePart("image", imagePath));
                     profileResponse.enqueue(new Callback<VerifyResponse>() {
                         @Override
                         public void onResponse(Call<VerifyResponse> call, Response<VerifyResponse> response) {
