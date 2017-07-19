@@ -1,15 +1,13 @@
 package com.fundit;
 
-import android.app.ProgressDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 
-import com.fundit.a.C;
 import com.fundit.apis.AdminAPI;
 import com.fundit.apis.ServiceGenerator;
 import com.fundit.helper.CustomDialog;
@@ -65,7 +63,7 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
         stateAdapter=new ArrayAdapter<String>(this,R.layout.spinner_textview,stateNames);
         cityAdapter=new ArrayAdapter<String>(this,R.layout.spinner_textview,cityNames);
 
-        spn_city.setAdapter(stateAdapter);
+        spn_state.setAdapter(stateAdapter);
         spn_city.setAdapter(stateAdapter);
 
         dialog.show();

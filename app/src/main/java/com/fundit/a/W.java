@@ -20,4 +20,6 @@ public class W {
     public static final String REGISTER_USER="User/app_register";
     public static final String FORGET_PASSWORD="User/app_forgot_password";
     public static final String USER_VERIFICATION="User/app_verify";
+
+    public static final String EDIT_ORGANIZATION_PROFILE = "Organization/app_edit_organization_profile";
 }

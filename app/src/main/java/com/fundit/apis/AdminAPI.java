@@ -1,6 +1,5 @@
 package com.fundit.apis;
 
-import com.fundit.a.C;
 import com.fundit.a.W;
 import com.fundit.model.AppModel;
 import com.fundit.model.AreaResponse;
@@ -9,10 +8,13 @@ import com.fundit.model.RegisterResponse;
 import com.fundit.model.UniqueEmailResponse;
 import com.fundit.model.VerifyResponse;
 
+import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 
 /**
  * Created by Nivida new on 17-Jul-17.
@@ -60,5 +62,9 @@ public interface AdminAPI {
     @FormUrlEncoded
     @POST(W.USER_VERIFICATION)
     Call<VerifyResponse> userVerification(@Field("user_id")String user_id,@Field("otp")String otp);
+
+    @Multipart
+    @POST(W.EDIT_ORGANIZATION_PROFILE)
+    Call<VerifyResponse> editOrganizationProfile(@Part("user_id") String userID, @Part("tokenhash") String token, @Part("state_id") String stateID, @Part("city_id") String cityID, @Part("location") String address, @Part("zip_code") String zipCode, @Part("type_id") String typeID, @Part("sub_type_id") String subSchoolID, @Part("description") String description, @Part("contact_info") String contactInfo, @Part MultipartBody.Part profileImage);
 
 }
