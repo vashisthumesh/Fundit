@@ -10,137 +10,167 @@
     <include
         android:id="@+id/toolbar"
         layout="@layout/toolbar_center_text" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
 
         android:nestedScrollingEnabled="true">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
             android:layout_margin="15dp"
+            android:orientation="vertical"
             android:paddingLeft="25dp"
             android:paddingRight="25dp">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
                 android:text="Title*"
-                android:layout_marginLeft="10dp"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
+
             <EditText
+                android:id="@+id/ed_fund_title"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:textColor="@color/black"
+                android:background="@color/white"
                 android:hint="*Autofilled*"
-                android:background="@color/white"/>
+                android:textColor="@color/black" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Location"
                 android:layout_marginLeft="10dp"
-                android:textSize="16sp"/>
+                android:text="Location"
+                android:textSize="16sp" />
+
             <EditText
+                android:id="@+id/ed_fund_address"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:textColor="@color/black"
+                android:background="@color/white"
                 android:hint="Address 1"
-                android:background="@color/white"/>
+                android:textColor="@color/black" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:orientation="horizontal">
+
                 <Spinner
+                    android:id="@+id/sp_state"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginRight="9dp"
-                    android:background="@drawable/spinner_bg"
-                    android:popupBackground="#fff"
-                    android:spinnerMode="dropdown"
                     android:layout_marginTop="3dp"
                     android:layout_weight="1.6"
-                    android:padding="5dp" />
+                    android:background="@drawable/spinner_bg"
+                    android:padding="5dp"
+                    android:popupBackground="#fff"
+                    android:spinnerMode="dropdown" />
+
                 <Spinner
+                    android:id="@+id/sp_city"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:background="@drawable/spinner_bg"
-                    android:popupBackground="#fff"
-                    android:spinnerMode="dropdown"
-                    android:layout_marginTop="3dp"
                     android:layout_marginLeft="3dp"
+                    android:layout_marginTop="3dp"
                     android:layout_weight="1"
-                    android:padding="5dp" />
+                    android:background="@drawable/spinner_bg"
+                    android:padding="5dp"
+                    android:popupBackground="#fff"
+                    android:spinnerMode="dropdown" />
 
             </LinearLayout>
+
             <EditText
+                android:id="@+id/ed_fund_zipcode"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginTop="5dp"
-                android:textColor="@color/black"
+                android:background="@color/white"
                 android:hint="Zip code"
-                android:background="@color/white"/>
+                android:textColor="@color/black" />
 
             <Spinner
+                android:id="@+id/sp_category"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:background="@drawable/spinner_bg"
+                android:padding="5dp"
                 android:popupBackground="#fff"
-                android:spinnerMode="dropdown"
-                android:layout_marginTop="5dp"
-                android:padding="5dp" />
+                android:spinnerMode="dropdown" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
                 android:text="Fundraise split*"
-                android:layout_marginLeft="10dp"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
+
             <EditText
+                android:id="@+id/ed_fund_fundsplit"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:textColor="@color/black"
+                android:background="@color/white"
                 android:hint=""
-                android:background="@color/white"/>
+                android:textColor="@color/black" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
                 android:text="Description*"
-                android:layout_marginLeft="10dp"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
+
             <EditText
+                android:id="@+id/ed_fund_description"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:textColor="@color/black"
+                android:background="@color/white"
                 android:hint=""
-                android:background="@color/white"/>
+                android:textColor="@color/black" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
                 android:text="Contact Information"
-                android:layout_marginLeft="10dp"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
+
             <EditText
+                android:id="@+id/ed_fund_contact_info"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:textColor="@color/black"
+                android:background="@color/white"
                 android:hint=""
-                android:background="@color/white"/>
+                android:textColor="@color/black" />
+
             <TextView
+                android:id="@+id/tv_fund_uplode_photo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Uplode Photo"
-                android:layout_marginTop="5dp"
                 android:layout_gravity="center"
                 android:layout_marginLeft="10dp"
-                android:textSize="16sp"/>
+                android:layout_marginTop="5dp"
+                android:text="Uplode Photo"
+                android:textSize="16sp" />
+
             <ImageView
+                android:id="@+id/img_uplode_photo"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_gravity="center"
-                android:background="@drawable/img"
-                />
+                android:background="@drawable/img" />
+
             <Button
+                android:id="@+id/bt_update_profile"
                 android:layout_width="180dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center"

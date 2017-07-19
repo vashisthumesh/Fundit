@@ -22,4 +22,5 @@ public class W {
     public static final String USER_VERIFICATION="User/app_verify";
 
     public static final String EDIT_ORGANIZATION_PROFILE = "Organization/app_edit_organization_profile";
+    public static final String EDIT_FUNDSPOT_PROFILE = "Fundspot/app_edit_fundspot_profile";
 }
