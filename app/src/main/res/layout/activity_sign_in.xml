@@ -85,7 +85,7 @@
             <Button
                 android:id="@+id/bt_signin"
                 android:layout_width="90dp"
-                android:layout_height="30dp"
+                android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="20dp"
                 android:background="@color/colorButton"
@@ -163,7 +163,7 @@
 
                 <Button
                     android:layout_width="180dp"
-                    android:layout_height="30dp"
+                    android:layout_height="40dp"
                     android:layout_gravity="center"
                     android:background="@color/colorButton"
                     android:gravity="center"

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.fundit.a.AppPreference;
@@ -22,6 +23,8 @@ public class VerificationActivity extends AppCompatActivity {
 
 
     EditText ed_hint_verification;
+
+    Button bt_verify_continue;
 
     String userID="";
 
@@ -44,8 +47,9 @@ public class VerificationActivity extends AppCompatActivity {
 
 
         ed_hint_verification=(EditText)findViewById(R.id.ed_hint_verification);
+        bt_verify_continue=(Button)findViewById(R.id.bt_verify_continue);
 
-        ed_hint_verification.setOnClickListener(new View.OnClickListener() {
+        bt_verify_continue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String user_id=userID;
@@ -83,8 +87,6 @@ public class VerificationActivity extends AppCompatActivity {
                                     in.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                     startActivity(in);
                                 }
-
-
 
                             }
                             else {

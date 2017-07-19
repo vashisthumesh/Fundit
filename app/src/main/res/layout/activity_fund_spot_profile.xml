@@ -142,7 +142,7 @@
                 />
             <Button
                 android:layout_width="180dp"
-                android:layout_height="32dp"
+                android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:background="@color/colorButton"
                 android:gravity="center"
