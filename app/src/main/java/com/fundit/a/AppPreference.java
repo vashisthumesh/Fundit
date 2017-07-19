@@ -12,12 +12,6 @@ public class AppPreference {
     public static final String FILE_NAME="FundItPref";
     SharedPreferences preferences;
     SharedPreferences.Editor editor;
-    boolean loggedIn=false;
-    String userID="";
-    String userRoleID="";
-    String tokenHash="";
-    String userData="";
-    String memberData = "";
 
     public AppPreference(Context context) {
         preferences=context.getSharedPreferences(FILE_NAME,Context.MODE_PRIVATE);

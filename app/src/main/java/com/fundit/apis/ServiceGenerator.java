@@ -6,9 +6,11 @@ import com.fundit.a.W;
 
 import java.io.File;
 import java.net.URLConnection;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -22,6 +24,7 @@ public class ServiceGenerator {
     public static AdminAPI getAPIClass(){
         Retrofit retrofit=new Retrofit.Builder()
                 .baseUrl(W.BASE_URL)
+                .client(getRequestHeader())
                 .addConverterFactory(StringConverterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
@@ -37,5 +40,11 @@ public class ServiceGenerator {
         RequestBody requestFile = RequestBody.create(MediaType.parse(mimeType), file);
         //MultipartBody.Part is used to send also the actual file name
         return MultipartBody.Part.createFormData(partName, file.getName(), requestFile);
+    }
+
+    private static OkHttpClient getRequestHeader() {
+        OkHttpClient httpClient = new OkHttpClient().newBuilder().connectTimeout(20, TimeUnit.SECONDS).readTimeout(30, TimeUnit.SECONDS).build();
+
+        return httpClient;
     }
 }

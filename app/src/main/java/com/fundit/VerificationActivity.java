@@ -77,16 +77,19 @@ public class VerificationActivity extends AppCompatActivity {
                                     in.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                     in.putExtra("firstTime", true);
                                     startActivity(in);
+                                    finish();
                                 }
                                 else if(verifyResponse.getData().getUser().getRole_id().equals(C.FUNDSPOT)){
                                     Intent in=new Intent(VerificationActivity.this,FundSpotProfile.class);
                                     in.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                     startActivity(in);
+                                    finish();
                                 }
                                 else if(verifyResponse.getData().getUser().getRole_id().equals(C.GENERAL_MEMBER)){
                                     Intent in=new Intent(VerificationActivity.this,GeneralMemberProfileActivity.class);
                                     in.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                     startActivity(in);
+                                    finish();
                                 }
 
                             }
