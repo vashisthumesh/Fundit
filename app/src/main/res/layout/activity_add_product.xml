@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorBackground"
     android:orientation="vertical"
     tools:context="com.fundit.fundspot.AddProductActivity">
 
@@ -13,13 +14,20 @@
         android:layout_margin="5dp"
         android:padding="5dp"
         android:text="Add Product"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/colorText"
         android:textSize="18sp"/>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/lightGrey200"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text="Product Name"
+        android:textSize="16sp"/>
 
 
 </LinearLayout>

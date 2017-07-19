@@ -14,6 +14,8 @@ public class VerifyResponse extends AppModel {
     public class VerifyResponseData{
         User User=new User();
         Member Member=new Member();
+        Fundspot Fundspot = new Fundspot();
+        Organization Organization = new Organization();
 
         public com.fundit.model.Member getMember() {
             return Member;
@@ -27,8 +29,6 @@ public class VerifyResponse extends AppModel {
             return Organization;
         }
 
-        Fundspot Fundspot=new Fundspot();
-        Organization Organization= new Organization();
 
         public com.fundit.model.User getUser() {
             return User;
