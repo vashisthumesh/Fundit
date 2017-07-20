@@ -34,7 +34,7 @@ import retrofit2.Response;
 public class AddProductActivity extends AppCompatActivity {
 
     private static final int IMAGE_REQUEST = 155;
-    EditText edt_productName, edt_description, edt_price, edt_fundSplit, edt_organizationSplit, edt_campaignDuration, edt_couponExpireDay, edt_maxLimitCoupon;
+    EditText edt_productName, edt_description, edt_price, edt_fundSplit, edt_organizationSplit, edt_campaignDuration, edt_couponExpireDay, edt_maxLimitCoupon,edt_fine_print;
 
     ImageView img_productImage;
     Button btn_cancel, btn_addProduct;
@@ -78,17 +78,6 @@ public class AddProductActivity extends AppCompatActivity {
         edt_couponExpireDay = (EditText) findViewById(R.id.edt_couponExpireDay);
         edt_maxLimitCoupon = (EditText) findViewById(R.id.edt_maxLimitCoupon);
 
-        if (isEditMode) {
-            edt_productName.setText(product.getName());
-            edt_description.setText(product.getDescription());
-            edt_price.setText(product.getPrice());
-            edt_fundSplit.setText(product.getFundspot_percent());
-            edt_organizationSplit.setText(product.getOrganization_percent());
-            edt_campaignDuration.setText(product.getCampaign_duration());
-            edt_maxLimitCoupon.setText(product.getMax_limit_of_coupons());
-            edt_couponExpireDay.setText(product.getCoupon_expire_day());
-        }
-
         img_productImage = (ImageView) findViewById(R.id.img_productImage);
         rg_productType = (RadioGroup) findViewById(R.id.rg_productType);
         btn_cancel = (Button) findViewById(R.id.btn_cancel);
@@ -123,6 +112,8 @@ public class AddProductActivity extends AppCompatActivity {
                 String maxLimitCoupon = edt_maxLimitCoupon.getText().toString().trim();
                 String couponExpiryDays = edt_couponExpireDay.getText().toString().trim();
 
+                String fine_print=edt_fine_print.getText().toString().trim();
+
                 float productPrice = Float.parseFloat(price.isEmpty() ? "0" : price);
                 float fundSplitPer = Float.parseFloat(fundSplit.isEmpty() ? "0" : fundSplit);
                 float orgSplitPer = Float.parseFloat(orgSplit.isEmpty() ? "0" : orgSplit);
@@ -156,7 +147,7 @@ public class AddProductActivity extends AppCompatActivity {
                     String typeID = checkedTypeID == R.id.rdo_typeItem ? C.TYPE_PRODUCT : C.TYPE_GIFTCARD;
 
                     dialog.show();
-                    Call<AppModel> addProductCall = adminAPI.addMyProduct(preference.getUserID(), preference.getTokenHash(), typeID, name, description, price, fundSplit, orgSplit, campaignDuration, maxLimitCoupon, couponExpiryDays, ServiceGenerator.prepareFilePart("image", imagePath));
+                    Call<AppModel> addProductCall = adminAPI.addMyProduct(preference.getUserID(), preference.getTokenHash(), typeID, name, description, price, fundSplit, orgSplit, campaignDuration, maxLimitCoupon, couponExpiryDays,fine_print, ServiceGenerator.prepareFilePart("image", imagePath));
                     addProductCall.enqueue(new Callback<AppModel>() {
                         @Override
                         public void onResponse(Call<AppModel> call, Response<AppModel> response) {

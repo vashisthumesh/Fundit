@@ -240,13 +240,13 @@
                 android:textColor="@color/black"/>
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="1dp"
-                android:drawableRight="@drawable/star"
-                android:padding="5dp"
-                android:text="Coupons Expiration"
-                android:textSize="16sp"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="1dp"
+            android:drawableRight="@drawable/star"
+            android:padding="5dp"
+            android:text="Coupons Expiration"
+            android:textSize="16sp"/>
 
             <EditText
                 android:id="@+id/edt_couponExpireDay"
@@ -256,7 +256,24 @@
                 android:inputType="number"
                 android:padding="5dp"
                 android:textColor="@color/black"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="1dp"
+                android:drawableRight="@drawable/star"
+                android:padding="5dp"
+                android:text="Fine Print"
+                android:textSize="16sp"/>
 
+            <EditText
+                android:id="@+id/edt_fine_print"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lines="3"
+                android:background="@color/white"
+                android:inputType="textMultiLine"
+                android:padding="5dp"
+                android:textColor="@color/black"/>
             <TextView
                 android:id="@+id/tv_fund_uplode_photo"
                 android:layout_width="wrap_content"
