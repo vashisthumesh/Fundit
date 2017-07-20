@@ -78,6 +78,8 @@ public class AddProductActivity extends AppCompatActivity {
         edt_couponExpireDay = (EditText) findViewById(R.id.edt_couponExpireDay);
         edt_maxLimitCoupon = (EditText) findViewById(R.id.edt_maxLimitCoupon);
 
+        edt_fine_print = (EditText) findViewById(R.id.edt_fine_print);
+
         img_productImage = (ImageView) findViewById(R.id.img_productImage);
         rg_productType = (RadioGroup) findViewById(R.id.rg_productType);
         btn_cancel = (Button) findViewById(R.id.btn_cancel);
@@ -205,6 +207,18 @@ public class AddProductActivity extends AppCompatActivity {
                 }
             }
         });
+
+        if (isEditMode) {
+            edt_productName.setText(product.getName());
+            edt_description.setText(product.getDescription());
+            edt_price.setText(product.getPrice());
+            edt_fundSplit.setText(product.getFundspot_percent());
+            edt_organizationSplit.setText(product.getOrganization_percent());
+            edt_campaignDuration.setText(product.getCampaign_duration());
+            edt_maxLimitCoupon.setText(product.getMax_limit_of_coupons());
+            edt_couponExpireDay.setText(product.getCoupon_expire_day());
+        }
+
 
     }
 
