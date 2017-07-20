@@ -21,6 +21,7 @@ import com.fundit.apis.ServiceGenerator;
 import com.fundit.helper.CustomDialog;
 import com.fundit.helper.FilePath;
 import com.fundit.model.AppModel;
+import com.fundit.model.ProductListResponse;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -45,6 +46,8 @@ public class AddProductActivity extends AppCompatActivity {
     CustomDialog dialog;
 
     String imagePath = null;
+    boolean isEditMode = false;
+    ProductListResponse.Product product;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +57,13 @@ public class AddProductActivity extends AppCompatActivity {
         dialog = new CustomDialog(this);
         preference = new AppPreference(this);
         adminAPI = ServiceGenerator.getAPIClass();
+
+        Intent intent = getIntent();
+        isEditMode = intent.getBooleanExtra("editMode", false);
+
+        if (isEditMode) {
+            product = (ProductListResponse.Product) intent.getSerializableExtra("product");
+        }
 
         fetchIDs();
     }
@@ -67,6 +77,17 @@ public class AddProductActivity extends AppCompatActivity {
         edt_campaignDuration = (EditText) findViewById(R.id.edt_campaignDuration);
         edt_couponExpireDay = (EditText) findViewById(R.id.edt_couponExpireDay);
         edt_maxLimitCoupon = (EditText) findViewById(R.id.edt_maxLimitCoupon);
+
+        if (isEditMode) {
+            edt_productName.setText(product.getName());
+            edt_description.setText(product.getDescription());
+            edt_price.setText(product.getPrice());
+            edt_fundSplit.setText(product.getFundspot_percent());
+            edt_organizationSplit.setText(product.getOrganization_percent());
+            edt_campaignDuration.setText(product.getCampaign_duration());
+            edt_maxLimitCoupon.setText(product.getMax_limit_of_coupons());
+            edt_couponExpireDay.setText(product.getCoupon_expire_day());
+        }
 
         img_productImage = (ImageView) findViewById(R.id.img_productImage);
         rg_productType = (RadioGroup) findViewById(R.id.rg_productType);

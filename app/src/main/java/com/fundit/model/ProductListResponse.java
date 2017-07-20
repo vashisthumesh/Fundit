@@ -1,5 +1,6 @@
 package com.fundit.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +16,7 @@ public class ProductListResponse extends AppModel {
         return data;
     }
 
-    public class Product {
+    public class Product implements Serializable {
         String id = "";
         String user_id = "";
         String type_id = "";
@@ -29,6 +30,7 @@ public class ProductListResponse extends AppModel {
         String max_limit_of_coupons = "";
         String coupon_expire_day = "";
         String created = "";
+        String fine_print = "";
 
         public String getId() {
             return id;
@@ -80,6 +82,10 @@ public class ProductListResponse extends AppModel {
 
         public String getCreated() {
             return created;
+        }
+
+        public String getFine_print() {
+            return fine_print;
         }
     }
 }

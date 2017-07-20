@@ -10,6 +10,7 @@ public class W {
     public static final String KEY_TOKEN = "tokenhash";
 
     public static final String BASE_URL="http://app.nivida.in/fundit/";
+    public static final String FILE_URL = BASE_URL + "files/";
 
     public static final String USER_LOGIN="User/app_login";
     public static final String COUNTRY_LIST="Country/app_get_country";
