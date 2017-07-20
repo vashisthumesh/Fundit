@@ -48,8 +48,26 @@ public class SignInActivity extends AppCompatActivity {
         dialog=new CustomDialog(this);
 
         if (preference.isLoggedIn()) {
+
             Intent intent = new Intent(this, HomeActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+            if (preference.getMemberData().isEmpty()) {
+                switch (preference.getUserRoleID()) {
+                    case C.ORGANIZATION:
+                        intent = new Intent(this, OrganizationProfileActivity.class);
+                        break;
+                    case C.FUNDSPOT:
+                        intent = new Intent(this, FundSpotProfile.class);
+                        break;
+                    case C.GENERAL_MEMBER:
+                        intent = new Intent(this, GeneralMemberProfileActivity.class);
+                        break;
+                }
+                intent.putExtra("firstTime", true);
+            }
+
+
             startActivity(intent);
             finish();
         }
@@ -92,14 +110,38 @@ public class SignInActivity extends AppCompatActivity {
                                 if(verifyResponse.isStatus()){
                                     String userData= new Gson().toJson(verifyResponse.getData().getUser());
                                     String memberData = "";
-                                    if(verifyResponse.getData().getUser().getRole_id().equals(C.ORGANIZATION)){
-                                        memberData = new Gson().toJson(verifyResponse.getData().getOrganization());
-                                    }
-                                    else if(verifyResponse.getData().getUser().getRole_id().equals(C.FUNDSPOT)){
-                                        memberData = new Gson().toJson(verifyResponse.getData().getFundspot());
-                                    }
-                                    else if(verifyResponse.getData().getUser().getRole_id().equals(C.GENERAL_MEMBER)){
-                                        memberData = new Gson().toJson(verifyResponse.getData().getMember());
+                                    Intent in;
+                                    in = new Intent(SignInActivity.this, HomeActivity.class);
+                                    in.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+                                    switch (verifyResponse.getData().getUser().getRole_id()) {
+                                        case C.ORGANIZATION:
+                                            if (verifyResponse.getData().getOrganization().getId().isEmpty()) {
+                                                in = new Intent(getApplicationContext(), OrganizationProfileActivity.class);
+                                                in.putExtra("firstTime", true);
+                                            } else {
+                                                memberData = new Gson().toJson(verifyResponse.getData().getOrganization());
+                                            }
+
+                                            break;
+                                        case C.FUNDSPOT:
+                                            if (verifyResponse.getData().getFundspot().getId().isEmpty()) {
+                                                in = new Intent(getApplicationContext(), FundSpotProfile.class);
+                                                in.putExtra("firstTime", true);
+                                            } else {
+                                                memberData = new Gson().toJson(verifyResponse.getData().getFundspot());
+                                            }
+
+                                            break;
+                                        case C.GENERAL_MEMBER:
+                                            if (verifyResponse.getData().getFundspot().getId().isEmpty()) {
+                                                in = new Intent(getApplicationContext(), GeneralMemberProfileActivity.class);
+                                                in.putExtra("firstTime", true);
+                                            } else {
+                                                memberData = new Gson().toJson(verifyResponse.getData().getMember());
+                                            }
+
+                                            break;
                                     }
 
                                     preference.setLoggedIn(true);
@@ -108,8 +150,6 @@ public class SignInActivity extends AppCompatActivity {
                                     preference.setTokenHash(verifyResponse.getData().getUser().getTokenhash());
                                     preference.setUserData(userData);
                                     preference.setMemberData(memberData);
-                                    Intent in=new Intent(SignInActivity.this,HomeActivity.class);
-                                    in.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                     startActivity(in);
 
                                 }
