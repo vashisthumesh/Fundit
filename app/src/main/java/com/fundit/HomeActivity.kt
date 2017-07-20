@@ -26,7 +26,7 @@ class HomeActivity : AppCompatActivity() {
     internal var list_navigation: ListView? = null
     var headerView: View? = null
     var navigationAdapter: LeftNavigationAdapter? = null
-    var menuList = arrayOf("Home", "My Profile", "My Coupons", "My Orders", "Banks and Cards", "Settings", "Invite Friends", "Help", "Sign In", "Account Type", "Organization A/C", "Verification", "Organization Profile", "General Member Profile", "Fundspot Profile", "Logout")
+    var menuList = arrayOf("Home", "My Profile", "My Coupons", "My Orders", "Banks and Cards", "Settings", "Invite Friends", "Help", "Logout")
     var fragment: Fragment? = null
     var fm: FragmentManager? = null
     var toolbar: Toolbar? = null
@@ -109,27 +109,6 @@ class HomeActivity : AppCompatActivity() {
         } else if (position == 8) {
 
         } else if (position == 9) {
-            val intent = Intent(this,SignInActivity::class.java)
-            startActivity(intent)
-        } else if (position == 10) {
-            val intent = Intent(this,AccountTypeActivity::class.java)
-            startActivity(intent)
-        } else if (position == 11) {
-            val intent = Intent(this,OrganizationAccountActivity::class.java)
-            startActivity(intent)
-        } else if (position == 12) {
-            val intent = Intent(this,VerificationActivity::class.java)
-            startActivity(intent)
-        } else if (position == 13) {
-            val intent = Intent(this,OrganizationProfileActivity::class.java)
-            startActivity(intent)
-        } else if (position == 14) {
-            val intent = Intent(this,GeneralMemberProfileActivity::class.java)
-            startActivity(intent)
-        } else if (position == 15) {
-            val intent = Intent(this,FundSpotProfile::class.java)
-            startActivity(intent)
-        } else if (position == 16) {
             preference?.isLoggedIn = false
             preference?.userID = ""
             preference?.userRoleID = ""

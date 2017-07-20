@@ -32,4 +32,5 @@ public class W {
     public static final String LIST_PRODUCT = "Product/app_get_product";
     public static final String DELETE_PRODUCT = "Product/app_delete_product";
     public static final String SEARCH_PRODUCT = "Product/app_search_product";
+    public static final String EDIT_PRODUCT = "Product/app_edit_product";
 }

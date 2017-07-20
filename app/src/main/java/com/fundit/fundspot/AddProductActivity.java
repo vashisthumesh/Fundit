@@ -11,11 +11,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import com.fundit.R;
 import com.fundit.a.AppPreference;
 import com.fundit.a.C;
+import com.fundit.a.W;
 import com.fundit.apis.AdminAPI;
 import com.fundit.apis.ServiceGenerator;
 import com.fundit.helper.CustomDialog;
@@ -38,6 +41,7 @@ public class AddProductActivity extends AppCompatActivity {
 
     ImageView img_productImage;
     Button btn_cancel, btn_addProduct;
+    TextView txt_label;
 
     RadioGroup rg_productType;
 
@@ -48,6 +52,8 @@ public class AddProductActivity extends AppCompatActivity {
     String imagePath = null;
     boolean isEditMode = false;
     ProductListResponse.Product product;
+
+    RadioButton rdo_typeItem, rdo_typeGiftCard;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +75,7 @@ public class AddProductActivity extends AppCompatActivity {
     }
 
     private void fetchIDs() {
+        txt_label = (TextView) findViewById(R.id.txt_label);
         edt_productName = (EditText) findViewById(R.id.edt_productName);
         edt_description = (EditText) findViewById(R.id.edt_description);
         edt_price = (EditText) findViewById(R.id.edt_price);
@@ -77,6 +84,9 @@ public class AddProductActivity extends AppCompatActivity {
         edt_campaignDuration = (EditText) findViewById(R.id.edt_campaignDuration);
         edt_couponExpireDay = (EditText) findViewById(R.id.edt_couponExpireDay);
         edt_maxLimitCoupon = (EditText) findViewById(R.id.edt_maxLimitCoupon);
+
+        rdo_typeItem = (RadioButton) findViewById(R.id.rdo_typeItem);
+        rdo_typeGiftCard = (RadioButton) findViewById(R.id.rdo_typeGiftCard);
 
         edt_fine_print = (EditText) findViewById(R.id.edt_fine_print);
 
@@ -141,7 +151,7 @@ public class AddProductActivity extends AppCompatActivity {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter max. coupon limit at least 1");
                 } else if (couponExpiryDaysNum < 1) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter coupon expiry days min. 1");
-                } else if (imagePath == null || imagePath.isEmpty()) {
+                } else if (!isEditMode && (imagePath == null || imagePath.isEmpty())) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please select product image");
                 } else {
 
@@ -149,7 +159,14 @@ public class AddProductActivity extends AppCompatActivity {
                     String typeID = checkedTypeID == R.id.rdo_typeItem ? C.TYPE_PRODUCT : C.TYPE_GIFTCARD;
 
                     dialog.show();
-                    Call<AppModel> addProductCall = adminAPI.addMyProduct(preference.getUserID(), preference.getTokenHash(), typeID, name, description, price, fundSplit, orgSplit, campaignDuration, maxLimitCoupon, couponExpiryDays,fine_print, ServiceGenerator.prepareFilePart("image", imagePath));
+                    Call<AppModel> addProductCall;
+
+                    if (isEditMode) {
+                        addProductCall = adminAPI.editMyProduct(product.getId(), preference.getUserID(), preference.getTokenHash(), typeID, name, description, price, fundSplit, orgSplit, campaignDuration, maxLimitCoupon, couponExpiryDays, fine_print, imagePath == null ? null : ServiceGenerator.prepareFilePart("image", imagePath));
+                    } else {
+                        addProductCall = adminAPI.addMyProduct(preference.getUserID(), preference.getTokenHash(), typeID, name, description, price, fundSplit, orgSplit, campaignDuration, maxLimitCoupon, couponExpiryDays, fine_print, ServiceGenerator.prepareFilePart("image", imagePath));
+                    }
+
                     addProductCall.enqueue(new Callback<AppModel>() {
                         @Override
                         public void onResponse(Call<AppModel> call, Response<AppModel> response) {
@@ -209,6 +226,7 @@ public class AddProductActivity extends AppCompatActivity {
         });
 
         if (isEditMode) {
+            txt_label.setText("Edit Product");
             edt_productName.setText(product.getName());
             edt_description.setText(product.getDescription());
             edt_price.setText(product.getPrice());
@@ -217,6 +235,17 @@ public class AddProductActivity extends AppCompatActivity {
             edt_campaignDuration.setText(product.getCampaign_duration());
             edt_maxLimitCoupon.setText(product.getMax_limit_of_coupons());
             edt_couponExpireDay.setText(product.getCoupon_expire_day());
+            edt_fine_print.setText(product.getFine_print());
+
+            Picasso.with(this)
+                    .load(W.FILE_URL + product.getImage())
+                    .into(img_productImage);
+
+            if (product.getType_id().equals(C.TYPE_PRODUCT)) {
+                rdo_typeItem.setChecked(true);
+            } else {
+                rdo_typeGiftCard.setChecked(true);
+            }
         }
 
 

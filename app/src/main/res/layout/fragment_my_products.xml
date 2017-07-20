@@ -25,13 +25,13 @@
             android:id="@+id/list_products"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:divider="@color/lightGrey200"
+            android:divider="@color/colorPrimary"
             android:dividerHeight="1dp"/>
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/btn_floating_add"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:layout_gravity="end|bottom"
             android:layout_margin="10dp"
             android:background="@color/white"

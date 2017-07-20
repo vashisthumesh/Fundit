@@ -51,6 +51,8 @@
 
         <activity android:name=".fundspot.AddProductActivity">
         </activity>
+        <activity android:name=".organization.CreateCampaignActivity">
+        </activity>
     </application>
 
 </manifest>
