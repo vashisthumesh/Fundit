@@ -21,6 +21,8 @@ import com.fundit.helper.CustomDialog;
 import com.fundit.helper.FilePath;
 import com.fundit.model.AreaItem;
 import com.fundit.model.AreaResponse;
+import com.fundit.model.CategoryResponse;
+import com.fundit.model.CategoryResponse1;
 import com.fundit.model.User;
 import com.fundit.model.VerifyResponse;
 import com.google.gson.Gson;
@@ -150,12 +152,12 @@ public class FundSpotProfile extends AppCompatActivity {
             }
         });
 
-        Call<AreaResponse> categoryCall = adminAPI.getSchoolType();
-        categoryCall.enqueue(new Callback<AreaResponse>() {
+        Call<CategoryResponse1> categoryCall = adminAPI.getCategoryList();
+        categoryCall.enqueue(new Callback<CategoryResponse1>() {
             @Override
-            public void onResponse(Call<AreaResponse> call, Response<AreaResponse> response) {
+            public void onResponse(Call<CategoryResponse1> call, Response<CategoryResponse1> response) {
                // clearSchools(true);
-                AreaResponse areaResponse = response.body();
+                CategoryResponse1 areaResponse = response.body();
                 if (areaResponse != null) {
                     if (areaResponse.isStatus()) {
                         categoryItems.addAll(areaResponse.getData());
@@ -168,7 +170,7 @@ public class FundSpotProfile extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<AreaResponse> call, Throwable t) {
+            public void onFailure(Call<CategoryResponse1> call, Throwable t) {
                // clearSchools(true);
             }
         });
