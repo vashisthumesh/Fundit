@@ -4,6 +4,7 @@ import com.fundit.a.W;
 import com.fundit.model.AppModel;
 import com.fundit.model.AreaResponse;
 import com.fundit.model.CategoryResponse;
+import com.fundit.model.ProductListResponse;
 import com.fundit.model.RegisterResponse;
 import com.fundit.model.UniqueEmailResponse;
 import com.fundit.model.VerifyResponse;
@@ -61,16 +62,30 @@ public interface AdminAPI {
 
     @FormUrlEncoded
     @POST(W.USER_VERIFICATION)
-    Call<VerifyResponse> userVerification(@Field("user_id")String user_id,@Field("otp")String otp);
+    Call<VerifyResponse> userVerification(@Field(W.KEY_USERID) String user_id, @Field("otp") String otp);
 
     @Multipart
     @POST(W.EDIT_ORGANIZATION_PROFILE)
-    Call<VerifyResponse> editOrganizationProfile(@Part("user_id") String userID, @Part("tokenhash") String token, @Part("title") String title, @Part("state_id") String stateID, @Part("city_id") String cityID, @Part("location") String address, @Part("zip_code") String zipCode, @Part("type_id") String typeID, @Part("sub_type_id") String subSchoolID, @Part("description") String description, @Part("contact_info") String contactInfo, @Part MultipartBody.Part profileImage);
-
-
+    Call<VerifyResponse> editOrganizationProfile(@Part(W.KEY_USERID) String userID, @Part(W.KEY_TOKEN) String tokenHash, @Part("title") String title, @Part("state_id") String stateID, @Part("city_id") String cityID, @Part("location") String address, @Part("zip_code") String zipCode, @Part("type_id") String typeID, @Part("sub_type_id") String subSchoolID, @Part("description") String description, @Part("contact_info") String contactInfo, @Part MultipartBody.Part profileImage);
 
     @Multipart
     @POST(W.EDIT_FUNDSPOT_PROFILE)
-    Call<VerifyResponse> editFundsportProfile(@Part("user_id") String userID, @Part("tokenhash") String token,@Part("title")String title, @Part("state_id") String stateID, @Part("city_id") String cityID, @Part("location") String address, @Part("zip_code") String zipCode, @Part("category_id") String category_id,@Part("fundraise_split")String fundraise_split, @Part("description") String description, @Part("contact_info") String contactInfo, @Part MultipartBody.Part profileImage);
+    Call<VerifyResponse> editFundsportProfile(@Part(W.KEY_USERID) String userID, @Part(W.KEY_TOKEN) String tokenHash, @Part("title") String title, @Part("state_id") String stateID, @Part("city_id") String cityID, @Part("location") String address, @Part("zip_code") String zipCode, @Part("category_id") String category_id, @Part("fundraise_split") String fundraise_split, @Part("description") String description, @Part("contact_info") String contactInfo, @Part MultipartBody.Part profileImage);
+
+    @Multipart
+    @POST(W.ADD_PRODUCT)
+    Call<AppModel> addMyProduct(@Part(W.KEY_USERID) String userID, @Part(W.KEY_TOKEN) String tokenHash, @Part("type_id") String typeID, @Part("name") String name, @Part("description") String description, @Part("price") String price, @Part("fundspot_percent") String fundSpotPercent, @Part("organization_percent") String orgPercent, @Part("campaign_duration") String campaignDuration, @Part("max_limit_of_coupons") String maxLimitCoupons, @Part("coupon_expire_day") String couponExpiryDay, @Part MultipartBody.Part productImage);
+
+    @FormUrlEncoded
+    @POST(W.LIST_PRODUCT)
+    Call<ProductListResponse> getProductList(@Field(W.KEY_USERID) String userID, @Field(W.KEY_TOKEN) String token);
+
+    @FormUrlEncoded
+    @POST(W.DELETE_PRODUCT)
+    Call<AppModel> deleteProduct(@Field(W.KEY_USERID) String userID, @Field(W.KEY_TOKEN) String token, @Field("id") String productID);
+
+    @FormUrlEncoded
+    @POST(W.SEARCH_PRODUCT)
+    Call<ProductListResponse> searchProduct(@Field(W.KEY_USERID) String userID, @Field(W.KEY_TOKEN) String token, @Field("name") String filterName);
 
 }

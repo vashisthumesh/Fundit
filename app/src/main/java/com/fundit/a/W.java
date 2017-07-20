@@ -6,6 +6,9 @@ package com.fundit.a;
 
 public class W {
 
+    public static final String KEY_USERID = "user_id";
+    public static final String KEY_TOKEN = "tokenhash";
+
     public static final String BASE_URL="http://app.nivida.in/fundit/";
 
     public static final String USER_LOGIN="User/app_login";
@@ -23,4 +26,9 @@ public class W {
 
     public static final String EDIT_ORGANIZATION_PROFILE = "Organization/app_edit_organization_profile";
     public static final String EDIT_FUNDSPOT_PROFILE = "Fundspot/app_edit_fundspot_profile";
+
+    public static final String ADD_PRODUCT = "Product/app_add_product";
+    public static final String LIST_PRODUCT = "Product/app_get_product";
+    public static final String DELETE_PRODUCT = "Product/app_delete_product";
+    public static final String SEARCH_PRODUCT = "Product/app_search_product";
 }

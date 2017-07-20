@@ -59,7 +59,7 @@ class HomeActivity : AppCompatActivity() {
 
     private fun fetchIDs() {
 
-        Log.e("roleID", preference?.userRoleID)
+        Log.e("roleID", preference?.userRoleID + " - " + preference?.userID + " - " + preference?.tokenHash)
 
         when (preference?.userRoleID) {
             C.ORGANIZATION -> fragment = HomeFragment()

@@ -21,6 +21,9 @@ object C{
 
     const val VERIFIED:String ="1"
 
+    const val TYPE_PRODUCT = "1"
+    const val TYPE_GIFTCARD = "2"
+
     fun findToolbarCenteredText(context: Activity): Toolbar {
         return context.findViewById(R.id.toolbarCenterText) as Toolbar
     }
