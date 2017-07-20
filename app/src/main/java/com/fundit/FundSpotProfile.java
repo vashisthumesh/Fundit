@@ -2,8 +2,8 @@ package com.fundit;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -22,7 +22,6 @@ import com.fundit.helper.FilePath;
 import com.fundit.model.AreaItem;
 import com.fundit.model.AreaResponse;
 import com.fundit.model.CategoryResponse;
-import com.fundit.model.CategoryResponse1;
 import com.fundit.model.User;
 import com.fundit.model.VerifyResponse;
 import com.google.gson.Gson;
@@ -92,6 +91,10 @@ public class FundSpotProfile extends AppCompatActivity {
         ed_fund_description=(EditText)findViewById(R.id.ed_fund_description);
         ed_fund_contact_info=(EditText)findViewById(R.id.ed_fund_contact_info);
 
+        if (firstTime) {
+            ed_fund_title.setText(user.getTitle());
+        }
+
         sp_state=(Spinner) findViewById(R.id.sp_state);
         sp_city=(Spinner) findViewById(R.id.sp_city);
         sp_category=(Spinner) findViewById(R.id.sp_category);
@@ -152,12 +155,12 @@ public class FundSpotProfile extends AppCompatActivity {
             }
         });
 
-        Call<CategoryResponse1> categoryCall = adminAPI.getCategoryList();
-        categoryCall.enqueue(new Callback<CategoryResponse1>() {
+        Call<CategoryResponse> categoryCall = adminAPI.getCategoryList();
+        categoryCall.enqueue(new Callback<CategoryResponse>() {
             @Override
-            public void onResponse(Call<CategoryResponse1> call, Response<CategoryResponse1> response) {
+            public void onResponse(Call<CategoryResponse> call, Response<CategoryResponse> response) {
                // clearSchools(true);
-                CategoryResponse1 areaResponse = response.body();
+                CategoryResponse areaResponse = response.body();
                 if (areaResponse != null) {
                     if (areaResponse.isStatus()) {
                         categoryItems.addAll(areaResponse.getData());
@@ -170,7 +173,7 @@ public class FundSpotProfile extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<CategoryResponse1> call, Throwable t) {
+            public void onFailure(Call<CategoryResponse> call, Throwable t) {
                // clearSchools(true);
             }
         });

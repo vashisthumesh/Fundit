@@ -4,7 +4,6 @@ import com.fundit.a.W;
 import com.fundit.model.AppModel;
 import com.fundit.model.AreaResponse;
 import com.fundit.model.CategoryResponse;
-import com.fundit.model.CategoryResponse1;
 import com.fundit.model.RegisterResponse;
 import com.fundit.model.UniqueEmailResponse;
 import com.fundit.model.VerifyResponse;
@@ -42,7 +41,7 @@ public interface AdminAPI {
     Call<AreaResponse> getSchoolSubType(@Field("type_id") String typeID);
 
     @POST(W.CATEGORY_LIST)
-    Call<CategoryResponse1> getCategoryList();
+    Call<CategoryResponse> getCategoryList();
 
     @FormUrlEncoded
     @POST(W.UNIQUE_EMAIL)

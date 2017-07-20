@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * Created by prince on 7/19/2017.
  */
 
-public class CategoryResponse1 extends AppModel {
+public class CategoryResponse extends AppModel {
 
     ArrayList<AreaItem> data=new ArrayList<>();
 

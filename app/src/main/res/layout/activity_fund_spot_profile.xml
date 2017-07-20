@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorBackground"
-    android:orientation="vertical"
-    tools:context="com.fundit.OrganizationProfileActivity">
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/colorBackground"
+              android:orientation="vertical"
+              tools:context="com.fundit.OrganizationProfileActivity">
     <include
         android:id="@+id/toolbar"
         layout="@layout/toolbar_center_text" />
@@ -14,17 +13,13 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true"
-
-        android:nestedScrollingEnabled="true">
+        android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="15dp"
             android:orientation="vertical"
-            android:paddingLeft="25dp"
-            android:paddingRight="25dp">
+            android:padding="30dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -38,7 +33,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:background="@color/white"
-                android:hint="*Autofilled*"
+                android:hint="Fundspot title"
+                android:padding="5dp"
                 android:textColor="@color/black" />
 
             <TextView
@@ -54,6 +50,7 @@
                 android:layout_height="40dp"
                 android:background="@color/white"
                 android:hint="Address 1"
+                android:padding="5dp"
                 android:textColor="@color/black" />
 
             <LinearLayout
@@ -95,6 +92,7 @@
                 android:layout_marginTop="5dp"
                 android:background="@color/white"
                 android:hint="Zip code"
+                android:padding="5dp"
                 android:textColor="@color/black" />
 
             <Spinner
@@ -120,6 +118,7 @@
                 android:layout_height="40dp"
                 android:background="@color/white"
                 android:hint=""
+                android:padding="5dp"
                 android:textColor="@color/black" />
 
             <TextView
@@ -135,6 +134,7 @@
                 android:layout_height="40dp"
                 android:background="@color/white"
                 android:hint=""
+                android:padding="5dp"
                 android:textColor="@color/black" />
 
             <TextView
@@ -150,6 +150,7 @@
                 android:layout_height="40dp"
                 android:background="@color/white"
                 android:hint=""
+                android:padding="5dp"
                 android:textColor="@color/black" />
 
             <TextView
