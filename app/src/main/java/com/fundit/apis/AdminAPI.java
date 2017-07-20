@@ -4,6 +4,7 @@ import com.fundit.a.W;
 import com.fundit.model.AppModel;
 import com.fundit.model.AreaResponse;
 import com.fundit.model.CategoryResponse;
+import com.fundit.model.CategoryResponse1;
 import com.fundit.model.RegisterResponse;
 import com.fundit.model.UniqueEmailResponse;
 import com.fundit.model.VerifyResponse;
@@ -41,7 +42,7 @@ public interface AdminAPI {
     Call<AreaResponse> getSchoolSubType(@Field("type_id") String typeID);
 
     @POST(W.CATEGORY_LIST)
-    Call<CategoryResponse> getCategoryList();
+    Call<CategoryResponse1> getCategoryList();
 
     @FormUrlEncoded
     @POST(W.UNIQUE_EMAIL)
@@ -68,5 +69,9 @@ public interface AdminAPI {
     Call<VerifyResponse> editOrganizationProfile(@Part("user_id") String userID, @Part("tokenhash") String token, @Part("title") String title, @Part("state_id") String stateID, @Part("city_id") String cityID, @Part("location") String address, @Part("zip_code") String zipCode, @Part("type_id") String typeID, @Part("sub_type_id") String subSchoolID, @Part("description") String description, @Part("contact_info") String contactInfo, @Part MultipartBody.Part profileImage);
 
 
+
+    @Multipart
+    @POST(W.EDIT_FUNDSPOT_PROFILE)
+    Call<VerifyResponse> editFundsportProfile(@Part("user_id") String userID, @Part("tokenhash") String token,@Part("title")String title, @Part("state_id") String stateID, @Part("city_id") String cityID, @Part("location") String address, @Part("zip_code") String zipCode, @Part("category_id") String category_id,@Part("fundraise_split")String fundraise_split, @Part("description") String description, @Part("contact_info") String contactInfo, @Part MultipartBody.Part profileImage);
 
 }
