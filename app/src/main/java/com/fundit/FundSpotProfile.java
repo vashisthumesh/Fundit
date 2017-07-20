@@ -253,6 +253,8 @@ public class FundSpotProfile extends AppCompatActivity {
                         public void onFailure(Call<VerifyResponse> call, Throwable t) {
                             dialog.dismiss();
                             C.INSTANCE.errorToast(getApplicationContext(), t);
+
+
                         }
                     });
 
