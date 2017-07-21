@@ -27,6 +27,7 @@ public class W {
 
     public static final String EDIT_ORGANIZATION_PROFILE = "Organization/app_edit_organization_profile";
     public static final String EDIT_FUNDSPOT_PROFILE = "Fundspot/app_edit_fundspot_profile";
+    public static final String EDIT_GENERALMEMBER = "Member/app_edit_member_profile";
 
     public static final String ADD_PRODUCT = "Product/app_add_product";
     public static final String LIST_PRODUCT = "Product/app_get_product";
