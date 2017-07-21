@@ -21,12 +21,14 @@ import com.fundit.helper.CustomDialog;
 import com.fundit.helper.FilePath;
 import com.fundit.model.AreaItem;
 import com.fundit.model.AreaResponse;
+import com.fundit.model.Organization;
 import com.fundit.model.VerifyResponse;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -34,15 +36,19 @@ import retrofit2.Response;
 
 public class GeneralMemberProfileActivity extends AppCompatActivity {
 
-    EditText edt_firstName,edt_lastName,edt_assocOrganization,edt_assocFundspot,edt_contactInfo,ed_member_address,ed_zip_code;
+    EditText edt_firstName, edt_lastName, edt_contactInfo, ed_member_address, ed_zip_code;
     ImageView img_uplode_photo;
     Button btn_updateProfile;
-    Spinner spn_state, spn_city;
+    Spinner spn_state, spn_city, spn_assocOrganization, spn_assocFundspot;
     ArrayList<String> stateNames=new ArrayList<>();
     ArrayList<AreaItem> stateItems=new ArrayList<>();
     ArrayList<String> cityNames=new ArrayList<>();
     ArrayList<AreaItem> cityItems=new ArrayList<>();
-    ArrayAdapter<String> stateAdapter, cityAdapter;
+    List<Organization> organizationList = new ArrayList<>();
+    ArrayList<String> organizationNames = new ArrayList<>();
+    List<Organization> fundSpotList = new ArrayList<>();
+    ArrayList<String> fundspotNames = new ArrayList<>();
+    ArrayAdapter<String> stateAdapter, cityAdapter, organizationAdapter, fundspotAdapter;
     AdminAPI adminAPI;
     CustomDialog dialog;
 
@@ -72,8 +78,8 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
     private void fetchIDs() {
         edt_firstName = (EditText) findViewById(R.id.edt_firstName);
         edt_lastName = (EditText) findViewById(R.id.edt_lastName);
-        edt_assocOrganization = (EditText) findViewById(R.id.edt_assocOrganization);
-        edt_assocFundspot = (EditText) findViewById(R.id.edt_assocFundspot);
+        spn_assocOrganization = (Spinner) findViewById(R.id.spn_assocOrganization);
+        spn_assocFundspot = (Spinner) findViewById(R.id.spn_assocFundspot);
         edt_contactInfo = (EditText) findViewById(R.id.edt_contactInfo);
         ed_member_address=(EditText)findViewById(R.id.ed_member_address);
         ed_zip_code=(EditText)findViewById(R.id.ed_zip_code);
@@ -88,11 +94,13 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
 
         stateAdapter = new ArrayAdapter<String>(this, R.layout.spinner_textview, stateNames);
         cityAdapter = new ArrayAdapter<String>(this, R.layout.spinner_textview, cityNames);
+        organizationAdapter = new ArrayAdapter<String>(this, R.layout.spinner_textview, organizationNames);
+        fundspotAdapter = new ArrayAdapter<String>(this, R.layout.spinner_textview, fundspotNames);
 
         spn_state.setAdapter(stateAdapter);
         spn_city.setAdapter(stateAdapter);
-
-        dialog.show();
+        spn_assocOrganization.setAdapter(organizationAdapter);
+        spn_assocFundspot.setAdapter(fundspotAdapter);
 
         spn_state.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -155,8 +163,8 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
                 String lastname = edt_lastName.getText().toString().trim();
                 String location = ed_member_address.getText().toString().trim();
                 String zipcode = ed_zip_code.getText().toString().trim();
-                String assocOrganization = edt_assocOrganization.getText().toString().trim();
-                String assocFundspot = edt_assocFundspot.getText().toString().trim();
+                //String assocOrganization = edt_assocOrganization.getText().toString().trim();
+                //String assocFundspot = edt_assocFundspot.getText().toString().trim();
                 String contactInfo = edt_contactInfo.getText().toString().trim();
 
 
@@ -180,12 +188,12 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
                     C.INSTANCE.showToast(getApplicationContext(), "Please select city");
                 } else if (zipcode.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter zip code");
-                }else if(assocOrganization.isEmpty()){
+                }/*else if(assocOrganization.isEmpty()){
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter Associated Organization");
                 }
                 else if(assocFundspot.isEmpty()){
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter Associated fundspot");
-                }
+                }*/
                 else if (contactInfo.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter contact information");
                 } else if (imagePath == null) {
@@ -194,7 +202,7 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
                 else {
 
                     dialog.show();
-                    Call<VerifyResponse> generalMemberResponse = adminAPI.generalMemberProfile(preference.getUserID(), preference.getTokenHash(),firstname,lastname,location, stateItems.get(statePosition).getId(), cityItems.get(cityPosition).getId(), zipcode,assocOrganization,assocFundspot, contactInfo, ServiceGenerator.prepareFilePart("image", imagePath));
+                    Call<VerifyResponse> generalMemberResponse = adminAPI.generalMemberProfile(preference.getUserID(), preference.getTokenHash(), firstname, lastname, location, stateItems.get(statePosition).getId(), cityItems.get(cityPosition).getId(), zipcode, "0", "0", contactInfo, ServiceGenerator.prepareFilePart("image", imagePath));
                     generalMemberResponse.enqueue(new Callback<VerifyResponse>() {
                         @Override
                         public void onResponse(Call<VerifyResponse> call, Response<VerifyResponse> response) {

@@ -111,5 +111,7 @@ public interface AdminAPI {
     @POST(W.FUNDSPOT_SEARCH)
     Call<FundspotListResponse> searchFundspot(@Field(W.KEY_USERID) String userID, @Field(W.KEY_TOKEN) String token, @Field("title") String title);
 
-
+    @FormUrlEncoded
+    @POST(W.ADD_CAMPAIGN)
+    Call<AppModel> addCampaign(@Field(W.KEY_USERID) String userID, @Field(W.KEY_TOKEN) String token, @Field("fundspot_id") String fundspotID, @Field("type_id") String typeID, @Field("product_id") String productID, @Field("price") String price, @Field("fundspot_percent") String fundSpotPercent, @Field("organization_percent") String orgPercent, @Field("campaign_duration") String campaignDuration, @Field("max_limit_of_coupons") String maxLimitCoupon, @Field("coupon_expire_day") String couponExpiryDay, @Field("fine_print") String finePrint);
 }

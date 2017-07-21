@@ -115,8 +115,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:background="@color/white"
-                android:padding="5dp"
                 android:inputType="number"
+                android:padding="5dp"
                 android:textColor="@color/black"/>
 
             <TextView
@@ -179,8 +179,8 @@
                         android:layout_height="40dp"
                         android:layout_margin="5dp"
                         android:background="@color/white"
-                        android:inputType="numberDecimal"
                         android:enabled="false"
+                        android:inputType="numberDecimal"
                         android:padding="5dp"
                         android:textColor="@color/black"/>
 
@@ -203,13 +203,13 @@
                 android:orientation="horizontal">
 
                 <EditText
+                    android:id="@+id/edt_campaignDuration"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
                     android:layout_weight="6"
-                    android:inputType="number"
                     android:background="@color/white"
+                    android:inputType="number"
                     android:padding="5dp"
-                    android:id="@+id/edt_campaignDuration"
                     android:textColor="@color/black"/>
 
                 <TextView
@@ -221,11 +221,11 @@
                     android:textSize="16sp"/>
 
                 <CheckBox
+                    android:id="@+id/chk_indefinite"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:padding="3dp"
-                    android:id="@+id/chk_indefinite"
                     android:text="Indefinite"
                     android:textColor="@color/black"
                     android:textSize="16sp"/>
@@ -242,12 +242,12 @@
                 android:textSize="16sp"/>
 
             <EditText
+                android:id="@+id/edt_maxLimitCoupon"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:background="@color/white"
-                android:padding="5dp"
                 android:inputType="number"
-                android:id="@+id/edt_maxLimitCoupon"
+                android:padding="5dp"
                 android:textColor="@color/black"/>
 
             <TextView
@@ -265,13 +265,13 @@
                 android:orientation="horizontal">
 
                 <EditText
+                    android:id="@+id/edt_couponExpireDay"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
-                    android:inputType="number"
                     android:layout_weight="6"
                     android:background="@color/white"
+                    android:inputType="number"
                     android:padding="5dp"
-                    android:id="@+id/edt_couponExpireDay"
                     android:textColor="@color/black"/>
 
                 <TextView
@@ -293,16 +293,16 @@
                 android:textSize="16sp"/>
 
             <EditText
+                android:id="@+id/edt_finePrint"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:padding="5dp"
-                android:id="@+id/edt_finePrint"
                 android:lines="4"
+                android:padding="5dp"
                 android:textColor="@color/black"/>
 
             <Button
-                android:id="@+id/btn_cancel"
+                android:id="@+id/btn_continue"
                 android:layout_width="100dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center"

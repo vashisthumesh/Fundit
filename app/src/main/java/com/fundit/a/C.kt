@@ -3,6 +3,8 @@ package com.fundit.a
 import android.app.Activity
 import android.content.Context
 import android.support.v7.widget.Toolbar
+import android.view.LayoutInflater
+import android.widget.TextView
 import android.widget.Toast
 import com.fundit.R
 import java.net.ConnectException
@@ -29,7 +31,15 @@ object C{
     }
 
     fun showToast(context: Context, message: String): Unit {
-        Toast.makeText(context,message,Toast.LENGTH_SHORT).show()
+        val inflater: LayoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val view = inflater.inflate(R.layout.layout_toast, null)
+        val txt_message = view.findViewById(R.id.txt_message) as TextView
+        val toast = Toast(context)
+        txt_message.text = message
+        toast.view = view
+        toast.duration = Toast.LENGTH_SHORT
+
+        toast.show()
     }
 
     fun noInternet(context: Context): Unit{

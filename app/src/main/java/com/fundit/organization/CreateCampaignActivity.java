@@ -9,9 +9,12 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.fundit.R;
@@ -19,6 +22,8 @@ import com.fundit.a.AppPreference;
 import com.fundit.a.C;
 import com.fundit.apis.AdminAPI;
 import com.fundit.apis.ServiceGenerator;
+import com.fundit.helper.CustomDialog;
+import com.fundit.model.AppModel;
 import com.fundit.model.FundspotListResponse;
 import com.fundit.model.ProductListResponse;
 import com.fundit.model.VerifyResponse;
@@ -49,8 +54,12 @@ public class CreateCampaignActivity extends AppCompatActivity {
     RadioButton rdo_typeItem, rdo_typeGiftCard;
     EditText edt_itemName,edt_couponCost,edt_organizationSplit,edt_fundSplit,edt_maxLimitCoupon,edt_campaignDuration,edt_couponExpireDay,edt_finePrint;
     CheckBox chk_indefinite;
+    RadioGroup rg_productType;
 
     int REQUEST_PRODUCT = 369;
+
+    Button btn_continue;
+    CustomDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +68,7 @@ public class CreateCampaignActivity extends AppCompatActivity {
 
         adminAPI= ServiceGenerator.getAPIClass();
         preference = new AppPreference(this);
+        dialog = new CustomDialog(this);
 
         fetchIDs();
     }
@@ -67,6 +77,7 @@ public class CreateCampaignActivity extends AppCompatActivity {
         txt_browseFundspot=(TextView) findViewById(R.id.txt_browseFundspot);
         auto_searchFundspot=(AutoCompleteTextView) findViewById(R.id.auto_searchFundspot);
         autoAdapter = new ArrayAdapter<String>(this, R.layout.spinner_textview, fundSpotNames);
+        btn_continue = (Button) findViewById(R.id.btn_continue);
 
 
         txt_browseFundspot.setOnClickListener(new View.OnClickListener() {
@@ -89,8 +100,24 @@ public class CreateCampaignActivity extends AppCompatActivity {
 
         rdo_typeItem = (RadioButton) findViewById(R.id.rdo_typeItem);
         rdo_typeGiftCard = (RadioButton) findViewById(R.id.rdo_typeGiftCard);
+        rg_productType = (RadioGroup) findViewById(R.id.rg_productType);
+
+        rg_productType.setEnabled(false);
+        edt_itemName.setEnabled(false);
+        edt_couponCost.setEnabled(false);
 
         chk_indefinite = (CheckBox) findViewById(R.id.chk_indefinite);
+
+        chk_indefinite.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (chk_indefinite.isChecked()) {
+                    edt_campaignDuration.setEnabled(false);
+                } else {
+                    edt_campaignDuration.setEnabled(true);
+                }
+            }
+        });
 
         edt_organizationSplit.addTextChangedListener(new TextWatcher() {
             @Override
@@ -163,6 +190,67 @@ public class CreateCampaignActivity extends AppCompatActivity {
             }
         });
 
+        btn_continue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String organizationSplit = edt_organizationSplit.getText().toString().trim();
+                String fundSpotSplit = edt_fundSplit.getText().toString().trim();
+                String campaignDuration = edt_campaignDuration.getText().toString().trim();
+                String maxLimitCoupon = edt_maxLimitCoupon.getText().toString().trim();
+                String couponExpiry = edt_couponExpireDay.getText().toString().trim();
+                String couponFinePrint = edt_finePrint.getText().toString().trim();
+
+                float orgSplit = Float.parseFloat(organizationSplit.isEmpty() ? "0" : organizationSplit);
+                int campDurationNum = Integer.parseInt(campaignDuration.isEmpty() ? "0" : campaignDuration);
+                int maxLimitCouponNum = Integer.parseInt(maxLimitCoupon.isEmpty() ? "0" : maxLimitCoupon);
+                int couponExpiryNum = Integer.parseInt(couponExpiry.isEmpty() ? "0" : couponExpiry);
+
+                if (product == null) {
+                    C.INSTANCE.showToast(getApplicationContext(), "Please select Fundspot and its Product");
+                } else if (orgSplit < 1) {
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter Organization split min. 1%");
+                } else if (!chk_indefinite.isChecked() && campDurationNum < 1) {
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter campaign duration min. 1");
+                } else if (maxLimitCouponNum < 1) {
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter maximum limit of coupon min. 1");
+                } else if (couponExpiryNum < 1) {
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter coupon expiry days min. 1");
+                } else if (couponFinePrint.isEmpty()) {
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter fine print");
+                } else {
+
+                    if (chk_indefinite.isChecked()) {
+                        campaignDuration = "0";
+                    }
+                    dialog.show();
+                    Call<AppModel> addCampCall = adminAPI.addCampaign(preference.getUserID(), preference.getTokenHash(), selectedFundSpotID, product.getType_id(), product.getId(), product.getPrice(), fundSpotSplit, organizationSplit, campaignDuration, maxLimitCoupon, couponExpiry, couponFinePrint);
+                    addCampCall.enqueue(new Callback<AppModel>() {
+                        @Override
+                        public void onResponse(Call<AppModel> call, Response<AppModel> response) {
+                            dialog.dismiss();
+                            AppModel model = response.body();
+                            if (model != null) {
+                                if (model.isStatus()) {
+                                    C.INSTANCE.showToast(getApplicationContext(), model.getMessage());
+                                    onBackPressed();
+                                } else {
+                                    C.INSTANCE.showToast(getApplicationContext(), model.getMessage());
+                                }
+                            } else {
+                                C.INSTANCE.defaultError(getApplicationContext());
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<AppModel> call, Throwable t) {
+                            dialog.dismiss();
+                            C.INSTANCE.errorToast(getApplicationContext(), t);
+                        }
+                    });
+                }
+            }
+        });
+
     }
 
     @Override
@@ -171,12 +259,12 @@ public class CreateCampaignActivity extends AppCompatActivity {
             selectedFundSpotName = data.getStringExtra("fundspotName");
             selectedFundSpotID = data.getStringExtra("fundspotID");
             product = (ProductListResponse.Product) data.getSerializableExtra("product");
+            auto_searchFundspot.setText("");
             fillupSelectedData();
         }
     }
 
     private void fillupSelectedData() {
-        auto_searchFundspot.setText(selectedFundSpotName);
         edt_itemName.setText(product.getName());
         edt_couponCost.setText(product.getPrice());
         edt_organizationSplit.setText(product.getOrganization_percent());
@@ -219,5 +307,10 @@ public class CreateCampaignActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
     }
 }
