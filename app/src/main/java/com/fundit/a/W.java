@@ -33,4 +33,7 @@ public class W {
     public static final String DELETE_PRODUCT = "Product/app_delete_product";
     public static final String SEARCH_PRODUCT = "Product/app_search_product";
     public static final String EDIT_PRODUCT = "Product/app_edit_product";
+
+    public static final String BROWSE_FUNDSPOT = "Fundspot/app_get_fundspot";
+    public static final String FUNDSPOT_PRODUCT = "Product/app_search_product_via_organization";
 }

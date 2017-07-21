@@ -1,25 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="5dp">
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/img_productImage"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_gravity="center_vertical"
-            android:layout_margin="5dp"
-            android:maxHeight="150dp"
-            android:maxWidth="150dp"/>
 
         <LinearLayout
             android:layout_width="0dp"
@@ -29,7 +18,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/txt_productName"
+                android:id="@+id/txt_Name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
@@ -46,12 +35,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
-                    android:text="Price :"
+                    android:text="Location :"
                     android:textColor="@color/colorText"
                     android:textSize="14sp"/>
 
                 <TextView
-                    android:id="@+id/txt_price"
+                    android:id="@+id/txt_location"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
@@ -70,12 +59,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
-                    android:text="Type :"
+                    android:text="Fundspot :"
                     android:textColor="@color/colorText"
                     android:textSize="14sp"/>
 
                 <TextView
-                    android:id="@+id/txt_type"
+                    android:id="@+id/txt_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
@@ -85,43 +74,16 @@
 
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/txt_productDescription"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLines="2"
-                android:padding="5dp"
-                android:textColor="@color/colorText"
-                android:textSize="14sp"
-                android:textStyle="bold"/>
-
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:id="@+id/layout_options"
-            android:orientation="vertical"
-            android:padding="5dp">
-
-            <ImageView
-                android:id="@+id/img_edit"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_margin="3dp"
-                app:srcCompat="@drawable/ic_edit_black_24dp"/>
-
-            <ImageView
-                android:id="@+id/img_delete"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_margin="3dp"
-                android:tint="@color/deleteColor"
-                app:srcCompat="@drawable/ic_delete_black_24dp"/>
-
-        </LinearLayout>
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/img_profileImage"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="5dp"
+            android:maxHeight="150dp"
+            android:maxWidth="150dp"/>
 
     </LinearLayout>
 

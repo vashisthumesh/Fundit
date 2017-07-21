@@ -4,6 +4,7 @@ import com.fundit.a.W;
 import com.fundit.model.AppModel;
 import com.fundit.model.AreaResponse;
 import com.fundit.model.CategoryResponse;
+import com.fundit.model.FundspotListResponse;
 import com.fundit.model.ProductListResponse;
 import com.fundit.model.RegisterResponse;
 import com.fundit.model.UniqueEmailResponse;
@@ -92,4 +93,11 @@ public interface AdminAPI {
     @POST(W.SEARCH_PRODUCT)
     Call<ProductListResponse> searchProduct(@Field(W.KEY_USERID) String userID, @Field(W.KEY_TOKEN) String token, @Field("name") String filterName);
 
+    @FormUrlEncoded
+    @POST(W.BROWSE_FUNDSPOT)
+    Call<FundspotListResponse> browseFundspots(@Field(W.KEY_USERID) String userID, @Field(W.KEY_TOKEN) String token);
+
+    @FormUrlEncoded
+    @POST(W.FUNDSPOT_PRODUCT)
+    Call<ProductListResponse> fundSpotProducts(@Field(W.KEY_USERID) String userID, @Field(W.KEY_TOKEN) String token,@Field("fundspot_id") String fundspotID,@Field("type_id") String typeID);
 }

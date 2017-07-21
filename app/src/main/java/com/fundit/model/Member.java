@@ -15,6 +15,9 @@ public class Member {
     String associated_fundspot="";
     String contact_info="";
     String image="";
+    String title="";
+    String first_name="";
+    String last_name="";
 
     public String getId() {
         return id;
@@ -54,5 +57,17 @@ public class Member {
 
     public String getImage() {
         return image;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getFirst_name() {
+        return first_name;
+    }
+
+    public String getLast_name() {
+        return last_name;
     }
 }
