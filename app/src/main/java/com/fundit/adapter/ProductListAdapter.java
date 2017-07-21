@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.fundit.R;
@@ -31,11 +32,17 @@ public class ProductListAdapter extends BaseAdapter {
     LayoutInflater inflater;
     AdminAPI adminAPI;
     OnProductClick onProductClick;
+    boolean selectOnly=false;
 
     public ProductListAdapter(List<ProductListResponse.Product> productList, Activity activity) {
         this.productList = productList;
         this.activity = activity;
         this.inflater = activity.getLayoutInflater();
+    }
+
+    public ProductListAdapter(List<ProductListResponse.Product> productList, Activity activity, boolean selectOnly){
+        this(productList,activity);
+        this.selectOnly = selectOnly;
     }
 
     public void setOnProductClick(OnProductClick onProductClick) {
@@ -70,6 +77,12 @@ public class ProductListAdapter extends BaseAdapter {
         CircleImageView img_productImage = (CircleImageView) view.findViewById(R.id.img_productImage);
         ImageView img_edit = (ImageView) view.findViewById(R.id.img_edit);
         ImageView img_delete = (ImageView) view.findViewById(R.id.img_delete);
+
+        LinearLayout layout_options=(LinearLayout) view.findViewById(R.id.layout_options);
+
+        if(selectOnly){
+            layout_options.setVisibility(View.GONE);
+        }
 
         txt_productName.setText(productList.get(position).getName());
         txt_productDescription.setText(productList.get(position).getDescription());

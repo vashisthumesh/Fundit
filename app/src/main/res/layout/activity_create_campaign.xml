@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/colorBackground"
+    android:orientation="vertical"
     tools:context="com.fundit.organization.CreateCampaignActivity">
 
     <include layout="@layout/toolbar_center_text"/>
@@ -47,12 +47,14 @@
                 android:text="Browse Fundspots"
                 android:textColor="@android:color/holo_blue_dark"
                 />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <RadioGroup
+                    android:id="@+id/rg_productType"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
@@ -60,6 +62,7 @@
                     android:orientation="horizontal">
 
                     <RadioButton
+                        android:id="@+id/rdo_typeItem"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -70,6 +73,7 @@
                         android:textSize="16sp"/>
 
                     <RadioButton
+                        android:id="@+id/rdo_typeGiftCard"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -79,6 +83,7 @@
                         android:textSize="16sp"/>
                 </RadioGroup>
             </LinearLayout>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -89,11 +94,13 @@
                 android:textSize="16sp"/>
 
             <EditText
+                android:id="@+id/edt_itemName"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:background="@color/white"
                 android:padding="5dp"
                 android:textColor="@color/black"/>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -104,26 +111,83 @@
                 android:textSize="16sp"/>
 
             <EditText
+                android:id="@+id/edt_couponCost"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:background="@color/white"
                 android:padding="5dp"
+                android:inputType="number"
                 android:textColor="@color/black"/>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="1dp"
                 android:drawableRight="@drawable/star"
                 android:padding="5dp"
-                android:text="Percentage Split Fundspot/Organization"
+                android:text="Percentage Split"
                 android:textSize="16sp"/>
 
-            <EditText
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:background="@color/white"
-                android:padding="5dp"
-                android:textColor="@color/black"/>
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="1dp"
+                        android:padding="5dp"
+                        android:text="Organization Percent"
+                        android:textSize="16sp"/>
+
+                    <EditText
+                        android:id="@+id/edt_organizationSplit"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_margin="5dp"
+                        android:background="@color/white"
+                        android:inputType="numberDecimal"
+                        android:padding="5dp"
+                        android:textColor="@color/black"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="1dp"
+                        android:padding="5dp"
+                        android:text="Fundspot Percent"
+                        android:textSize="16sp"/>
+
+                    <EditText
+                        android:id="@+id/edt_fundSplit"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_margin="5dp"
+                        android:background="@color/white"
+                        android:inputType="numberDecimal"
+                        android:enabled="false"
+                        android:padding="5dp"
+                        android:textColor="@color/black"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -132,33 +196,42 @@
                 android:padding="5dp"
                 android:text="Duration of campaign"
                 android:textSize="16sp"/>
+
             <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <EditText
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:padding="5dp"
-                android:layout_weight="6"
-                android:textColor="@color/black"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:layout_weight="1"
-                android:text="Days"
-                android:textSize="16sp"/>
-                <RadioButton
+                android:orientation="horizontal">
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_weight="6"
+                    android:inputType="number"
+                    android:background="@color/white"
+                    android:padding="5dp"
+                    android:id="@+id/edt_campaignDuration"
+                    android:textColor="@color/black"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="5dp"
+                    android:text="Days"
+                    android:textSize="16sp"/>
+
+                <CheckBox
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:padding="3dp"
+                    android:id="@+id/chk_indefinite"
                     android:text="Indefinite"
                     android:textColor="@color/black"
                     android:textSize="16sp"/>
+
             </LinearLayout>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -173,35 +246,43 @@
                 android:layout_height="40dp"
                 android:background="@color/white"
                 android:padding="5dp"
+                android:inputType="number"
+                android:id="@+id/edt_maxLimitCoupon"
                 android:textColor="@color/black"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="1dp"
-            android:drawableRight="@drawable/star"
-            android:padding="5dp"
-            android:text="Coupon Expiration"
-            android:textSize="16sp"/>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
 
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:padding="5dp"
-                android:layout_weight="6"
-                android:textColor="@color/black"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_marginLeft="1dp"
+                android:drawableRight="@drawable/star"
                 android:padding="5dp"
-                android:text="Days from purchase"
+                android:text="Coupon Expiration"
                 android:textSize="16sp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:inputType="number"
+                    android:layout_weight="6"
+                    android:background="@color/white"
+                    android:padding="5dp"
+                    android:id="@+id/edt_couponExpireDay"
+                    android:textColor="@color/black"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="5dp"
+                    android:text="Days from purchase"
+                    android:textSize="16sp"/>
             </LinearLayout>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -213,10 +294,13 @@
 
             <EditText
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:padding="5dp"
+                android:id="@+id/edt_finePrint"
+                android:lines="4"
                 android:textColor="@color/black"/>
+
             <Button
                 android:id="@+id/btn_cancel"
                 android:layout_width="100dp"

@@ -5,6 +5,8 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
+    <permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -52,6 +54,10 @@
         <activity android:name=".fundspot.AddProductActivity">
         </activity>
         <activity android:name=".organization.CreateCampaignActivity">
+        </activity>
+        <activity android:name=".organization.FundspotListActivity">
+        </activity>
+        <activity android:name=".organization.FundspotProductListActivity">
         </activity>
     </application>
 
