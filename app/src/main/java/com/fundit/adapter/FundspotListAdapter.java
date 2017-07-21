@@ -54,7 +54,6 @@ public class FundspotListAdapter extends BaseAdapter {
 
         TextView txt_Name = (TextView) view.findViewById(R.id.txt_Name);
         TextView txt_location = (TextView) view.findViewById(R.id.txt_location);
-        TextView txt_title = (TextView) view.findViewById(R.id.txt_title);
 
         CircleImageView img_profileImage = (CircleImageView) view.findViewById(R.id.img_profileImage);
 
@@ -62,8 +61,7 @@ public class FundspotListAdapter extends BaseAdapter {
                 .load(W.FILE_URL+fundSpotList.get(position).getFundspot().getImage())
                 .into(img_profileImage);
 
-        txt_Name.setText(fundSpotList.get(position).getUser().getTitle());
-        txt_title.setText(fundSpotList.get(position).getFundspot().getTitle());
+        txt_Name.setText(fundSpotList.get(position).getFundspot().getTitle());
         txt_location.setText(fundSpotList.get(position).getFundspot().getLocation());
 
         return view;

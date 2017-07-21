@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -17,16 +19,25 @@ import com.fundit.a.AppPreference;
 import com.fundit.a.C;
 import com.fundit.apis.AdminAPI;
 import com.fundit.apis.ServiceGenerator;
+import com.fundit.model.FundspotListResponse;
 import com.fundit.model.ProductListResponse;
+import com.fundit.model.VerifyResponse;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class CreateCampaignActivity extends AppCompatActivity {
 
     TextView txt_browseFundspot;
     AutoCompleteTextView auto_searchFundspot;
     ArrayList<String> fundSpotNames = new ArrayList<>();
+    List<VerifyResponse.VerifyResponseData> fundSpotList = new ArrayList<>();
+    ArrayAdapter<String> autoAdapter;
 
     AdminAPI adminAPI;
     AppPreference preference;
@@ -55,6 +66,8 @@ public class CreateCampaignActivity extends AppCompatActivity {
     private void fetchIDs() {
         txt_browseFundspot=(TextView) findViewById(R.id.txt_browseFundspot);
         auto_searchFundspot=(AutoCompleteTextView) findViewById(R.id.auto_searchFundspot);
+        autoAdapter = new ArrayAdapter<String>(this, R.layout.spinner_textview, fundSpotNames);
+
 
         txt_browseFundspot.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,7 +138,28 @@ public class CreateCampaignActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
+                String searchKey = auto_searchFundspot.getText().toString().trim();
+                if (searchKey.length() >= 3) {
+                    searchFundspot(searchKey);
+                } else {
+                    fundSpotList.clear();
+                    fundSpotNames.clear();
+                    autoAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_textview, fundSpotNames);
+                    auto_searchFundspot.setAdapter(autoAdapter);
+                    auto_searchFundspot.showDropDown();
+                }
+            }
+        });
 
+        auto_searchFundspot.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                VerifyResponse.VerifyResponseData data = fundSpotList.get(i);
+                Intent intent = new Intent(getApplicationContext(), FundspotProductListActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra("fundspotName", data.getFundspot().getTitle());
+                intent.putExtra("fundspotID", data.getUser().getId());
+                startActivityForResult(intent, REQUEST_PRODUCT);
             }
         });
 
@@ -157,5 +191,33 @@ public class CreateCampaignActivity extends AppCompatActivity {
         else {
             rdo_typeItem.setChecked(true);
         }
+    }
+
+    private void searchFundspot(String title) {
+        Call<FundspotListResponse> searchCall = adminAPI.searchFundspot(preference.getUserID(), preference.getTokenHash(), title);
+        searchCall.enqueue(new Callback<FundspotListResponse>() {
+            @Override
+            public void onResponse(Call<FundspotListResponse> call, Response<FundspotListResponse> response) {
+                fundSpotList.clear();
+                fundSpotNames.clear();
+                FundspotListResponse listResponse = response.body();
+                if (listResponse != null) {
+                    if (listResponse.isStatus()) {
+                        fundSpotList.addAll(listResponse.getData());
+                        fundSpotNames.addAll(listResponse.getFundSpotNames());
+                    }
+                }
+
+                autoAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_textview, fundSpotNames);
+                auto_searchFundspot.setAdapter(autoAdapter);
+                auto_searchFundspot.showDropDown();
+
+            }
+
+            @Override
+            public void onFailure(Call<FundspotListResponse> call, Throwable t) {
+
+            }
+        });
     }
 }

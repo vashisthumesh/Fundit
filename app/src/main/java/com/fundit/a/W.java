@@ -36,4 +36,5 @@ public class W {
 
     public static final String BROWSE_FUNDSPOT = "Fundspot/app_get_fundspot";
     public static final String FUNDSPOT_PRODUCT = "Product/app_search_product_via_organization";
+    public static final String FUNDSPOT_SEARCH = "Fundspot/app_search_fundspot";
 }

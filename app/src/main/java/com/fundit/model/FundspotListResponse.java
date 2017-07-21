@@ -13,4 +13,14 @@ public class FundspotListResponse extends AppModel {
     public List<VerifyResponse.VerifyResponseData> getData() {
         return data;
     }
+
+    public ArrayList<String> getFundSpotNames() {
+        ArrayList<String> fundspotNames = new ArrayList<>();
+
+        for (int i = 0; i < data.size(); i++) {
+            fundspotNames.add(data.get(i).getFundspot().getTitle());
+        }
+
+        return fundspotNames;
+    }
 }

@@ -160,4 +160,8 @@ class HomeActivity : AppCompatActivity() {
 
     }
 
+    override fun onBackPressed() {
+        System.exit(0)
+    }
+
 }
