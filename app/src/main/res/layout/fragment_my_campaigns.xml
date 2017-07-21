@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context="com.fundit.fragmet.MyCampaignsFragment">
 
@@ -12,18 +12,33 @@
         android:id="@+id/navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="-20dp"
         android:layout_gravity="top"
+        android:layout_marginTop="-20dp"
+        android:background="?android:attr/windowBackground"
         app:itemBackground="@drawable/campaign_navigation_selector_bg"
         app:itemTextColor="@drawable/campaigns_navigation_selector"
-        android:background="?android:attr/windowBackground"
         app:menu="@menu/menu_my_campaigns"/>
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/frame_container">
+        android:layout_height="match_parent">
 
+        <FrameLayout
+            android:id="@+id/frame_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </FrameLayout>
+
+        <ImageView
+            android:id="@+id/img_createCampaign"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center"
+            android:layout_margin="5dp"
+            android:src="@drawable/ic_add_button"
+            android:tint="@color/black"/>
     </FrameLayout>
+
 
 </LinearLayout>

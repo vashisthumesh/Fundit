@@ -1,9 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.fundit.organization.CreateCampaignActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <include layout="@layout/toolbar_center_text"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="Fundspot Partner"
+                android:textColor="@color/colorText"/>
+
+            <AutoCompleteTextView
+                android:id="@+id/auto_searchFundspot"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@drawable/background_txt_border"
+                android:drawableLeft="@drawable/ic_search_black_24dp"
+                android:hint="Search"
+                android:minHeight="40dp"
+                android:padding="5dp"
+                android:textColor="@color/colorText"/>
+
+            <TextView
+                android:id="@+id/txt_browseFundspot"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="Browse Fundspots"
+                android:textColor="@android:color/holo_blue_dark"
+                />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>
