@@ -35,7 +35,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:background="@color/white"
-                android:hint=""
+                android:inputType="textPersonName"
+                android:padding="5dp"
+                android:hint="Enter first name"
                 android:textColor="@color/black"/>
 
             <TextView
@@ -50,8 +52,10 @@
                 android:id="@+id/edt_lastName"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
+                android:inputType="textPersonName"
                 android:background="@color/white"
-                android:hint=""
+                android:padding="5dp"
+                android:hint="Enter last name"
                 android:textColor="@color/black"/>
 
             <TextView
@@ -66,16 +70,11 @@
                 android:id="@+id/ed_member_address"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
+                android:inputType="text"
                 android:background="@color/white"
-                android:hint=""
+                android:padding="5dp"
+                android:hint="Address 1"
                 android:textColor="@color/black"/>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:orientation="horizontal">
 
                 <Spinner
                     android:id="@+id/spn_state"
@@ -101,8 +100,6 @@
                     android:popupBackground="#fff"
                     android:spinnerMode="dropdown"/>
 
-            </LinearLayout>
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -116,6 +113,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginTop="5dp"
+                android:padding="5dp"
+                android:maxLength="5"
+                android:inputType="number"
+                android:hint="Zip code"
                 android:background="@color/white"
                 android:textColor="@color/black"/>
 
@@ -123,7 +124,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:drawableRight="@drawable/star"
                 android:text="Associated Organization"
                 android:textSize="16sp"/>
 
@@ -139,7 +139,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:drawableRight="@drawable/star"
                 android:text="Associated Fundspots"
                 android:textSize="16sp"/>
 
@@ -164,7 +163,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:background="@color/white"
-                android:hint=""
+                android:inputType="text"
+                android:padding="5dp"
+                android:hint="Enter contact information"
                 android:textColor="@color/black"/>
 
             <TextView

@@ -37,7 +37,7 @@
             android:layout_gravity="bottom|center"
             android:layout_margin="5dp"
             android:src="@drawable/ic_add_button"
-            android:tint="@color/black"/>
+            android:tint="@color/green"/>
     </FrameLayout>
 
 

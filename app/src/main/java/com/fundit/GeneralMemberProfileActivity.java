@@ -71,7 +71,6 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
         adminAPI= ServiceGenerator.getAPIClass();
         preference = new AppPreference(this);
 
-
         fetchIDs();
 
         Log.e("ID", preference.getUserID() + "--" + preference.getTokenHash());

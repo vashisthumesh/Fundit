@@ -90,6 +90,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:background="@color/white"
+                android:inputType="text"
                 android:padding="5dp"
                 android:textColor="@color/black"/>
 
@@ -108,6 +109,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:gravity="top"
+                android:inputType="textMultiLine"
                 android:lines="4"
                 android:maxLines="4"
                 android:padding="5dp"
@@ -136,6 +138,7 @@
                 android:layout_marginTop="5dp"
                 android:background="@color/white"
                 android:inputType="number"
+                android:hint="Enter Amount"
                 android:padding="5dp"
                 android:textColor="@color/black"/>
 
@@ -217,6 +220,7 @@
                 android:layout_height="40dp"
                 android:background="@color/white"
                 android:inputType="number"
+                android:hint="Enter campaign duration in days"
                 android:padding="5dp"
                 android:textColor="@color/black"/>
 
@@ -235,6 +239,7 @@
                 android:layout_height="40dp"
                 android:background="@color/white"
                 android:inputType="number"
+                android:hint="Enter maximum number of coupon"
                 android:padding="5dp"
                 android:textColor="@color/black"/>
 
@@ -252,6 +257,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:background="@color/white"
+                android:hint="Enter days from purchase date"
                 android:inputType="number"
                 android:padding="5dp"
                 android:textColor="@color/black"/>
@@ -260,7 +266,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="1dp"
                 android:padding="5dp"
-                android:text="Fine Print"
+                android:text="Fine Print on Coupon"
                 android:textSize="16sp"/>
 
             <EditText
@@ -269,6 +275,8 @@
                 android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:inputType="textMultiLine"
+                android:hint="Fine print on coupon"
+                android:gravity="start|top"
                 android:lines="3"
                 android:padding="5dp"
                 android:textColor="@color/black"/>
@@ -284,12 +292,17 @@
                 android:text="Upload Product Image"
                 android:textSize="16sp"/>
 
-            <ImageView
-                android:id="@+id/img_productImage"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_gravity="center"
-                android:background="@drawable/img"/>
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/img_productImage"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/img"/>
+            </FrameLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
