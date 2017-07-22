@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -41,7 +42,6 @@ public class AddProductActivity extends AppCompatActivity {
 
     ImageView img_productImage;
     Button btn_cancel, btn_addProduct;
-    TextView txt_label;
 
     RadioGroup rg_productType;
 
@@ -54,6 +54,9 @@ public class AddProductActivity extends AppCompatActivity {
     ProductListResponse.Product product;
 
     RadioButton rdo_typeItem, rdo_typeGiftCard;
+
+    Toolbar toolbar;
+    TextView actionTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,11 +74,28 @@ public class AddProductActivity extends AppCompatActivity {
             product = (ProductListResponse.Product) intent.getSerializableExtra("product");
         }
 
+        setupToolbar();
         fetchIDs();
     }
 
+    private void setupToolbar() {
+        toolbar = (Toolbar) findViewById(R.id.toolbarCenterText);
+        actionTitle = (TextView) findViewById(R.id.actionTitle);
+
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        actionTitle.setText("Add Product");
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+    }
+
     private void fetchIDs() {
-        txt_label = (TextView) findViewById(R.id.txt_label);
         edt_productName = (EditText) findViewById(R.id.edt_productName);
         edt_description = (EditText) findViewById(R.id.edt_description);
         edt_price = (EditText) findViewById(R.id.edt_price);
@@ -230,7 +250,7 @@ public class AddProductActivity extends AppCompatActivity {
         });
 
         if (isEditMode) {
-            txt_label.setText("Edit Product");
+            actionTitle.setText("Edit Product");
             edt_productName.setText(product.getName());
             edt_description.setText(product.getDescription());
             edt_price.setText(product.getPrice());

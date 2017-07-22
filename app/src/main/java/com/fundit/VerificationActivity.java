@@ -3,9 +3,11 @@ package com.fundit;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.fundit.a.AppPreference;
 import com.fundit.a.C;
@@ -43,6 +45,7 @@ public class VerificationActivity extends AppCompatActivity {
 
         Intent in=getIntent();
         userID=in.getStringExtra("userID");
+        setupToolbar();
 
 
 
@@ -113,5 +116,27 @@ public class VerificationActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void setupToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarCenterText);
+        TextView actionTitle = (TextView) findViewById(R.id.actionTitle);
+
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        actionTitle.setText("Verification");
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
     }
 }

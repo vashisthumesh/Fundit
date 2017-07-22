@@ -5,10 +5,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.fundit.a.C;
 import com.fundit.apis.AdminAPI;
@@ -46,6 +48,32 @@ public class OrganizationAccountActivity extends AppCompatActivity {
         roleID=intent.getStringExtra("roleID");
 
         fetchid();
+        setupToolbar();
+    }
+
+    private void setupToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarCenterText);
+        TextView actionTitle = (TextView) findViewById(R.id.actionTitle);
+
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+
+        if (roleID.equals(C.ORGANIZATION)) {
+            actionTitle.setText("Organization");
+        } else if (roleID.equals(C.FUNDSPOT)) {
+            actionTitle.setText("Fundspot");
+        } else {
+            actionTitle.setText("General Member");
+        }
+
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
     }
 
     private void fetchid() {
@@ -54,6 +82,10 @@ public class OrganizationAccountActivity extends AppCompatActivity {
         et_organization_email=(EditText)findViewById(R.id.et_organization_email);
         et_password=(EditText)findViewById(R.id.et_password);
         et_confirm_password=(EditText)findViewById(R.id.et_confirm_password);
+
+        if (roleID.equals(C.FUNDSPOT)) {
+            et_organization_name.setHint("Fundspot name");
+        }
 
         layout_names=(LinearLayout) findViewById(R.id.layout_names);
         layout_title=(LinearLayout) findViewById(R.id.layout_title);
@@ -79,6 +111,7 @@ public class OrganizationAccountActivity extends AppCompatActivity {
                                     if(emailResponse.isStatus()){
                                         checkedForUniqueEmail=true;
                                         isRegisteredEmail=false;
+                                        C.INSTANCE.showToast(getApplicationContext(), emailResponse.getMessage());
                                     }
                                     else {
                                         if(emailResponse.getData().getIs_verified().equals(C.VERIFIED)){

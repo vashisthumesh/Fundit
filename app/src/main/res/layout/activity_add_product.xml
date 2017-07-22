@@ -9,23 +9,8 @@
     tools:context="com.fundit.fundspot.AddProductActivity">
 
     <include
-        android:id="@+id/toolbar"
         layout="@layout/toolbar_center_text"/>
 
-    <TextView
-        android:id="@+id/txt_label"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:padding="5dp"
-        android:text="Add Product"
-        android:textColor="@color/colorPrimary"
-        android:textSize="18sp"/>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/colorIcon"/>
 
     <ScrollView
         android:layout_width="match_parent"
