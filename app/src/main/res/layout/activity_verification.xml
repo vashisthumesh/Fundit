@@ -7,7 +7,6 @@
               android:orientation="vertical"
               tools:context="com.fundit.VerificationActivity">
     <include
-        android:id="@+id/toolbar"
         layout="@layout/toolbar_center_text" />
     <LinearLayout
         android:layout_width="match_parent"

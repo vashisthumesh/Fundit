@@ -8,7 +8,6 @@
               tools:context="com.fundit.OrganizationAccountActivity">
 
     <include
-        android:id="@+id/toolbar"
         layout="@layout/toolbar_center_text"/>
 
     <ScrollView

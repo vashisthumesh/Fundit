@@ -308,4 +308,9 @@ public class SignInActivity extends AppCompatActivity {
         return matcher.matches();
 
     }
+
+    @Override
+    public void onBackPressed() {
+        System.exit(0);
+    }
 }
