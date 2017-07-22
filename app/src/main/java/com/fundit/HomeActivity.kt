@@ -5,9 +5,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
+import android.support.v4.widget.DrawerLayout
+import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.util.Log
+import android.view.Gravity
 import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
@@ -22,7 +25,6 @@ import com.fundit.fundspot.MyProductsFragment
 
 class HomeActivity : AppCompatActivity() {
 
-    var ac=null
     internal var list_navigation: ListView? = null
     var headerView: View? = null
     var navigationAdapter: LeftNavigationAdapter? = null
@@ -32,6 +34,9 @@ class HomeActivity : AppCompatActivity() {
     var toolbar: Toolbar? = null
     var actionTitle: TextView? = null
     var preference: AppPreference? = null
+    var drawerLayout: DrawerLayout? = null
+    var drawerToggle: ActionBarDrawerToggle? = null
+    var isDrawerOpen: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,8 +44,9 @@ class HomeActivity : AppCompatActivity() {
 
         preference = AppPreference(this)
 
-        fetchIDs()
         setupToolbar()
+        fetchIDs()
+
     }
 
     private fun setupToolbar() {
@@ -67,6 +73,25 @@ class HomeActivity : AppCompatActivity() {
             C.GENERAL_MEMBER -> fragment = Fragment()
             else -> fragment = Fragment()
         }
+
+        drawerLayout = findViewById(R.id.drawerLayout) as DrawerLayout
+        drawerToggle = object : ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close) {
+            override fun onDrawerOpened(drawerView: View?) {
+                super.onDrawerOpened(drawerView)
+                isDrawerOpen = true
+                invalidateOptionsMenu()
+            }
+
+            override fun onDrawerClosed(drawerView: View?) {
+                super.onDrawerClosed(drawerView)
+                isDrawerOpen = false
+                invalidateOptionsMenu()
+            }
+        }
+
+        drawerLayout?.setDrawerListener(drawerToggle)
+        drawerToggle?.syncState()
+
 
         fm = supportFragmentManager
         val transaction = fm?.beginTransaction()
@@ -161,7 +186,10 @@ class HomeActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        System.exit(0)
+        when (isDrawerOpen) {
+            true -> drawerLayout?.closeDrawer(Gravity.START)
+            else -> System.exit(0)
+        }
     }
 
 }

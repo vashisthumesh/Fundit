@@ -122,8 +122,8 @@
                 android:layout_height="40dp"
                 android:layout_marginTop="5dp"
                 android:background="@color/white"
-                android:inputType="number"
                 android:hint="Enter Amount"
+                android:inputType="number"
                 android:padding="5dp"
                 android:textColor="@color/black"/>
 
@@ -204,8 +204,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:background="@color/white"
-                android:inputType="number"
                 android:hint="Enter campaign duration in days"
+                android:inputType="number"
                 android:padding="5dp"
                 android:textColor="@color/black"/>
 
@@ -223,8 +223,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:background="@color/white"
-                android:inputType="number"
                 android:hint="Enter maximum number of coupon"
+                android:inputType="number"
                 android:padding="5dp"
                 android:textColor="@color/black"/>
 
@@ -259,9 +259,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:inputType="textMultiLine"
-                android:hint="Fine print on coupon"
                 android:gravity="start|top"
+                android:hint="Fine print on coupon"
+                android:inputType="textMultiLine"
                 android:lines="3"
                 android:padding="5dp"
                 android:textColor="@color/black"/>
@@ -278,14 +278,26 @@
                 android:textSize="16sp"/>
 
             <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
                 <ImageView
                     android:id="@+id/img_productImage"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
                     android:layout_gravity="center"
-                    android:background="@drawable/img"/>
+                    android:src="@drawable/img"/>
+
+                <ImageView
+                    android:id="@+id/img_remove"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="top|end"
+                    android:src="@drawable/ic_remove"
+                    android:visibility="gone"
+                    />
+
+
             </FrameLayout>
 
 

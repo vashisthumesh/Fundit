@@ -6,8 +6,9 @@
               android:background="@color/colorBackground"
               android:orientation="vertical"
               tools:context="com.fundit.OrganizationProfileActivity">
+
     <include
-        layout="@layout/toolbar_center_text" />
+        layout="@layout/toolbar_center_text"/>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -34,9 +35,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:background="@color/white"
+                android:hint="Enter first name"
                 android:inputType="textPersonName"
                 android:padding="5dp"
-                android:hint="Enter first name"
                 android:textColor="@color/black"/>
 
             <TextView
@@ -51,10 +52,10 @@
                 android:id="@+id/edt_lastName"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:inputType="textPersonName"
                 android:background="@color/white"
-                android:padding="5dp"
                 android:hint="Enter last name"
+                android:inputType="textPersonName"
+                android:padding="5dp"
                 android:textColor="@color/black"/>
 
             <TextView
@@ -69,35 +70,33 @@
                 android:id="@+id/ed_member_address"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:inputType="text"
                 android:background="@color/white"
-                android:padding="5dp"
                 android:hint="Address 1"
+                android:inputType="text"
+                android:padding="5dp"
                 android:textColor="@color/black"/>
 
-                <Spinner
-                    android:id="@+id/spn_state"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginRight="9dp"
-                    android:layout_marginTop="3dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/spinner_bg"
-                    android:padding="5dp"
-                    android:popupBackground="#fff"
-                    android:spinnerMode="dropdown"/>
+            <Spinner
+                android:id="@+id/spn_state"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/spinner_bg"
+                android:padding="5dp"
+                android:popupBackground="#fff"
+                android:spinnerMode="dropdown"/>
 
-                <Spinner
-                    android:id="@+id/spn_city"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginLeft="3dp"
-                    android:layout_marginTop="3dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/spinner_bg"
-                    android:padding="5dp"
-                    android:popupBackground="#fff"
-                    android:spinnerMode="dropdown"/>
+            <Spinner
+                android:id="@+id/spn_city"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/spinner_bg"
+                android:padding="5dp"
+                android:popupBackground="#fff"
+                android:spinnerMode="dropdown"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -112,11 +111,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginTop="5dp"
-                android:padding="5dp"
-                android:maxLength="5"
-                android:inputType="number"
-                android:hint="Zip code"
                 android:background="@color/white"
+                android:hint="Zip code"
+                android:inputType="number"
+                android:maxLength="5"
+                android:padding="5dp"
                 android:textColor="@color/black"/>
 
 
@@ -163,9 +162,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:background="@color/white"
+                android:hint="Enter contact information"
                 android:inputType="text"
                 android:padding="5dp"
-                android:hint="Enter contact information"
                 android:textColor="@color/black"/>
 
             <TextView
@@ -178,12 +177,28 @@
                 android:text="Upload Photo"
                 android:textSize="16sp"/>
 
-            <ImageView
-                android:id="@+id/img_profilePic"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_gravity="center"
-                android:background="@drawable/img"/>
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
+
+                <ImageView
+                    android:id="@+id/img_profilePic"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/img"/>
+
+                <ImageView
+                    android:id="@+id/img_remove"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="top|end"
+                    android:src="@drawable/ic_remove"
+                    android:visibility="gone"
+                    />
+
+            </FrameLayout>
 
             <Button
                 android:id="@+id/btn_updateProfile"
@@ -195,7 +210,7 @@
                 android:text="Update Profile"
                 android:textAllCaps="false"
                 android:textColor="#000"
-                android:textSize="20sp" />
+                android:textSize="20sp"/>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

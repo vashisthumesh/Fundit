@@ -41,7 +41,7 @@ public class FundSpotProfile extends AppCompatActivity {
 
     EditText ed_fund_title, ed_fund_address, ed_fund_zipcode, ed_fund_fundsplit, ed_fund_description, ed_fund_contact_info;
     Spinner sp_state, sp_city, sp_category;
-    ImageView img_uplode_photo;
+    ImageView img_uplode_photo, img_remove;
     Button bt_update_profile;
 
 
@@ -121,6 +121,18 @@ public class FundSpotProfile extends AppCompatActivity {
         sp_category = (Spinner) findViewById(R.id.sp_category);
 
         img_uplode_photo = (ImageView) findViewById(R.id.img_uplode_photo);
+        img_remove = (ImageView) findViewById(R.id.img_remove);
+
+        img_remove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Picasso.with(getApplicationContext())
+                        .load(R.drawable.img)
+                        .into(img_uplode_photo);
+                imagePath = null;
+                img_remove.setVisibility(View.GONE);
+            }
+        });
 
         bt_update_profile = (Button) findViewById(R.id.bt_update_profile);
 
@@ -230,14 +242,16 @@ public class FundSpotProfile extends AppCompatActivity {
                 Log.e("positions", statePosition + " " + cityPosition + " " + categoryPosition + " ");
                 if (title.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter Funspot title");
+                } else if (title.length() < 2) {
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter Funspot title more than 1 char");
                 } else if (address1.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter location");
                 } else if (statePosition == 0) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please select state");
                 } else if (cityPosition == 0) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please select city");
-                } else if (zipcode.isEmpty()) {
-                    C.INSTANCE.showToast(getApplicationContext(), "Please enter zip code");
+                } else if (zipcode.isEmpty() || zipcode.length() < 5) {
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter 5 digit zip code");
                 } else if (categoryPosition == 0) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please select category");
                 } else if (description.isEmpty()) {
@@ -301,6 +315,7 @@ public class FundSpotProfile extends AppCompatActivity {
                 Picasso.with(this)
                         .load(new File(imagePath))
                         .into(img_uplode_photo);
+                img_remove.setVisibility(View.VISIBLE);
             } else {
                 C.INSTANCE.showToast(getApplication(), "Sorry, image not found");
             }

@@ -40,7 +40,7 @@ public class AddProductActivity extends AppCompatActivity {
     private static final int IMAGE_REQUEST = 155;
     EditText edt_productName, edt_description, edt_price, edt_fundSplit, edt_organizationSplit, edt_campaignDuration, edt_couponExpireDay, edt_maxLimitCoupon,edt_fine_print;
 
-    ImageView img_productImage;
+    ImageView img_productImage, img_remove;
     Button btn_cancel, btn_addProduct;
 
     RadioGroup rg_productType;
@@ -111,6 +111,7 @@ public class AddProductActivity extends AppCompatActivity {
         edt_fine_print = (EditText) findViewById(R.id.edt_fine_print);
 
         img_productImage = (ImageView) findViewById(R.id.img_productImage);
+        img_remove = (ImageView) findViewById(R.id.img_remove);
         rg_productType = (RadioGroup) findViewById(R.id.rg_productType);
         btn_cancel = (Button) findViewById(R.id.btn_cancel);
         btn_addProduct = (Button) findViewById(R.id.btn_addProduct);
@@ -126,6 +127,17 @@ public class AddProductActivity extends AppCompatActivity {
                 intent.addCategory(Intent.CATEGORY_OPENABLE);
                 intent.setType("image/*");
                 startActivityForResult(intent, IMAGE_REQUEST);
+            }
+        });
+
+        img_remove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Picasso.with(getApplicationContext())
+                        .load(R.drawable.img)
+                        .into(img_productImage);
+                imagePath = null;
+                img_remove.setVisibility(View.GONE);
             }
         });
 
@@ -236,15 +248,30 @@ public class AddProductActivity extends AppCompatActivity {
                 if (fundSplit.isEmpty()) {
                     edt_organizationSplit.setText("100");
                 } else {
-                    float fSplit = Float.parseFloat(fundSplit);
 
-                    if (fSplit > 100) {
-                        edt_fundSplit.setText("99");
-                        fSplit = 99;
+                    if (fundSplit.contains(".")) {
+                        float fSplit = Float.parseFloat(fundSplit);
+
+                        if (fSplit > 100) {
+                            edt_fundSplit.setText("99");
+                            fSplit = 99;
+                        }
+
+                        float orgSplit = 100 - fSplit;
+                        edt_organizationSplit.setText(String.format(Locale.getDefault(), "%.2f", orgSplit));
+                    } else {
+                        int fSplit = Integer.parseInt(fundSplit);
+
+                        if (fSplit > 100) {
+                            edt_fundSplit.setText("99");
+                            fSplit = 99;
+                        }
+
+                        int orgSplit = 100 - fSplit;
+                        edt_organizationSplit.setText(String.valueOf(orgSplit));
                     }
 
-                    float orgSplit = 100 - fSplit;
-                    edt_organizationSplit.setText(String.format(Locale.getDefault(), "%.2f", orgSplit));
+
                 }
             }
         });
@@ -287,6 +314,7 @@ public class AddProductActivity extends AppCompatActivity {
                 Picasso.with(this)
                         .load(new File(imagePath))
                         .into(img_productImage);
+                img_remove.setVisibility(View.VISIBLE);
             } else {
                 C.INSTANCE.showToast(getApplication(), "Sorry, image not found");
             }

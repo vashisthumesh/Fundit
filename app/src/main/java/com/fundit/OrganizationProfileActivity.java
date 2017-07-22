@@ -39,7 +39,7 @@ public class OrganizationProfileActivity extends AppCompatActivity {
 
     EditText edt_title, edt_address1, edt_zipCode, edt_description, edt_contactInfo;
     Spinner spn_state, spn_city, spn_schoolType, spn_schoolSubType;
-    ImageView img_profilePic;
+    ImageView img_profilePic, img_remove;
     Button btn_update;
 
     ArrayList<String> stateNames = new ArrayList<>();
@@ -128,6 +128,18 @@ public class OrganizationProfileActivity extends AppCompatActivity {
 
 
         img_profilePic = (ImageView) findViewById(R.id.img_profilePic);
+        img_remove = (ImageView) findViewById(R.id.img_remove);
+
+        img_remove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Picasso.with(getApplicationContext())
+                        .load(R.drawable.img)
+                        .into(img_profilePic);
+                imagePath = null;
+                img_remove.setVisibility(View.GONE);
+            }
+        });
 
         btn_update = (Button) findViewById(R.id.btn_update);
 
@@ -249,14 +261,16 @@ public class OrganizationProfileActivity extends AppCompatActivity {
 
                 if (title.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter organization title");
+                } else if (title.length() < 2) {
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter organization title more than 1 char");
                 } else if (address1.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter location");
                 } else if (statePosition == 0) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please select state");
                 } else if (cityPosition == 0) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please select city");
-                } else if (zipcode.isEmpty()) {
-                    C.INSTANCE.showToast(getApplicationContext(), "Please enter zip code");
+                } else if (zipcode.isEmpty() || zipcode.length() < 5) {
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter 5 digit zip code");
                 } else if (schoolPosition == 0) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please select school type");
                 } else if (subSchoolPosition == 0) {
@@ -316,6 +330,7 @@ public class OrganizationProfileActivity extends AppCompatActivity {
                 Picasso.with(this)
                         .load(new File(imagePath))
                         .into(img_profilePic);
+                img_remove.setVisibility(View.VISIBLE);
             } else {
                 C.INSTANCE.showToast(getApplication(), "Sorry, image not found");
             }

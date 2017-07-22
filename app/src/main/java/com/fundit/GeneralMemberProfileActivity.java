@@ -40,7 +40,7 @@ import retrofit2.Response;
 public class GeneralMemberProfileActivity extends AppCompatActivity {
 
     EditText edt_firstName, edt_lastName, edt_contactInfo, ed_member_address, ed_zip_code;
-    ImageView img_uplode_photo;
+    ImageView img_uplode_photo, img_remove;
     Button btn_updateProfile;
     Spinner spn_state, spn_city, spn_assocOrganization, spn_assocFundspot;
     ArrayList<String> stateNames=new ArrayList<>();
@@ -73,6 +73,7 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
         adminAPI= ServiceGenerator.getAPIClass();
         preference = new AppPreference(this);
 
+        setupToolbar();
         fetchIDs();
 
         Log.e("ID", preference.getUserID() + "--" + preference.getTokenHash());
@@ -90,6 +91,18 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
 
 
         img_uplode_photo = (ImageView) findViewById(R.id.img_profilePic);
+        img_remove = (ImageView) findViewById(R.id.img_remove);
+
+        img_remove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Picasso.with(getApplicationContext())
+                        .load(R.drawable.img)
+                        .into(img_uplode_photo);
+                imagePath = null;
+                img_remove.setVisibility(View.GONE);
+            }
+        });
 
         btn_updateProfile = (Button) findViewById(R.id.btn_updateProfile);
 
@@ -222,29 +235,34 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
                 Log.e("userID", preference.getUserID());
                 Log.e("positions", statePosition + " " + cityPosition + " "  + " ");
                 if (firstname.isEmpty()) {
-                    C.INSTANCE.showToast(getApplicationContext(), "Please enter Your first name");
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter first name");
+                } else if (firstname.length() < 2) {
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter first name more than 1 char");
                 } else if (lastname.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter last name");
+                } else if (lastname.length() < 2) {
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter last name more than 1 char");
                 } else if (location.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter your location");
                 } else if (statePosition == 0) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please select state");
                 } else if (cityPosition == 0) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please select city");
-                } else if (zipcode.isEmpty()) {
-                    C.INSTANCE.showToast(getApplicationContext(), "Please enter zip code");
-                }else if(organizationList.size()==0){
-                    C.INSTANCE.showToast(getApplicationContext(), "Please select Associated Organization");
-                } else if (fundSpotList.isEmpty()) {
-                    C.INSTANCE.showToast(getApplicationContext(), "Please select Associated Fundspot");
+                } else if (zipcode.isEmpty() || zipcode.length() < 5) {
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter 5 digit zip code");
                 } else if (contactInfo.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter contact information");
                 } else if (imagePath == null) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please select profile image");
                 } else {
 
-                    String fundspotID=fundSpotList.get(spn_assocFundspot.getSelectedItemPosition()).getUser_id();
-                    String orgID=organizationList.get(spn_assocOrganization.getSelectedItemPosition()).getUser_id();
+                    String fundspotID = null;
+                    String orgID = null;
+                    if (spn_assocOrganization.getSelectedItemPosition() == 0)
+                        orgID = organizationList.get(spn_assocOrganization.getSelectedItemPosition()).getUser_id();
+                    if (spn_assocFundspot.getSelectedItemPosition() == 0)
+                        fundspotID = fundSpotList.get(spn_assocFundspot.getSelectedItemPosition()).getUser_id();
+
 
                     dialog.show();
                     Call<VerifyResponse> generalMemberResponse = adminAPI.generalMemberProfile(preference.getUserID(), preference.getTokenHash(), firstname, lastname, location, stateItems.get(statePosition).getId(), cityItems.get(cityPosition).getId(), zipcode,orgID, fundspotID, contactInfo, ServiceGenerator.prepareFilePart("image", imagePath));
@@ -306,12 +324,16 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
     private void clearAssociatedOrganization(){
         organizationList.clear();
         organizationNames.clear();
+        organizationList.add(new Organization().setTitle("Select Organization"));
+        organizationNames.add("Select Organization");
         organizationAdapter.notifyDataSetChanged();
     }
 
     private void clearAssociatedFundspot(){
         fundSpotList.clear();
         fundspotNames.clear();
+        fundSpotList.add(new Organization().setTitle("Select Fundspot"));
+        fundspotNames.add("Select Fundspot");
         fundspotAdapter.notifyDataSetChanged();
     }
 
@@ -326,6 +348,7 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
                 Picasso.with(this)
                         .load(new File(imagePath))
                         .into(img_uplode_photo);
+                img_remove.setVisibility(View.VISIBLE);
             } else {
                 C.INSTANCE.showToast(getApplication(), "Sorry, image not found");
             }

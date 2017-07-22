@@ -48,43 +48,8 @@
                 android:textColor="@android:color/holo_blue_dark"
                 />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <RadioGroup
-                    android:id="@+id/rg_productType"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <RadioButton
-                        android:id="@+id/rdo_typeItem"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:checked="true"
-                        android:padding="3dp"
-                        android:text="Item"
-                        android:textColor="@color/black"
-                        android:textSize="16sp"/>
-
-                    <RadioButton
-                        android:id="@+id/rdo_typeGiftCard"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:padding="3dp"
-                        android:text="Gift Card Value"
-                        android:textColor="@color/black"
-                        android:textSize="16sp"/>
-                </RadioGroup>
-            </LinearLayout>
-
             <TextView
+                android:id="@+id/txt_itemLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="1dp"
@@ -98,8 +63,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:background="@color/white"
-                android:padding="5dp"
                 android:inputType="text"
+                android:padding="5dp"
                 android:textColor="@color/black"/>
 
             <TextView
@@ -298,6 +263,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
+                android:gravity="top|start"
                 android:inputType="textMultiLine"
                 android:lines="4"
                 android:padding="5dp"

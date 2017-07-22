@@ -14,8 +14,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.fundit.R;
@@ -39,7 +37,7 @@ import retrofit2.Response;
 
 public class CreateCampaignActivity extends AppCompatActivity {
 
-    TextView txt_browseFundspot;
+    TextView txt_browseFundspot, txt_itemLabel;
     AutoCompleteTextView auto_searchFundspot;
     ArrayList<String> fundSpotNames = new ArrayList<>();
     List<VerifyResponse.VerifyResponseData> fundSpotList = new ArrayList<>();
@@ -52,10 +50,8 @@ public class CreateCampaignActivity extends AppCompatActivity {
     String selectedFundSpotID = null;
     ProductListResponse.Product product = null;
 
-    RadioButton rdo_typeItem, rdo_typeGiftCard;
     EditText edt_itemName,edt_couponCost,edt_organizationSplit,edt_fundSplit,edt_maxLimitCoupon,edt_campaignDuration,edt_couponExpireDay,edt_finePrint;
     CheckBox chk_indefinite;
-    RadioGroup rg_productType;
 
     int REQUEST_PRODUCT = 369;
 
@@ -76,11 +72,11 @@ public class CreateCampaignActivity extends AppCompatActivity {
     }
 
     private void fetchIDs() {
+        txt_itemLabel = (TextView) findViewById(R.id.txt_itemLabel);
         txt_browseFundspot=(TextView) findViewById(R.id.txt_browseFundspot);
         auto_searchFundspot=(AutoCompleteTextView) findViewById(R.id.auto_searchFundspot);
         autoAdapter = new ArrayAdapter<String>(this, R.layout.spinner_textview, fundSpotNames);
         btn_continue = (Button) findViewById(R.id.btn_continue);
-
 
         txt_browseFundspot.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,11 +96,6 @@ public class CreateCampaignActivity extends AppCompatActivity {
         edt_couponExpireDay = (EditText) findViewById(R.id.edt_couponExpireDay);
         edt_finePrint = (EditText) findViewById(R.id.edt_finePrint);
 
-        rdo_typeItem = (RadioButton) findViewById(R.id.rdo_typeItem);
-        rdo_typeGiftCard = (RadioButton) findViewById(R.id.rdo_typeGiftCard);
-        rg_productType = (RadioGroup) findViewById(R.id.rg_productType);
-
-        rg_productType.setEnabled(false);
         edt_itemName.setEnabled(false);
         edt_couponCost.setEnabled(false);
 
@@ -134,20 +125,33 @@ public class CreateCampaignActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                String fundSplit = edt_organizationSplit.getText().toString().trim();
+                String orgSplit = edt_organizationSplit.getText().toString().trim();
 
-                if (fundSplit.isEmpty()) {
+                if (orgSplit.isEmpty()) {
                     edt_fundSplit.setText("100");
                 } else {
-                    float fSplit = Float.parseFloat(fundSplit);
 
-                    if (fSplit > 100) {
-                        edt_organizationSplit.setText("99");
-                        fSplit = 99;
+                    if (orgSplit.contains(".")) {
+                        float fSplit = Float.parseFloat(orgSplit);
+
+                        if (fSplit > 100) {
+                            edt_organizationSplit.setText("99");
+                            fSplit = 99;
+                        }
+
+                        float fundSplit = 100 - fSplit;
+                        edt_fundSplit.setText(String.format(Locale.getDefault(), "%.2f", fundSplit));
+                    } else {
+                        int fSplit = Integer.parseInt(orgSplit);
+
+                        if (fSplit > 100) {
+                            edt_organizationSplit.setText("99");
+                            fSplit = 99;
+                        }
+
+                        int fundSplit = 100 - fSplit;
+                        edt_fundSplit.setText(String.valueOf(fundSplit));
                     }
-
-                    float orgSplit = 100 - fSplit;
-                    edt_fundSplit.setText(String.format(Locale.getDefault(), "%.2f", orgSplit));
                 }
             }
         });
@@ -187,7 +191,7 @@ public class CreateCampaignActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), FundspotProductListActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.putExtra("fundspotName", data.getFundspot().getTitle());
-                intent.putExtra("fundspotID", data.getUser().getId());
+                intent.putExtra("fundspotID", data.getFundspot().getUser_id());
                 startActivityForResult(intent, REQUEST_PRODUCT);
             }
         });
@@ -284,6 +288,7 @@ public class CreateCampaignActivity extends AppCompatActivity {
     }
 
     private void fillupSelectedData() {
+        auto_searchFundspot.setText(selectedFundSpotName);
         edt_itemName.setText(product.getName());
         edt_couponCost.setText(product.getPrice());
         edt_organizationSplit.setText(product.getOrganization_percent());
@@ -293,10 +298,10 @@ public class CreateCampaignActivity extends AppCompatActivity {
         edt_couponExpireDay.setText(product.getCoupon_expire_day());
 
         if(product.getType_id().equals(C.TYPE_GIFTCARD)){
-            rdo_typeGiftCard.setChecked(true);
+            txt_itemLabel.setText("Gift Card being sold");
         }
         else {
-            rdo_typeItem.setChecked(true);
+            txt_itemLabel.setText("Item being sold");
         }
     }
 

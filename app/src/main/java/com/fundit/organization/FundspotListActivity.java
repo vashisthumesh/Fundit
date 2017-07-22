@@ -77,8 +77,8 @@ public class FundspotListActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(getApplicationContext(), FundspotProductListActivity.class);
-                intent.putExtra("fundspotName",fundSpotList.get(i).getUser().getTitle());
-                intent.putExtra("fundspotID",fundSpotList.get(i).getUser().getId());
+                intent.putExtra("fundspotName", fundSpotList.get(i).getFundspot().getTitle());
+                intent.putExtra("fundspotID", fundSpotList.get(i).getFundspot().getUser_id());
                 startActivityForResult(intent,REQUEST_PRODUCT);
             }
         });

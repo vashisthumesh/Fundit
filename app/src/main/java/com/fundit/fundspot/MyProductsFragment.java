@@ -1,10 +1,12 @@
 package com.fundit.fundspot;
 
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -79,7 +81,7 @@ public class MyProductsFragment extends Fragment {
 
             @Override
             public void setOnProductDeleteClickListener(int position, String productID) {
-                deleteProduct(position);
+                askToDeleteProduct(position);
             }
 
             @Override
@@ -97,6 +99,22 @@ public class MyProductsFragment extends Fragment {
                 startActivityForResult(intent, PRODUCT_REQUEST);
             }
         });
+    }
+
+    private void askToDeleteProduct(final int position) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Confirm to delete");
+        builder.setMessage("Are you sure to delete this product?");
+        builder.setNegativeButton("Cancel", null);
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+                deleteProduct(position);
+            }
+        });
+        AlertDialog dialogB = builder.create();
+        dialogB.show();
     }
 
     private void deleteProduct(final int position) {

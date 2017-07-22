@@ -169,7 +169,12 @@ public class OrganizationAccountActivity extends AppCompatActivity {
                 }
 
                 if(!roleID.equals(C.GENERAL_MEMBER) && title.isEmpty()){
-                    C.INSTANCE.showToast(getApplicationContext(),"Please enter organization title");
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter title");
+                    return;
+                }
+
+                if (!roleID.equals(C.GENERAL_MEMBER) && title.length() < 2) {
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter title more than 1 char");
                     return;
                 }
 

@@ -21,4 +21,9 @@ public class Organization extends Member {
     public String getDescription() {
         return description;
     }
+
+    public Organization setTitle(String title) {
+        this.title = title;
+        return this;
+    }
 }
