@@ -234,16 +234,13 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter zip code");
                 }else if(organizationList.size()==0){
                     C.INSTANCE.showToast(getApplicationContext(), "Please select Associated Organization");
-                }
-                else if(fundSpotList.isEmpty()){
+                } else if (fundSpotList.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please select Associated Fundspot");
-                }
-                else if (contactInfo.isEmpty()) {
+                } else if (contactInfo.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter contact information");
                 } else if (imagePath == null) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please select profile image");
-                }
-                else {
+                } else {
 
                     String fundspotID=fundSpotList.get(spn_assocFundspot.getSelectedItemPosition()).getUser_id();
                     String orgID=organizationList.get(spn_assocOrganization.getSelectedItemPosition()).getUser_id();
