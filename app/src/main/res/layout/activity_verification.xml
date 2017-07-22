@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorBackground"
-    android:orientation="vertical"
-    tools:context="com.fundit.VerificationActivity">
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/colorBackground"
+              android:orientation="vertical"
+              tools:context="com.fundit.VerificationActivity">
     <include
         android:id="@+id/toolbar"
         layout="@layout/toolbar_center_text" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         android:layout_marginTop="30dp"
+        android:orientation="vertical"
         android:paddingLeft="35dp"
         android:paddingRight="35dp">
         <TextView
@@ -28,13 +27,14 @@
             android:textColor="@color/colorTextSecondary"
             android:textSize="16sp" />
         <EditText
+            android:id="@+id/ed_hint_verification"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginTop="60dp"
-            android:hint="123456"
-            android:textColor="#000"
             android:background="@color/white"
-            android:id="@+id/ed_hint_verification"
+            android:hint="123456"
+            android:singleLine="true"
+            android:textColor="#000"
             android:textColorHint="@color/colorIcon"/>
         <LinearLayout
             android:layout_width="wrap_content"

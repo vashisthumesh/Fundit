@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorBackground"
-    android:orientation="vertical"
-    tools:context="com.fundit.OrganizationProfileActivity">
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/colorBackground"
+              android:orientation="vertical"
+              tools:context="com.fundit.OrganizationProfileActivity">
     <include
         android:id="@+id/toolbar"
         layout="@layout/toolbar_center_text" />
@@ -21,8 +20,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="15dp"
             android:orientation="vertical"
+            android:padding="20dp"
             android:paddingLeft="25dp"
             android:paddingRight="25dp">
 
@@ -30,7 +29,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:text="Title*"
+                android:drawableRight="@drawable/star"
+                android:text="Title"
                 android:textSize="16sp" />
 
             <EditText
@@ -38,13 +38,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:background="@color/white"
-                android:hint="*Autofilled*"
+                android:hint=""
                 android:textColor="@color/black" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
+                android:drawableRight="@drawable/star"
                 android:text="Location"
                 android:textSize="16sp" />
 
@@ -111,7 +112,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:text="Fundraise split*"
+                android:drawableRight="@drawable/star"
+                android:text="Fundraise split"
                 android:textSize="16sp" />
 
             <EditText
@@ -126,7 +128,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:text="Description*"
+                android:drawableRight="@drawable/star"
+                android:text="Description"
                 android:textSize="16sp" />
 
             <EditText
@@ -141,6 +144,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
+                android:drawableRight="@drawable/star"
                 android:text="Contact Information"
                 android:textSize="16sp" />
 
@@ -159,7 +163,8 @@
                 android:layout_gravity="center"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="5dp"
-                android:text="Uplode Photo"
+                android:drawableRight="@drawable/star"
+                android:text="Upload Photo"
                 android:textSize="16sp" />
 
             <ImageView

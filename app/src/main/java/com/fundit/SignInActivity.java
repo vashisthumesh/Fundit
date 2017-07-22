@@ -1,8 +1,12 @@
 package com.fundit;
 
-import android.app.Dialog;
+import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,12 +25,16 @@ import com.fundit.model.VerifyResponse;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 
 public class SignInActivity extends AppCompatActivity {
 
@@ -38,7 +46,38 @@ public class SignInActivity extends AppCompatActivity {
 
     CustomDialog dialog;
 
+    String[] perms = {android.Manifest.permission.SYSTEM_ALERT_WINDOW, android.Manifest.permission.WRITE_EXTERNAL_STORAGE};
+
+
+
     AdminAPI adminAPI;
+
+    @TargetApi(Build.VERSION_CODES.M)
+    public static boolean isPermissionRequestRequired(Activity activity, @NonNull String[] permissions, int requestCode) {
+        if (isMarshmallowPlusDevice() && permissions.length > 0) {
+            List<String> newPermissionList = new ArrayList<>();
+            for (String permission : permissions) {
+                if (PERMISSION_GRANTED != activity.checkSelfPermission(permission)) {
+                    newPermissionList.add(permission);
+
+                }
+            }
+            if (newPermissionList.size() > 0) {
+                activity.requestPermissions(newPermissionList.toArray(new String[newPermissionList.size()]), requestCode);
+                return true;
+            }
+
+
+        }
+
+        return false;
+    }
+
+    public static boolean isMarshmallowPlusDevice() {
+
+        return Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +85,7 @@ public class SignInActivity extends AppCompatActivity {
         adminAPI= ServiceGenerator.getAPIClass();
         preference=new AppPreference(this);
         dialog=new CustomDialog(this);
+
 
         if (preference.isLoggedIn()) {
 
@@ -71,6 +111,8 @@ public class SignInActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }
+
+        isPermissionRequestRequired(this, perms, 1);
 
         fetchid();
 
@@ -192,12 +234,14 @@ public class SignInActivity extends AppCompatActivity {
 
     private void showdialog() {
 
-        final Dialog dialog_forget = new Dialog(SignInActivity.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = SignInActivity.this.getLayoutInflater();
         final View dialogView = inflater.inflate(R.layout.dialog_forget_password, null);
+        builder.setView(dialogView);
+        builder.setTitle("Send Email");
+        final AlertDialog dialogB = builder.create();
         //setting custom layout to dialog
-        dialog_forget.setContentView(dialogView);
-        dialog_forget.setTitle("Send Email");
+
 
         final EditText Email =(EditText)dialogView.findViewById(R.id.ed_forget_pass_email);
         final Button bt_cancel=(Button)dialogView.findViewById(R.id.bt_cancel);
@@ -207,7 +251,7 @@ public class SignInActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Email.setText("");
-                dialog_forget.cancel();
+                dialogB.dismiss();
             }
         });
         bt_send.setOnClickListener(new View.OnClickListener() {
@@ -225,7 +269,7 @@ public class SignInActivity extends AppCompatActivity {
                             if(appModel.isStatus()){
                                 C.INSTANCE.showToast(getApplicationContext(),appModel.getMessage());
 
-                                dialog_forget.dismiss();
+                                dialogB.dismiss();
 
                             }
                             else {
@@ -248,7 +292,7 @@ public class SignInActivity extends AppCompatActivity {
             }
         });
 
-        dialog_forget.show();
+        dialogB.show();
 
 
     }

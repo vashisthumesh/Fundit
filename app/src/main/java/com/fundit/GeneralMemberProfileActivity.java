@@ -73,6 +73,8 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
 
         fetchIDs();
 
+        Log.e("ID", preference.getUserID() + "--" + preference.getTokenHash());
+
     }
 
     private void fetchIDs() {
@@ -98,7 +100,7 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
         fundspotAdapter = new ArrayAdapter<String>(this, R.layout.spinner_textview, fundspotNames);
 
         spn_state.setAdapter(stateAdapter);
-        spn_city.setAdapter(stateAdapter);
+        spn_city.setAdapter(cityAdapter);
         spn_assocOrganization.setAdapter(organizationAdapter);
         spn_assocFundspot.setAdapter(fundspotAdapter);
 
@@ -202,7 +204,7 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
                 else {
 
                     dialog.show();
-                    Call<VerifyResponse> generalMemberResponse = adminAPI.generalMemberProfile(preference.getUserID(), preference.getTokenHash(), firstname, lastname, location, stateItems.get(statePosition).getId(), cityItems.get(cityPosition).getId(), zipcode, "0", "0", contactInfo, ServiceGenerator.prepareFilePart("image", imagePath));
+                    Call<VerifyResponse> generalMemberResponse = adminAPI.generalMemberProfile(preference.getUserID(), preference.getTokenHash(), firstname, lastname, location, stateItems.get(statePosition).getId(), cityItems.get(cityPosition).getId(), zipcode, "1", "1", contactInfo, ServiceGenerator.prepareFilePart("image", imagePath));
                     generalMemberResponse.enqueue(new Callback<VerifyResponse>() {
                         @Override
                         public void onResponse(Call<VerifyResponse> call, Response<VerifyResponse> response) {

@@ -26,7 +26,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:text="First Name*"
+                android:drawableRight="@drawable/star"
+                android:text="First Name"
                 android:textSize="16sp"/>
 
             <EditText
@@ -41,6 +42,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
+                android:drawableRight="@drawable/star"
                 android:text="Last Name"
                 android:textSize="16sp"/>
 
@@ -56,6 +58,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
+                android:drawableRight="@drawable/star"
                 android:text="Location"
                 android:textSize="16sp"/>
 
@@ -80,7 +83,7 @@
                     android:layout_height="40dp"
                     android:layout_marginRight="9dp"
                     android:layout_marginTop="3dp"
-                    android:layout_weight="1.6"
+                    android:layout_weight="1"
                     android:background="@drawable/spinner_bg"
                     android:padding="5dp"
                     android:popupBackground="#fff"
@@ -104,6 +107,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
+                android:drawableRight="@drawable/star"
                 android:text="Zip Code"
                 android:textSize="16sp"/>
 
@@ -119,6 +123,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
+                android:drawableRight="@drawable/star"
                 android:text="Associated Organization"
                 android:textSize="16sp"/>
 
@@ -127,13 +132,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginTop="5dp"
-                android:background="@color/white"
+                android:background="@drawable/spinner_bg"
                 android:textColor="@color/black"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
+                android:drawableRight="@drawable/star"
                 android:text="Associated Fundspots"
                 android:textSize="16sp"/>
 
@@ -141,7 +147,7 @@
                 android:id="@+id/spn_assocFundspot"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:background="@color/white"
+                android:background="@drawable/spinner_bg"
                 android:hint=""
                 android:textColor="@color/black"/>
 
@@ -149,6 +155,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
+                android:drawableRight="@drawable/star"
                 android:text="Contact Information"
                 android:textSize="16sp"/>
 
@@ -166,7 +173,8 @@
                 android:layout_gravity="center"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="5dp"
-                android:text="Uplode Photo"
+                android:drawableRight="@drawable/star"
+                android:text="Upload Photo"
                 android:textSize="16sp"/>
 
             <ImageView

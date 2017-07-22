@@ -95,6 +95,10 @@ public class AddProductActivity extends AppCompatActivity {
         btn_cancel = (Button) findViewById(R.id.btn_cancel);
         btn_addProduct = (Button) findViewById(R.id.btn_addProduct);
 
+        if (isEditMode) {
+            btn_addProduct.setText("Edit Product");
+        }
+
         img_productImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

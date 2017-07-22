@@ -64,8 +64,8 @@ class HomeActivity : AppCompatActivity() {
         when (preference?.userRoleID) {
             C.ORGANIZATION -> fragment = HomeFragment()
             C.FUNDSPOT -> fragment = MyProductsFragment()
-            C.GENERAL_MEMBER -> fragment = HomeFragment()
-            else -> fragment = HomeFragment()
+            C.GENERAL_MEMBER -> fragment = Fragment()
+            else -> fragment = Fragment()
         }
 
         fm = supportFragmentManager

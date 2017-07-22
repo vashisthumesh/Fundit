@@ -23,7 +23,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:text="Title*"
+            android:drawableRight="@drawable/star"
+            android:text="Title"
             android:textSize="16sp"/>
         <EditText
             android:id="@+id/edt_title"
@@ -37,6 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
+            android:drawableRight="@drawable/star"
             android:text="Location"
             android:textSize="16sp"/>
         <EditText
@@ -107,7 +109,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:text="Description*"
+            android:drawableRight="@drawable/star"
+            android:text="Description"
             android:textSize="16sp"/>
         <EditText
             android:id="@+id/edt_description"
@@ -121,6 +124,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
+            android:drawableRight="@drawable/star"
             android:text="Contact Information"
             android:textSize="16sp"/>
         <EditText
@@ -137,7 +141,8 @@
             android:layout_gravity="center"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="5dp"
-            android:text="Uplode Photo"
+            android:drawableRight="@drawable/star"
+            android:text="Upload Photo"
             android:textSize="16sp"/>
         <ImageView
             android:id="@+id/img_profilePic"
