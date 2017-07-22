@@ -226,8 +226,7 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter last name");
                 } else if (location.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter your location");
-                }
-                else if (statePosition == 0) {
+                } else if (statePosition == 0) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please select state");
                 } else if (cityPosition == 0) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please select city");
