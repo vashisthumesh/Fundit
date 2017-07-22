@@ -40,4 +40,7 @@ public class W {
     public static final String FUNDSPOT_SEARCH = "Fundspot/app_search_fundspot";
 
     public static final String ADD_CAMPAIGN = "Campaign/app_add_campaign";
+
+    public static final String ALL_ORGANIZATION="Organization/app_get_all_organization";
+    public static final String ALL_FUNDSPOT="Fundspot/app_get_all_fundspot";
 }

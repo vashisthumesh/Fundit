@@ -5,6 +5,7 @@ import com.fundit.model.AppModel;
 import com.fundit.model.AreaResponse;
 import com.fundit.model.CategoryResponse;
 import com.fundit.model.FundspotListResponse;
+import com.fundit.model.OrganizationResponse;
 import com.fundit.model.ProductListResponse;
 import com.fundit.model.RegisterResponse;
 import com.fundit.model.UniqueEmailResponse;
@@ -114,4 +115,10 @@ public interface AdminAPI {
     @FormUrlEncoded
     @POST(W.ADD_CAMPAIGN)
     Call<AppModel> addCampaign(@Field(W.KEY_USERID) String userID, @Field(W.KEY_TOKEN) String token, @Field("fundspot_id") String fundspotID, @Field("type_id") String typeID, @Field("product_id") String productID, @Field("price") String price, @Field("fundspot_percent") String fundSpotPercent, @Field("organization_percent") String orgPercent, @Field("campaign_duration") String campaignDuration, @Field("max_limit_of_coupons") String maxLimitCoupon, @Field("coupon_expire_day") String couponExpiryDay, @Field("fine_print") String finePrint);
+
+    @POST(W.ALL_ORGANIZATION)
+    Call<OrganizationResponse> getAllOrganizations();
+
+    @POST(W.ALL_FUNDSPOT)
+    Call<OrganizationResponse> getAllFundspots();
 }

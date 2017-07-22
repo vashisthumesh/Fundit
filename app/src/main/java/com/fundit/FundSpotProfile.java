@@ -37,8 +37,8 @@ import retrofit2.Response;
 public class FundSpotProfile extends AppCompatActivity {
 
 
-    EditText ed_fund_title,ed_fund_address,ed_fund_zipcode,ed_fund_fundsplit,ed_fund_description,ed_fund_contact_info;
-    Spinner sp_state,sp_city,sp_category;
+    EditText ed_fund_title, ed_fund_address, ed_fund_zipcode, ed_fund_fundsplit, ed_fund_description, ed_fund_contact_info;
+    Spinner sp_state, sp_city, sp_category;
     ImageView img_uplode_photo;
     Button bt_update_profile;
 
@@ -83,25 +83,26 @@ public class FundSpotProfile extends AppCompatActivity {
         }
         fetchid();
     }
+
     private void fetchid() {
-        ed_fund_title=(EditText)findViewById(R.id.ed_fund_title);
-        ed_fund_address=(EditText)findViewById(R.id.ed_fund_address);
-        ed_fund_zipcode=(EditText)findViewById(R.id.ed_fund_zipcode);
-        ed_fund_fundsplit=(EditText)findViewById(R.id.ed_fund_fundsplit);
-        ed_fund_description=(EditText)findViewById(R.id.ed_fund_description);
-        ed_fund_contact_info=(EditText)findViewById(R.id.ed_fund_contact_info);
+        ed_fund_title = (EditText) findViewById(R.id.ed_fund_title);
+        ed_fund_address = (EditText) findViewById(R.id.ed_fund_address);
+        ed_fund_zipcode = (EditText) findViewById(R.id.ed_fund_zipcode);
+        ed_fund_fundsplit = (EditText) findViewById(R.id.ed_fund_fundsplit);
+        ed_fund_description = (EditText) findViewById(R.id.ed_fund_description);
+        ed_fund_contact_info = (EditText) findViewById(R.id.ed_fund_contact_info);
 
         if (firstTime) {
             ed_fund_title.setText(user.getTitle());
         }
 
-        sp_state=(Spinner) findViewById(R.id.sp_state);
-        sp_city=(Spinner) findViewById(R.id.sp_city);
-        sp_category=(Spinner) findViewById(R.id.sp_category);
+        sp_state = (Spinner) findViewById(R.id.sp_state);
+        sp_city = (Spinner) findViewById(R.id.sp_city);
+        sp_category = (Spinner) findViewById(R.id.sp_category);
 
-        img_uplode_photo=(ImageView) findViewById(R.id.img_uplode_photo);
+        img_uplode_photo = (ImageView) findViewById(R.id.img_uplode_photo);
 
-        bt_update_profile=(Button)findViewById(R.id.bt_update_profile);
+        bt_update_profile = (Button) findViewById(R.id.bt_update_profile);
 
         stateAdapter = new ArrayAdapter<String>(this, R.layout.spinner_textview, stateNames);
         cityAdapter = new ArrayAdapter<String>(this, R.layout.spinner_textview, cityNames);
@@ -159,7 +160,8 @@ public class FundSpotProfile extends AppCompatActivity {
         categoryCall.enqueue(new Callback<CategoryResponse>() {
             @Override
             public void onResponse(Call<CategoryResponse> call, Response<CategoryResponse> response) {
-               // clearSchools(true);
+                categoryItems.add(new AreaItem("Select Category"));
+                categoryNames.add("Select Category");
                 CategoryResponse areaResponse = response.body();
                 if (areaResponse != null) {
                     if (areaResponse.isStatus()) {
@@ -174,7 +176,9 @@ public class FundSpotProfile extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<CategoryResponse> call, Throwable t) {
-               // clearSchools(true);
+                categoryItems.add(new AreaItem("Select Category"));
+                categoryNames.add("Select Category");
+                categoryAdapter.notifyDataSetChanged();
             }
         });
         img_uplode_photo.setOnClickListener(new View.OnClickListener() {
@@ -216,19 +220,18 @@ public class FundSpotProfile extends AppCompatActivity {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter zip code");
                 } else if (categoryPosition == 0) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please select category");
-                }else if (description.isEmpty()) {
+                } else if (description.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter description");
                 } else if (contactInfo.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter contact information");
                 } else if (imagePath == null) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please select profile image");
-                }else if(funsplit.isEmpty()){
-                    C.INSTANCE.showToast(getApplicationContext(),"Please Enter Funsplit");
-                }
-                else {
+                } else if (funsplit.isEmpty()) {
+                    C.INSTANCE.showToast(getApplicationContext(), "Please Enter Funsplit");
+                } else {
 
                     dialog.show();
-                    Call<VerifyResponse> fundspotResponse = adminAPI.editFundsportProfile(preference.getUserID(), preference.getTokenHash(),title, stateItems.get(statePosition).getId(), cityItems.get(cityPosition).getId(), address1, zipcode, categoryItems.get(categoryPosition).getId(),funsplit, description, contactInfo, ServiceGenerator.prepareFilePart("image", imagePath));
+                    Call<VerifyResponse> fundspotResponse = adminAPI.editFundsportProfile(preference.getUserID(), preference.getTokenHash(), title, stateItems.get(statePosition).getId(), cityItems.get(cityPosition).getId(), address1, zipcode, categoryItems.get(categoryPosition).getId(), funsplit, description, contactInfo, ServiceGenerator.prepareFilePart("image", imagePath));
                     fundspotResponse.enqueue(new Callback<VerifyResponse>() {
                         @Override
                         public void onResponse(Call<VerifyResponse> call, Response<VerifyResponse> response) {

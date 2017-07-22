@@ -22,6 +22,7 @@ import com.fundit.helper.FilePath;
 import com.fundit.model.AreaItem;
 import com.fundit.model.AreaResponse;
 import com.fundit.model.Organization;
+import com.fundit.model.OrganizationResponse;
 import com.fundit.model.VerifyResponse;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
@@ -148,6 +149,48 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
             }
         });
 
+        Call<OrganizationResponse> organizationResponseCall=adminAPI.getAllOrganizations();
+        organizationResponseCall.enqueue(new Callback<OrganizationResponse>() {
+            @Override
+            public void onResponse(Call<OrganizationResponse> call, Response<OrganizationResponse> response) {
+                clearAssociatedOrganization();
+                OrganizationResponse orgResponse=response.body();
+                if(orgResponse!=null){
+                    if(orgResponse.isStatus()){
+                        organizationList.addAll(orgResponse.getData());
+                        organizationNames.addAll(orgResponse.getOrganizationNames());
+                    }
+                }
+                organizationAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(Call<OrganizationResponse> call, Throwable t) {
+                clearAssociatedOrganization();
+            }
+        });
+
+        Call<OrganizationResponse> fundspotResponseCall=adminAPI.getAllFundspots();
+        fundspotResponseCall.enqueue(new Callback<OrganizationResponse>() {
+            @Override
+            public void onResponse(Call<OrganizationResponse> call, Response<OrganizationResponse> response) {
+                clearAssociatedFundspot();
+                OrganizationResponse orgResponse=response.body();
+                if(orgResponse!=null){
+                    if(orgResponse.isStatus()){
+                        fundSpotList.addAll(orgResponse.getData());
+                        fundspotNames.addAll(orgResponse.getOrganizationNames());
+                    }
+                }
+                organizationAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(Call<OrganizationResponse> call, Throwable t) {
+                clearAssociatedFundspot();
+            }
+        });
+
         img_uplode_photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -190,12 +233,12 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
                     C.INSTANCE.showToast(getApplicationContext(), "Please select city");
                 } else if (zipcode.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter zip code");
-                }/*else if(assocOrganization.isEmpty()){
-                    C.INSTANCE.showToast(getApplicationContext(), "Please enter Associated Organization");
+                }else if(organizationList.size()==0){
+                    C.INSTANCE.showToast(getApplicationContext(), "Please select Associated Organization");
                 }
-                else if(assocFundspot.isEmpty()){
-                    C.INSTANCE.showToast(getApplicationContext(), "Please enter Associated fundspot");
-                }*/
+                else if(fundSpotList.isEmpty()){
+                    C.INSTANCE.showToast(getApplicationContext(), "Please select Associated Fundspot");
+                }
                 else if (contactInfo.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter contact information");
                 } else if (imagePath == null) {
@@ -203,8 +246,11 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
                 }
                 else {
 
+                    String fundspotID=fundSpotList.get(spn_assocFundspot.getSelectedItemPosition()).getUser_id();
+                    String orgID=organizationList.get(spn_assocOrganization.getSelectedItemPosition()).getUser_id();
+
                     dialog.show();
-                    Call<VerifyResponse> generalMemberResponse = adminAPI.generalMemberProfile(preference.getUserID(), preference.getTokenHash(), firstname, lastname, location, stateItems.get(statePosition).getId(), cityItems.get(cityPosition).getId(), zipcode, "1", "1", contactInfo, ServiceGenerator.prepareFilePart("image", imagePath));
+                    Call<VerifyResponse> generalMemberResponse = adminAPI.generalMemberProfile(preference.getUserID(), preference.getTokenHash(), firstname, lastname, location, stateItems.get(statePosition).getId(), cityItems.get(cityPosition).getId(), zipcode,orgID, fundspotID, contactInfo, ServiceGenerator.prepareFilePart("image", imagePath));
                     generalMemberResponse.enqueue(new Callback<VerifyResponse>() {
                         @Override
                         public void onResponse(Call<VerifyResponse> call, Response<VerifyResponse> response) {
@@ -241,6 +287,18 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void clearAssociatedOrganization(){
+        organizationList.clear();
+        organizationNames.clear();
+        organizationAdapter.notifyDataSetChanged();
+    }
+
+    private void clearAssociatedFundspot(){
+        fundSpotList.clear();
+        fundspotNames.clear();
+        fundspotAdapter.notifyDataSetChanged();
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
