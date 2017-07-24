@@ -192,7 +192,7 @@ public class SignInActivity extends AppCompatActivity {
 
                                             break;
                                         case C.GENERAL_MEMBER:
-                                            if (verifyResponse.getData().getFundspot().getId().isEmpty()) {
+                                            if (verifyResponse.getData().getMember().getId().isEmpty()) {
                                                 in = new Intent(getApplicationContext(), GeneralMemberProfileActivity.class);
                                                 in.putExtra("firstTime", true);
                                             } else {
