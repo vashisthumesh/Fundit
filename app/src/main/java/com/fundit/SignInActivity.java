@@ -16,7 +16,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.fundit.a.AppPreference;
 import com.fundit.a.C;
@@ -41,16 +40,15 @@ import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 
 public class SignInActivity extends AppCompatActivity {
 
-    EditText ed_input_email,ed_input_password;
+    EditText ed_input_email, ed_input_password;
     TextView tv_forget_password;
-    Button bt_signin,bt_Create_account;
+    Button bt_signin, bt_Create_account;
 
     AppPreference preference;
 
     CustomDialog dialog;
 
     String[] perms = {android.Manifest.permission.SYSTEM_ALERT_WINDOW, android.Manifest.permission.WRITE_EXTERNAL_STORAGE};
-
 
 
     AdminAPI adminAPI;
@@ -85,9 +83,9 @@ public class SignInActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
-        adminAPI= ServiceGenerator.getAPIClass();
-        preference=new AppPreference(this);
-        dialog=new CustomDialog(this);
+        adminAPI = ServiceGenerator.getAPIClass();
+        preference = new AppPreference(this);
+        dialog = new CustomDialog(this);
 
 
         if (preference.isLoggedIn()) {
@@ -137,37 +135,38 @@ public class SignInActivity extends AppCompatActivity {
 
     private void fetchid() {
 
-        ed_input_email=(EditText)findViewById(R.id.ed_input_email);
-        ed_input_password=(EditText)findViewById(R.id.ed_input_password);
-        tv_forget_password=(TextView)findViewById(R.id.tv_forget_password);
-        bt_signin=(Button)findViewById(R.id.bt_signin);
-        bt_Create_account=(Button)findViewById(R.id.bt_Create_account);
+        ed_input_email = (EditText) findViewById(R.id.ed_input_email);
+        ed_input_password = (EditText) findViewById(R.id.ed_input_password);
+        tv_forget_password = (TextView) findViewById(R.id.tv_forget_password);
+        bt_signin = (Button) findViewById(R.id.bt_signin);
+        bt_Create_account = (Button) findViewById(R.id.bt_Create_account);
 
         bt_signin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (ed_input_email.getText().toString().trim().equalsIgnoreCase("")) {
-                    Toast.makeText(SignInActivity.this, "Please Enter Email Address", Toast.LENGTH_LONG).show();
-                    // GlobalFile.CustomToast(Activity_Login.this,"Please Enter Email Address",getLayoutInflater());
+                String emailID = ed_input_email.getText().toString().trim();
+                String password = ed_input_password.getText().toString().trim();
 
-                } else if (validateEmail1(ed_input_email.getText().toString()) != true) {
-                    Toast.makeText(SignInActivity.this, "Please enter valid email address", Toast.LENGTH_LONG).show();
-                } else if (ed_input_password.getText().toString().trim().equalsIgnoreCase("")) {
-                    Toast.makeText(SignInActivity.this, "Please Enter Your Password", Toast.LENGTH_LONG).show();
+                if (emailID.isEmpty()) {
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter email address");
+                } else if (!C.INSTANCE.validEmail(emailID)) {
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter valid email address");
+                } else if (password.isEmpty()) {
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter password");
+                } else if (password.length() < 6) {
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter min. 6 char password");
                 } else {
-                    String email=ed_input_email.getText().toString().trim();
-                    String password=ed_input_password.getText().toString().trim();
-                    String firebase_token= FirebaseInstanceId.getInstance().getToken();
+                    String firebase_token = FirebaseInstanceId.getInstance().getToken();
                     dialog.show();
-                    Call<VerifyResponse> responseCall=adminAPI.signInUser(email,password,firebase_token);
+                    Call<VerifyResponse> responseCall = adminAPI.signInUser(emailID, password, firebase_token);
                     responseCall.enqueue(new Callback<VerifyResponse>() {
                         @Override
                         public void onResponse(Call<VerifyResponse> call, Response<VerifyResponse> response) {
                             dialog.dismiss();
-                            VerifyResponse verifyResponse=response.body();
-                            if(verifyResponse!=null){
-                                if(verifyResponse.isStatus()){
-                                    String userData= new Gson().toJson(verifyResponse.getData().getUser());
+                            VerifyResponse verifyResponse = response.body();
+                            if (verifyResponse != null) {
+                                if (verifyResponse.isStatus()) {
+                                    String userData = new Gson().toJson(verifyResponse.getData().getUser());
                                     String memberData = "";
                                     Intent in;
                                     in = new Intent(SignInActivity.this, HomeActivity.class);
@@ -211,12 +210,10 @@ public class SignInActivity extends AppCompatActivity {
                                     preference.setMemberData(memberData);
                                     startActivity(in);
 
+                                } else {
+                                    C.INSTANCE.showToast(getApplicationContext(), verifyResponse.getMessage());
                                 }
-                                else {
-                                    C.INSTANCE.showToast(getApplicationContext(),verifyResponse.getMessage());
-                                }
-                            }
-                            else{
+                            } else {
                                 C.INSTANCE.defaultError(getApplicationContext());
                             }
                         }
@@ -224,7 +221,7 @@ public class SignInActivity extends AppCompatActivity {
                         @Override
                         public void onFailure(Call<VerifyResponse> call, Throwable t) {
                             dialog.dismiss();
-                            C.INSTANCE.errorToast(getApplicationContext(),t);
+                            C.INSTANCE.errorToast(getApplicationContext(), t);
                         }
                     });
 
@@ -235,14 +232,14 @@ public class SignInActivity extends AppCompatActivity {
         tv_forget_password.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            showdialog();
+                showdialog();
             }
         });
 
         bt_Create_account.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent in=new Intent(SignInActivity.this,AccountTypeActivity.class);
+                Intent in = new Intent(SignInActivity.this, AccountTypeActivity.class);
                 in.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(in);
             }
@@ -260,9 +257,9 @@ public class SignInActivity extends AppCompatActivity {
         //setting custom layout to dialog
 
 
-        final EditText Email =(EditText)dialogView.findViewById(R.id.ed_forget_pass_email);
-        final Button bt_cancel=(Button)dialogView.findViewById(R.id.bt_cancel);
-        final Button bt_send=(Button)dialogView.findViewById(R.id.bt_send);
+        final EditText Email = (EditText) dialogView.findViewById(R.id.ed_forget_pass_email);
+        final Button bt_cancel = (Button) dialogView.findViewById(R.id.bt_cancel);
+        final Button bt_send = (Button) dialogView.findViewById(R.id.bt_send);
 
         bt_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -275,25 +272,23 @@ public class SignInActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 dialog.show();
-                Call<AppModel> forgetpasswordcall=adminAPI.forgetPassword("");
+                Call<AppModel> forgetpasswordcall = adminAPI.forgetPassword("");
 
                 forgetpasswordcall.enqueue(new Callback<AppModel>() {
                     @Override
                     public void onResponse(Call<AppModel> call, Response<AppModel> response) {
                         dialog.dismiss();
-                        AppModel  appModel=response.body();
-                        if(appModel!=null){
-                            if(appModel.isStatus()){
-                                C.INSTANCE.showToast(getApplicationContext(),appModel.getMessage());
+                        AppModel appModel = response.body();
+                        if (appModel != null) {
+                            if (appModel.isStatus()) {
+                                C.INSTANCE.showToast(getApplicationContext(), appModel.getMessage());
 
                                 dialogB.dismiss();
 
+                            } else {
+                                C.INSTANCE.showToast(getApplicationContext(), appModel.getMessage());
                             }
-                            else {
-                                C.INSTANCE.showToast(getApplicationContext(),appModel.getMessage());
-                            }
-                        }
-                        else{
+                        } else {
                             C.INSTANCE.defaultError(getApplicationContext());
                         }
                     }
@@ -301,7 +296,7 @@ public class SignInActivity extends AppCompatActivity {
                     @Override
                     public void onFailure(Call<AppModel> call, Throwable t) {
                         dialog.dismiss();
-                        C.INSTANCE.errorToast(getApplicationContext(),t);
+                        C.INSTANCE.errorToast(getApplicationContext(), t);
                     }
                 });
 
