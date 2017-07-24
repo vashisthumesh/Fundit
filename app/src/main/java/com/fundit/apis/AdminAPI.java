@@ -3,6 +3,7 @@ package com.fundit.apis;
 import com.fundit.a.W;
 import com.fundit.model.AppModel;
 import com.fundit.model.AreaResponse;
+import com.fundit.model.CampaignListResponse;
 import com.fundit.model.CategoryResponse;
 import com.fundit.model.FundspotListResponse;
 import com.fundit.model.OrganizationResponse;
@@ -121,4 +122,8 @@ public interface AdminAPI {
 
     @POST(W.ALL_FUNDSPOT)
     Call<OrganizationResponse> getAllFundspots();
+
+    @FormUrlEncoded
+    @POST(W.CAMPAIGN_LIST)
+    Call<CampaignListResponse> getAllCampaigns(@Field(W.KEY_USERID) String userID, @Field(W.KEY_TOKEN) String token, @Field("role_id") String roleID, @Field("organization_id") String organizationID, @Field("fundspot_id") String fundspotID);
 }

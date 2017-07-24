@@ -16,7 +16,7 @@ public class ProductListResponse extends AppModel {
         return data;
     }
 
-    public class Product implements Serializable {
+    public static class Product implements Serializable {
         String id = "";
         String user_id = "";
         String type_id = "";

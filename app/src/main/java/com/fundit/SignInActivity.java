@@ -180,7 +180,6 @@ public class SignInActivity extends AppCompatActivity {
                                             } else {
                                                 memberData = new Gson().toJson(verifyResponse.getData().getOrganization());
                                             }
-
                                             break;
                                         case C.FUNDSPOT:
                                             if (verifyResponse.getData().getFundspot().getId().isEmpty()) {
@@ -189,7 +188,6 @@ public class SignInActivity extends AppCompatActivity {
                                             } else {
                                                 memberData = new Gson().toJson(verifyResponse.getData().getFundspot());
                                             }
-
                                             break;
                                         case C.GENERAL_MEMBER:
                                             if (verifyResponse.getData().getMember().getId().isEmpty()) {
@@ -198,7 +196,6 @@ public class SignInActivity extends AppCompatActivity {
                                             } else {
                                                 memberData = new Gson().toJson(verifyResponse.getData().getMember());
                                             }
-
                                             break;
                                     }
 

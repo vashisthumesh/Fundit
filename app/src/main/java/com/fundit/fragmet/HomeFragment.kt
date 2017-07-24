@@ -25,10 +25,12 @@ class HomeFragment : Fragment() {
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.navigation_newsFeed -> {
+                setNewsFeedInboxFragment()
                 mTextMessage!!.text = item.title
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_inbox -> {
+                setNavigationInboxFragment()
                 mTextMessage!!.text = item.title
                 return@OnNavigationItemSelectedListener true
             }
@@ -37,6 +39,7 @@ class HomeFragment : Fragment() {
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_browse -> {
+                setBrowseFragment()
                 mTextMessage!!.text = item.title
                 return@OnNavigationItemSelectedListener true
             }
@@ -44,12 +47,32 @@ class HomeFragment : Fragment() {
         false
     }
 
+    private fun setBrowseFragment() {
+        fragment = Fragment()
+        val transaction: FragmentTransaction = fm!!.beginTransaction()
+        transaction.replace(R.id.content_home, fragment)
+        transaction.commit()
+    }
+
+    private fun setNewsFeedInboxFragment() {
+        fragment = Fragment()
+        val transaction: FragmentTransaction = fm!!.beginTransaction()
+        transaction.replace(R.id.content_home, fragment)
+        transaction.commit()
+    }
+
+    private fun setNavigationInboxFragment() {
+        fragment = Fragment()
+        val transaction: FragmentTransaction = fm!!.beginTransaction()
+        transaction.replace(R.id.content_home, fragment)
+        transaction.commit()
+    }
+
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view=inflater!!.inflate(R.layout.fragment_home, container, false)
 
         fm = activity.supportFragmentManager
-
         mTextMessage = view.findViewById(R.id.message) as TextView
         val navigation = view.findViewById(R.id.navigation) as BottomNavigationView
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)

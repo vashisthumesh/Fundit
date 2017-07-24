@@ -19,16 +19,24 @@ import android.widget.ListView
 import android.widget.TextView
 import com.fundit.a.AppPreference
 import com.fundit.a.C
+import com.fundit.a.W
 import com.fundit.fragmet.HomeFragment
 import com.fundit.fragmet.MyProfileFragment
 import com.fundit.fundspot.MyProductsFragment
+import com.fundit.model.Fundspot
+import com.fundit.model.Member
+import com.fundit.model.Organization
+import com.fundit.model.User
+import com.google.gson.Gson
+import com.squareup.picasso.Picasso
+import de.hdodenhof.circleimageview.CircleImageView
 
 class HomeActivity : AppCompatActivity() {
 
     internal var list_navigation: ListView? = null
     var headerView: View? = null
     var navigationAdapter: LeftNavigationAdapter? = null
-    var menuList = arrayOf("Home", "My Profile", "My Coupons", "My Orders", "Banks and Cards", "Settings", "Invite Friends", "Help", "Logout")
+    var menuList: Array<String> = arrayOf()
     var fragment: Fragment? = null
     var fm: FragmentManager? = null
     var toolbar: Toolbar? = null
@@ -37,6 +45,9 @@ class HomeActivity : AppCompatActivity() {
     var drawerLayout: DrawerLayout? = null
     var drawerToggle: ActionBarDrawerToggle? = null
     var isDrawerOpen: Boolean = false
+    var txt_userName: TextView? = null
+    var txt_userEmail: TextView? = null
+    var img_profilePic: CircleImageView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,9 +55,24 @@ class HomeActivity : AppCompatActivity() {
 
         preference = AppPreference(this)
 
+        fillMenus()
         setupToolbar()
         fetchIDs()
 
+    }
+
+    private fun fillMenus() {
+        when (preference?.userRoleID) {
+            C.ORGANIZATION -> {
+                menuList = arrayOf("Home", "My Profile", "Requests", "Banks and Cards", "Settings", "Invite Friends", "Help", "Logout")
+            }
+            C.FUNDSPOT -> {
+                menuList = arrayOf("Home", "My Profile", "My Coupons", "My Orders", "Banks and Cards", "Settings", "Invite Friends", "Help", "Logout")
+            }
+            C.GENERAL_MEMBER -> {
+                menuList = arrayOf("Home", "My Profile", "My Coupons", "My Orders", "Banks and Cards", "Settings", "Invite Friends", "Help", "Logout")
+            }
+        }
     }
 
     private fun setupToolbar() {
@@ -101,10 +127,40 @@ class HomeActivity : AppCompatActivity() {
 
         list_navigation = findViewById(R.id.list_navigation) as ListView
         headerView = View.inflate(this, R.layout.navigation_drawer, null)
+        txt_userName = headerView?.findViewById(R.id.txt_userName) as TextView
+        txt_userEmail = headerView?.findViewById(R.id.txt_userEmail) as TextView
+        img_profilePic = headerView?.findViewById(R.id.img_profilePic) as CircleImageView
         list_navigation?.addHeaderView(headerView)
+        val gson = Gson()
+        val user: User = gson.fromJson(preference?.userData, User::class.java)
+        txt_userEmail?.text = user.email_id
+        when (preference?.userRoleID) {
+            C.ORGANIZATION -> {
+                val organization: Organization = gson.fromJson(preference?.memberData, Organization::class.java)
+                Picasso.with(this)
+                        .load(W.FILE_URL + organization.image)
+                        .into(img_profilePic)
+                txt_userName?.text = organization.title
+            }
+            C.FUNDSPOT -> {
+                val fundspot: Fundspot = gson.fromJson(preference?.memberData, Fundspot::class.java)
+                Picasso.with(this)
+                        .load(W.FILE_URL + fundspot.image)
+                        .into(img_profilePic)
+                txt_userName?.text = fundspot.title
+            }
+            C.GENERAL_MEMBER -> {
+                val member: Member = gson.fromJson(preference?.memberData, Member::class.java)
+                Picasso.with(this)
+                        .load(W.FILE_URL + member.image)
+                        .into(img_profilePic)
+                txt_userName?.text = member.title
+            }
+        }
+
         navigationAdapter = LeftNavigationAdapter(this, menuList)
         list_navigation?.adapter = navigationAdapter
-        list_navigation?.setOnItemClickListener { adapterView, view, i, l -> handleClicks(i) }
+        list_navigation?.setOnItemClickListener { _, _, i, _ -> handleClicks(i) }
     }
 
     private fun handleClicks(position: Int) {
@@ -132,20 +188,29 @@ class HomeActivity : AppCompatActivity() {
         } else if (position == 7) {
 
         } else if (position == 8) {
+            if (preference?.userRoleID.equals(C.ORGANIZATION)) {
+                logout()
+            } else {
+                //TODO SOMETHING
+            }
 
         } else if (position == 9) {
-            preference?.isLoggedIn = false
-            preference?.userID = ""
-            preference?.userRoleID = ""
-            preference?.tokenHash = ""
-            preference?.userData = ""
-            preference?.memberData = ""
-
-            val intent = Intent(this, SignInActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-            startActivity(intent)
-            finish()
+            logout()
         }
+    }
+
+    private fun logout() {
+        preference?.isLoggedIn = false
+        preference?.userID = ""
+        preference?.userRoleID = ""
+        preference?.tokenHash = ""
+        preference?.userData = ""
+        preference?.memberData = ""
+
+        val intent = Intent(this, SignInActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+        startActivity(intent)
+        finish()
     }
 
     data class LeftNavigationAdapter(var context: Activity, var menus: Array<String>) : BaseAdapter() {

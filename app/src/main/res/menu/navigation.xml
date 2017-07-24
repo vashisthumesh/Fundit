@@ -4,26 +4,26 @@
 
     <item
         android:id="@+id/navigation_newsFeed"
-        android:icon="@drawable/ic_star_black_24dp"
+        android:icon="@drawable/newsfeed"
         android:title="News Feed"
         app:showAsAction="always|withText"/>
 
     <item
         android:id="@+id/navigation_inbox"
-        android:icon="@drawable/ic_format_list_bulleted_black_24dp"
-        app:showAsAction="always|withText"
-        android:title="Inbox"/>
+        android:icon="@drawable/inbox"
+        android:title="Inbox"
+        app:showAsAction="always|withText"/>
 
     <item
         android:id="@+id/navigation_myCampaigns"
-        android:icon="@drawable/ic_notifications_black_24dp"
-        app:showAsAction="always|withText"
-        android:title="My Campaigns"/>
+        android:icon="@drawable/ic_star_black_24dp"
+        android:title="My Campaigns"
+        app:showAsAction="always|withText"/>
 
     <item
         android:id="@+id/navigation_browse"
-        android:icon="@drawable/ic_notifications_black_24dp"
-        app:showAsAction="always|withText"
-        android:title="Browse"/>
+        android:icon="@drawable/browse"
+        android:title="Browse"
+        app:showAsAction="always|withText"/>
 
 </menu>

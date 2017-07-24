@@ -43,4 +43,6 @@ public class W {
 
     public static final String ALL_ORGANIZATION="Organization/app_get_all_organization";
     public static final String ALL_FUNDSPOT="Fundspot/app_get_all_fundspot";
+
+    public static final String CAMPAIGN_LIST = "Campaign/app_get_all_campaign";
 }
