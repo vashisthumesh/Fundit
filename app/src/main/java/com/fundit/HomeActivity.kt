@@ -20,6 +20,7 @@ import android.widget.TextView
 import com.fundit.a.AppPreference
 import com.fundit.a.C
 import com.fundit.a.W
+import com.fundit.fragmet.FRequestFragment
 import com.fundit.fragmet.HomeFragment
 import com.fundit.fragmet.MyProfileFragment
 import com.fundit.fundspot.MyProductsFragment
@@ -67,7 +68,7 @@ class HomeActivity : AppCompatActivity() {
                 menuList = arrayOf("Home", "My Profile", "Requests", "Banks and Cards", "Settings", "Invite Friends", "Help", "Logout")
             }
             C.FUNDSPOT -> {
-                menuList = arrayOf("Home", "My Profile", "My Coupons", "My Orders", "Banks and Cards", "Settings", "Invite Friends", "Help", "Logout")
+                menuList = arrayOf("Home", "My Profile", "Requests", "Banks and Cards", "Settings", "Invite Friends", "Help", "Logout")
             }
             C.GENERAL_MEMBER -> {
                 menuList = arrayOf("Home", "My Profile", "My Coupons", "My Orders", "Banks and Cards", "Settings", "Invite Friends", "Help", "Logout")
@@ -81,7 +82,6 @@ class HomeActivity : AppCompatActivity() {
         //actionTitle?.text = ""
         setSupportActionBar(toolbar)
     }
-
 
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -122,7 +122,7 @@ class HomeActivity : AppCompatActivity() {
         fm = supportFragmentManager
         val transaction = fm?.beginTransaction()
 
-        transaction?.replace(R.id.content,fragment)
+        transaction?.replace(R.id.content, fragment)
         transaction?.commit()
 
         list_navigation = findViewById(R.id.list_navigation) as ListView
@@ -169,26 +169,29 @@ class HomeActivity : AppCompatActivity() {
         } else if (position == 1) {
             fragment = HomeFragment()
             val transaction = fm?.beginTransaction()
-            transaction?.replace(R.id.content,fragment)
+            transaction?.replace(R.id.content, fragment)
             transaction?.commit()
         } else if (position == 2) {
             fragment = MyProfileFragment()
             val transaction = fm?.beginTransaction()
-            transaction?.replace(R.id.content,fragment)
+            transaction?.replace(R.id.content, fragment)
             transaction?.commit()
         } else if (position == 3) {
-
+            fragment = FRequestFragment()
+            val transaction = fm?.beginTransaction()
+            transaction?.replace(R.id.content, fragment)
+            transaction?.commit()
         } else if (position == 4) {
 
         } else if (position == 5) {
 
         } else if (position == 6) {
-            val intent = Intent(this,FundraiserSettings::class.java)
+            val intent = Intent(this, FundraiserSettings::class.java)
             startActivity(intent)
         } else if (position == 7) {
 
         } else if (position == 8) {
-            if (preference?.userRoleID.equals(C.ORGANIZATION)) {
+            if (preference?.userRoleID.equals(C.ORGANIZATION) || preference?.userRoleID.equals(C.FUNDSPOT)) {
                 logout()
             } else {
                 //TODO SOMETHING
@@ -197,6 +200,7 @@ class HomeActivity : AppCompatActivity() {
         } else if (position == 9) {
             logout()
         }
+        drawerLayout?.closeDrawer(Gravity.START)
     }
 
     private fun logout() {
