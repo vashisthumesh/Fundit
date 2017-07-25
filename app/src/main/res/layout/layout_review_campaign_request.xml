@@ -251,6 +251,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:gravity="top|start"
+                android:inputType="textMultiLine"
                 android:lines="4"
                 android:maxLines="4"
                 android:padding="5dp"
