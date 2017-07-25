@@ -4,6 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.fundit.organization.CreateCampaignNextActivity">
+    android:orientation="vertical"
+    tools:context="com.fundit.CreateCampaignTermsActivity">
+
+    <include layout="@layout/toolbar_center_text"/>
+
+    <include layout="@layout/layout_review_campaign_request"/>
 
 </LinearLayout>

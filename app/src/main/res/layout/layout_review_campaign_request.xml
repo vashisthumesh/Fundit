@@ -8,9 +8,6 @@
     android:orientation="vertical"
     tools:context="com.fundit.fundspot.AddProductActivity">
 
-    <include
-        layout="@layout/toolbar_center_text"/>
-
 
     <ScrollView
         android:layout_width="match_parent"
@@ -25,6 +22,7 @@
             android:padding="10dp">
 
             <TextView
+                android:id="@+id/txt_partnerLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="1dp"
@@ -34,10 +32,11 @@
                 android:textSize="16sp"/>
 
             <EditText
+                android:id="@+id/edt_partner"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:background="@color/white"
-                android:inputType="text"
+                android:inputType="textPersonName"
                 android:padding="5dp"
                 android:textColor="@color/black"/>
             <TextView
@@ -55,6 +54,7 @@
                 android:orientation="horizontal">
 
                 <RadioGroup
+                    android:id="@+id/rg_productType"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
@@ -62,19 +62,23 @@
                     android:orientation="horizontal">
 
                     <RadioButton
+                        android:id="@+id/rdo_typeItem"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:checked="true"
+                        android:enabled="false"
                         android:padding="3dp"
                         android:text="Item"
                         android:textColor="@color/black"
                         android:textSize="16sp"/>
 
                     <RadioButton
+                        android:id="@+id/rdo_typeGiftCard"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:enabled="false"
                         android:padding="3dp"
                         android:text="Gift Card Value"
                         android:textColor="@color/black"
@@ -83,6 +87,7 @@
             </LinearLayout>
 
             <TextView
+                android:id="@+id/txt_itemLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="1dp"
@@ -92,10 +97,11 @@
                 android:textSize="16sp"/>
 
             <EditText
+                android:id="@+id/edt_itemName"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:background="@color/white"
-                android:inputType="text"
+                android:inputType="textPersonName"
                 android:padding="5dp"
                 android:textColor="@color/black"/>
 
@@ -109,20 +115,13 @@
                 android:textSize="16sp"/>
 
             <EditText
-                android:id="@+id/edt_description"
+                android:id="@+id/edt_price"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:background="@color/white"
                 android:inputType="number"
                 android:padding="5dp"
                 android:textColor="@color/black"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:orientation="horizontal">
-            </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -134,14 +133,15 @@
                 android:textSize="16sp"/>
 
             <EditText
-                android:id="@+id/edt_price"
+                android:id="@+id/edt_split"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginTop="5dp"
                 android:background="@color/white"
                 android:hint=""
-                android:inputType="number"
+                android:inputType="text"
                 android:padding="5dp"
+                android:singleLine="true"
                 android:textColor="@color/black"/>
             <TextView
                 android:layout_width="wrap_content"
@@ -158,6 +158,7 @@
                 android:orientation="horizontal">
 
                 <EditText
+                    android:id="@+id/edt_campaignDuration"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
                     android:layout_weight="6"
@@ -175,6 +176,7 @@
                     android:textSize="16sp"/>
 
                 <CheckBox
+                    android:id="@+id/chk_infinite"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -244,19 +246,21 @@
                 android:text="Coupon fine print"
                 android:textSize="16sp"/>
             <EditText
+                android:id="@+id/edt_finePrint"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_weight="6"
+                android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:inputType="number"
+                android:gravity="top|start"
+                android:lines="4"
+                android:maxLines="4"
                 android:padding="5dp"
                 android:textColor="@color/black"/>
             <Button
+                android:id="@+id/btn_accept"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="5dp"
-                android:layout_weight="1"
                 android:background="@color/colorButton"
                 android:gravity="center"
                 android:text="Accept &amp; Continue"
@@ -270,6 +274,7 @@
                 android:orientation="horizontal">
 
                 <Button
+                    android:id="@+id/btn_message"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_gravity="center"
@@ -283,6 +288,7 @@
                     android:textSize="20sp"/>
 
                 <Button
+                    android:id="@+id/btn_decline"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_gravity="center"
