@@ -66,7 +66,14 @@ public class CampaignRequestAdapter extends BaseAdapter {
         CircleImageView img_partnerPic = (CircleImageView) view.findViewById(R.id.img_partnerPic);
 
         if (preference.getUserRoleID().equals(C.ORGANIZATION)) {
-
+            String message = "<b>" + campaignList.get(position).getUserFundspot().getFundspot().getTitle() + "</b> wants to start a campaign with you!";
+            txt_partnerName.setText(Html.fromHtml(message));
+            txt_location.setText(campaignList.get(position).getUserFundspot().getFundspot().getLocation());
+            txt_partnerLabel.setText("Organization :");
+            txt_partnerTitle.setText(campaignList.get(position).getUserFundspot().getTitle());
+            Picasso.with(activity)
+                    .load(W.FILE_URL + campaignList.get(position).getUserFundspot().getFundspot().getImage())
+                    .into(img_partnerPic);
         } else if (preference.getUserRoleID().equals(C.FUNDSPOT)) {
             String message = "<b>" + campaignList.get(position).getUserOrganization().getOrganization().getTitle() + "</b> wants to start a campaign with you!";
             txt_partnerName.setText(Html.fromHtml(message));

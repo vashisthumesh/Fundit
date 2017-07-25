@@ -167,16 +167,27 @@ class HomeActivity : AppCompatActivity() {
         if (position == 0) {
 
         } else if (position == 1) {
-            fragment = HomeFragment()
+            actionTitle?.text = "Fundit"
+            when (preference?.userRoleID) {
+                C.ORGANIZATION -> {
+                    fragment = HomeFragment()
+                }
+                C.FUNDSPOT -> {
+                    fragment = MyProductsFragment()
+                }
+            }
             val transaction = fm?.beginTransaction()
             transaction?.replace(R.id.content, fragment)
             transaction?.commit()
+
         } else if (position == 2) {
+            actionTitle?.text = "My Profile"
             fragment = MyProfileFragment()
             val transaction = fm?.beginTransaction()
             transaction?.replace(R.id.content, fragment)
             transaction?.commit()
         } else if (position == 3) {
+            actionTitle?.text = "Requests"
             fragment = FRequestFragment()
             val transaction = fm?.beginTransaction()
             transaction?.replace(R.id.content, fragment)

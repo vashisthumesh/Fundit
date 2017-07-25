@@ -49,7 +49,15 @@ class FundspotRequestFragment : Fragment() {
         listRequests?.adapter = campaignRequestAdapter
 
         dialog?.show()
-        val campaignCall: Call<CampaignListResponse>? = adminAPI?.getAllCampaigns(preference?.userID, preference?.tokenHash, preference?.userRoleID, null, preference?.userID)
+        var campaignCall: Call<CampaignListResponse>? = null
+        when (preference?.userRoleID) {
+            C.ORGANIZATION -> {
+                campaignCall = adminAPI?.getAllCampaigns(preference?.userID, preference?.tokenHash, preference?.userRoleID, preference?.userID, null)
+            }
+            C.FUNDSPOT -> {
+                campaignCall = adminAPI?.getAllCampaigns(preference?.userID, preference?.tokenHash, preference?.userRoleID, null, preference?.userID)
+            }
+        }
         campaignCall?.enqueue(object : Callback<CampaignListResponse> {
 
             override fun onResponse(call: Call<CampaignListResponse>?, response: Response<CampaignListResponse>?) {
