@@ -1,9 +1,157 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.fundit.organization.CreateCampaignNextActivity">
+    android:background="@color/colorBackground"
+    android:orientation="vertical"
+    tools:context="com.fundit.organization.CreateCampaignActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <include layout="@layout/toolbar_center_text"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="1dp"
+                android:drawableRight="@drawable/star"
+                android:padding="5dp"
+                android:text="Title"
+                android:textSize="16sp"/>
+
+            <EditText
+                android:id="@+id/edt_itemName"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@color/white"
+                android:inputType="text"
+                android:text="Campaign name"
+                android:padding="5dp"
+                android:textColor="@color/colorTextSecondary"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="1dp"
+                android:drawableRight="@drawable/star"
+                android:padding="5dp"
+                android:text="What is this fundraiser for?"
+                android:textSize="16sp"/>
+
+            <EditText
+                android:id="@+id/edt_couponCost"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:inputType="textMultiLine"
+                android:lines="4"
+                android:gravity="start|top"
+                android:hint="Description"
+                android:maxLines="4"
+                android:padding="5dp"
+                android:textColor="@color/black"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="1dp"
+                android:drawableRight="@drawable/star"
+                android:padding="5dp"
+                android:text="Start date"
+                android:textSize="16sp"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@color/white"
+                android:inputType="date"
+                android:padding="5dp"
+                android:hint="MM/DD/YY"
+                android:textColor="@color/black"/>
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="5dp"
+                android:text="Start as soon as possible"
+                android:textColor="@color/black"
+                android:textSize="16sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="1dp"
+                android:padding="5dp"
+                android:text="Coupon Seller"
+                android:textSize="16sp"/>
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="5dp"
+                android:text="All organization members"
+                android:textColor="@color/black"
+                android:textSize="16sp"/>
+
+            <AutoCompleteTextView
+                android:id="@+id/auto_searchFundspot"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@drawable/background_txt_border"
+                android:drawableLeft="@drawable/ic_search_black_24dp"
+                android:hint="Search"
+                android:minHeight="40dp"
+                android:padding="5dp"
+                android:textColor="@color/colorText"/>
+
+
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="1dp"
+                android:drawableRight="@drawable/star"
+                android:padding="5dp"
+                android:text="Members to sellers"
+                android:textSize="16sp"/>
+
+            <EditText
+                android:id="@+id/edt_finePrint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:gravity="top|start"
+                android:hint="Message"
+                android:inputType="textMultiLine"
+                android:lines="4"
+                android:padding="5dp"
+                android:textColor="@color/black"/>
+
+            <Button
+                android:id="@+id/btn_continue"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="15dp"
+                android:layout_weight="1"
+                android:background="@color/colorButton"
+                android:gravity="center"
+                android:text="Request Campaign"
+                android:textAllCaps="false"
+                android:textColor="#000"
+                android:textSize="20sp"/>
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>
