@@ -5,7 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
-    <permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
         android:allowBackup="true"
@@ -57,6 +57,8 @@
         <activity android:name=".organization.FundspotListActivity">
         </activity>
         <activity android:name=".organization.FundspotProductListActivity">
+        </activity>
+        <activity android:name=".organization.CreateCampaignNextActivity">
         </activity>
     </application>
 
