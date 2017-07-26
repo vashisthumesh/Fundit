@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -22,10 +23,10 @@ import com.fundit.a.C;
 import com.fundit.apis.AdminAPI;
 import com.fundit.apis.ServiceGenerator;
 import com.fundit.helper.CustomDialog;
-import com.fundit.model.AppModel;
 import com.fundit.model.FundspotListResponse;
 import com.fundit.model.ProductListResponse;
 import com.fundit.model.VerifyResponse;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +55,7 @@ public class CreateCampaignActivity extends AppCompatActivity {
     CheckBox chk_indefinite;
 
     int REQUEST_PRODUCT = 369;
+    int NEXT_STEP = 936;
 
     Button btn_continue;
     CustomDialog dialog;
@@ -228,31 +230,18 @@ public class CreateCampaignActivity extends AppCompatActivity {
                     if (chk_indefinite.isChecked()) {
                         campaignDuration = "0";
                     }
-                    dialog.show();
-                    Call<AppModel> addCampCall = adminAPI.addCampaign(preference.getUserID(), preference.getTokenHash(), selectedFundSpotID, product.getType_id(), product.getId(), product.getPrice(), fundSpotSplit, organizationSplit, campaignDuration, maxLimitCoupon, couponExpiry, couponFinePrint);
-                    addCampCall.enqueue(new Callback<AppModel>() {
-                        @Override
-                        public void onResponse(Call<AppModel> call, Response<AppModel> response) {
-                            dialog.dismiss();
-                            AppModel model = response.body();
-                            if (model != null) {
-                                if (model.isStatus()) {
-                                    C.INSTANCE.showToast(getApplicationContext(), model.getMessage());
-                                    onBackPressed();
-                                } else {
-                                    C.INSTANCE.showToast(getApplicationContext(), model.getMessage());
-                                }
-                            } else {
-                                C.INSTANCE.defaultError(getApplicationContext());
-                            }
-                        }
 
-                        @Override
-                        public void onFailure(Call<AppModel> call, Throwable t) {
-                            dialog.dismiss();
-                            C.INSTANCE.errorToast(getApplicationContext(), t);
-                        }
-                    });
+                    Intent intent = new Intent(getApplicationContext(), CreateCampaignNextActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.putExtra("selectedFundspotID", selectedFundSpotID);
+                    intent.putExtra("product", product);
+                    intent.putExtra("fundspotSplit", fundSpotSplit);
+                    intent.putExtra("organizationSplit", organizationSplit);
+                    intent.putExtra("campaignDuration", campaignDuration);
+                    intent.putExtra("maxLimitCoupon", maxLimitCoupon);
+                    intent.putExtra("couponExpiry", couponExpiry);
+                    intent.putExtra("couponFinePrint", couponFinePrint);
+                    startActivityForResult(intent, NEXT_STEP);
                 }
             }
         });
@@ -284,6 +273,8 @@ public class CreateCampaignActivity extends AppCompatActivity {
             product = (ProductListResponse.Product) data.getSerializableExtra("product");
             auto_searchFundspot.setText("");
             fillupSelectedData();
+        } else if (requestCode == NEXT_STEP && resultCode == RESULT_OK) {
+            onBackPressed();
         }
     }
 
@@ -303,6 +294,8 @@ public class CreateCampaignActivity extends AppCompatActivity {
         else {
             txt_itemLabel.setText("Item being sold");
         }
+
+        Log.e("product data", new Gson().toJson(product));
     }
 
     private void searchFundspot(String title) {

@@ -31,7 +31,7 @@ public class AccountTypeActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        actionTitle.setText("Select Account Type");
+        actionTitle.setText("Choose an account to create");
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

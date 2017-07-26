@@ -3,12 +3,15 @@ package com.fundit.a
 import android.app.Activity
 import android.content.Context
 import android.support.v7.widget.Toolbar
+import android.util.Log
 import android.view.LayoutInflater
 import android.widget.TextView
 import android.widget.Toast
 import com.fundit.R
 import java.net.ConnectException
 import java.net.UnknownHostException
+import java.text.SimpleDateFormat
+import java.util.*
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
@@ -38,7 +41,6 @@ object C{
         txt_message.text = message
         toast.view = view
         toast.duration = Toast.LENGTH_SHORT
-
         toast.show()
     }
 
@@ -59,10 +61,22 @@ object C{
     }
 
     fun errorToast(context: Context, t: Throwable): Unit{
+        Log.e("Error", t.message)
         when(t){
             is ConnectException -> noInternet(context)
             is UnknownHostException -> noInternet(context)
             else -> defaultError(context)
+        }
+    }
+
+    fun convertDate(currentFormat: String, newFormat: String, date: String): String {
+
+        val sdf = SimpleDateFormat(currentFormat, Locale.getDefault())
+        val newForm = SimpleDateFormat(newFormat, Locale.getDefault())
+        try {
+            return newForm.format(sdf.parse(date))
+        } catch (e: Exception) {
+            return date
         }
     }
 

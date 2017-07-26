@@ -9,7 +9,8 @@ public class W {
     public static final String KEY_USERID = "user_id";
     public static final String KEY_TOKEN = "tokenhash";
 
-    public static final String BASE_URL="http://app.nivida.in/fundit/";
+    //public static final String BASE_URL="http://app.nivida.in/fundit/"; //Online URL
+    public static final String BASE_URL = "http://192.168.1.110/fundit/"; // Local URL
     public static final String FILE_URL = BASE_URL + "files/";
 
     public static final String USER_LOGIN="User/app_login";
@@ -45,4 +46,6 @@ public class W {
     public static final String ALL_FUNDSPOT="Fundspot/app_get_all_fundspot";
 
     public static final String CAMPAIGN_LIST = "Campaign/app_get_all_campaign";
+
+    public static final String MEMBER_LIST = "Member/app_get_member";
 }

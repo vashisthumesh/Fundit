@@ -60,11 +60,11 @@ public class OrganizationAccountActivity extends AppCompatActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
 
         if (roleID.equals(C.ORGANIZATION)) {
-            actionTitle.setText("Organization");
+            actionTitle.setText("Organization Account");
         } else if (roleID.equals(C.FUNDSPOT)) {
-            actionTitle.setText("Fundspot");
+            actionTitle.setText("Fundspot Account");
         } else {
-            actionTitle.setText("General Member");
+            actionTitle.setText("General Member Account");
         }
 
 
@@ -303,6 +303,10 @@ public class OrganizationAccountActivity extends AppCompatActivity {
     }
 
     void sendRegistrationData(String title, String firstName, String lastName, String emailID, String password){
+        if (roleID.equals(C.GENERAL_MEMBER)) {
+            title = firstName + " " + lastName;
+        }
+
         dialog.show();
         Call<RegisterResponse> responseCall=adminAPI.registerUser(roleID,title,firstName,lastName,emailID,password, FirebaseInstanceId.getInstance().getToken());
         responseCall.enqueue(new Callback<RegisterResponse>() {

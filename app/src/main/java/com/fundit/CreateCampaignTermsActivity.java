@@ -18,7 +18,6 @@ public class CreateCampaignTermsActivity extends AppCompatActivity {
     CheckBox chk_infinite;
     Button btn_accept, btn_message, btn_decline;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -6,6 +6,7 @@ import com.fundit.model.AreaResponse;
 import com.fundit.model.CampaignListResponse;
 import com.fundit.model.CategoryResponse;
 import com.fundit.model.FundspotListResponse;
+import com.fundit.model.MemberListResponse;
 import com.fundit.model.OrganizationResponse;
 import com.fundit.model.ProductListResponse;
 import com.fundit.model.RegisterResponse;
@@ -115,7 +116,7 @@ public interface AdminAPI {
 
     @FormUrlEncoded
     @POST(W.ADD_CAMPAIGN)
-    Call<AppModel> addCampaign(@Field(W.KEY_USERID) String userID, @Field(W.KEY_TOKEN) String token, @Field("fundspot_id") String fundspotID, @Field("type_id") String typeID, @Field("product_id") String productID, @Field("price") String price, @Field("fundspot_percent") String fundSpotPercent, @Field("organization_percent") String orgPercent, @Field("campaign_duration") String campaignDuration, @Field("max_limit_of_coupons") String maxLimitCoupon, @Field("coupon_expire_day") String couponExpiryDay, @Field("fine_print") String finePrint);
+    Call<AppModel> addCampaign(@Field(W.KEY_USERID) String userID, @Field(W.KEY_TOKEN) String token, @Field("campaign_detail") String campaignDetailArray, @Field("campaign_member") String memberIDArray);
 
     @POST(W.ALL_ORGANIZATION)
     Call<OrganizationResponse> getAllOrganizations();
@@ -126,4 +127,8 @@ public interface AdminAPI {
     @FormUrlEncoded
     @POST(W.CAMPAIGN_LIST)
     Call<CampaignListResponse> getAllCampaigns(@Field(W.KEY_USERID) String userID, @Field(W.KEY_TOKEN) String token, @Field("role_id") String roleID, @Field("organization_id") String organizationID, @Field("fundspot_id") String fundspotID);
+
+    @FormUrlEncoded
+    @POST(W.MEMBER_LIST)
+    Call<MemberListResponse> getAllMemberList(@Field(W.KEY_USERID) String userID, @Field(W.KEY_TOKEN) String token, @Field("role_id") String roleID, @Field("organization_id") String organizationID, @Field("fundspot_id") String fundspotID);
 }
