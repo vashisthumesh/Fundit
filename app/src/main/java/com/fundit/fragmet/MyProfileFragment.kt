@@ -1,20 +1,71 @@
 package com.fundit.fragmet
 
-import android.content.Context
-import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
+import android.widget.TextView
 import com.fundit.R
+import com.fundit.a.AppPreference
+import com.fundit.a.C
+import com.fundit.a.W
+import com.fundit.model.Fundspot
+import com.fundit.model.Member
+import com.fundit.model.Organization
+import com.fundit.model.User
+import com.google.gson.Gson
+import com.squareup.picasso.Picasso
+import de.hdodenhof.circleimageview.CircleImageView
 
 class MyProfileFragment : Fragment() {
+
+    var preference: AppPreference? = null
+    var img_profilePic: CircleImageView? = null
+    var txt_name: TextView? = null
+    var txt_address: TextView? = null
+    var txt_emailID: TextView? = null
+
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater!!.inflate(R.layout.fragment_my_profile, container, false)
+
+        preference = AppPreference(activity)
+
+        img_profilePic = view.findViewById(R.id.img_profilePic) as CircleImageView
+        txt_name = view.findViewById(R.id.txt_name) as TextView
+        txt_address = view.findViewById(R.id.txt_address) as TextView
+        txt_emailID = view.findViewById(R.id.txt_emailID) as TextView
+
+        val userData = Gson().fromJson(preference?.userData, User::class.java)
+
+        txt_name?.text = userData.title
+        txt_emailID?.text = userData.email_id
+
+        var imagePath: String = ""
+
+        when (preference?.userRoleID) {
+            C.ORGANIZATION -> {
+                val memberData = Gson().fromJson(preference?.memberData, Organization::class.java)
+                txt_address?.text = memberData.location
+                imagePath = memberData.image
+            }
+            C.FUNDSPOT -> {
+                val memberData = Gson().fromJson(preference?.memberData, Fundspot::class.java)
+                txt_address?.text = memberData.location
+                imagePath = memberData.image
+            }
+            C.GENERAL_MEMBER -> {
+                val memberData = Gson().fromJson(preference?.memberData, Member::class.java)
+                txt_address?.text = memberData.location
+                imagePath = memberData.image
+            }
+        }
+
+        Picasso.with(context)
+                .load(W.FILE_URL + imagePath)
+                .into(img_profilePic)
 
         return view
     }

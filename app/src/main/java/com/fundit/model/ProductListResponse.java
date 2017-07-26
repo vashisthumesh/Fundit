@@ -8,7 +8,7 @@ import java.util.List;
  * Created by Nivida new on 20-Jul-17.
  */
 
-public class ProductListResponse extends AppModel {
+public class ProductListResponse extends AppModel implements Serializable {
 
     List<Product> data = new ArrayList<>();
 

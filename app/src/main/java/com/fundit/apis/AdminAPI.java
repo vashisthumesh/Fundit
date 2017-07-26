@@ -1,5 +1,7 @@
 package com.fundit.apis;
 
+import android.provider.ContactsContract;
+
 import com.fundit.a.W;
 import com.fundit.model.AppModel;
 import com.fundit.model.AreaResponse;
@@ -14,6 +16,7 @@ import com.fundit.model.UniqueEmailResponse;
 import com.fundit.model.VerifyResponse;
 
 import okhttp3.MultipartBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -54,15 +57,15 @@ public interface AdminAPI {
 
     @FormUrlEncoded
     @POST(W.REGISTER_USER)
-    Call<RegisterResponse> registerUser(@Field("role_id") String role_id,@Field("title") String title,@Field("first_name") String first_name,@Field("last_name")String last_name,@Field("email_id")String email_id,@Field("password")String password, @Field("anroid_device_id") String deviceID);
+    Call<RegisterResponse> registerUser(@Field("role_id") String role_id, @Field("title") String title, @Field("first_name") String first_name, @Field("last_name") String last_name, @Field("email_id") String email_id, @Field("password") String password, @Field("anroid_device_id") String deviceID);
 
     @FormUrlEncoded
     @POST(W.USER_LOGIN)
-    Call<VerifyResponse> signInUser(@Field("email_id")String email_id,@Field("password")String password,@Field("anroid_device_id")String anroid_device_id );
+    Call<VerifyResponse> signInUser(@Field("email_id") String email_id, @Field("password") String password, @Field("anroid_device_id") String anroid_device_id);
 
     @FormUrlEncoded
     @POST(W.FORGET_PASSWORD)
-    Call<AppModel> forgetPassword(@Field("email_id")String email_id);
+    Call<AppModel> forgetPassword(@Field("email_id") String email_id);
 
     @FormUrlEncoded
     @POST(W.USER_VERIFICATION)
@@ -78,13 +81,12 @@ public interface AdminAPI {
 
     @Multipart
     @POST(W.EDIT_GENERALMEMBER)
-    Call<VerifyResponse> generalMemberProfile(@Part(W.KEY_USERID) String userID, @Part(W.KEY_TOKEN) String tokenHash, @Part("first_name") String first_name,@Part("last_name")String last_name,@Part("location")String location, @Part("state_id") String stateID, @Part("city_id") String cityID, @Part("zip_code") String zipCode, @Part("organization_id") String organization_id, @Part("fundspot_id") String fundspot_id, @Part("contact_info") String contact_info, @Part MultipartBody.Part profileImage);
-
+    Call<VerifyResponse> generalMemberProfile(@Part(W.KEY_USERID) String userID, @Part(W.KEY_TOKEN) String tokenHash, @Part("first_name") String first_name, @Part("last_name") String last_name, @Part("location") String location, @Part("state_id") String stateID, @Part("city_id") String cityID, @Part("zip_code") String zipCode, @Part("organization_id") String organization_id, @Part("fundspot_id") String fundspot_id, @Part("contact_info") String contact_info, @Part MultipartBody.Part profileImage);
 
 
     @Multipart
     @POST(W.ADD_PRODUCT)
-    Call<AppModel> addMyProduct(@Part(W.KEY_USERID) String userID, @Part(W.KEY_TOKEN) String tokenHash, @Part("type_id") String typeID, @Part("name") String name, @Part("description") String description, @Part("price") String price, @Part("fundspot_percent") String fundSpotPercent, @Part("organization_percent") String orgPercent, @Part("campaign_duration") String campaignDuration, @Part("max_limit_of_coupons") String maxLimitCoupons, @Part("coupon_expire_day") String couponExpiryDay,@Part("fine_print")String fine_print, @Part MultipartBody.Part productImage);
+    Call<AppModel> addMyProduct(@Part(W.KEY_USERID) String userID, @Part(W.KEY_TOKEN) String tokenHash, @Part("type_id") String typeID, @Part("name") String name, @Part("description") String description, @Part("price") String price, @Part("fundspot_percent") String fundSpotPercent, @Part("organization_percent") String orgPercent, @Part("campaign_duration") String campaignDuration, @Part("max_limit_of_coupons") String maxLimitCoupons, @Part("coupon_expire_day") String couponExpiryDay, @Part("fine_print") String fine_print, @Part MultipartBody.Part productImage);
 
     @Multipart
     @POST(W.EDIT_PRODUCT)
@@ -108,7 +110,7 @@ public interface AdminAPI {
 
     @FormUrlEncoded
     @POST(W.FUNDSPOT_PRODUCT)
-    Call<ProductListResponse> fundSpotProducts(@Field(W.KEY_USERID) String userID, @Field(W.KEY_TOKEN) String token,@Field("fundspot_id") String fundspotID,@Field("type_id") String typeID);
+    Call<ProductListResponse> fundSpotProducts(@Field(W.KEY_USERID) String userID, @Field(W.KEY_TOKEN) String token, @Field("fundspot_id") String fundspotID, @Field("type_id") String typeID);
 
     @FormUrlEncoded
     @POST(W.FUNDSPOT_SEARCH)
@@ -131,4 +133,11 @@ public interface AdminAPI {
     @FormUrlEncoded
     @POST(W.MEMBER_LIST)
     Call<MemberListResponse> getAllMemberList(@Field(W.KEY_USERID) String userID, @Field(W.KEY_TOKEN) String token, @Field("role_id") String roleID, @Field("organization_id") String organizationID, @Field("fundspot_id") String fundspotID);
+
+
+    @FormUrlEncoded
+    @POST(W.CANCEL_CAMPAIGN)
+    Call<AppModel> cancelCampaign(@Field(W.KEY_USERID) String userID, @Field(W.KEY_TOKEN) String token, @Field("role_id") String role_id, @Field("action_status") String status);
+
+
 }

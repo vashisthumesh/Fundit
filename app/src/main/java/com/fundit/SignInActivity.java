@@ -174,7 +174,7 @@ public class SignInActivity extends AppCompatActivity {
 
                                     switch (verifyResponse.getData().getUser().getRole_id()) {
                                         case C.ORGANIZATION:
-                                            if (verifyResponse.getData().getOrganization().getId().isEmpty()) {
+                                            if (verifyResponse.getData().getOrganization() == null || verifyResponse.getData().getOrganization().getId() == null || verifyResponse.getData().getOrganization().getId().isEmpty()) {
                                                 in = new Intent(getApplicationContext(), OrganizationProfileActivity.class);
                                                 in.putExtra("firstTime", true);
                                             } else {
@@ -182,7 +182,7 @@ public class SignInActivity extends AppCompatActivity {
                                             }
                                             break;
                                         case C.FUNDSPOT:
-                                            if (verifyResponse.getData().getFundspot().getId().isEmpty()) {
+                                            if (verifyResponse.getData().getFundspot() == null || verifyResponse.getData().getFundspot().getId() == null || verifyResponse.getData().getFundspot().getId().isEmpty()) {
                                                 in = new Intent(getApplicationContext(), FundSpotProfile.class);
                                                 in.putExtra("firstTime", true);
                                             } else {
@@ -190,7 +190,7 @@ public class SignInActivity extends AppCompatActivity {
                                             }
                                             break;
                                         case C.GENERAL_MEMBER:
-                                            if (verifyResponse.getData().getMember().getId().isEmpty()) {
+                                            if (verifyResponse.getData().getMember() == null || verifyResponse.getData().getMember().getId() == null || verifyResponse.getData().getMember().getId().isEmpty()) {
                                                 in = new Intent(getApplicationContext(), GeneralMemberProfileActivity.class);
                                                 in.putExtra("firstTime", true);
                                             } else {

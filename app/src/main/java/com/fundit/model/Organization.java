@@ -1,10 +1,12 @@
 package com.fundit.model;
 
+import java.io.Serializable;
+
 /**
  * Created by prince on 7/17/2017.
  */
 
-public class Organization extends Member {
+public class Organization extends Member implements Serializable {
 
     String type_id="";
     String sub_type_id="";
