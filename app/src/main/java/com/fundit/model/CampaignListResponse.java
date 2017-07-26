@@ -1,5 +1,6 @@
 package com.fundit.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +16,7 @@ public class CampaignListResponse extends AppModel {
         return data;
     }
 
-    public class CampaignList {
+    public class CampaignList implements Serializable {
         Campaign Campaign = new Campaign();
         ProductListResponse.Product Product = new ProductListResponse.Product();
         UserFundspot UserFundspot = new UserFundspot();
@@ -38,7 +39,7 @@ public class CampaignListResponse extends AppModel {
         }
     }
 
-    public class UserFundspot extends User {
+    public class UserFundspot extends User implements Serializable {
         Fundspot Fundspot = new Fundspot();
 
         public com.fundit.model.Fundspot getFundspot() {
@@ -46,7 +47,7 @@ public class CampaignListResponse extends AppModel {
         }
     }
 
-    public class UserOrganization extends User {
+    public class UserOrganization extends User implements Serializable {
         Organization Organization = new Organization();
 
         public com.fundit.model.Organization getOrganization() {

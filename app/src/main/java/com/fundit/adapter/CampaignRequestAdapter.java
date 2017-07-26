@@ -1,6 +1,7 @@
 package com.fundit.adapter;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.fundit.CreateCampaignTermsActivity;
 import com.fundit.R;
 import com.fundit.a.AppPreference;
 import com.fundit.a.C;
@@ -55,7 +57,7 @@ public class CampaignRequestAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         View view = inflater.inflate(R.layout.layout_request_campaign_item, parent, false);
 
         TextView txt_partnerName = (TextView) view.findViewById(R.id.txt_partnerName);
@@ -84,6 +86,16 @@ public class CampaignRequestAdapter extends BaseAdapter {
                     .load(W.FILE_URL + campaignList.get(position).getUserOrganization().getOrganization().getImage())
                     .into(img_partnerPic);
         }
+
+        btn_reviewTerms.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(activity, CreateCampaignTermsActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("campaignItem", campaignList.get(position));
+                activity.startActivity(intent);
+            }
+        });
 
         return view;
     }

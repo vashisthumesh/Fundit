@@ -1,52 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:tools="http://schemas.android.com/tools"
-              android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="match_parent"
+              android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/img_profilePic"
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:padding="10dp"
+            android:layout_weight="1.5"
             android:maxWidth="400dp"
-            android:id="@+id/img_profilePic"
-            android:layout_weight="1.5"/>
+            android:padding="10dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
             android:layout_weight="1"
-            android:padding="10dp"
-            android:gravity="center">
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="10dp">
 
             <TextView
+                android:id="@+id/txt_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:gravity="center"
                 android:padding="5dp"
+                android:textColor="@color/colorText"
                 android:textSize="19sp"
                 android:textStyle="bold"
-                android:fontFamily="sans-serif"
-                android:id="@+id/txt_name"
-                android:textColor="@color/colorText"
-                tools:text="Aliya Nayeem"
-                android:gravity="center"/>
+                tools:text="Aliya Nayeem"/>
 
             <TextView
+                android:id="@+id/txt_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:padding="5dp"
-                android:textSize="19sp"
-                android:id="@+id/txt_address"
                 android:textColor="@color/colorText"
-                tools:text="Falls Church, VA"
-                android:gravity="center"/>
+                android:textSize="19sp"
+                tools:text="Falls Church, VA"/>
 
         </LinearLayout>
 
@@ -61,21 +61,21 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:textSize="16sp"
-            android:textStyle="bold"
             android:fontFamily="sans-serif"
+            android:padding="5dp"
+            android:text="Email: "
             android:textColor="@color/colorText"
-            android:text="Email: "/>
+            android:textSize="16sp"
+            android:textStyle="bold"/>
 
         <TextView
+            android:id="@+id/txt_emailID"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:textSize="16sp"
-            android:id="@+id/txt_emailID"
             android:fontFamily="sans-serif"
+            android:padding="5dp"
             android:textColor="@color/colorText"
+            android:textSize="16sp"
             tools:text="aliyafundit@gmail.com"/>
 
     </LinearLayout>
@@ -89,21 +89,21 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:textSize="16sp"
-            android:textStyle="bold"
             android:fontFamily="sans-serif"
+            android:padding="5dp"
+            android:text="Organizations: "
             android:textColor="@color/colorText"
-            android:text="Organizations: "/>
+            android:textSize="16sp"
+            android:textStyle="bold"/>
 
         <TextView
+            android:id="@+id/txt_organizations"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:textSize="16sp"
-            android:id="@+id/txt_organizations"
             android:fontFamily="sans-serif"
+            android:padding="5dp"
             android:textColor="@color/colorText"
+            android:textSize="16sp"
             tools:text="VT Club Tennis, VT Bhangra, SIA"/>
 
     </LinearLayout>
@@ -117,21 +117,21 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:textSize="16sp"
-            android:textStyle="bold"
             android:fontFamily="sans-serif"
+            android:padding="5dp"
+            android:text="Fundspots: "
             android:textColor="@color/colorText"
-            android:text="Fundspots: "/>
+            android:textSize="16sp"
+            android:textStyle="bold"/>
 
         <TextView
+            android:id="@+id/txt_fundspots"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:textSize="16sp"
-            android:id="@+id/txt_fundspots"
             android:fontFamily="sans-serif"
+            android:padding="5dp"
             android:textColor="@color/colorText"
+            android:textSize="16sp"
             tools:text="Chipotle"/>
 
     </LinearLayout>
@@ -145,21 +145,21 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:textSize="16sp"
-            android:textStyle="bold"
             android:fontFamily="sans-serif"
+            android:padding="5dp"
+            android:text="Current Campaign: "
             android:textColor="@color/colorText"
-            android:text="Current Campaign: "/>
+            android:textSize="16sp"
+            android:textStyle="bold"/>
 
         <TextView
+            android:id="@+id/txt_currentCampaigns"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:textSize="16sp"
-            android:id="@+id/txt_currentCampaigns"
             android:fontFamily="sans-serif"
+            android:padding="5dp"
             android:textColor="@color/colorText"
+            android:textSize="16sp"
             tools:text="Pizza Hut"/>
 
     </LinearLayout>
@@ -173,21 +173,21 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:textSize="16sp"
-            android:textStyle="bold"
             android:fontFamily="sans-serif"
+            android:padding="5dp"
+            android:text="Past Campaigns: "
             android:textColor="@color/colorText"
-            android:text="Past Campaigns: "/>
+            android:textSize="16sp"
+            android:textStyle="bold"/>
 
         <TextView
+            android:id="@+id/txt_pastCampaigns"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:textSize="16sp"
-            android:id="@+id/txt_pastCampaigns"
             android:fontFamily="sans-serif"
+            android:padding="5dp"
             android:textColor="@color/colorText"
+            android:textSize="16sp"
             tools:text="VT Bhangra, Godwin Robotics, Club Tennis Team, etc."/>
 
     </LinearLayout>
