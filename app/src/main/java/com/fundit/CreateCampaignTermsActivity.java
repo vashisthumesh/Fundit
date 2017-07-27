@@ -3,6 +3,7 @@ package com.fundit;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -13,7 +14,17 @@ import android.widget.TextView;
 
 import com.fundit.a.AppPreference;
 import com.fundit.a.C;
+import com.fundit.apis.AdminAPI;
+import com.fundit.apis.ServiceGenerator;
+import com.fundit.fragmet.FRequestFragment;
+import com.fundit.fragmet.FundspotRequestFragment;
+import com.fundit.helper.CustomDialog;
+import com.fundit.model.AppModel;
 import com.fundit.model.CampaignListResponse;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class CreateCampaignTermsActivity extends AppCompatActivity {
 
@@ -29,10 +40,21 @@ public class CreateCampaignTermsActivity extends AppCompatActivity {
 
     int REQUEST_START_CAMPAIGN = 369;
 
+    AdminAPI adminAPI;
+
+    CustomDialog dialog;
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_campaign_terms);
+
+        adminAPI = ServiceGenerator.getAPIClass();
+        dialog = new CustomDialog(this);
+
 
         preference = new AppPreference(this);
 
@@ -44,6 +66,10 @@ public class CreateCampaignTermsActivity extends AppCompatActivity {
     }
 
     private void fetchIDs() {
+
+
+
+
         txt_partnerLabel = (TextView) findViewById(R.id.txt_partnerLabel);
         txt_itemLabel = (TextView) findViewById(R.id.txt_itemLabel);
 
@@ -107,11 +133,60 @@ public class CreateCampaignTermsActivity extends AppCompatActivity {
         btn_decline.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                dialog.show();
 
+
+                Call<AppModel> cancelCampaign = adminAPI.cancelCampaign(preference.getUserID(), preference.getTokenHash(),campaignList.getCampaign().getId(), preference.getUserRoleID(), "3");
+
+
+                Log.e("Parameters" , "" + preference.getUserID() + "--" + preference.getTokenHash() + "--" + preference.getUserRoleID() + "--" + campaignList.getCampaign().getId());
+
+                cancelCampaign.enqueue(new Callback<AppModel>() {
+                    @Override
+                    public void onResponse(Call<AppModel> call, Response<AppModel> response) {
+                        dialog.dismiss();
+
+                        AppModel appModel = response.body();
+
+                        if (appModel != null) {
+
+                            if (appModel.isStatus()) {
+
+                                C.INSTANCE.showToast(getApplicationContext(), appModel.getMessage());
+
+
+
+                                dialog.dismiss();
+
+
+                            } else {
+
+
+                                C.INSTANCE.showToast(getApplicationContext(), appModel.getMessage());
+
+
+                            }
+
+
+                        } else {
+
+
+                            C.INSTANCE.defaultError(getApplicationContext());
+                        }
+
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<AppModel> call, Throwable t) {
+
+                        dialog.dismiss();
+                        C.INSTANCE.errorToast(getApplicationContext() , t);
+
+                    }
+                });
             }
         });
-
-
 
 
     }

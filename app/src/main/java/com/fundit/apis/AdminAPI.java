@@ -137,7 +137,7 @@ public interface AdminAPI {
 
     @FormUrlEncoded
     @POST(W.CANCEL_CAMPAIGN)
-    Call<AppModel> cancelCampaign(@Field(W.KEY_USERID) String userID, @Field(W.KEY_TOKEN) String token, @Field("role_id") String role_id, @Field("action_status") String status);
+    Call<AppModel> cancelCampaign(@Field(W.KEY_USERID) String userID, @Field(W.KEY_TOKEN) String token,@Field("campaign_id") String campaign_id , @Field("role_id") String role_id, @Field("action_status") String status);
 
 
 }

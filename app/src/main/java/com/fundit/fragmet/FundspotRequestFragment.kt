@@ -2,6 +2,7 @@ package com.fundit.fragmet
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -53,6 +54,7 @@ class FundspotRequestFragment : Fragment() {
         when (preference?.userRoleID) {
             C.ORGANIZATION -> {
                 campaignCall = adminAPI?.getAllCampaigns(preference?.userID, preference?.tokenHash, preference?.userRoleID, preference?.userID, null)
+
             }
             C.FUNDSPOT -> {
                 campaignCall = adminAPI?.getAllCampaigns(preference?.userID, preference?.tokenHash, preference?.userRoleID, null, preference?.userID)
