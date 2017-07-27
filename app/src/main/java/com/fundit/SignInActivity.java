@@ -184,7 +184,7 @@ public class SignInActivity extends AppCompatActivity {
                                         case C.FUNDSPOT:
                                             if (verifyResponse.getData().getFundspot() == null || verifyResponse.getData().getFundspot().getId() == null || verifyResponse.getData().getFundspot().getId().isEmpty()) {
                                                 in = new Intent(getApplicationContext(), FundSpotProfile.class);
-                                                in.putExtra("firstTime", true);
+                                                in.putExtra("firstTime",true);
                                             } else {
                                                 memberData = new Gson().toJson(verifyResponse.getData().getFundspot());
                                             }
@@ -192,7 +192,7 @@ public class SignInActivity extends AppCompatActivity {
                                         case C.GENERAL_MEMBER:
                                             if (verifyResponse.getData().getMember() == null || verifyResponse.getData().getMember().getId() == null || verifyResponse.getData().getMember().getId().isEmpty()) {
                                                 in = new Intent(getApplicationContext(), GeneralMemberProfileActivity.class);
-                                                in.putExtra("firstTime", true);
+                                                in.putExtra("firstTime",true);
                                             } else {
                                                 memberData = new Gson().toJson(verifyResponse.getData().getMember());
                                             }

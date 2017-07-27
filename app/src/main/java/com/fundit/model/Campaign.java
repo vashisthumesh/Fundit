@@ -8,15 +8,16 @@ import java.io.Serializable;
 
 public class Campaign extends ProductListResponse.Product implements Serializable {
 
-    String fundspot_id = "";
+    String title="";
+    String receiver_id = "";
     String product_id = "";
     String status = "";
     String action_status = "";
     String start_date = "";
     String all_member = "0";
 
-    public String getFundspot_id() {
-        return fundspot_id;
+    public String getReceiver_id() {
+        return receiver_id;
     }
 
     public String getProduct_id() {
@@ -37,5 +38,9 @@ public class Campaign extends ProductListResponse.Product implements Serializabl
 
     public String getAll_member() {
         return all_member;
+    }
+
+    public String getTitle() {
+        return title;
     }
 }

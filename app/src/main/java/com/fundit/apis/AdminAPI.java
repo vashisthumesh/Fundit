@@ -139,4 +139,7 @@ public interface AdminAPI {
     Call<AppModel> cancelCampaign(@Field(W.KEY_USERID) String userID, @Field(W.KEY_TOKEN) String token,@Field("campaign_id") String campaign_id , @Field("role_id") String role_id, @Field("action_status") String status);
 
 
+    @FormUrlEncoded
+    @POST(W.APP_EDIT_CAMPAIGN)
+    Call<AppModel> appEditcampaign(@Field("user_id") String user_id,@Field("tokenhash") String tokenhash,@Field("campaign_id") String campaign_id, @Field("campaign_detail") String campaignDetailArray, @Field("campaign_member") String memberIDArray);
 }

@@ -23,9 +23,14 @@ import com.fundit.apis.AdminAPI;
 import com.fundit.apis.ServiceGenerator;
 import com.fundit.helper.AdjustableListView;
 import com.fundit.helper.CustomDialog;
+import com.fundit.model.AppModel;
 import com.fundit.model.CampaignListResponse;
 import com.fundit.model.Member;
 import com.fundit.model.MemberListResponse;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -67,7 +72,7 @@ public class CreateCampaignTermsNextActivity extends AppCompatActivity {
         dialog = new CustomDialog(this);
 
         Intent intent = getIntent();
-        campaignList = (CampaignListResponse.CampaignList) intent.getSerializableExtra("campaignItem");
+        campaignList = (CampaignListResponse.CampaignList) intent.getSerializableExtra("campaignList");
 
         fetchIDs();
 
@@ -118,8 +123,12 @@ public class CreateCampaignTermsNextActivity extends AppCompatActivity {
             }
         });
 
-        if (campaignList.getCampaign().getStart_date().isEmpty()) {
+        edt_campaignName.setText(campaignList.getCampaign().getTitle());
+        edt_description.setText(campaignList.getCampaign().getDescription());
 
+        if(campaignList.getCampaign().getStart_date()!=null && !campaignList.getCampaign().getStart_date().isEmpty()){
+            edt_startDate.setText(C.INSTANCE.convertDate("yyyy-MM-dd","MM/dd/yy",campaignList.getCampaign().getStart_date()));
+            dateSelected = campaignList.getCampaign().getStart_date();
         }
 
 
@@ -154,6 +163,77 @@ public class CreateCampaignTermsNextActivity extends AppCompatActivity {
         btn_request.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+            List<Member> checkedmemberList=memberListAdapter.getMemberList();
+                String message=edt_message.getText().toString().trim();
+
+                if(dateSelected==null){
+                    C.INSTANCE.showToast(getApplicationContext(), "Please select start date ");
+
+                }else if(!chk_allOrgMembers.isChecked() && checkedmemberList.size()==0){
+                    C.INSTANCE.showToast(getApplicationContext(), "Please select fundspot member ");
+
+                }else if(message.isEmpty()){
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter message to sellers");
+
+                }else{
+                    JSONArray campaignDetailArray = new JSONArray();
+                    JSONObject detailObject = new JSONObject();
+                    JSONArray memberIDArray = new JSONArray();
+
+                    try {
+
+                        detailObject.put("start_date", dateSelected);
+
+
+                        if (chk_allOrgMembers.isChecked()) {
+                            detailObject.put("all_member", "1");
+                        } else {
+                            detailObject.put("all_member", "0");
+                        }
+                        detailObject.put("message", message);
+
+                        campaignDetailArray.put(detailObject);
+
+
+                        if (!chk_allOrgMembers.isChecked()) {
+                            for (int i = 0; i < checkedmemberList.size(); i++) {
+                                JSONObject object = new JSONObject();
+                                object.put("member_id", checkedmemberList.get(i).getUser_id());
+                                memberIDArray.put(object);
+                            }
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    dialog.show();
+                    Call<AppModel> addCampCall = adminAPI.appEditcampaign(preference.getUserID(), preference.getTokenHash(),campaignList.getCampaign().getId() ,campaignDetailArray.toString(), memberIDArray.toString());
+                    addCampCall.enqueue(new Callback<AppModel>() {
+                        @Override
+                        public void onResponse(Call<AppModel> call, Response<AppModel> response) {
+                            dialog.dismiss();
+                            AppModel model = response.body();
+                            if (model != null) {
+                                if (model.isStatus()) {
+                                    C.INSTANCE.showToast(getApplicationContext(), model.getMessage());
+                                    setResult(RESULT_OK);
+                                    onBackPressed();
+                                } else {
+                                    C.INSTANCE.showToast(getApplicationContext(), model.getMessage());
+                                }
+                            } else {
+                                C.INSTANCE.defaultError(getApplicationContext());
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<AppModel> call, Throwable t) {
+                            dialog.dismiss();
+                            C.INSTANCE.errorToast(getApplicationContext(), t);
+                        }
+                    });
+
+                }
 
             }
         });
@@ -196,5 +276,9 @@ public class CreateCampaignTermsNextActivity extends AppCompatActivity {
         }
 
         auto_searchMember.setText("");
+    }
+    @Override
+    public void onBackPressed() {
+        finish();
     }
 }

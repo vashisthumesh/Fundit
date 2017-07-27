@@ -48,6 +48,8 @@ class FundspotRequestFragment : Fragment() {
         listRequests = fview?.findViewById(R.id.listRequests) as ListView
         campaignRequestAdapter = CampaignRequestAdapter(campaignList, activity)
         listRequests?.adapter = campaignRequestAdapter
+        //hello every one as u all know our swami ji(mr.chintak patel) is going to leave nivida on 29th july,so we planing to give a small gift to him from all of nivida,so if ur intrested to contribute pls ping me with yes,
+        //thanks umesh
 
         dialog?.show()
         var campaignCall: Call<CampaignListResponse>? = null

@@ -29,7 +29,7 @@
                 android:drawableRight="@drawable/star"
                 android:padding="5dp"
                 android:text="Organization Partner"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
 
             <EditText
                 android:id="@+id/edt_partner"
@@ -39,7 +39,8 @@
                 android:enabled="false"
                 android:inputType="textPersonName"
                 android:padding="5dp"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -47,7 +48,8 @@
                 android:background="@drawable/background_txt_border"
                 android:padding="5dp"
                 android:text="Message:we would love to partner up with you and start a fundraiser"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -72,7 +74,7 @@
                         android:padding="3dp"
                         android:text="Item"
                         android:textColor="@color/black"
-                        android:textSize="16sp"/>
+                        android:textSize="16sp" />
 
                     <RadioButton
                         android:id="@+id/rdo_typeGiftCard"
@@ -83,7 +85,7 @@
                         android:padding="3dp"
                         android:text="Gift Card Value"
                         android:textColor="@color/black"
-                        android:textSize="16sp"/>
+                        android:textSize="16sp" />
                 </RadioGroup>
             </LinearLayout>
 
@@ -95,7 +97,7 @@
                 android:drawableRight="@drawable/star"
                 android:padding="5dp"
                 android:text="Item being sold"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
 
             <EditText
                 android:id="@+id/edt_itemName"
@@ -105,7 +107,7 @@
                 android:enabled="false"
                 android:inputType="textPersonName"
                 android:padding="5dp"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -114,7 +116,7 @@
                 android:drawableRight="@drawable/star"
                 android:padding="5dp"
                 android:text="Cost of coupon"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
 
             <EditText
                 android:id="@+id/edt_price"
@@ -124,7 +126,7 @@
                 android:enabled="false"
                 android:inputType="number"
                 android:padding="5dp"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -133,7 +135,7 @@
                 android:drawableRight="@drawable/star"
                 android:padding="5dp"
                 android:text="Percentage split fundspot/organization "
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
 
             <EditText
                 android:id="@+id/edt_split"
@@ -146,7 +148,8 @@
                 android:inputType="text"
                 android:padding="5dp"
                 android:singleLine="true"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -154,7 +157,8 @@
                 android:drawableRight="@drawable/star"
                 android:padding="5dp"
                 android:text="Duration of campaign"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -170,7 +174,7 @@
                     android:enabled="false"
                     android:inputType="number"
                     android:padding="5dp"
-                    android:textColor="@color/black"/>
+                    android:textColor="@color/black" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -178,7 +182,7 @@
                     android:layout_weight="1"
                     android:padding="5dp"
                     android:text="Days"
-                    android:textSize="16sp"/>
+                    android:textSize="16sp" />
 
                 <CheckBox
                     android:id="@+id/chk_infinite"
@@ -189,7 +193,7 @@
                     android:padding="3dp"
                     android:text="Indefinite"
                     android:textColor="@color/black"
-                    android:textSize="16sp"/>
+                    android:textSize="16sp" />
 
             </LinearLayout>
 
@@ -200,7 +204,7 @@
                 android:drawableRight="@drawable/star"
                 android:padding="5dp"
                 android:text="Maximum Limit of Coupons sold"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
 
             <EditText
                 android:id="@+id/edt_maxLimitCoupon"
@@ -210,7 +214,8 @@
                 android:enabled="false"
                 android:inputType="number"
                 android:padding="5dp"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -218,7 +223,7 @@
                 android:drawableRight="@drawable/star"
                 android:padding="5dp"
                 android:text="Coupon Expiration"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -234,7 +239,7 @@
                     android:enabled="false"
                     android:inputType="number"
                     android:padding="5dp"
-                    android:textColor="@color/black"/>
+                    android:textColor="@color/black" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -242,7 +247,7 @@
                     android:layout_weight="1"
                     android:padding="5dp"
                     android:text="Days from purchase"
-                    android:textSize="16sp"/>
+                    android:textSize="16sp" />
             </LinearLayout>
 
             <TextView
@@ -252,7 +257,8 @@
                 android:drawableRight="@drawable/star"
                 android:padding="5dp"
                 android:text="Coupon fine print"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
+
             <EditText
                 android:id="@+id/edt_finePrint"
                 android:layout_width="match_parent"
@@ -264,7 +270,8 @@
                 android:lines="4"
                 android:maxLines="4"
                 android:padding="5dp"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black" />
+
             <Button
                 android:id="@+id/btn_accept"
                 android:layout_width="match_parent"
@@ -277,7 +284,8 @@
                 android:text="Accept &amp; Continue"
                 android:textAllCaps="false"
                 android:textColor="#000"
-                android:textSize="20sp"/>
+                android:textSize="20sp" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -296,7 +304,7 @@
                     android:text="Message"
                     android:textAllCaps="false"
                     android:textColor="#000"
-                    android:textSize="20sp"/>
+                    android:textSize="20sp" />
 
                 <Button
                     android:id="@+id/btn_decline"
@@ -310,7 +318,7 @@
                     android:text="Decline"
                     android:textAllCaps="false"
                     android:textColor="#000"
-                    android:textSize="20sp"/>
+                    android:textSize="20sp" />
             </LinearLayout>
 
         </LinearLayout>

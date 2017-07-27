@@ -49,5 +49,8 @@ public class W {
 
     public static final String MEMBER_LIST = "Member/app_get_member";
 
+    public static final String APP_EDIT_CAMPAIGN ="Campaign/app_edit_campaign";
+
     public static final String CANCEL_CAMPAIGN = "Campaign/app_action_on_campaign";
+
 }
