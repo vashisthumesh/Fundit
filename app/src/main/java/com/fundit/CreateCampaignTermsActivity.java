@@ -16,8 +16,6 @@ import com.fundit.a.AppPreference;
 import com.fundit.a.C;
 import com.fundit.apis.AdminAPI;
 import com.fundit.apis.ServiceGenerator;
-import com.fundit.fragmet.FRequestFragment;
-import com.fundit.fragmet.FundspotRequestFragment;
 import com.fundit.helper.CustomDialog;
 import com.fundit.model.AppModel;
 import com.fundit.model.CampaignListResponse;
@@ -37,15 +35,10 @@ public class CreateCampaignTermsActivity extends AppCompatActivity {
 
     AppPreference preference;
     CampaignListResponse.CampaignList campaignList;
-
-    int REQUEST_START_CAMPAIGN = 369;
-
     AdminAPI adminAPI;
-
     CustomDialog dialog;
 
-
-
+    int REQUEST_START_CAMPAIGN = 369;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,8 +47,6 @@ public class CreateCampaignTermsActivity extends AppCompatActivity {
 
         adminAPI = ServiceGenerator.getAPIClass();
         dialog = new CustomDialog(this);
-
-
         preference = new AppPreference(this);
 
         Intent intent = getIntent();
@@ -66,10 +57,6 @@ public class CreateCampaignTermsActivity extends AppCompatActivity {
     }
 
     private void fetchIDs() {
-
-
-
-
         txt_partnerLabel = (TextView) findViewById(R.id.txt_partnerLabel);
         txt_itemLabel = (TextView) findViewById(R.id.txt_itemLabel);
 
@@ -122,14 +109,6 @@ public class CreateCampaignTermsActivity extends AppCompatActivity {
             chk_infinite.setChecked(true);
         }
 
-        btn_accept.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-
-
         btn_decline.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -145,49 +124,49 @@ public class CreateCampaignTermsActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<AppModel> call, Response<AppModel> response) {
                         dialog.dismiss();
-
                         AppModel appModel = response.body();
-
                         if (appModel != null) {
-
                             if (appModel.isStatus()) {
-
                                 C.INSTANCE.showToast(getApplicationContext(), appModel.getMessage());
-
-
-
                                 dialog.dismiss();
-
-
                             } else {
-
-
                                 C.INSTANCE.showToast(getApplicationContext(), appModel.getMessage());
-
-
                             }
-
-
                         } else {
-
-
                             C.INSTANCE.defaultError(getApplicationContext());
                         }
-
-
                     }
 
                     @Override
                     public void onFailure(Call<AppModel> call, Throwable t) {
-
                         dialog.dismiss();
                         C.INSTANCE.errorToast(getApplicationContext() , t);
-
                     }
                 });
             }
         });
 
+        btn_accept.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent in3=new Intent(getApplicationContext(),CreateCampaignTermsNextActivity.class);
+                in3.putExtra("campaignList",campaignList);
+                startActivityForResult(in3,REQUEST_START_CAMPAIGN);
+            }
+        });
 
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode==REQUEST_START_CAMPAIGN && resultCode==RESULT_OK){
+            onBackPressed();
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
     }
 }

@@ -83,7 +83,6 @@ public interface AdminAPI {
     @POST(W.EDIT_GENERALMEMBER)
     Call<VerifyResponse> generalMemberProfile(@Part(W.KEY_USERID) String userID, @Part(W.KEY_TOKEN) String tokenHash, @Part("first_name") String first_name, @Part("last_name") String last_name, @Part("location") String location, @Part("state_id") String stateID, @Part("city_id") String cityID, @Part("zip_code") String zipCode, @Part("organization_id") String organization_id, @Part("fundspot_id") String fundspot_id, @Part("contact_info") String contact_info, @Part MultipartBody.Part profileImage);
 
-
     @Multipart
     @POST(W.ADD_PRODUCT)
     Call<AppModel> addMyProduct(@Part(W.KEY_USERID) String userID, @Part(W.KEY_TOKEN) String tokenHash, @Part("type_id") String typeID, @Part("name") String name, @Part("description") String description, @Part("price") String price, @Part("fundspot_percent") String fundSpotPercent, @Part("organization_percent") String orgPercent, @Part("campaign_duration") String campaignDuration, @Part("max_limit_of_coupons") String maxLimitCoupons, @Part("coupon_expire_day") String couponExpiryDay, @Part("fine_print") String fine_print, @Part MultipartBody.Part productImage);
