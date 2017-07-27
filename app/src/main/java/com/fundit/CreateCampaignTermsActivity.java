@@ -115,6 +115,7 @@ public class CreateCampaignTermsActivity extends AppCompatActivity {
                 dialog.show();
 
 
+
                 Call<AppModel> cancelCampaign = adminAPI.cancelCampaign(preference.getUserID(), preference.getTokenHash(),campaignList.getCampaign().getId(), preference.getUserRoleID(), "3");
 
 
