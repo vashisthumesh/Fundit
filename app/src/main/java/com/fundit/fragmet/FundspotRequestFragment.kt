@@ -1,5 +1,7 @@
 package com.fundit.fragmet
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.util.Log
@@ -7,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ListView
+import com.fundit.CreateCampaignTermsActivity
 import com.fundit.R
 import com.fundit.a.AppPreference
 import com.fundit.a.C
@@ -31,6 +34,7 @@ class FundspotRequestFragment : Fragment() {
     var adminAPI: AdminAPI? = null
     var preference: AppPreference? = null
     var dialog: CustomDialog? = null
+    val SUCCESS_CODE: Int = 369
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -46,15 +50,29 @@ class FundspotRequestFragment : Fragment() {
 
     private fun fetchIDs() {
         listRequests = fview?.findViewById(R.id.listRequests) as ListView
-        campaignRequestAdapter = CampaignRequestAdapter(campaignList, activity)
+        campaignRequestAdapter = CampaignRequestAdapter(campaignList, activity,object : CampaignRequestAdapter.OnReviewClickListener{
+            override fun onReviewButtonClick(position: Int) {
+
+                val intent = Intent(activity,CreateCampaignTermsActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP ; Intent.FLAG_ACTIVITY_NEW_TASK
+                intent.putExtra("campaignItem",campaignList.get(position))
+                startActivityForResult(intent,SUCCESS_CODE)
+            }
+        })
         listRequests?.adapter = campaignRequestAdapter
 
+        showCampaignRequests()
 
+    }
+
+    fun showCampaignRequests(){
         dialog?.show()
+        campaignList.clear()
+        campaignRequestAdapter?.notifyDataSetChanged()
         var campaignCall: Call<CampaignListResponse>? = null
         when (preference?.userRoleID) {
             C.ORGANIZATION -> {
-                campaignCall = adminAPI?.getAllCampaigns(preference?.userID, preference?.tokenHash, preference?.userRoleID, preference?.userID, null,C.INACTIVE,C.PENDING)
+                campaignCall = adminAPI?.getAllCampaigns(preference?.userID, preference?.tokenHash, preference?.userRoleID, preference?.userID, null,C.INACTIVE,null)
 
             }
             C.FUNDSPOT -> {
@@ -86,4 +104,22 @@ class FundspotRequestFragment : Fragment() {
             }
         })
     }
+
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        Log.e("ActivityF","Result"+ requestCode +" - "+ resultCode);
+
+        when(requestCode){
+            SUCCESS_CODE -> {
+                when(resultCode){
+                    Activity.RESULT_OK -> {
+                        showCampaignRequests()
+                    }
+                }
+            }
+        }
+    }
+
+
 }

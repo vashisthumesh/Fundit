@@ -1,10 +1,13 @@
 package com.fundit.fragmet
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentTransaction
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +21,7 @@ class FRequestFragment : Fragment() {
     var fView: View? = null
     var requestCampaignFragment: FundspotRequestFragment? = null
     var requestMemberFragment: Fragment? = null
+    internal var SUCCESS_CODE = 475
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
@@ -63,5 +67,13 @@ class FRequestFragment : Fragment() {
         val navigation = fView?.findViewById(R.id.navigation) as BottomNavigationView
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
         showCampaignFragment()
+    }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+
+        Log.e("Activity","Result"+ requestCode +" - "+ resultCode);
+
+        if(requestCode==SUCCESS_CODE && resultCode== Activity.RESULT_OK){
+            showCampaignFragment()
+        }
     }
 }

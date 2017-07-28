@@ -118,7 +118,7 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
 
 
         tv_login_email.setText("Login with:"+user.getEmail_id());
-        edt_contactInfo.setText(user.getFirst_name());
+        edt_firstName.setText(user.getFirst_name());
         edt_lastName.setText(user.getLast_name());
 
         spn_state = (Spinner) findViewById(R.id.spn_state);

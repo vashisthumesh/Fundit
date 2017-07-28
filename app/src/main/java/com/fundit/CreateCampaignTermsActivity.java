@@ -114,8 +114,6 @@ public class CreateCampaignTermsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 dialog.show();
 
-
-
                 Call<AppModel> cancelCampaign = adminAPI.cancelCampaign(preference.getUserID(), preference.getTokenHash(),campaignList.getCampaign().getId(), preference.getUserRoleID(), "3");
 
 
@@ -129,7 +127,8 @@ public class CreateCampaignTermsActivity extends AppCompatActivity {
                         if (appModel != null) {
                             if (appModel.isStatus()) {
                                 C.INSTANCE.showToast(getApplicationContext(), appModel.getMessage());
-                                dialog.dismiss();
+                                setResult(RESULT_OK);
+                                onBackPressed();
                             } else {
                                 C.INSTANCE.showToast(getApplicationContext(), appModel.getMessage());
                             }
@@ -162,6 +161,7 @@ public class CreateCampaignTermsActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode==REQUEST_START_CAMPAIGN && resultCode==RESULT_OK){
+            setResult(RESULT_OK);
             onBackPressed();
         }
     }

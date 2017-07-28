@@ -33,12 +33,22 @@ public class CampaignRequestAdapter extends BaseAdapter {
     Activity activity;
     LayoutInflater inflater;
     AppPreference preference;
+    int SUCCESS_CODE=475;
+    OnReviewClickListener onReviewClickListener;
 
     public CampaignRequestAdapter(List<CampaignListResponse.CampaignList> campaignList, Activity activity) {
         this.campaignList = campaignList;
         this.activity = activity;
         this.inflater = activity.getLayoutInflater();
         this.preference = new AppPreference(activity);
+    }
+
+    public CampaignRequestAdapter(List<CampaignListResponse.CampaignList> campaignList, Activity activity,OnReviewClickListener onReviewClickListener) {
+        this.campaignList = campaignList;
+        this.activity = activity;
+        this.inflater = activity.getLayoutInflater();
+        this.preference = new AppPreference(activity);
+        this.onReviewClickListener = onReviewClickListener;
     }
 
     @Override
@@ -68,7 +78,26 @@ public class CampaignRequestAdapter extends BaseAdapter {
         CircleImageView img_partnerPic = (CircleImageView) view.findViewById(R.id.img_partnerPic);
 
         if (preference.getUserRoleID().equals(C.ORGANIZATION)) {
-            String message = "<b>" + campaignList.get(position).getUserFundspot().getFundspot().getTitle() + "</b> wants to start a campaign with you!";
+
+            String message = "";
+
+            //When Fundspot will create campaign , below logic will not be applied, it will be same as Fundspot review
+            switch (campaignList.get(position).getCampaign().getAction_status()){
+                case C.PENDING:
+                    message = "<b>" + campaignList.get(position).getUserFundspot().getFundspot().getTitle() + "</b> is not approved your campaign <b>"+campaignList.get(position).getCampaign().getTitle() +"</b>yet!";
+                    break;
+                case C.ORGANIZATION_APPROVED:
+                    message = "<b>" + campaignList.get(position).getUserFundspot().getFundspot().getTitle() + "</b> is started by you.";
+                    break;
+                case C.FUNDSPOT_APPROVED:
+                    message = "<b>" + campaignList.get(position).getUserFundspot().getFundspot().getTitle() + "</b> has approved your campaign <b>"+campaignList.get(position).getCampaign().getTitle() +"</b>.";
+                    break;
+                case C.REJECTED:
+                    message = "<b>" + campaignList.get(position).getUserFundspot().getFundspot().getTitle() + "</b> has decliend to start campaign <b>"+campaignList.get(position).getCampaign().getTitle() +"</b> with you!";
+                    break;
+            }
+
+
             txt_partnerName.setText(Html.fromHtml(message));
             txt_location.setText(campaignList.get(position).getUserFundspot().getFundspot().getLocation());
             txt_partnerLabel.setText("Organization :");
@@ -87,16 +116,30 @@ public class CampaignRequestAdapter extends BaseAdapter {
                     .into(img_partnerPic);
         }
 
+        //Change this when above logic get changed
+        if(preference.getUserRoleID().equals(C.ORGANIZATION)){
+            btn_reviewTerms.setVisibility(View.GONE);
+        }
+
         btn_reviewTerms.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(activity, CreateCampaignTermsActivity.class);
+                /*Intent intent = new Intent(activity, CreateCampaignTermsActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra("campaignItem", campaignList.get(position));
-                activity.startActivity(intent);
+                activity.startActivityForResult(intent,SUCCESS_CODE);*/
+
+                if(onReviewClickListener!=null){
+                    onReviewClickListener.onReviewButtonClick(position);
+                }
+
             }
         });
 
         return view;
+    }
+
+    public interface OnReviewClickListener{
+        void onReviewButtonClick(int position);
     }
 }

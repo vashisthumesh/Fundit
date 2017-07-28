@@ -19,7 +19,7 @@ public class CampaignListResponse extends AppModel {
     public class CampaignList implements Serializable {
         Campaign Campaign = new Campaign();
         ProductListResponse.Product Product = new ProductListResponse.Product();
-        UserFundspot ReceiverUser = new UserFundspot();
+        UserFundspot ReceiveUser = new UserFundspot();
         UserOrganization CreateUser = new UserOrganization();
 
         public com.fundit.model.Campaign getCampaign() {
@@ -31,7 +31,7 @@ public class CampaignListResponse extends AppModel {
         }
 
         public CampaignListResponse.UserFundspot getUserFundspot() {
-            return ReceiverUser;
+            return ReceiveUser;
         }
 
         public CampaignListResponse.UserOrganization getUserOrganization() {
