@@ -39,6 +39,7 @@ public class OrganizationProfileActivity extends AppCompatActivity {
 
     EditText edt_title, edt_address1, edt_zipCode, edt_description, edt_contactInfo;
     Spinner spn_state, spn_city, spn_schoolType, spn_schoolSubType;
+    TextView tv_login_email;
     ImageView img_profilePic, img_remove;
     Button btn_update;
 
@@ -105,6 +106,8 @@ public class OrganizationProfileActivity extends AppCompatActivity {
     }
 
     private void fetchIDs() {
+        tv_login_email=(TextView)findViewById(R.id.tv_login_email);
+
         edt_title = (EditText) findViewById(R.id.edt_title);
         edt_address1 = (EditText) findViewById(R.id.edt_address1);
         edt_zipCode = (EditText) findViewById(R.id.edt_zipCode);
@@ -129,6 +132,8 @@ public class OrganizationProfileActivity extends AppCompatActivity {
 
         img_profilePic = (ImageView) findViewById(R.id.img_profilePic);
         img_remove = (ImageView) findViewById(R.id.img_remove);
+
+        tv_login_email.setText("Login with:"+user.getEmail_id());
 
         img_remove.setOnClickListener(new View.OnClickListener() {
             @Override

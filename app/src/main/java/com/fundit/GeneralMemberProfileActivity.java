@@ -25,6 +25,7 @@ import com.fundit.model.AreaItem;
 import com.fundit.model.AreaResponse;
 import com.fundit.model.Organization;
 import com.fundit.model.OrganizationResponse;
+import com.fundit.model.User;
 import com.fundit.model.VerifyResponse;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
@@ -42,6 +43,7 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
     EditText edt_firstName, edt_lastName, edt_contactInfo, ed_member_address, ed_zip_code;
     ImageView img_uplode_photo, img_remove;
     Button btn_updateProfile;
+    TextView tv_login_email;
     Spinner spn_state, spn_city, spn_assocOrganization, spn_assocFundspot;
     ArrayList<String> stateNames=new ArrayList<>();
     ArrayList<AreaItem> stateItems=new ArrayList<>();
@@ -62,7 +64,7 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
     int IMAGE_REQUEST = 145;
 
     AppPreference preference;
-
+    User user = new User();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +75,12 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
         adminAPI= ServiceGenerator.getAPIClass();
         preference = new AppPreference(this);
 
+        try {
+            user = new Gson().fromJson(preference.getUserData(), User.class);
+            Log.e("userData", preference.getUserData());
+        } catch (Exception e) {
+            Log.e("Exception", e.getMessage());
+        }
         setupToolbar();
         fetchIDs();
 
@@ -81,6 +89,8 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
     }
 
     private void fetchIDs() {
+        tv_login_email=(TextView)findViewById(R.id.tv_login_email);
+
         edt_firstName = (EditText) findViewById(R.id.edt_firstName);
         edt_lastName = (EditText) findViewById(R.id.edt_lastName);
         spn_assocOrganization = (Spinner) findViewById(R.id.spn_assocOrganization);
@@ -105,6 +115,11 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
         });
 
         btn_updateProfile = (Button) findViewById(R.id.btn_updateProfile);
+
+
+        tv_login_email.setText("Login with:"+user.getEmail_id());
+        edt_contactInfo.setText(user.getFirst_name());
+        edt_lastName.setText(user.getLast_name());
 
         spn_state = (Spinner) findViewById(R.id.spn_state);
         spn_city = (Spinner) findViewById(R.id.spn_city);

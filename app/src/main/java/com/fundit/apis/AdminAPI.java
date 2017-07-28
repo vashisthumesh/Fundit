@@ -127,7 +127,7 @@ public interface AdminAPI {
 
     @FormUrlEncoded
     @POST(W.CAMPAIGN_LIST)
-    Call<CampaignListResponse> getAllCampaigns(@Field(W.KEY_USERID) String userID, @Field(W.KEY_TOKEN) String token, @Field("role_id") String roleID, @Field("organization_id") String organizationID, @Field("fundspot_id") String fundspotID);
+    Call<CampaignListResponse> getAllCampaigns(@Field(W.KEY_USERID) String userID, @Field(W.KEY_TOKEN) String token, @Field("role_id") String roleID, @Field("organization_id") String organizationID, @Field("fundspot_id") String fundspotID,@Field("status")String status,@Field("action_status")String action_status);
 
     @FormUrlEncoded
     @POST(W.MEMBER_LIST)

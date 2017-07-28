@@ -48,18 +48,17 @@ class FundspotRequestFragment : Fragment() {
         listRequests = fview?.findViewById(R.id.listRequests) as ListView
         campaignRequestAdapter = CampaignRequestAdapter(campaignList, activity)
         listRequests?.adapter = campaignRequestAdapter
-        //hello every one as u all know our swami ji(mr.chintak patel) is going to leave nivida on 29th july,so we planing to give a small gift to him from all of nivida,so if ur intrested to contribute pls ping me with yes,
-        //thanks umesh
+
 
         dialog?.show()
         var campaignCall: Call<CampaignListResponse>? = null
         when (preference?.userRoleID) {
             C.ORGANIZATION -> {
-                campaignCall = adminAPI?.getAllCampaigns(preference?.userID, preference?.tokenHash, preference?.userRoleID, preference?.userID, null)
+                campaignCall = adminAPI?.getAllCampaigns(preference?.userID, preference?.tokenHash, preference?.userRoleID, preference?.userID, null,C.INACTIVE,C.PENDING)
 
             }
             C.FUNDSPOT -> {
-                campaignCall = adminAPI?.getAllCampaigns(preference?.userID, preference?.tokenHash, preference?.userRoleID, null, preference?.userID)
+                campaignCall = adminAPI?.getAllCampaigns(preference?.userID, preference?.tokenHash, preference?.userRoleID, null, preference?.userID,C.INACTIVE,C.PENDING)
             }
         }
         campaignCall?.enqueue(object : Callback<CampaignListResponse> {

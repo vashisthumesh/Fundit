@@ -29,6 +29,14 @@ object C{
     const val TYPE_PRODUCT = "1"
     const val TYPE_GIFTCARD = "2"
 
+    const val ACTIVE="1"
+    const val INACTIVE="0"
+
+    const val PENDING="0"
+    const val FUNDSPOT_APPROVED="1"
+    const val ORGANIZATION_APPROVED="2"
+    const val REJECTED="3"
+
     fun findToolbarCenteredText(context: Activity): Toolbar {
         return context.findViewById(R.id.toolbarCenterText) as Toolbar
     }

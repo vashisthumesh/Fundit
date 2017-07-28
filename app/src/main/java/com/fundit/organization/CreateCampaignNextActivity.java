@@ -173,7 +173,7 @@ public class CreateCampaignNextActivity extends AppCompatActivity {
                         detailObject.put("user_id", preference.getUserID());
                         detailObject.put("title", campaignTitle);
                         detailObject.put("description", description);
-                        detailObject.put("fundspot_id", selectedFundspotID);
+                        detailObject.put("receiver_id", selectedFundspotID);
                         detailObject.put("type_id", product.getType_id());
                         detailObject.put("product_id", product.getId());
                         detailObject.put("price", product.getPrice());
