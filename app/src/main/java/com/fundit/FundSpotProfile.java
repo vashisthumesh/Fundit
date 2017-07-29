@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.fundit.a.AppPreference;
 import com.fundit.a.C;
+import com.fundit.a.W;
 import com.fundit.apis.AdminAPI;
 import com.fundit.apis.ServiceGenerator;
 import com.fundit.helper.CustomDialog;
@@ -24,6 +25,9 @@ import com.fundit.helper.FilePath;
 import com.fundit.model.AreaItem;
 import com.fundit.model.AreaResponse;
 import com.fundit.model.CategoryResponse;
+import com.fundit.model.Fundspot;
+import com.fundit.model.Member;
+import com.fundit.model.Organization;
 import com.fundit.model.User;
 import com.fundit.model.VerifyResponse;
 import com.google.gson.Gson;
@@ -66,8 +70,13 @@ public class FundSpotProfile extends AppCompatActivity {
     int IMAGE_REQUEST = 145;
 
     boolean firstTime = false;
+    boolean editMode = false;
 
     User user = new User();
+
+    Member member = new Member();
+
+    Fundspot fundspot = new Fundspot();
 
 
     @Override
@@ -76,11 +85,14 @@ public class FundSpotProfile extends AppCompatActivity {
         setContentView(R.layout.activity_fund_spot_profile);
         Intent intent = getIntent();
         firstTime = intent.getBooleanExtra("firstTime", false);
+        editMode = intent.getBooleanExtra("isEditMode", false);
         dialog = new CustomDialog(this);
         adminAPI = ServiceGenerator.getAPIClass();
         preference = new AppPreference(this);
         try {
             user = new Gson().fromJson(preference.getUserData(), User.class);
+            member = new Gson().fromJson(preference.getMemberData(), Member.class);
+            fundspot = new Gson().fromJson(preference.getMemberData(), Fundspot.class);
             Log.e("userData", preference.getUserData());
         } catch (Exception e) {
             Log.e("Exception", e.getMessage());
@@ -107,7 +119,7 @@ public class FundSpotProfile extends AppCompatActivity {
     }
 
     private void fetchid() {
-        tv_login_email=(TextView)findViewById(R.id.tv_login_email);
+        tv_login_email = (TextView) findViewById(R.id.tv_login_email);
 
 
         ed_fund_title = (EditText) findViewById(R.id.ed_fund_title);
@@ -117,13 +129,10 @@ public class FundSpotProfile extends AppCompatActivity {
         ed_fund_description = (EditText) findViewById(R.id.ed_fund_description);
         ed_fund_contact_info = (EditText) findViewById(R.id.ed_fund_contact_info);
 
-        tv_login_email=(TextView)findViewById(R.id.tv_login_email);
+        tv_login_email = (TextView) findViewById(R.id.tv_login_email);
 
-        if (firstTime) {
-            ed_fund_title.setText(user.getTitle());
-        }
 
-        tv_login_email.setText("Login with:"+user.getEmail_id());
+        tv_login_email.setText("Login with:" + user.getEmail_id());
         sp_state = (Spinner) findViewById(R.id.sp_state);
         sp_city = (Spinner) findViewById(R.id.sp_city);
         sp_category = (Spinner) findViewById(R.id.sp_category);
@@ -151,6 +160,38 @@ public class FundSpotProfile extends AppCompatActivity {
         sp_state.setAdapter(stateAdapter);
         sp_city.setAdapter(cityAdapter);
         sp_category.setAdapter(categoryAdapter);
+
+
+        if (firstTime) {
+            ed_fund_title.setText(user.getTitle());
+        }
+        if (editMode) {
+
+            tv_login_email.setVisibility(View.GONE);
+
+            ed_fund_title.setText(user.getTitle());
+            ed_fund_title.setEnabled(false);
+
+            ed_fund_address.setText(member.getLocation());
+
+            imagePath = member.getImage();
+
+            if(!imagePath.isEmpty()) {
+                Picasso.with(getApplicationContext())
+                        .load(W.FILE_URL + imagePath)
+                        .into(img_uplode_photo);
+
+                img_remove.setVisibility(View.VISIBLE);
+            }
+            ed_fund_zipcode.setText(member.getZip_code());
+            ed_fund_fundsplit.setText(fundspot.getFundraise_split());
+
+            ed_fund_description.setText(fundspot.getDescription());
+            ed_fund_contact_info.setText(member.getContact_info());
+
+            Log.e("categeory" , "" +fundspot.getCategory_id());
+        }
+
 
         sp_state.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -187,6 +228,12 @@ public class FundSpotProfile extends AppCompatActivity {
                 }
 
                 stateAdapter.notifyDataSetChanged();
+
+                if (!firstTime && editMode) {
+
+                    checkForSelectedState();
+
+                }
             }
 
             @Override
@@ -212,6 +259,12 @@ public class FundSpotProfile extends AppCompatActivity {
                     }
                 }
                 categoryAdapter.notifyDataSetChanged();
+
+                if(!firstTime && editMode){
+                    checkforSelectedCategory();
+                }
+
+
             }
 
             @Override
@@ -311,6 +364,35 @@ public class FundSpotProfile extends AppCompatActivity {
         });
     }
 
+    private void checkforSelectedCategory() {
+
+        int pos = 0;
+        for (int i=0; i<categoryItems.size();i++){
+            if(categoryItems.get(i).getId().equals(fundspot.getCategory_id())){
+                pos=i;
+                break;
+
+            }
+
+
+        }
+
+        sp_category.setSelection(pos);
+
+
+    }
+
+    private void checkForSelectedState() {
+        int pos = 0;
+        for (int i = 0; i < stateItems.size(); i++) {
+            if (stateItems.get(i).getId().equals(member.getState_id())) {
+                pos = i;
+                break;
+            }
+        }
+        sp_state.setSelection(pos);
+    }
+
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == IMAGE_REQUEST && resultCode == RESULT_OK) {
@@ -372,6 +454,11 @@ public class FundSpotProfile extends AppCompatActivity {
                     C.INSTANCE.defaultError(getApplicationContext());
                 }
                 cityAdapter.notifyDataSetChanged();
+
+                if(!firstTime && editMode){
+
+                    checkforSelectedCity();
+                }
             }
 
             @Override
@@ -381,6 +468,27 @@ public class FundSpotProfile extends AppCompatActivity {
                 C.INSTANCE.errorToast(getApplicationContext(), t);
             }
         });
+    }
+
+    private void checkforSelectedCity() {
+
+        int pos=0;
+        for(int i=0 ; i<cityItems.size();i++){
+
+            if(cityItems.get(i).getId().equals(member.getCity_id())){
+
+                pos=i;
+                break;
+            }
+
+        }
+
+        sp_city.setSelection(pos);
+
+
+
+
+
     }
 
     @Override

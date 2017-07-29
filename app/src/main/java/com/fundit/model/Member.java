@@ -20,6 +20,8 @@ public class Member implements Serializable {
     String title="";
     String first_name="";
     String last_name="";
+    String organization_id="";
+    String fundspot_id = "";
 
     public String getId() {
         return id;
@@ -71,5 +73,13 @@ public class Member implements Serializable {
 
     public String getLast_name() {
         return last_name;
+    }
+
+    public String getOrganization_id() {
+        return organization_id;
+    }
+
+    public String getFundspot_id() {
+        return fundspot_id;
     }
 }

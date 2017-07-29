@@ -168,6 +168,7 @@ public class SignInActivity extends AppCompatActivity {
                                 if (verifyResponse.isStatus()) {
                                     String userData = new Gson().toJson(verifyResponse.getData().getUser());
                                     String memberData = "";
+                                    String organizationData = "";
                                     Intent in;
                                     in = new Intent(SignInActivity.this, HomeActivity.class);
                                     in.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -179,6 +180,8 @@ public class SignInActivity extends AppCompatActivity {
                                                 in.putExtra("firstTime", true);
                                             } else {
                                                 memberData = new Gson().toJson(verifyResponse.getData().getOrganization());
+
+
                                             }
                                             break;
                                         case C.FUNDSPOT:
@@ -205,6 +208,7 @@ public class SignInActivity extends AppCompatActivity {
                                     preference.setTokenHash(verifyResponse.getData().getUser().getTokenhash());
                                     preference.setUserData(userData);
                                     preference.setMemberData(memberData);
+
                                     startActivity(in);
 
                                 } else {

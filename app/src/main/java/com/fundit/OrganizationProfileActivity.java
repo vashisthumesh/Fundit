@@ -17,12 +17,15 @@ import android.widget.TextView;
 
 import com.fundit.a.AppPreference;
 import com.fundit.a.C;
+import com.fundit.a.W;
 import com.fundit.apis.AdminAPI;
 import com.fundit.apis.ServiceGenerator;
 import com.fundit.helper.CustomDialog;
 import com.fundit.helper.FilePath;
 import com.fundit.model.AreaItem;
 import com.fundit.model.AreaResponse;
+import com.fundit.model.Member;
+import com.fundit.model.Organization;
 import com.fundit.model.User;
 import com.fundit.model.VerifyResponse;
 import com.google.gson.Gson;
@@ -63,8 +66,14 @@ public class OrganizationProfileActivity extends AppCompatActivity {
     int IMAGE_REQUEST = 145;
 
     boolean firstTime = false;
+    boolean editMode = false;
 
     User user = new User();
+
+    Member member = new Member();
+
+    Organization organization = new Organization();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,17 +82,21 @@ public class OrganizationProfileActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         firstTime = intent.getBooleanExtra("firstTime", false);
+        editMode = intent.getBooleanExtra("isEdiMode", false);
         dialog = new CustomDialog(this);
         adminAPI = ServiceGenerator.getAPIClass();
         preference = new AppPreference(this);
 
         try {
             user = new Gson().fromJson(preference.getUserData(), User.class);
+            member = new Gson().fromJson(preference.getMemberData(), Member.class);
+            organization = new Gson().fromJson(preference.getMemberData(), Organization.class);
+
+
             Log.e("userData", preference.getUserData());
         } catch (Exception e) {
             Log.e("Exception", e.getMessage());
         }
-
         fetchIDs();
         setupToolbar();
     }
@@ -106,7 +119,9 @@ public class OrganizationProfileActivity extends AppCompatActivity {
     }
 
     private void fetchIDs() {
-        tv_login_email=(TextView)findViewById(R.id.tv_login_email);
+
+
+        tv_login_email = (TextView) findViewById(R.id.tv_login_email);
 
         edt_title = (EditText) findViewById(R.id.edt_title);
         edt_address1 = (EditText) findViewById(R.id.edt_address1);
@@ -133,7 +148,7 @@ public class OrganizationProfileActivity extends AppCompatActivity {
         img_profilePic = (ImageView) findViewById(R.id.img_profilePic);
         img_remove = (ImageView) findViewById(R.id.img_remove);
 
-        tv_login_email.setText("Login with:"+user.getEmail_id());
+        tv_login_email.setText("Login with:" + user.getEmail_id());
 
         img_remove.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -151,6 +166,29 @@ public class OrganizationProfileActivity extends AppCompatActivity {
         if (firstTime) {
             edt_title.setText(user.getTitle());
         }
+
+        if (editMode) {
+
+            tv_login_email.setVisibility(View.GONE);
+            edt_title.setText(user.getTitle());
+            edt_title.setEnabled(false);
+
+            edt_address1.setText(member.getLocation());
+
+            imagePath = member.getImage();
+
+            if(!imagePath.isEmpty()) {
+                Picasso.with(getApplicationContext())
+                        .load(W.FILE_URL + imagePath)
+                        .into(img_profilePic);
+
+                img_remove.setVisibility(View.VISIBLE);
+            }
+            edt_contactInfo.setText(member.getContact_info());
+            edt_description.setText(organization.getDescription());
+            edt_zipCode.setText(member.getZip_code());
+        }
+
 
         spn_state.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -202,6 +240,12 @@ public class OrganizationProfileActivity extends AppCompatActivity {
                 }
 
                 stateAdapter.notifyDataSetChanged();
+
+                if (!firstTime && editMode) {
+                    checkForSelectedState();
+                }
+
+
             }
 
             @Override
@@ -226,6 +270,12 @@ public class OrganizationProfileActivity extends AppCompatActivity {
                     }
                 }
                 schoolAdapter.notifyDataSetChanged();
+
+                if (!firstTime && editMode) {
+
+                    checkForSelectedSchoolType();
+
+                }
             }
 
             @Override
@@ -323,6 +373,26 @@ public class OrganizationProfileActivity extends AppCompatActivity {
         });
     }
 
+    private void checkForSelectedSchoolType() {
+
+        int pos = 0;
+        for (int i = 0; i < schoolItems.size(); i++) {
+
+            if (schoolItems.get(i).getId().equals(organization.getType_id())) {
+
+                pos = i;
+                break;
+
+
+            }
+
+
+        }
+        spn_schoolType.setSelection(pos);
+
+
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == IMAGE_REQUEST && resultCode == RESULT_OK) {
@@ -362,6 +432,14 @@ public class OrganizationProfileActivity extends AppCompatActivity {
                     C.INSTANCE.defaultError(getApplicationContext());
                 }
                 subSchoolAdapter.notifyDataSetChanged();
+
+                if(!firstTime && editMode){
+
+                    checkforSelectedSubType();
+
+                }
+
+
             }
 
             @Override
@@ -371,6 +449,26 @@ public class OrganizationProfileActivity extends AppCompatActivity {
                 C.INSTANCE.errorToast(getApplicationContext(), t);
             }
         });
+    }
+
+    private void checkforSelectedSubType() {
+
+        int pos=0;
+        for(int i=0 ; i<subSchoolItems.size();i++){
+
+            if(subSchoolItems.get(i).getId().equals(organization.getSub_type_id())){
+
+                pos=i;
+                break;
+
+            }
+
+
+
+        }
+        spn_schoolSubType.setSelection(pos);
+
+
     }
 
     private void loadCities(String stateID) {
@@ -393,6 +491,10 @@ public class OrganizationProfileActivity extends AppCompatActivity {
                     C.INSTANCE.defaultError(getApplicationContext());
                 }
                 cityAdapter.notifyDataSetChanged();
+                if (!firstTime && editMode) {
+
+                    checkforSelectedCity();
+                }
             }
 
             @Override
@@ -453,4 +555,31 @@ public class OrganizationProfileActivity extends AppCompatActivity {
         }
 
     }
+
+
+    private void checkForSelectedState() {
+        int pos = 0;
+        for (int i = 0; i < stateItems.size(); i++) {
+            if (stateItems.get(i).getId().equals(member.getState_id())) {
+                pos = i;
+                break;
+            }
+        }
+        spn_state.setSelection(pos);
+    }
+
+    private void checkforSelectedCity() {
+
+        int pos = 0;
+        for (int i = 0; i < cityItems.size(); i++) {
+            if (cityItems.get(i).getId().equals(member.getCity_id())) {
+
+                pos = i;
+                break;
+            }
+        }
+        spn_city.setSelection(pos);
+    }
+
+
 }
