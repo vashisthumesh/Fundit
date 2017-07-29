@@ -14,9 +14,7 @@ import android.view.Gravity
 import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
-import android.widget.ListView
-import android.widget.TextView
+import android.widget.*
 import com.fundit.a.AppPreference
 import com.fundit.a.C
 import com.fundit.a.W
@@ -49,6 +47,7 @@ class HomeActivity : AppCompatActivity() {
     var txt_userName: TextView? = null
     var txt_userEmail: TextView? = null
     var img_profilePic: CircleImageView? = null
+    lateinit var img_edit: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,8 +78,45 @@ class HomeActivity : AppCompatActivity() {
     private fun setupToolbar() {
         toolbar = C.findToolbarCenteredText(this)
         actionTitle = findViewById(R.id.actionTitle) as TextView
+        img_edit = findViewById(R.id.img_edit) as ImageView
         //actionTitle?.text = ""
         setSupportActionBar(toolbar)
+
+
+        img_edit.setOnClickListener {
+
+            val editMode: Boolean = true
+            when (preference?.userRoleID) {
+                C.ORGANIZATION -> {
+
+                    val intent = Intent(this@HomeActivity , OrganizationProfileActivity::class.java)
+                    intent.putExtra("isEdiMode" , editMode)
+                    startActivity(intent)
+
+
+                } C.FUNDSPOT -> {
+
+
+                    val intent = Intent(this@HomeActivity , FundSpotProfile::class.java)
+                    intent.putExtra("isEditMode" , editMode)
+                    startActivity(intent)
+
+
+                } C.GENERAL_MEMBER -> {
+
+
+                    val intent = Intent(this@HomeActivity , GeneralMemberProfileActivity::class.java)
+                    intent.putExtra("isEditMode" , editMode)
+                    startActivity(intent)
+
+
+                }
+
+
+            }
+
+
+        }
     }
 
 
@@ -181,6 +217,7 @@ class HomeActivity : AppCompatActivity() {
             transaction?.commit()
 
         } else if (position == 2) {
+            img_edit?.visibility = View.VISIBLE
             actionTitle?.text = "My Profile"
             fragment = MyProfileFragment()
             val transaction = fm?.beginTransaction()

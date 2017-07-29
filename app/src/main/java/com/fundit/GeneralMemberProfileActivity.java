@@ -17,12 +17,14 @@ import android.widget.TextView;
 
 import com.fundit.a.AppPreference;
 import com.fundit.a.C;
+import com.fundit.a.W;
 import com.fundit.apis.AdminAPI;
 import com.fundit.apis.ServiceGenerator;
 import com.fundit.helper.CustomDialog;
 import com.fundit.helper.FilePath;
 import com.fundit.model.AreaItem;
 import com.fundit.model.AreaResponse;
+import com.fundit.model.Member;
 import com.fundit.model.Organization;
 import com.fundit.model.OrganizationResponse;
 import com.fundit.model.User;
@@ -58,6 +60,7 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
     CustomDialog dialog;
 
     boolean firstTime = false;
+    boolean inEditModeFirstTime = true;
 
     String imagePath = null;
 
@@ -65,6 +68,8 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
 
     AppPreference preference;
     User user = new User();
+    Member member = new Member();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,6 +82,7 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
 
         try {
             user = new Gson().fromJson(preference.getUserData(), User.class);
+            member = new Gson().fromJson(preference.getMemberData(),Member.class);
             Log.e("userData", preference.getUserData());
         } catch (Exception e) {
             Log.e("Exception", e.getMessage());
@@ -134,6 +140,34 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
         spn_assocOrganization.setAdapter(organizationAdapter);
         spn_assocFundspot.setAdapter(fundspotAdapter);
 
+
+        if(!firstTime){
+            tv_login_email.setVisibility(View.GONE);
+            edt_firstName.setText(member.getFirst_name());
+            edt_lastName.setText(member.getLast_name());
+
+            edt_firstName.setEnabled(false);
+
+            ed_member_address.setText(member.getLocation());
+            ed_zip_code.setText(member.getZip_code());
+
+            edt_contactInfo.setText(member.getContact_info());
+
+            String getImage = member.getImage();
+
+            Picasso.with(getApplicationContext())
+                    .load(W.FILE_URL + getImage)
+                    .into(img_uplode_photo);
+
+            img_remove.setVisibility(View.VISIBLE);
+        }
+        else {
+            edt_firstName.setText(user.getFirst_name());
+            edt_lastName.setText(user.getLast_name());
+        }
+
+
+
         spn_state.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
@@ -169,6 +203,10 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
                 }
 
                 stateAdapter.notifyDataSetChanged();
+
+                if(!firstTime && inEditModeFirstTime){
+                    checkForUserSelectedState();
+                }
             }
 
             @Override
@@ -191,6 +229,8 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
                     }
                 }
                 organizationAdapter.notifyDataSetChanged();
+
+
             }
 
             @Override
@@ -212,6 +252,14 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
                     }
                 }
                 organizationAdapter.notifyDataSetChanged();
+
+
+                String getFundspot = member.getAssociated_organization();
+                Log.e("getFund" , "" + getFundspot);
+
+
+
+
             }
 
             @Override
@@ -319,6 +367,25 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
 
     }
 
+
+
+
+
+    private void checkForUserSelectedState() {
+
+
+        int pos=0;
+        for(int i=0; i<stateItems.size(); i++){
+            if(stateItems.get(i).getId().equals(member.getState_id())){
+                pos = i;
+                break;
+            }
+        }
+
+        //if(pos==0) inEditModeFirstTime = false;
+        spn_state.setSelection(pos);
+    }
+
     private void setupToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarCenterText);
         TextView actionTitle = (TextView) findViewById(R.id.actionTitle);
@@ -407,6 +474,10 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
                     C.INSTANCE.defaultError(getApplicationContext());
                 }
                 cityAdapter.notifyDataSetChanged();
+
+                if(!firstTime && inEditModeFirstTime){
+                    checkForUserSelectedCity();
+                }
             }
 
             @Override
@@ -416,6 +487,21 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
                 C.INSTANCE.errorToast(getApplicationContext(), t);
             }
         });
+    }
+
+    private void checkForUserSelectedCity() {
+        int pos=0;
+
+        for (int i=0; i<cityItems.size(); i++){
+            if(cityItems.get(i).getId().equals(member.getCity_id())){
+                pos = i;
+                break;
+            }
+        }
+
+        //inEditModeFirstTime=false;
+
+        spn_city.setSelection(pos);
     }
 
     @Override

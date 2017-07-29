@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import com.fundit.R
 import com.fundit.a.AppPreference
@@ -26,6 +27,8 @@ class MyProfileFragment : Fragment() {
     var txt_address: TextView? = null
     var txt_emailID: TextView? = null
 
+    var btn_edit: Button? = null
+
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -38,10 +41,14 @@ class MyProfileFragment : Fragment() {
         txt_address = view.findViewById(R.id.txt_address) as TextView
         txt_emailID = view.findViewById(R.id.txt_emailID) as TextView
 
+
+
+
         val userData = Gson().fromJson(preference?.userData, User::class.java)
 
         txt_name?.text = userData.title
         txt_emailID?.text = userData.email_id
+
 
         var imagePath: String = ""
 
@@ -66,6 +73,8 @@ class MyProfileFragment : Fragment() {
         Picasso.with(context)
                 .load(W.FILE_URL + imagePath)
                 .into(img_profilePic)
+
+
 
         return view
     }
