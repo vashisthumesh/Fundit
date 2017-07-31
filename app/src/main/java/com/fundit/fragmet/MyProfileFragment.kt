@@ -26,6 +26,7 @@ class MyProfileFragment : Fragment() {
     var txt_name: TextView? = null
     var txt_address: TextView? = null
     var txt_emailID: TextView? = null
+    lateinit var txt_change_pwd: TextView
 
     var btn_edit: Button? = null
 
@@ -40,6 +41,7 @@ class MyProfileFragment : Fragment() {
         txt_name = view.findViewById(R.id.txt_name) as TextView
         txt_address = view.findViewById(R.id.txt_address) as TextView
         txt_emailID = view.findViewById(R.id.txt_emailID) as TextView
+        txt_change_pwd = view.findViewById(R.id.txt_change_pwd) as TextView
 
 
 
@@ -74,6 +76,15 @@ class MyProfileFragment : Fragment() {
                 .load(W.FILE_URL + imagePath)
                 .into(img_profilePic)
 
+
+        txt_change_pwd.setOnClickListener{
+
+
+
+
+
+
+        }
 
 
         return view

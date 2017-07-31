@@ -22,7 +22,7 @@
         </activity>
         <activity
             android:name=".HomeActivity"
-            android:label="@string/title_activity_home"></activity>
+            android:label="@string/title_activity_home" />
         <activity android:name=".AccountTypeActivity" />
         <activity android:name=".OrganizationAccountActivity" />
         <activity android:name=".FundraiserSettings" />
@@ -49,14 +49,15 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".fundspot.AddProductActivity"></activity>
-        <activity android:name=".organization.CreateCampaignActivity"></activity>
-        <activity android:name=".organization.FundspotListActivity"></activity>
-        <activity android:name=".organization.FundspotProductListActivity"></activity>
-        <activity android:name=".organization.CreateCampaignNextActivity"></activity>
-        <activity android:name=".CreateCampaignTermsActivity"></activity>
-        <activity android:name=".CreateCampaignTermsNextActivity"></activity>
-        <activity android:name=".ForgotPasswordActivity"></activity>
+        <activity android:name=".fundspot.AddProductActivity" />
+        <activity android:name=".organization.CreateCampaignActivity" />
+        <activity android:name=".organization.FundspotListActivity" />
+        <activity android:name=".organization.FundspotProductListActivity" />
+        <activity android:name=".organization.CreateCampaignNextActivity" />
+        <activity android:name=".CreateCampaignTermsActivity" />
+        <activity android:name=".CreateCampaignTermsNextActivity" />
+        <activity android:name=".ForgotPasswordActivity" />
+        <activity android:name=".ChangePasswordActivity"></activity>
     </application>
 
 </manifest>
