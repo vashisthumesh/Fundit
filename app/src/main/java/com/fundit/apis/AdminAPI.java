@@ -147,4 +147,12 @@ public interface AdminAPI {
     @FormUrlEncoded
     @POST(W.ForgetPass)
     Call<ForgotPasswordEmailResponse> ForgetPass(@Field("email_id")String email_id);
+
+    @FormUrlEncoded
+    @POST(W.ForgetPass_OTP)
+    Call<ForgotPasswordEmailResponse> ForgetPass_otp(@Field("user_id")String user_id,@Field("otp")String otp);
+
+    @FormUrlEncoded
+    @POST(W.ForgetPass_edit_change_password)
+    Call<AppModel> ForgetPass_change_edit(@Field("user_id")String user_id,@Field("password")String otp);
 }

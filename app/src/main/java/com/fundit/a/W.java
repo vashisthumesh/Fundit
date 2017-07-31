@@ -53,5 +53,7 @@ public class W {
 
     public static final String CANCEL_CAMPAIGN = "Campaign/app_action_on_campaign";
     public static final String ForgetPass = "User/app_forgot_password";
+    public static final String ForgetPass_OTP = "User/app_otp_verification_for_forgotpass";
+    public static final String ForgetPass_edit_change_password = "User/app_change_password";
 
 }
