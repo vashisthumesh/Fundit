@@ -23,6 +23,7 @@ public class Member implements Serializable {
     String organization_id="";
     String fundspot_id = "";
 
+
     public String getId() {
         return id;
     }

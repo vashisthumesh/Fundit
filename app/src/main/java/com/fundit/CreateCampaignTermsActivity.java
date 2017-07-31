@@ -3,6 +3,7 @@ package com.fundit;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -54,6 +55,24 @@ public class CreateCampaignTermsActivity extends AppCompatActivity {
         campaignList = (CampaignListResponse.CampaignList) intent.getSerializableExtra("campaignItem");
 
         fetchIDs();
+        setupToolbar();
+
+    }
+    private void setupToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarCenterText);
+        TextView actionTitle = (TextView) findViewById(R.id.actionTitle);
+
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        actionTitle.setText("Campaign Request Term");
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
     }
 
     private void fetchIDs() {

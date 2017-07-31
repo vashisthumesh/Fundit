@@ -100,7 +100,7 @@ public class CampaignRequestAdapter extends BaseAdapter {
 
             txt_partnerName.setText(Html.fromHtml(message));
             txt_location.setText(campaignList.get(position).getUserFundspot().getFundspot().getLocation());
-            txt_partnerLabel.setText("Organization :");
+            txt_partnerLabel.setText("Fundspot :");
             txt_partnerTitle.setText(campaignList.get(position).getUserFundspot().getTitle());
             Picasso.with(activity)
                     .load(W.FILE_URL + campaignList.get(position).getUserFundspot().getFundspot().getImage())

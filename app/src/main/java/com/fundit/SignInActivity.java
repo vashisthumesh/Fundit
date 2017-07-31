@@ -60,15 +60,12 @@ public class SignInActivity extends AppCompatActivity {
             for (String permission : permissions) {
                 if (PERMISSION_GRANTED != activity.checkSelfPermission(permission)) {
                     newPermissionList.add(permission);
-
                 }
             }
             if (newPermissionList.size() > 0) {
                 activity.requestPermissions(newPermissionList.toArray(new String[newPermissionList.size()]), requestCode);
                 return true;
             }
-
-
         }
 
         return false;
@@ -233,7 +230,10 @@ public class SignInActivity extends AppCompatActivity {
         tv_forget_password.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showdialog();
+               // showdialog();
+                Intent in = new Intent(SignInActivity.this, ForgotPasswordActivity.class);
+                in.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(in);
             }
         });
 

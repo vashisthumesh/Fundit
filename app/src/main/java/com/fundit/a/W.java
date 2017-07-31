@@ -52,5 +52,6 @@ public class W {
     public static final String APP_EDIT_CAMPAIGN ="Campaign/app_edit_campaign";
 
     public static final String CANCEL_CAMPAIGN = "Campaign/app_action_on_campaign";
+    public static final String ForgetPass = "User/app_forgot_password";
 
 }
