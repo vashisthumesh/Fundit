@@ -105,6 +105,13 @@ public class ForgotPasswordActivity extends AppCompatActivity {
             }
         });
 
+        ed_otp_continue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
     }
 
     private void setupToolbar() {
