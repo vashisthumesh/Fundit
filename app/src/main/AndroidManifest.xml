@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.fundit">
+    package="com.fundit">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-    <permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -15,30 +15,29 @@
         android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
         <activity android:name=".SignInActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".HomeActivity"
-            android:label="@string/title_activity_home">
-        </activity>
-        <activity android:name=".AccountTypeActivity"/>
-        <activity android:name=".OrganizationAccountActivity"/>
-        <activity android:name=".FundraiserSettings"/>
-        <activity android:name=".FundSpotProfile"/>
-        <activity android:name=".GeneralMemberProfileActivity"/>
-        <activity android:name=".OrganizationProfileActivity"/>
-        <activity android:name=".VerificationActivity"/>
-        <activity android:name=".PlaceOrderActivity"/>
+            android:label="@string/title_activity_home"></activity>
+        <activity android:name=".AccountTypeActivity" />
+        <activity android:name=".OrganizationAccountActivity" />
+        <activity android:name=".FundraiserSettings" />
+        <activity android:name=".FundSpotProfile" />
+        <activity android:name=".GeneralMemberProfileActivity" />
+        <activity android:name=".OrganizationProfileActivity" />
+        <activity android:name=".VerificationActivity" />
+        <activity android:name=".PlaceOrderActivity" />
 
         <service
             android:name=".services.FirebaseIIDService"
             android:enabled="false"
             android:exported="false">
             <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
         <service
@@ -46,24 +45,18 @@
             android:enabled="true"
             android:exported="true">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
-        <activity android:name=".fundspot.AddProductActivity">
-        </activity>
-        <activity android:name=".organization.CreateCampaignActivity">
-        </activity>
-        <activity android:name=".organization.FundspotListActivity">
-        </activity>
-        <activity android:name=".organization.FundspotProductListActivity">
-        </activity>
-        <activity android:name=".organization.CreateCampaignNextActivity">
-        </activity>
-        <activity android:name=".CreateCampaignTermsActivity">
-        </activity>
-        <activity android:name=".CreateCampaignTermsNextActivity">
-        </activity>
+        <activity android:name=".fundspot.AddProductActivity"></activity>
+        <activity android:name=".organization.CreateCampaignActivity"></activity>
+        <activity android:name=".organization.FundspotListActivity"></activity>
+        <activity android:name=".organization.FundspotProductListActivity"></activity>
+        <activity android:name=".organization.CreateCampaignNextActivity"></activity>
+        <activity android:name=".CreateCampaignTermsActivity"></activity>
+        <activity android:name=".CreateCampaignTermsNextActivity"></activity>
+        <activity android:name=".ForgotPasswordActivity"></activity>
     </application>
 
 </manifest>

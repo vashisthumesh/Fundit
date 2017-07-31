@@ -7,6 +7,7 @@ import com.fundit.model.AppModel;
 import com.fundit.model.AreaResponse;
 import com.fundit.model.CampaignListResponse;
 import com.fundit.model.CategoryResponse;
+import com.fundit.model.ForgotPasswordEmailResponse;
 import com.fundit.model.FundspotListResponse;
 import com.fundit.model.MemberListResponse;
 import com.fundit.model.OrganizationResponse;
@@ -142,4 +143,8 @@ public interface AdminAPI {
     @FormUrlEncoded
     @POST(W.APP_EDIT_CAMPAIGN)
     Call<AppModel> appEditcampaign(@Field("user_id") String user_id,@Field("tokenhash") String tokenhash,@Field("campaign_id") String campaign_id, @Field("campaign_detail") String campaignDetailArray, @Field("campaign_member") String memberIDArray);
+
+    @FormUrlEncoded
+    @POST(W.ForgetPass)
+    Call<ForgotPasswordEmailResponse> ForgetPass(@Field("email_id")String email_id);
 }
