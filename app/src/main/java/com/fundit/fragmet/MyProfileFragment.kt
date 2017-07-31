@@ -72,6 +72,7 @@ class MyProfileFragment : Fragment() {
             }
         }
 
+
         Picasso.with(context)
                 .load(W.FILE_URL + imagePath)
                 .into(img_profilePic)

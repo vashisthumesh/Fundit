@@ -14,6 +14,7 @@ import com.fundit.a.C;
 import com.fundit.apis.AdminAPI;
 import com.fundit.apis.ServiceGenerator;
 import com.fundit.helper.CustomDialog;
+import com.fundit.model.AppModel;
 import com.fundit.model.ForgotPasswordEmailResponse;
 import com.fundit.model.VerifyResponse;
 import com.google.gson.Gson;
@@ -108,7 +109,92 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         ed_otp_continue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String otp = ed_otp.getText().toString().trim();
 
+                if (otp.isEmpty()) {
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter OTP here");
+                }else {
+
+                    dialog.show();
+                    Call<ForgotPasswordEmailResponse> responseCall = adminAPI.ForgetPass_otp(userID,otp );
+                    responseCall.enqueue(new Callback<ForgotPasswordEmailResponse>() {
+                        @Override
+                        public void onResponse(Call<ForgotPasswordEmailResponse> call, Response<ForgotPasswordEmailResponse> response) {
+                            dialog.dismiss();
+                            ForgotPasswordEmailResponse verifyResponse = response.body();
+                            if (verifyResponse != null) {
+                                if (verifyResponse.isStatus()) {
+                                    userID=verifyResponse.getData().getUser_id();
+                                    lv_forget_email.setVisibility(View.GONE);
+                                    lv_forget_otp.setVisibility(View.GONE);
+                                    lv_re_enter_password.setVisibility(View.VISIBLE);
+
+                                } else {
+                                    C.INSTANCE.showToast(getApplicationContext(), verifyResponse.getMessage());
+                                }
+                            } else {
+                                C.INSTANCE.defaultError(getApplicationContext());
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ForgotPasswordEmailResponse> call, Throwable t) {
+                            dialog.dismiss();
+                            C.INSTANCE.errorToast(getApplicationContext(), t);
+                        }
+                    });
+                }
+
+            }
+        });
+
+        bt_forget_update.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            String new_password=ed_new_password.getText().toString().trim();
+                String re_enter_password=ed_re_enter_password.getText().toString().trim();
+                if (new_password.isEmpty()) {
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter your new password");
+                }
+               else if(re_enter_password.isEmpty()){
+                    C.INSTANCE.showToast(getApplicationContext(), "Please re-enter your password");
+                }
+                else if(!re_enter_password.equals(new_password)){
+                    C.INSTANCE.showToast(getApplicationContext(), "Your password does not match");
+
+                }
+                else {
+
+                    dialog.show();
+                    Call<AppModel> forgetpasswordcall = adminAPI.ForgetPass_change_edit(userID, re_enter_password);
+
+                    forgetpasswordcall.enqueue(new Callback<AppModel>() {
+                        @Override
+                        public void onResponse(Call<AppModel> call, Response<AppModel> response) {
+                            dialog.dismiss();
+                            AppModel appModel = response.body();
+                            if (appModel != null) {
+                                if (appModel.isStatus()) {
+                                    C.INSTANCE.showToast(getApplicationContext(), appModel.getMessage());
+                                    Intent in3=new Intent(getApplicationContext(),SignInActivity.class);
+                                    in3.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    startActivity(in3);
+
+                                } else {
+                                    C.INSTANCE.showToast(getApplicationContext(), appModel.getMessage());
+                                }
+                            } else {
+                                C.INSTANCE.defaultError(getApplicationContext());
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<AppModel> call, Throwable t) {
+                            dialog.dismiss();
+                            C.INSTANCE.errorToast(getApplicationContext(), t);
+                        }
+                    });
+                }
             }
         });
 
