@@ -175,14 +175,15 @@ public class OrganizationProfileActivity extends AppCompatActivity {
 
             edt_address1.setText(member.getLocation());
 
-            String getImage = member.getImage();
+            imagePath = member.getImage();
 
-            Picasso.with(getApplicationContext())
-                    .load(W.FILE_URL + getImage)
-                    .into(img_profilePic);
+            if(!imagePath.isEmpty()) {
+                Picasso.with(getApplicationContext())
+                        .load(W.FILE_URL + imagePath)
+                        .into(img_profilePic);
 
-            img_remove.setVisibility(View.VISIBLE);
-
+                img_remove.setVisibility(View.VISIBLE);
+            }
             edt_contactInfo.setText(member.getContact_info());
             edt_description.setText(organization.getDescription());
             edt_zipCode.setText(member.getZip_code());
@@ -240,7 +241,7 @@ public class OrganizationProfileActivity extends AppCompatActivity {
 
                 stateAdapter.notifyDataSetChanged();
 
-                if(!firstTime && editMode){
+                if (!firstTime && editMode) {
                     checkForSelectedState();
                 }
 
@@ -269,6 +270,12 @@ public class OrganizationProfileActivity extends AppCompatActivity {
                     }
                 }
                 schoolAdapter.notifyDataSetChanged();
+
+                if (!firstTime && editMode) {
+
+                    checkForSelectedSchoolType();
+
+                }
             }
 
             @Override
@@ -366,6 +373,26 @@ public class OrganizationProfileActivity extends AppCompatActivity {
         });
     }
 
+    private void checkForSelectedSchoolType() {
+
+        int pos = 0;
+        for (int i = 0; i < schoolItems.size(); i++) {
+
+            if (schoolItems.get(i).getId().equals(organization.getType_id())) {
+
+                pos = i;
+                break;
+
+
+            }
+
+
+        }
+        spn_schoolType.setSelection(pos);
+
+
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == IMAGE_REQUEST && resultCode == RESULT_OK) {
@@ -405,6 +432,14 @@ public class OrganizationProfileActivity extends AppCompatActivity {
                     C.INSTANCE.defaultError(getApplicationContext());
                 }
                 subSchoolAdapter.notifyDataSetChanged();
+
+                if(!firstTime && editMode){
+
+                    checkforSelectedSubType();
+
+                }
+
+
             }
 
             @Override
@@ -414,6 +449,26 @@ public class OrganizationProfileActivity extends AppCompatActivity {
                 C.INSTANCE.errorToast(getApplicationContext(), t);
             }
         });
+    }
+
+    private void checkforSelectedSubType() {
+
+        int pos=0;
+        for(int i=0 ; i<subSchoolItems.size();i++){
+
+            if(subSchoolItems.get(i).getId().equals(organization.getSub_type_id())){
+
+                pos=i;
+                break;
+
+            }
+
+
+
+        }
+        spn_schoolSubType.setSelection(pos);
+
+
     }
 
     private void loadCities(String stateID) {
@@ -436,7 +491,7 @@ public class OrganizationProfileActivity extends AppCompatActivity {
                     C.INSTANCE.defaultError(getApplicationContext());
                 }
                 cityAdapter.notifyDataSetChanged();
-                if(!firstTime && editMode){
+                if (!firstTime && editMode) {
 
                     checkforSelectedCity();
                 }
@@ -515,11 +570,11 @@ public class OrganizationProfileActivity extends AppCompatActivity {
 
     private void checkforSelectedCity() {
 
-        int pos=0;
-        for(int i=0 ; i<cityItems.size();i++){
-            if(cityItems.get(i).getId().equals(member.getCity_id())){
+        int pos = 0;
+        for (int i = 0; i < cityItems.size(); i++) {
+            if (cityItems.get(i).getId().equals(member.getCity_id())) {
 
-                pos=i;
+                pos = i;
                 break;
             }
         }

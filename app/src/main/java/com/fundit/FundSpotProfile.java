@@ -174,19 +174,22 @@ public class FundSpotProfile extends AppCompatActivity {
 
             ed_fund_address.setText(member.getLocation());
 
-            String getImage = member.getImage();
+            imagePath = member.getImage();
 
-            Picasso.with(getApplicationContext())
-                    .load(W.FILE_URL + getImage)
-                    .into(img_uplode_photo);
+            if(!imagePath.isEmpty()) {
+                Picasso.with(getApplicationContext())
+                        .load(W.FILE_URL + imagePath)
+                        .into(img_uplode_photo);
 
-            img_remove.setVisibility(View.VISIBLE);
-
+                img_remove.setVisibility(View.VISIBLE);
+            }
             ed_fund_zipcode.setText(member.getZip_code());
             ed_fund_fundsplit.setText(fundspot.getFundraise_split());
 
             ed_fund_description.setText(fundspot.getDescription());
             ed_fund_contact_info.setText(member.getContact_info());
+
+            Log.e("categeory" , "" +fundspot.getCategory_id());
         }
 
 
@@ -256,6 +259,12 @@ public class FundSpotProfile extends AppCompatActivity {
                     }
                 }
                 categoryAdapter.notifyDataSetChanged();
+
+                if(!firstTime && editMode){
+                    checkforSelectedCategory();
+                }
+
+
             }
 
             @Override
@@ -367,6 +376,24 @@ public class FundSpotProfile extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void checkforSelectedCategory() {
+
+        int pos = 0;
+        for (int i=0; i<categoryItems.size();i++){
+            if(categoryItems.get(i).getId().equals(fundspot.getCategory_id())){
+                pos=i;
+                break;
+
+            }
+
+
+        }
+
+        sp_category.setSelection(pos);
+
+
     }
 
     private void checkForSelectedState() {

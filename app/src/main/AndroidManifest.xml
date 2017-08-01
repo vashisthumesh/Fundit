@@ -57,7 +57,7 @@
         <activity android:name=".CreateCampaignTermsActivity" />
         <activity android:name=".CreateCampaignTermsNextActivity" />
         <activity android:name=".ForgotPasswordActivity" />
-        <activity android:name=".CampaignSetting"></activity>
+        <activity android:name=".ChangePasswordActivity"></activity>
     </application>
 
 </manifest>

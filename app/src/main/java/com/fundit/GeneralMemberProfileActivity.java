@@ -47,10 +47,10 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
     Button btn_updateProfile;
     TextView tv_login_email;
     Spinner spn_state, spn_city, spn_assocOrganization, spn_assocFundspot;
-    ArrayList<String> stateNames=new ArrayList<>();
-    ArrayList<AreaItem> stateItems=new ArrayList<>();
-    ArrayList<String> cityNames=new ArrayList<>();
-    ArrayList<AreaItem> cityItems=new ArrayList<>();
+    ArrayList<String> stateNames = new ArrayList<>();
+    ArrayList<AreaItem> stateItems = new ArrayList<>();
+    ArrayList<String> cityNames = new ArrayList<>();
+    ArrayList<AreaItem> cityItems = new ArrayList<>();
     List<Organization> organizationList = new ArrayList<>();
     ArrayList<String> organizationNames = new ArrayList<>();
     List<Organization> fundSpotList = new ArrayList<>();
@@ -69,6 +69,7 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
     AppPreference preference;
     User user = new User();
     Member member = new Member();
+    Organization organization = new Organization();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,13 +77,14 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_general_member_profile);
         Intent intent = getIntent();
         firstTime = intent.getBooleanExtra("firstTime", false);
-        dialog=new CustomDialog(this);
-        adminAPI= ServiceGenerator.getAPIClass();
+        dialog = new CustomDialog(this);
+        adminAPI = ServiceGenerator.getAPIClass();
         preference = new AppPreference(this);
 
         try {
             user = new Gson().fromJson(preference.getUserData(), User.class);
-            member = new Gson().fromJson(preference.getMemberData(),Member.class);
+            member = new Gson().fromJson(preference.getMemberData(), Member.class);
+            organization = new Gson().fromJson(preference.getMemberData(), Organization.class);
             Log.e("userData", preference.getUserData());
         } catch (Exception e) {
             Log.e("Exception", e.getMessage());
@@ -95,15 +97,15 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
     }
 
     private void fetchIDs() {
-        tv_login_email=(TextView)findViewById(R.id.tv_login_email);
+        tv_login_email = (TextView) findViewById(R.id.tv_login_email);
 
         edt_firstName = (EditText) findViewById(R.id.edt_firstName);
         edt_lastName = (EditText) findViewById(R.id.edt_lastName);
         spn_assocOrganization = (Spinner) findViewById(R.id.spn_assocOrganization);
         spn_assocFundspot = (Spinner) findViewById(R.id.spn_assocFundspot);
         edt_contactInfo = (EditText) findViewById(R.id.edt_contactInfo);
-        ed_member_address=(EditText)findViewById(R.id.ed_member_address);
-        ed_zip_code=(EditText)findViewById(R.id.ed_zip_code);
+        ed_member_address = (EditText) findViewById(R.id.ed_member_address);
+        ed_zip_code = (EditText) findViewById(R.id.ed_zip_code);
 
 
         img_uplode_photo = (ImageView) findViewById(R.id.img_profilePic);
@@ -123,7 +125,7 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
         btn_updateProfile = (Button) findViewById(R.id.btn_updateProfile);
 
 
-        tv_login_email.setText("Login with:"+user.getEmail_id());
+        tv_login_email.setText("Login with:" + user.getEmail_id());
         edt_firstName.setText(user.getFirst_name());
         edt_lastName.setText(user.getLast_name());
 
@@ -141,7 +143,7 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
         spn_assocFundspot.setAdapter(fundspotAdapter);
 
 
-        if(!firstTime){
+        if (!firstTime) {
             tv_login_email.setVisibility(View.GONE);
             edt_firstName.setText(member.getFirst_name());
             edt_lastName.setText(member.getLast_name());
@@ -152,20 +154,25 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
             ed_zip_code.setText(member.getZip_code());
 
             edt_contactInfo.setText(member.getContact_info());
+            spn_assocFundspot.setVisibility(View.GONE);
+            spn_assocOrganization.setVisibility(View.GONE);
 
-            String getImage = member.getImage();
+            imagePath = member.getImage();
 
-            Picasso.with(getApplicationContext())
-                    .load(W.FILE_URL + getImage)
-                    .into(img_uplode_photo);
 
-            img_remove.setVisibility(View.VISIBLE);
-        }
-        else {
+            if (!imagePath.isEmpty()) {
+
+                Picasso.with(getApplicationContext())
+                        .load(W.FILE_URL + imagePath)
+                        .into(img_uplode_photo);
+
+                img_remove.setVisibility(View.VISIBLE);
+
+            }
+        } else {
             edt_firstName.setText(user.getFirst_name());
             edt_lastName.setText(user.getLast_name());
         }
-
 
 
         spn_state.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -204,7 +211,7 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
 
                 stateAdapter.notifyDataSetChanged();
 
-                if(!firstTime && inEditModeFirstTime){
+                if (!firstTime && inEditModeFirstTime) {
                     checkForUserSelectedState();
                 }
             }
@@ -216,21 +223,19 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
             }
         });
 
-        Call<OrganizationResponse> organizationResponseCall=adminAPI.getAllOrganizations();
+        Call<OrganizationResponse> organizationResponseCall = adminAPI.getAllOrganizations();
         organizationResponseCall.enqueue(new Callback<OrganizationResponse>() {
             @Override
             public void onResponse(Call<OrganizationResponse> call, Response<OrganizationResponse> response) {
                 clearAssociatedOrganization();
-                OrganizationResponse orgResponse=response.body();
-                if(orgResponse!=null){
-                    if(orgResponse.isStatus()){
+                OrganizationResponse orgResponse = response.body();
+                if (orgResponse != null) {
+                    if (orgResponse.isStatus()) {
                         organizationList.addAll(orgResponse.getData());
                         organizationNames.addAll(orgResponse.getOrganizationNames());
                     }
                 }
                 organizationAdapter.notifyDataSetChanged();
-
-
             }
 
             @Override
@@ -239,27 +244,19 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
             }
         });
 
-        Call<OrganizationResponse> fundspotResponseCall=adminAPI.getAllFundspots();
+        Call<OrganizationResponse> fundspotResponseCall = adminAPI.getAllFundspots();
         fundspotResponseCall.enqueue(new Callback<OrganizationResponse>() {
             @Override
             public void onResponse(Call<OrganizationResponse> call, Response<OrganizationResponse> response) {
                 clearAssociatedFundspot();
-                OrganizationResponse orgResponse=response.body();
-                if(orgResponse!=null){
-                    if(orgResponse.isStatus()){
+                OrganizationResponse orgResponse = response.body();
+                if (orgResponse != null) {
+                    if (orgResponse.isStatus()) {
                         fundSpotList.addAll(orgResponse.getData());
                         fundspotNames.addAll(orgResponse.getOrganizationNames());
                     }
                 }
                 organizationAdapter.notifyDataSetChanged();
-
-
-                String getFundspot = member.getAssociated_organization();
-                Log.e("getFund" , "" + getFundspot);
-
-
-
-
             }
 
             @Override
@@ -292,11 +289,11 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
 
                 int statePosition = spn_state.getSelectedItemPosition();
                 int cityPosition = spn_city.getSelectedItemPosition();
-               // int categoryPosition = sp_category.getSelectedItemPosition();
+                // int categoryPosition = sp_category.getSelectedItemPosition();
 
                 Log.e("token", preference.getTokenHash());
                 Log.e("userID", preference.getUserID());
-                Log.e("positions", statePosition + " " + cityPosition + " "  + " ");
+                Log.e("positions", statePosition + " " + cityPosition + " " + " ");
                 if (firstname.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter first name");
                 } else if (firstname.length() < 2) {
@@ -328,7 +325,9 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
 
 
                     dialog.show();
-                    Call<VerifyResponse> generalMemberResponse = adminAPI.generalMemberProfile(preference.getUserID(), preference.getTokenHash(), firstname, lastname, location, stateItems.get(statePosition).getId(), cityItems.get(cityPosition).getId(), zipcode,orgID, fundspotID, contactInfo, ServiceGenerator.prepareFilePart("image", imagePath));
+                    Call<VerifyResponse> generalMemberResponse = adminAPI.generalMemberProfile(preference.getUserID(), preference.getTokenHash(), firstname, lastname, location, stateItems.get(statePosition).getId(), cityItems.get(cityPosition).getId(), zipcode, orgID, fundspotID, contactInfo, ServiceGenerator.prepareFilePart("image", imagePath));
+
+                    Log.e("parameters" , "" + preference.getUserID()+"-->"+ preference.getTokenHash()+"-->"+firstname+"-->"+ lastname+"--->"+ location+"--->"+"-->" +stateItems.get(statePosition).getId()+"-->"+ cityItems.get(cityPosition).getId()+"-->"+ zipcode+"-->"+ orgID+"-->"+ fundspotID+"-->"+ contactInfo+"-->"+ imagePath);
                     generalMemberResponse.enqueue(new Callback<VerifyResponse>() {
                         @Override
                         public void onResponse(Call<VerifyResponse> call, Response<VerifyResponse> response) {
@@ -367,16 +366,12 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
 
     }
 
-
-
-
-
     private void checkForUserSelectedState() {
 
 
-        int pos=0;
-        for(int i=0; i<stateItems.size(); i++){
-            if(stateItems.get(i).getId().equals(member.getState_id())){
+        int pos = 0;
+        for (int i = 0; i < stateItems.size(); i++) {
+            if (stateItems.get(i).getId().equals(member.getState_id())) {
                 pos = i;
                 break;
             }
@@ -403,7 +398,7 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
         });
     }
 
-    private void clearAssociatedOrganization(){
+    private void clearAssociatedOrganization() {
         organizationList.clear();
         organizationNames.clear();
         organizationList.add(new Organization().setTitle("Select Organization"));
@@ -411,7 +406,7 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
         organizationAdapter.notifyDataSetChanged();
     }
 
-    private void clearAssociatedFundspot(){
+    private void clearAssociatedFundspot() {
         fundSpotList.clear();
         fundspotNames.clear();
         fundSpotList.add(new Organization().setTitle("Select Fundspot"));
@@ -436,6 +431,7 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
             }
         }
     }
+
     private void clearStates() {
         stateNames.clear();
         stateItems.clear();
@@ -445,6 +441,7 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
 
         stateAdapter.notifyDataSetChanged();
     }
+
     private void clearCities() {
         cityNames.clear();
         cityItems.clear();
@@ -454,6 +451,7 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
 
         cityAdapter.notifyDataSetChanged();
     }
+
     private void loadCities(String stateID) {
         dialog.show();
         Call<AreaResponse> cityCall = adminAPI.getCityList(stateID);
@@ -475,7 +473,7 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
                 }
                 cityAdapter.notifyDataSetChanged();
 
-                if(!firstTime && inEditModeFirstTime){
+                if (!firstTime && inEditModeFirstTime) {
                     checkForUserSelectedCity();
                 }
             }
@@ -490,10 +488,10 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
     }
 
     private void checkForUserSelectedCity() {
-        int pos=0;
+        int pos = 0;
 
-        for (int i=0; i<cityItems.size(); i++){
-            if(cityItems.get(i).getId().equals(member.getCity_id())){
+        for (int i = 0; i < cityItems.size(); i++) {
+            if (cityItems.get(i).getId().equals(member.getCity_id())) {
                 pos = i;
                 break;
             }
