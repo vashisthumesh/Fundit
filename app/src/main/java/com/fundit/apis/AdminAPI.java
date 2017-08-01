@@ -86,11 +86,11 @@ public interface AdminAPI {
 
     @Multipart
     @POST(W.ADD_PRODUCT)
-    Call<AppModel> addMyProduct(@Part(W.KEY_USERID) String userID, @Part(W.KEY_TOKEN) String tokenHash, @Part("type_id") String typeID, @Part("name") String name, @Part("description") String description, @Part("price") String price, @Part("fundspot_percent") String fundSpotPercent, @Part("organization_percent") String orgPercent, @Part("campaign_duration") String campaignDuration, @Part("max_limit_of_coupons") String maxLimitCoupons, @Part("coupon_expire_day") String couponExpiryDay, @Part("fine_print") String fine_print, @Part MultipartBody.Part productImage);
+    Call<AppModel> addMyProduct(@Part(W.KEY_USERID) String userID, @Part(W.KEY_TOKEN) String tokenHash, @Part("type_id") String typeID, @Part("name") String name, @Part("description") String description, @Part("price") String price, @Part("fine_print") String fine_print, @Part MultipartBody.Part productImage);
 
     @Multipart
     @POST(W.EDIT_PRODUCT)
-    Call<AppModel> editMyProduct(@Part("id") String productID, @Part(W.KEY_USERID) String userID, @Part(W.KEY_TOKEN) String tokenHash, @Part("type_id") String typeID, @Part("name") String name, @Part("description") String description, @Part("price") String price, @Part("fundspot_percent") String fundSpotPercent, @Part("organization_percent") String orgPercent, @Part("campaign_duration") String campaignDuration, @Part("max_limit_of_coupons") String maxLimitCoupons, @Part("coupon_expire_day") String couponExpiryDay, @Part("fine_print") String fine_print, @Part MultipartBody.Part productImage);
+    Call<AppModel> editMyProduct(@Part("id") String productID, @Part(W.KEY_USERID) String userID, @Part(W.KEY_TOKEN) String tokenHash, @Part("type_id") String typeID, @Part("name") String name, @Part("description") String description, @Part("price") String price,@Part("fine_print") String fine_print, @Part MultipartBody.Part productImage);
 
     @FormUrlEncoded
     @POST(W.LIST_PRODUCT)

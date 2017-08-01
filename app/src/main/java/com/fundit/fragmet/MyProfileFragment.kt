@@ -1,5 +1,6 @@
 package com.fundit.fragmet
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -7,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import com.fundit.ChangePasswordActivity
+import com.fundit.OrganizationProfileActivity
 import com.fundit.R
 import com.fundit.a.AppPreference
 import com.fundit.a.C
@@ -79,12 +82,8 @@ class MyProfileFragment : Fragment() {
 
 
         txt_change_pwd.setOnClickListener{
-
-
-
-
-
-
+            val intent = Intent(activity , ChangePasswordActivity::class.java)
+            startActivity(intent)
         }
 
 

@@ -38,7 +38,7 @@ import retrofit2.Response;
 public class AddProductActivity extends AppCompatActivity {
 
     private static final int IMAGE_REQUEST = 155;
-    EditText edt_productName, edt_description, edt_price, edt_fundSplit, edt_organizationSplit, edt_campaignDuration, edt_couponExpireDay, edt_maxLimitCoupon,edt_fine_print;
+    EditText edt_productName, edt_description, edt_price, edt_fundSplit, edt_organizationSplit, edt_campaignDuration, edt_couponExpireDay, edt_maxLimitCoupon, edt_fine_print;
 
     ImageView img_productImage, img_remove;
     Button btn_cancel, btn_addProduct;
@@ -160,7 +160,7 @@ public class AddProductActivity extends AppCompatActivity {
                 String maxLimitCoupon = edt_maxLimitCoupon.getText().toString().trim();
                 String couponExpiryDays = edt_couponExpireDay.getText().toString().trim();
 
-                String fine_print=edt_fine_print.getText().toString().trim();
+                String fine_print = edt_fine_print.getText().toString().trim();
 
                 float productPrice = Float.parseFloat(price.isEmpty() ? "0" : price);
                 float fundSplitPer = Float.parseFloat(fundSplit.isEmpty() ? "0" : fundSplit);
@@ -198,9 +198,9 @@ public class AddProductActivity extends AppCompatActivity {
                     Call<AppModel> addProductCall;
 
                     if (isEditMode) {
-                        addProductCall = adminAPI.editMyProduct(product.getId(), preference.getUserID(), preference.getTokenHash(), typeID, name, description, price, fundSplit, orgSplit, campaignDuration, maxLimitCoupon, couponExpiryDays, fine_print, imagePath == null ? null : ServiceGenerator.prepareFilePart("image", imagePath));
+                        addProductCall = adminAPI.editMyProduct(product.getId(), preference.getUserID(), preference.getTokenHash(), typeID, name, description, price, fine_print, imagePath == null ? null : ServiceGenerator.prepareFilePart("image", imagePath));
                     } else {
-                        addProductCall = adminAPI.addMyProduct(preference.getUserID(), preference.getTokenHash(), typeID, name, description, price, fundSplit, orgSplit, campaignDuration, maxLimitCoupon, couponExpiryDays, fine_print, ServiceGenerator.prepareFilePart("image", imagePath));
+                        addProductCall = adminAPI.addMyProduct(preference.getUserID(), preference.getTokenHash(), typeID, name, description, price, fine_print, ServiceGenerator.prepareFilePart("image", imagePath));
                     }
 
                     addProductCall.enqueue(new Callback<AppModel>() {

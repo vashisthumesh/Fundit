@@ -15,7 +15,5 @@ public class CampaignSetting extends AppCompatActivity {
 
         Intent in=getIntent();
         userid=in.getExtras().getString("user_id");
-
-
     }
 }
