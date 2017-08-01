@@ -315,8 +315,23 @@ public class FundSpotProfile extends AppCompatActivity {
                 } else if (funsplit.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please Enter Funsplit");
                 } else {
+                    Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.putExtra("user_id",preference.getUserID());
+                    intent.putExtra("tokken_hash",preference.getUserID());
+                    intent.putExtra("title",title);
+                    intent.putExtra("state_id",stateItems.get(statePosition).getId());
+                    intent.putExtra("city_id",cityItems.get(cityPosition).getId());
+                    intent.putExtra("address1",address1);
+                    intent.putExtra("zipcode",zipcode);
+                    intent.putExtra("category",categoryItems.get(categoryPosition).getId());
+                    intent.putExtra("funsplit",funsplit);
+                    intent.putExtra("description",description);
+                    intent.putExtra("contactInfo",contactInfo);
+                    intent.putExtra("imagePath",imagePath);
 
-                    dialog.show();
+                    startActivity(intent);
+                    /*dialog.show();
                     Call<VerifyResponse> fundspotResponse = adminAPI.editFundsportProfile(preference.getUserID(), preference.getTokenHash(), title, stateItems.get(statePosition).getId(), cityItems.get(cityPosition).getId(), address1, zipcode, categoryItems.get(categoryPosition).getId(), funsplit, description, contactInfo, ServiceGenerator.prepareFilePart("image", imagePath));
                     fundspotResponse.enqueue(new Callback<VerifyResponse>() {
                         @Override
@@ -348,8 +363,7 @@ public class FundSpotProfile extends AppCompatActivity {
 
 
                         }
-                    });
-
+                    });*/
                 }
             }
         });
