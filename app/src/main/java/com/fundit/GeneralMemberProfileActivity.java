@@ -3,6 +3,7 @@ package com.fundit;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -12,6 +13,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -71,6 +74,11 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
     Member member = new Member();
     Organization organization = new Organization();
 
+    RadioGroup rg_type ;
+    RadioButton rb_assorganization , rb_assfunspot;
+
+    TextView txt_assorganization , txt_assfundspot;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,6 +118,14 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
 
         img_uplode_photo = (ImageView) findViewById(R.id.img_profilePic);
         img_remove = (ImageView) findViewById(R.id.img_remove);
+
+        rg_type = (RadioGroup) findViewById(R.id.rg_selectType);
+
+        rb_assorganization = (RadioButton) findViewById(R.id.rb_organization);
+        rb_assfunspot = (RadioButton) findViewById(R.id.rb_fundspot);
+
+        txt_assorganization = (TextView) findViewById(R.id.txt_assOrganization);
+        txt_assfundspot = (TextView) findViewById(R.id.txt_assFundspot);
 
         img_remove.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -316,12 +332,33 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
                     C.INSTANCE.showToast(getApplicationContext(), "Please select profile image");
                 } else {
 
-                    String fundspotID = null;
-                    String orgID = null;
-                    if (spn_assocOrganization.getSelectedItemPosition() != 0)
+                    int checkID = rg_type.getCheckedRadioButtonId();
+
+                    String fundspotID = "";
+                    String orgID = "";
+                    /*if (spn_assocOrganization.getSelectedItemPosition() != 0)
                         orgID = organizationList.get(spn_assocOrganization.getSelectedItemPosition()).getUser_id();
                     if (spn_assocFundspot.getSelectedItemPosition() != 0)
                         fundspotID = fundSpotList.get(spn_assocFundspot.getSelectedItemPosition()).getUser_id();
+*/
+
+                    if(checkID == R.id.rb_organization){
+
+                        if(spn_assocOrganization.getSelectedItemPosition()!=0){
+                            orgID = organizationList.get(spn_assocOrganization.getSelectedItemPosition()).getUser_id();
+                        }else{
+                            orgID = "";
+                        }
+                    }if(checkID == R.id.rb_fundspot){
+                        if(spn_assocFundspot.getSelectedItemPosition()!=0){
+                            fundspotID = fundSpotList.get(spn_assocFundspot.getSelectedItemPosition()).getUser_id();
+                        }else{
+                            fundspotID = "";
+                        }
+
+
+                    }
+
 
 
                     dialog.show();
@@ -361,6 +398,42 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
                     });
 
                 }
+            }
+        });
+
+
+        rg_type.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
+
+                if(rb_assorganization.isChecked()){
+
+                    spn_assocOrganization.setVisibility(View.VISIBLE);
+                    txt_assorganization.setVisibility(View.VISIBLE);
+
+                    spn_assocFundspot.setVisibility(View.GONE);
+                    txt_assfundspot.setVisibility(View.GONE);
+
+
+                }
+
+                if(rb_assfunspot.isChecked()){
+
+                    spn_assocFundspot.setVisibility(View.VISIBLE);
+                    txt_assfundspot.setVisibility(View.VISIBLE);
+
+
+                    spn_assocOrganization.setVisibility(View.GONE);
+                    txt_assorganization.setVisibility(View.GONE);
+
+
+
+
+
+                }
+
+
+
             }
         });
 

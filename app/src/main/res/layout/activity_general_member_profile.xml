@@ -128,8 +128,49 @@
                 android:padding="5dp"
                 android:textColor="@color/black"/>
 
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RadioGroup
+                    android:orientation="horizontal"
+                    android:layout_weight="1"
+                    android:id="@+id/rg_selectType"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <RadioButton
+                        android:layout_weight="1"
+                        android:id="@+id/rb_organization"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="Select Organization"
+                        android:textSize="14sp"
+                        />
+
+                    <RadioButton
+                        android:id="@+id/rb_fundspot"
+                        android:layout_weight="1"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="Select Fundspot"
+                        android:textSize="14sp"/>
+
+                </RadioGroup>
+
+            </LinearLayout>
+
+            <LinearLayout
+
+                android:id="@+id/layout_spinner"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
             <TextView
+                android:visibility="gone"
+                android:id="@+id/txt_assOrganization"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
@@ -137,6 +178,7 @@
                 android:textSize="16sp"/>
 
             <Spinner
+                android:visibility="gone"
                 android:id="@+id/spn_assocOrganization"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
@@ -145,6 +187,8 @@
                 android:textColor="@color/black"/>
 
             <TextView
+                android:visibility="gone"
+                android:id="@+id/txt_assFundspot"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
@@ -152,12 +196,16 @@
                 android:textSize="16sp"/>
 
             <Spinner
+                android:visibility="gone"
                 android:id="@+id/spn_assocFundspot"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:background="@drawable/spinner_bg"
                 android:hint=""
                 android:textColor="@color/black"/>
+
+
+            </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"

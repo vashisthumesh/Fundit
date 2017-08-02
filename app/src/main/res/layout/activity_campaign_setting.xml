@@ -9,15 +9,12 @@
 
     tools:context="com.fundit.VerificationActivity">
 
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/toolbar_center_text" />
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <LinearLayout
+            android:layout_margin="10dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
@@ -67,20 +64,23 @@
                         android:textSize="16sp" />
 
                     <EditText
+                        android:id="@+id/edt_fubdraiser"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@color/white"
-                        android:hint="Fundraiser"
-                        android:gravity="end"
-                        android:inputType="numberDecimal"
                         android:layout_weight="1"
+                        android:background="@color/white"
+                        android:gravity="end"
+                        android:hint="Fundraiser"
+                        android:inputType="numberDecimal"
                         android:padding="5dp" />
+
                     <EditText
+                        android:id="@+id/edt_organization"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:background="@color/white"
                         android:hint="Organization"
-                        android:layout_weight="1"
                         android:inputType="numberDecimal"
                         android:padding="5dp" />
                 </LinearLayout>
@@ -100,20 +100,22 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Duration of campaign:"
                         android:layout_weight="0"
+                        android:text="Duration of campaign:"
                         android:textSize="16sp" />
 
                     <EditText
+                        android:id="@+id/edt_duration"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:background="@color/white"
                         android:hint="#days"
                         android:inputType="date"
-                        android:layout_weight="1"
                         android:padding="5dp" />
 
                     <CheckBox
+                        android:id="@+id/checkbox_indefinite"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="0"
@@ -141,15 +143,17 @@
                         android:textSize="16sp" />
 
                     <EditText
+                        android:id="@+id/edt_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:hint="$amount"
-                        android:padding="5dp"
                         android:background="@color/white"
-                        android:inputType="number" />
+                        android:hint="$amount"
+                        android:inputType="number"
+                        android:padding="5dp" />
 
                     <CheckBox
+                        android:id="@+id/checkbox_nolimit"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="0"
@@ -176,6 +180,7 @@
                         android:textSize="16sp" />
 
                     <EditText
+                        android:id="@+id/edt_total_days"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/white"
@@ -191,7 +196,6 @@
                     android:background="@color/colorIcon" />
 
 
-
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
@@ -205,6 +209,7 @@
                     android:orientation="vertical">
 
                     <Button
+                        android:id="@+id/btn_continue"
                         android:layout_width="180dp"
                         android:layout_height="40dp"
                         android:layout_gravity="center"
@@ -219,4 +224,9 @@
         </LinearLayout>
 
     </ScrollView>
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar_center_text" />
+
 </LinearLayout>

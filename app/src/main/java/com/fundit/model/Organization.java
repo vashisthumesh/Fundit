@@ -28,4 +28,8 @@ public class Organization extends Member implements Serializable {
         this.title = title;
         return this;
     }
+
+
+
+
 }

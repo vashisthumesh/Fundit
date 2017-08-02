@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -60,6 +61,7 @@ public class VerificationActivity extends AppCompatActivity {
 
                 dialog.show();
                 Call<VerifyResponse> responseCall=adminAPI.userVerification(user_id,otp);
+                Log.e("parameters" , "" + user_id + otp);
                 responseCall.enqueue(new Callback<VerifyResponse>() {
                     @Override
                     public void onResponse(Call<VerifyResponse> call, Response<VerifyResponse> response) {

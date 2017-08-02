@@ -324,7 +324,7 @@ public class FundSpotProfile extends AppCompatActivity {
                 } else if (funsplit.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please Enter Funsplit");
                 } else {
-                    Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), CampaignSetting.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     intent.putExtra("user_id",preference.getUserID());
                     intent.putExtra("tokken_hash",preference.getUserID());
