@@ -48,7 +48,7 @@
                 android:layout_gravity="top|center"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:visibility="visible"
+                android:visibility="gone"
                 android:background="@drawable/rounded_textview_cart"
                 android:layout_marginLeft="10dp"
                 android:layout_marginBottom="16dp"

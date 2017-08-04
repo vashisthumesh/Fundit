@@ -97,6 +97,7 @@ public class NotificationActivity extends AppCompatActivity {
                                 bean_category.setSent_user(jobject.getString("sent_user"));
                                 bean_category.setReceive_user(jobject.getString("receive_user"));
                                 bean_category.setMsg(jobject.getString("msg"));
+                                bean_category.setRead_status(jobject.getString("read_status"));
 
                                 array_order_history_list.add(bean_category);
 

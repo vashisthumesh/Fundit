@@ -121,8 +121,9 @@ public class Notification_Adapter extends BaseAdapter {
                 String user_id=result.get(position).getReceive_user();
                 String tokenhash=pref.getTokenHash();
                 String notificationId=result.get(position).getId();
+                int read= Integer.parseInt(result.get(position).getRead_status());
 
-                if(result.get(position).getRead_status().equals(1)){
+                if(read==1){
                     showdialog(position);
                 }
                 else{
