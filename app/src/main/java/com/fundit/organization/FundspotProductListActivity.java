@@ -1,28 +1,39 @@
 package com.fundit.organization;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.fundit.R;
 import com.fundit.a.AppPreference;
 import com.fundit.a.C;
+import com.fundit.a.W;
 import com.fundit.adapter.ProductListAdapter;
 import com.fundit.apis.AdminAPI;
 import com.fundit.apis.ServiceGenerator;
+import com.fundit.apis.StringConverterFactory;
 import com.fundit.helper.CustomDialog;
 import com.fundit.model.ProductListResponse;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -38,11 +49,13 @@ public class FundspotProductListActivity extends AppCompatActivity {
     AdminAPI adminAPI;
     AppPreference preference;
     List<ProductListResponse.Product> productList=new ArrayList<>();
-    ProductListAdapter productListAdapter;
+    ProductsListAdapter productListAdapter;
 
     CheckBox chk_items, chk_giftCard;
 
     CustomDialog dialog;
+
+    Button btn_select;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,11 +94,13 @@ public class FundspotProductListActivity extends AppCompatActivity {
     private void fetchIDs() {
         txt_fundspotName = (TextView) findViewById(R.id.txt_fundspotName);
         list_products = (ListView) findViewById(R.id.list_products);
-        productListAdapter = new ProductListAdapter(productList,this,true);
+        productListAdapter = new ProductsListAdapter(productList,this,true);
         list_products.setAdapter(productListAdapter);
         chk_items = (CheckBox) findViewById(R.id.chk_items);
         chk_giftCard = (CheckBox) findViewById(R.id.chk_giftCard);
         txt_fundspotName.setText(fundspotName);
+
+        btn_select = (Button) findViewById(R.id.btn_select);
 
         listOutProducts(null);
 
@@ -114,6 +129,15 @@ public class FundspotProductListActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+
+        btn_select.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ArrayList<String> getSelectedProductsIDs = new ArrayList<String>();
+            }
+        });
+
+
     }
 
     private void listProductAfterChecks() {
@@ -170,4 +194,106 @@ public class FundspotProductListActivity extends AppCompatActivity {
     public void onBackPressed() {
         finish();
     }
+
+    public class ProductsListAdapter extends BaseAdapter {
+
+        List<ProductListResponse.Product> productList = new ArrayList<>();
+        Activity activity;
+        LayoutInflater inflater;
+        AdminAPI adminAPI;
+        com.fundit.adapter.ProductListAdapter.OnProductClick onProductClick;
+        boolean selectOnly=false;
+
+        public ProductsListAdapter(List<ProductListResponse.Product> productList, Activity activity) {
+            this.productList = productList;
+            this.activity = activity;
+            this.inflater = activity.getLayoutInflater();
+        }
+
+        public ProductsListAdapter(List<ProductListResponse.Product> productList, Activity activity, boolean selectOnly){
+            this(productList,activity);
+            this.selectOnly = selectOnly;
+        }
+
+        public void setOnProductClick(com.fundit.adapter.ProductListAdapter.OnProductClick onProductClick) {
+            this.onProductClick = onProductClick;
+        }
+
+        @Override
+        public int getCount() {
+            return productList.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return productList.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(final int position, View convertView, ViewGroup parent) {
+
+            View view = inflater.inflate(R.layout.layout_product_item, parent, false);
+
+            TextView txt_productName = (TextView) view.findViewById(R.id.txt_productName);
+            TextView txt_price = (TextView) view.findViewById(R.id.txt_price);
+            TextView txt_type = (TextView) view.findViewById(R.id.txt_type);
+            TextView txt_productDescription = (TextView) view.findViewById(R.id.txt_productDescription);
+
+            CircleImageView img_productImage = (CircleImageView) view.findViewById(R.id.img_productImage);
+            ImageView img_edit = (ImageView) view.findViewById(R.id.img_edit);
+            ImageView img_delete = (ImageView) view.findViewById(R.id.img_delete);
+            CheckBox checkedProducts = (CheckBox) view.findViewById(R.id.check_product);
+
+            LinearLayout layout_options=(LinearLayout) view.findViewById(R.id.layout_options);
+
+            if(selectOnly){
+                //layout_options.setVisibility(View.GONE);
+                img_delete.setVisibility(View.GONE);
+                img_edit.setVisibility(View.GONE);
+            }
+
+            txt_productName.setText(productList.get(position).getName());
+            txt_productDescription.setText(productList.get(position).getDescription());
+            txt_price.setText("$" + productList.get(position).getPrice());
+
+            if (productList.get(position).getType_id().equals(C.TYPE_PRODUCT)) {
+                txt_type.setText("Product Item");
+            } else {
+                txt_type.setText("Gift Card Value");
+            }
+
+            Picasso.with(activity)
+                    .load(W.FILE_URL + productList.get(position).getImage())
+                    .into(img_productImage);
+
+            img_delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (onProductClick != null) {
+                        onProductClick.setOnProductDeleteClickListener(position, productList.get(position).getId());
+                    }
+                }
+            });
+
+            img_edit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (onProductClick != null) {
+                        onProductClick.setOnProductEditClickListener(position, productList.get(position).getId());
+                    }
+                }
+            });
+
+
+
+
+            return view;
+        }
+    }
+
 }

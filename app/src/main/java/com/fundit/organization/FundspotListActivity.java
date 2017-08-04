@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -77,14 +78,15 @@ public class FundspotListActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(getApplicationContext(), FundspotProductListActivity.class);
-                intent.putExtra("fundspotName", fundSpotList.get(i).getMember().getFundspot().getTitle());
-                intent.putExtra("fundspotID", fundSpotList.get(i).getMember().getFundspot().getUser_id());
+                intent.putExtra("fundspotName", fundSpotList.get(i).getFundspot().getTitle());
+                intent.putExtra("fundspotID", fundSpotList.get(i).getFundspot().getUser_id());
                 startActivityForResult(intent,REQUEST_PRODUCT);
             }
         });
 
         dialog.show();
         Call<FundspotListResponse> fundSpotCall=adminAPI.browseFundspots(preference.getUserID(),preference.getTokenHash());
+        Log.e("parameters" , "" +preference.getUserID() + "--->" + preference.getTokenHash());
         fundSpotCall.enqueue(new Callback<FundspotListResponse>() {
             @Override
             public void onResponse(Call<FundspotListResponse> call, Response<FundspotListResponse> response) {

@@ -10,10 +10,7 @@
 
     <include layout="@layout/toolbar_center_text" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+
 
         <TextView
             android:id="@+id/txt_fundspotName"
@@ -63,8 +60,35 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:divider="@color/colorAccent"
-            android:dividerHeight="1dp"/>
+            android:dividerHeight="1dp"
+            android:layout_weight="1"/>
+
+
+
+
+
+    <LinearLayout
+        android:id="@+id/layout_button"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+
+        <Button
+            android:id="@+id/btn_select"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="3dp"
+            android:background="@color/colorButton"
+            android:text="Select Product"
+            android:textAllCaps="false"
+            android:textColor="#FFF"
+            android:textSize="14sp">
+
+        </Button>
+
 
     </LinearLayout>
+    </LinearLayout>
 
-</LinearLayout>

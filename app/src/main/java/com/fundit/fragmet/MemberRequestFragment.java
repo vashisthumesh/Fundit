@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,10 @@ import com.fundit.apis.AdminAPI;
 import com.fundit.apis.ServiceGenerator;
 import com.fundit.apis.ServiceHandler;
 import com.fundit.helper.CustomDialog;
+import com.fundit.model.Member;
+import com.fundit.model.Organization;
+import com.fundit.model.User;
+import com.google.gson.Gson;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -48,6 +53,10 @@ public class MemberRequestFragment extends Fragment {
     CustomDialog dialog;
 
     String json = "";
+    User user = new User();
+    Member member = new Member();
+    Organization organization = new Organization();
+
 
 
     public MemberRequestFragment() {
@@ -61,6 +70,20 @@ public class MemberRequestFragment extends Fragment {
         preference = new AppPreference(getActivity());
         adminAPI = ServiceGenerator.getAPIClass();
         dialog = new CustomDialog(getActivity());
+        try {
+            user = new Gson().fromJson(preference.getUserData(), User.class);
+            member = new Gson().fromJson(preference.getMemberData(), Member.class);
+            organization = new Gson().fromJson(preference.getMemberData(), Organization.class);
+            Log.e("userData", preference.getUserData());
+            Log.e("memberData" , preference.getMemberData());
+
+            Log.e("orgid" , "1" + member.getOrganization().getId());
+            Log.e("orgid" , "2" + member.getOrganization().getOrganization_id());
+            Log.e("orgid" , "3" + member.getId());
+
+        } catch (Exception e) {
+            Log.e("Exception", e.getMessage());
+        }
         fetchIDs();
 
 
@@ -106,15 +129,19 @@ public class MemberRequestFragment extends Fragment {
             pairs.add(new BasicNameValuePair("status", "0"));
 
             if (preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION)) {
-                pairs.add(new BasicNameValuePair("organization_id", ""));
+                pairs.add(new BasicNameValuePair("organization_id", member.getId()));
             }
 
             if (preference.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)) {
-                pairs.add(new BasicNameValuePair("fundspot_id", ""));
+                pairs.add(new BasicNameValuePair("fundspot_id", member.getId()));
             }
 
 
             json = new ServiceHandler().makeServiceCall(W.BASE_URL + W.MemberRequest, ServiceHandler.POST, pairs);
+
+
+            Log.e("paramters" ,"" + pairs);
+            Log.e("json" , json);
 
 
             return json;

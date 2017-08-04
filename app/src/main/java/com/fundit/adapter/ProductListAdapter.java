@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -77,11 +78,14 @@ public class ProductListAdapter extends BaseAdapter {
         CircleImageView img_productImage = (CircleImageView) view.findViewById(R.id.img_productImage);
         ImageView img_edit = (ImageView) view.findViewById(R.id.img_edit);
         ImageView img_delete = (ImageView) view.findViewById(R.id.img_delete);
+        CheckBox checkedProducts = (CheckBox) view.findViewById(R.id.check_product);
 
         LinearLayout layout_options=(LinearLayout) view.findViewById(R.id.layout_options);
 
         if(selectOnly){
             layout_options.setVisibility(View.GONE);
+        }else{
+            checkedProducts.setVisibility(View.GONE);
         }
 
         txt_productName.setText(productList.get(position).getName());
@@ -125,5 +129,6 @@ public class ProductListAdapter extends BaseAdapter {
         void setOnProductDeleteClickListener(int position, String productID);
 
         void setOnProductSelectedListener(int position, String productID);
+
     }
 }
