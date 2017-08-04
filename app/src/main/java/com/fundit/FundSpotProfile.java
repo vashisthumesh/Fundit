@@ -385,10 +385,7 @@ public class FundSpotProfile extends AppCompatActivity {
             if(categoryItems.get(i).getId().equals(fundspot.getCategory_id())){
                 pos=i;
                 break;
-
             }
-
-
         }
 
         sp_category.setSelection(pos);

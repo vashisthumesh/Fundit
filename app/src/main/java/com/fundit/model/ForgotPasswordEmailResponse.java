@@ -14,7 +14,6 @@ public class ForgotPasswordEmailResponse extends AppModel {
 
     public class ForgotData{
         String user_id="";
-
         public String getUser_id() {
             return user_id;
         }

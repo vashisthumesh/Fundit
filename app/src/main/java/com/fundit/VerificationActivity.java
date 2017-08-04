@@ -73,7 +73,6 @@ public class VerificationActivity extends AppCompatActivity {
 
                                 Log.e("status" , "" +verifyResponse.isStatus());
                                 String userData= new Gson().toJson(verifyResponse.getData().getUser());
-
                                 preference.setLoggedIn(true);
                                 preference.setUserID(verifyResponse.getData().getUser().getId());
                                 preference.setUserRoleID(verifyResponse.getData().getUser().getRole_id());

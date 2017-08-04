@@ -44,13 +44,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:queryHint="Search Contacts"
-            android:background="@drawable/background_searchview"/>
+            android:background="@drawable/background_searchview"
+            android:queryHint="Search Contacts" />
 
         <ListView
+            android:id="@+id/listContacts"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/listContacts"/>
+            android:layout_height="match_parent" />
 
     </LinearLayout>
 

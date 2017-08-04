@@ -1,10 +1,13 @@
 package com.fundit.a;
 
+import com.android.volley.Request;
+
 /**
  * Created by Nivida new on 17-Jul-17.
  */
 
 public class W {
+    public static final int POST= Request.Method.POST;
 
     public static final String KEY_USERID = "user_id";
     public static final String KEY_TOKEN = "tokenhash";
@@ -52,6 +55,7 @@ public class W {
     public static final String APP_EDIT_CAMPAIGN ="Campaign/app_edit_campaign";
 
     public static final String CANCEL_CAMPAIGN = "Campaign/app_action_on_campaign";
+
     public static final String ForgetPass = "User/app_forgot_password";
     public static final String ForgetPass_OTP = "User/app_otp_verification_for_forgotpass";
     public static final String ForgetPass_edit_change_password = "User/app_change_password";

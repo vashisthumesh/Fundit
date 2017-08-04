@@ -48,6 +48,7 @@ class HomeActivity : AppCompatActivity() {
     var txt_userEmail: TextView? = null
     var img_profilePic: CircleImageView? = null
     lateinit var img_edit: ImageView
+    lateinit var img_notification: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,10 +80,14 @@ class HomeActivity : AppCompatActivity() {
         toolbar = C.findToolbarCenteredText(this)
         actionTitle = findViewById(R.id.actionTitle) as TextView
         img_edit = findViewById(R.id.img_edit) as ImageView
+        img_notification =findViewById(R.id.img_notification) as ImageView
         //actionTitle?.text = ""
         setSupportActionBar(toolbar)
 
-
+        img_notification.setOnClickListener{
+            val intent = Intent(this@HomeActivity , NotificationActivity::class.java)
+            startActivity(intent)
+        }
         img_edit.setOnClickListener {
 
             val editMode: Boolean = true

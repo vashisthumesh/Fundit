@@ -149,7 +149,6 @@ public class CreateCampaignTermsNextActivity extends AppCompatActivity {
             dateSelected = campaignList.getCampaign().getStart_date();
         }
 
-
         dialog.show();
         Call<MemberListResponse> memberListResponseCall = adminAPI.getAllMemberList(preference.getUserID(), preference.getTokenHash(), preference.getUserRoleID(), null, preference.getUserID());
         memberListResponseCall.enqueue(new Callback<MemberListResponse>() {

@@ -8,6 +8,7 @@
     <permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
+        android:name=".Fundit"
         android:allowBackup="true"
         android:icon="@drawable/logo"
         android:label="@string/app_name"
@@ -57,7 +58,8 @@
         <activity android:name=".CreateCampaignTermsActivity" />
         <activity android:name=".CreateCampaignTermsNextActivity" />
         <activity android:name=".ForgotPasswordActivity" />
-        <activity android:name=".ChangePasswordActivity"></activity>
+        <activity android:name=".ChangePasswordActivity" />
+        <activity android:name=".NotificationActivity"></activity>
         <activity android:name=".CampaignSetting"></activity>
     </application>
 

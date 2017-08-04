@@ -23,7 +23,40 @@
         android:layout_weight="2"
         android:id="@+id/actionTitle"
         android:text="Fundit"/>
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/toolbar_add_to_cart"
+            android:layout_marginRight="10dp">
 
+            <ImageView
+                android:id="@+id/img_notification"
+                android:layout_width="45dp"
+                android:layout_marginLeft="5dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center|right"
+                android:visibility="visible"
+                android:clickable="true"
+                android:paddingTop="10dp"
+                android:paddingRight="5dp"
+                android:paddingBottom="5dp"
+                android:src="@drawable/notification"/>
+            <TextView
+                android:id="@+id/cartTotal"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_gravity="top|center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:visibility="visible"
+                android:background="@drawable/rounded_textview_cart"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="16dp"
+                android:layout_marginTop="5dp"
+                android:textColor="#fff"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+        </FrameLayout>
 
 
     <ImageView
