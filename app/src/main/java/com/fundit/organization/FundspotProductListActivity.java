@@ -101,6 +101,7 @@ public class FundspotProductListActivity extends AppCompatActivity {
         txt_fundspotName.setText(fundspotName);
 
         btn_select = (Button) findViewById(R.id.btn_select);
+        btn_select.setVisibility(View.GONE);
 
         listOutProducts(null);
 
@@ -252,7 +253,7 @@ public class FundspotProductListActivity extends AppCompatActivity {
             LinearLayout layout_options=(LinearLayout) view.findViewById(R.id.layout_options);
 
             if(selectOnly){
-                //layout_options.setVisibility(View.GONE);
+                layout_options.setVisibility(View.GONE);
                 img_delete.setVisibility(View.GONE);
                 img_edit.setVisibility(View.GONE);
             }

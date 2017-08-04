@@ -174,11 +174,11 @@ public class FundSpotProfile extends AppCompatActivity {
 
             ed_fund_address.setText(member.getLocation());
 
-            imagePath = member.getImage();
+            imagePath =  W.FILE_URL +  member.getImage();
 
             if(!imagePath.isEmpty()) {
                 Picasso.with(getApplicationContext())
-                        .load(W.FILE_URL + imagePath)
+                        .load(imagePath)
                         .into(img_uplode_photo);
 
                 img_remove.setVisibility(View.VISIBLE);
