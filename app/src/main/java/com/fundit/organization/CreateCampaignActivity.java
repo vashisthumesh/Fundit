@@ -1,6 +1,7 @@
 package com.fundit.organization;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -15,18 +16,29 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import com.fundit.Bean.GetProductsFundspotBean;
 import com.fundit.R;
 import com.fundit.a.AppPreference;
 import com.fundit.a.C;
+import com.fundit.a.W;
+import com.fundit.adapter.SelectedProductListAdapter;
 import com.fundit.apis.AdminAPI;
 import com.fundit.apis.ServiceGenerator;
+import com.fundit.apis.ServiceHandler;
 import com.fundit.helper.CustomDialog;
 import com.fundit.model.FundspotListResponse;
 import com.fundit.model.ProductListResponse;
 import com.fundit.model.VerifyResponse;
 import com.google.gson.Gson;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +54,7 @@ public class CreateCampaignActivity extends AppCompatActivity {
     AutoCompleteTextView auto_searchFundspot;
     ArrayList<String> fundSpotNames = new ArrayList<>();
     List<VerifyResponse.VerifyResponseData> fundSpotList = new ArrayList<>();
+    List<GetProductsFundspotBean> fundspotBeen = new ArrayList<>();
     ArrayAdapter<String> autoAdapter;
 
     AdminAPI adminAPI;
@@ -51,8 +64,10 @@ public class CreateCampaignActivity extends AppCompatActivity {
     String selectedFundSpotID = null;
     ProductListResponse.Product product = null;
 
-    EditText edt_itemName,edt_couponCost,edt_organizationSplit,edt_fundSplit,edt_maxLimitCoupon,edt_campaignDuration,edt_couponExpireDay,edt_finePrint;
+    EditText edt_itemName, edt_couponCost, edt_organizationSplit, edt_fundSplit, edt_maxLimitCoupon, edt_campaignDuration, edt_couponExpireDay, edt_finePrint;
     CheckBox chk_indefinite;
+
+    ArrayList<String> selectedProducts = new ArrayList<>();
 
     int REQUEST_PRODUCT = 369;
     int NEXT_STEP = 936;
@@ -60,12 +75,20 @@ public class CreateCampaignActivity extends AppCompatActivity {
     Button btn_continue;
     CustomDialog dialog;
 
+    ListView listSelectedProducts;
+
+    SelectedProductListAdapter productListAdapter;
+
+    JSONArray jsonArrayProductId = new JSONArray();
+
+    String json = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_campaign);
 
-        adminAPI= ServiceGenerator.getAPIClass();
+        adminAPI = ServiceGenerator.getAPIClass();
         preference = new AppPreference(this);
         dialog = new CustomDialog(this);
 
@@ -75,17 +98,19 @@ public class CreateCampaignActivity extends AppCompatActivity {
 
     private void fetchIDs() {
         txt_itemLabel = (TextView) findViewById(R.id.txt_itemLabel);
-        txt_browseFundspot=(TextView) findViewById(R.id.txt_browseFundspot);
-        auto_searchFundspot=(AutoCompleteTextView) findViewById(R.id.auto_searchFundspot);
+        txt_browseFundspot = (TextView) findViewById(R.id.txt_browseFundspot);
+        auto_searchFundspot = (AutoCompleteTextView) findViewById(R.id.auto_searchFundspot);
         autoAdapter = new ArrayAdapter<String>(this, R.layout.spinner_textview, fundSpotNames);
         btn_continue = (Button) findViewById(R.id.btn_continue);
+        listSelectedProducts = (ListView) findViewById(R.id.list_selected_products);
+        listSelectedProducts.setVisibility(View.GONE);
 
         txt_browseFundspot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(getApplicationContext(),FundspotListActivity.class);
+                Intent intent = new Intent(getApplicationContext(), FundspotListActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivityForResult(intent,REQUEST_PRODUCT);
+                startActivityForResult(intent, REQUEST_PRODUCT);
             }
         });
 
@@ -213,7 +238,7 @@ public class CreateCampaignActivity extends AppCompatActivity {
                 int maxLimitCouponNum = Integer.parseInt(maxLimitCoupon.isEmpty() ? "0" : maxLimitCoupon);
                 int couponExpiryNum = Integer.parseInt(couponExpiry.isEmpty() ? "0" : couponExpiry);
 
-                if (product == null) {
+                if (selectedFundSpotName == null) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please select Fundspot and its Product");
                 } else if (orgSplit < 1) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter Organization split min. 1%");
@@ -223,9 +248,9 @@ public class CreateCampaignActivity extends AppCompatActivity {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter maximum limit of coupon min. 1");
                 } else if (couponExpiryNum < 1) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter coupon expiry days min. 1");
-                } else if (couponFinePrint.isEmpty()) {
+                } /*else if (couponFinePrint.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter fine print");
-                } else {
+                }*/ else {
 
                     if (chk_indefinite.isChecked()) {
                         campaignDuration = "0";
@@ -234,13 +259,14 @@ public class CreateCampaignActivity extends AppCompatActivity {
                     Intent intent = new Intent(getApplicationContext(), CreateCampaignNextActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     intent.putExtra("selectedFundspotID", selectedFundSpotID);
-                    intent.putExtra("product", product);
+                    //intent.putExtra("product", product);
                     intent.putExtra("fundspotSplit", fundSpotSplit);
                     intent.putExtra("organizationSplit", organizationSplit);
                     intent.putExtra("campaignDuration", campaignDuration);
                     intent.putExtra("maxLimitCoupon", maxLimitCoupon);
                     intent.putExtra("couponExpiry", couponExpiry);
-                    intent.putExtra("couponFinePrint", couponFinePrint);
+                    //intent.putExtra("couponFinePrint", couponFinePrint);
+                    intent.putStringArrayListExtra("products" , selectedProducts);
                     startActivityForResult(intent, NEXT_STEP);
                 }
             }
@@ -267,12 +293,42 @@ public class CreateCampaignActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == REQUEST_PRODUCT && resultCode == RESULT_OK && data!=null){
+        if (requestCode == REQUEST_PRODUCT && resultCode == RESULT_OK && data != null) {
+
+            // product = (ProductListResponse.Product) data.getSerializableExtra("product");
+
+            productListAdapter = new SelectedProductListAdapter(fundspotBeen, getApplicationContext());
+            listSelectedProducts.setAdapter(productListAdapter);
+
+            selectedProducts = data.getStringArrayListExtra("ProductsId");
             selectedFundSpotName = data.getStringExtra("fundspotName");
             selectedFundSpotID = data.getStringExtra("fundspotID");
-            product = (ProductListResponse.Product) data.getSerializableExtra("product");
+
+            for (int i = 0; i < selectedProducts.size(); i++) {
+
+                try {
+                    JSONObject mainObject = new JSONObject();
+
+                    mainObject.put("id", selectedProducts.get(i));
+
+                    jsonArrayProductId.put(mainObject);
+
+                    Log.e("check", "ckeck12345");
+
+                } catch (Exception e) {
+
+                    e.printStackTrace();
+                }
+
+
+            }
+
+
+            Log.e("selectedProducts", "-->" + selectedProducts);
+            new GetAllDatas().execute();
+
             auto_searchFundspot.setText("");
-            fillupSelectedData();
+            //fillupSelectedData();
         } else if (requestCode == NEXT_STEP && resultCode == RESULT_OK) {
             onBackPressed();
         }
@@ -280,18 +336,17 @@ public class CreateCampaignActivity extends AppCompatActivity {
 
     private void fillupSelectedData() {
         auto_searchFundspot.setText(selectedFundSpotName);
-        edt_itemName.setText(product.getName());
-        edt_couponCost.setText(product.getPrice());
+        //  edt_itemName.setText(product.getName());
+        // edt_couponCost.setText(product.getPrice());
         edt_organizationSplit.setText(product.getOrganization_percent());
         edt_campaignDuration.setText(product.getCampaign_duration());
         edt_maxLimitCoupon.setText(product.getMax_limit_of_coupons());
-        edt_finePrint.setText(product.getFine_print());
+        //  edt_finePrint.setText(product.getFine_print());
         edt_couponExpireDay.setText(product.getCoupon_expire_day());
 
-        if(product.getType_id().equals(C.TYPE_GIFTCARD)){
+        if (product.getType_id().equals(C.TYPE_GIFTCARD)) {
             txt_itemLabel.setText("Gift Card being sold");
-        }
-        else {
+        } else {
             txt_itemLabel.setText("Item being sold");
         }
 
@@ -324,6 +379,130 @@ public class CreateCampaignActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+
+    public class GetAllDatas extends AsyncTask<Void, Void, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            try {
+
+
+                dialog = new CustomDialog(getApplicationContext());
+                dialog.show();
+                dialog.setCancelable(false);
+
+
+            } catch (Exception e) {
+
+
+            }
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+
+
+            List<NameValuePair> pairs = new ArrayList<>();
+
+            pairs.add(new BasicNameValuePair("user_id", preference.getUserID()));
+            pairs.add(new BasicNameValuePair("tokenhash", preference.getTokenHash()));
+            pairs.add(new BasicNameValuePair("product_id", "" + jsonArrayProductId));
+            pairs.add(new BasicNameValuePair("fundspot_id", selectedFundSpotID));
+
+
+            json = new ServiceHandler().makeServiceCall(W.BASE_URL + W.GetProductsFundspotProducts, ServiceHandler.POST, pairs);
+
+
+            Log.e("parameters", "" + pairs);
+            Log.e("json", json);
+
+            return json;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            dialog.dismiss();
+
+            if (s.isEmpty() || s.equalsIgnoreCase("")) {
+
+                C.INSTANCE.noInternet(getApplicationContext());
+
+            } else {
+
+                try {
+                    JSONObject mainObject = new JSONObject(s);
+
+                    boolean status = true;
+                    String message = "";
+
+                    status = mainObject.getBoolean("status");
+                    message = mainObject.getString("message");
+
+
+                    if (status) {
+
+
+
+
+                        JSONObject dataObject = mainObject.getJSONObject("data");
+                        JSONObject fundspotObject = dataObject.getJSONObject("Fundspot");
+
+
+                        auto_searchFundspot.setText(fundspotObject.getString("title"));
+                        edt_organizationSplit.setText(fundspotObject.getString("organization_percent"));
+                        edt_couponExpireDay.setText(fundspotObject.getString("coupon_expire_day"));
+                        edt_campaignDuration.setText(fundspotObject.getString("campaign_duration"));
+                        edt_maxLimitCoupon.setText(fundspotObject.getString("max_limit_of_coupon_price"));
+
+                        auto_searchFundspot.setEnabled(false);
+                        edt_organizationSplit.setEnabled(false);
+                        edt_couponExpireDay.setEnabled(false);
+                        edt_campaignDuration.setEnabled(false);
+                        edt_maxLimitCoupon.setEnabled(false);
+
+
+
+                        JSONArray productArray = dataObject.getJSONArray("Product");
+
+                        for (int i = 0; i < productArray.length(); i++) {
+                            GetProductsFundspotBean productsFundspotBean = new GetProductsFundspotBean();
+
+                            JSONObject object = productArray.getJSONObject(i);
+
+                            productsFundspotBean.setProductId(object.getString("id"));
+                            productsFundspotBean.setType_id(object.getString("type_id"));
+                            productsFundspotBean.setName(object.getString("name"));
+                            productsFundspotBean.setProductDescription(object.getString("description"));
+                            productsFundspotBean.setImage(object.getString("image"));
+                            productsFundspotBean.setPrice(object.getString("price"));
+                            productsFundspotBean.setFine_print(object.getString("fine_print"));
+
+
+                            fundspotBeen.add(productsFundspotBean);
+
+                        }
+
+
+                        listSelectedProducts.setVisibility(View.VISIBLE);
+                        productListAdapter.notifyDataSetChanged();
+
+
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+
+
+        }
     }
 
     @Override

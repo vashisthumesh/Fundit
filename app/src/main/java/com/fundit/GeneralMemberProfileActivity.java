@@ -173,13 +173,13 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
             spn_assocFundspot.setVisibility(View.GONE);
             spn_assocOrganization.setVisibility(View.GONE);
 
-            imagePath = member.getImage();
+            imagePath =W.FILE_URL +  member.getImage();
 
 
             if (!imagePath.isEmpty()) {
 
                 Picasso.with(getApplicationContext())
-                        .load(W.FILE_URL + imagePath)
+                        .load(imagePath)
                         .into(img_uplode_photo);
 
                 img_remove.setVisibility(View.VISIBLE);

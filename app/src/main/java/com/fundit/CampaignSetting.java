@@ -3,6 +3,7 @@ package com.fundit;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -11,6 +12,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.fundit.a.AppPreference;
 import com.fundit.a.C;
@@ -38,6 +40,9 @@ public class CampaignSetting extends AppCompatActivity {
     EditText edt_fubdraiser, edt_organization, edt_duration, edt_price, edt_total_days;
     CheckBox checkbox_indefinite, checkbox_nolimit;
 
+    boolean firstTIme = false;
+    boolean editMode = false;
+
     CustomDialog dialog;
 
     @Override
@@ -58,11 +63,30 @@ public class CampaignSetting extends AppCompatActivity {
         description = in.getStringExtra("description");
         contactInfo = in.getStringExtra("contactInfo");
         imagePath = in.getStringExtra("imagePath");
+        firstTIme = in.getBooleanExtra("firstTime", false);
+        editMode = in.getBooleanExtra("editMode", false);
         fetchID();
         setupToolbar();
     }
 
     private void setupToolbar() {
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarCenterText);
+        TextView actionTitle = (TextView) findViewById(R.id.actionTitle);
+
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        actionTitle.setText("Campaign Setting");
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+
+
     }
 
     private void fetchID() {
@@ -74,6 +98,8 @@ public class CampaignSetting extends AppCompatActivity {
         edt_duration = (EditText) findViewById(R.id.edt_duration);
         edt_price = (EditText) findViewById(R.id.edt_price);
         edt_total_days = (EditText) findViewById(R.id.edt_total_days);
+
+        edt_organization.setEnabled(false);
 
         checkbox_indefinite = (CheckBox) findViewById(R.id.checkbox_indefinite);
         checkbox_nolimit = (CheckBox) findViewById(R.id.checkbox_nolimit);
@@ -132,17 +158,25 @@ public class CampaignSetting extends AppCompatActivity {
                 } else if (totalDays.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter coupons expiration");
                 } else {
-
+                    Call<VerifyResponse> fundspotResponse = null;
                     dialog.show();
-                    Call<VerifyResponse> fundspotResponse = adminAPI.editFundsportProfile(preference.getUserID(), preference.getTokenHash(), title, state_id, city_id, address, zipcode, category, funsplit, description, contactInfo, fundraiser, organization, campaign_days, amount, totalDays, ServiceGenerator.prepareFilePart("image", imagePath));
+
+
+                    if (firstTIme) {
+                        fundspotResponse = adminAPI.editFundsportProfile(preference.getUserID(), preference.getTokenHash(), title, state_id, city_id, address, zipcode, category, funsplit, description, contactInfo, fundraiser, organization, campaign_days, amount, totalDays, ServiceGenerator.prepareFilePart("image", imagePath));
+                    } else if (editMode) {
+
+                        fundspotResponse = adminAPI.onlyCampaignEdit(preference.getUserID(), preference.getTokenHash(), fundraiser, organization, campaign_days, amount, totalDays);
+
+                    }
+
+
                     fundspotResponse.enqueue(new Callback<VerifyResponse>() {
                         @Override
                         public void onResponse(Call<VerifyResponse> call, Response<VerifyResponse> response) {
                             dialog.dismiss();
 
-                            Log.e("parameters" , "" + preference.getUserID() + "" + preference.getTokenHash() + "" + title + "" + state_id + "" + city_id + "" + address + "" + zipcode + "" + category + "" + funsplit + "" + description + "" + contactInfo + "" + fundraiser + "" + organization + "" + campaign_days + "" + amount +"" +totalDays + "" + imagePath );
-
-
+                            Log.e("parameters", "" + preference.getUserID() + "" + preference.getTokenHash() + "" + title + "" + state_id + "" + city_id + "" + address + "" + zipcode + "" + category + "" + funsplit + "" + description + "" + contactInfo + "" + fundraiser + "" + organization + "" + campaign_days + "" + amount + "" + totalDays + "" + imagePath);
 
 
                             VerifyResponse verifyResponse = response.body();

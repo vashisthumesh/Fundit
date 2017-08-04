@@ -49,6 +49,7 @@
                 />
 
             <TextView
+                android:visibility="gone"
                 android:id="@+id/txt_itemLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -59,6 +60,7 @@
                 android:textSize="16sp"/>
 
             <EditText
+                android:visibility="gone"
                 android:id="@+id/edt_itemName"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
@@ -68,6 +70,7 @@
                 android:textColor="@color/black"/>
 
             <TextView
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="1dp"
@@ -77,6 +80,7 @@
                 android:textSize="16sp"/>
 
             <EditText
+                android:visibility="gone"
                 android:id="@+id/edt_couponCost"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
@@ -204,7 +208,7 @@
                 android:layout_marginLeft="1dp"
                 android:drawableRight="@drawable/star"
                 android:padding="5dp"
-                android:text="Maximum Limit of Coupon"
+                android:text="Maximum Selling Limit"
                 android:textSize="16sp"/>
 
             <EditText
@@ -250,6 +254,7 @@
             </LinearLayout>
 
             <TextView
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="1dp"
@@ -259,6 +264,7 @@
                 android:textSize="16sp"/>
 
             <EditText
+                android:visibility="gone"
                 android:id="@+id/edt_finePrint"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -268,6 +274,27 @@
                 android:lines="4"
                 android:padding="5dp"
                 android:textColor="@color/black"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="1dp"
+                android:drawableRight="@drawable/star"
+                android:padding="5dp"
+                android:layout_marginTop="5dp"
+                android:text="Product being sold"
+                android:textSize="16sp"/>
+
+            <ListView
+                android:id="@+id/list_selected_products"
+                android:layout_width="match_parent"
+                android:layout_height="360dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/white"
+                android:divider="@color/colorAccent"
+                android:dividerHeight="1dp"
+                android:scrollbars="none" />
+
 
             <Button
                 android:id="@+id/btn_continue"

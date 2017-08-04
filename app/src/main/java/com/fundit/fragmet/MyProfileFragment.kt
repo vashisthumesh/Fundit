@@ -81,11 +81,11 @@ class MyProfileFragment : Fragment() {
                 .into(img_profilePic)
 
 
-        txt_change_pwd.setOnClickListener{
+        /*txt_change_pwd.setOnClickListener{
             val intent = Intent(activity , ChangePasswordActivity::class.java)
             startActivity(intent)
         }
-
+*/
 
         return view
     }

@@ -31,6 +31,7 @@ public class ProductListResponse extends AppModel implements Serializable {
         String coupon_expire_day = "";
         String created = "";
         String fine_print = "";
+        boolean checked = false;
 
         public String getId() {
             return id;
@@ -86,6 +87,14 @@ public class ProductListResponse extends AppModel implements Serializable {
 
         public String getFine_print() {
             return fine_print;
+        }
+
+        public boolean isChecked() {
+            return checked;
+        }
+
+        public void setChecked(boolean checked) {
+            this.checked = checked;
         }
     }
 }

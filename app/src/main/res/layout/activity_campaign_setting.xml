@@ -5,9 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
+
     android:orientation="vertical"
 
     tools:context="com.fundit.VerificationActivity">
+
+    <include layout="@layout/toolbar_center_text"></include>
 
     <ScrollView
         android:layout_width="match_parent"

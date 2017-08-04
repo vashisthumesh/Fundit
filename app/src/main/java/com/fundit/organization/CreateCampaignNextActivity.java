@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 
@@ -47,8 +48,8 @@ public class CreateCampaignNextActivity extends AppCompatActivity {
     String dateSelected = null;
 
     AdjustableListView listMembers;
-    EditText edt_campaignName, edt_description, edt_startDate, edt_message;
-    CheckBox chk_startDateAsPossible, chk_allOrgMembers;
+    EditText edt_campaignName, edt_description, edt_startDate, edt_message , edt_amount , edt_msgFundspot;
+    CheckBox chk_startDateAsPossible, chk_allOrgMembers , chk_maxAmount;
     AutoCompleteTextView auto_searchMember;
     Button btn_request;
 
@@ -58,6 +59,7 @@ public class CreateCampaignNextActivity extends AppCompatActivity {
     List<Member> memberList = new ArrayList<>();
     ArrayList<String> memberNames = new ArrayList<>();
     ArrayAdapter<String> memberArrayAdapter;
+    ArrayList<String> selectedProducts = new ArrayList<>();
     MemberListAdapter memberListAdapter;
 
 
@@ -77,8 +79,10 @@ public class CreateCampaignNextActivity extends AppCompatActivity {
         campaignDuration = intent.getStringExtra("campaignDuration");
         maxLimitCoupon = intent.getStringExtra("maxLimitCoupon");
         couponExpiry = intent.getStringExtra("couponExpiry");
-        couponFinePrint = intent.getStringExtra("couponFinePrint");
-        product = (ProductListResponse.Product) intent.getSerializableExtra("product");
+        selectedProducts = intent.getStringArrayListExtra("products");
+
+        //couponFinePrint = intent.getStringExtra("couponFinePrint");
+       // product = (ProductListResponse.Product) intent.getSerializableExtra("product");
 
         fetchIDs();
     }
@@ -88,9 +92,12 @@ public class CreateCampaignNextActivity extends AppCompatActivity {
         edt_description = (EditText) findViewById(R.id.edt_description);
         edt_startDate = (EditText) findViewById(R.id.edt_startDate);
         edt_message = (EditText) findViewById(R.id.edt_message);
+        edt_amount = (EditText) findViewById(R.id.edt_amount);
+        edt_msgFundspot = (EditText) findViewById(R.id.edt_msg_fundspot);
 
         chk_startDateAsPossible = (CheckBox) findViewById(R.id.chk_startDateAsPossible);
         chk_allOrgMembers = (CheckBox) findViewById(R.id.chk_allOrgMembers);
+        chk_maxAmount = (CheckBox) findViewById(R.id.chk_max_amount);
 
         auto_searchMember = (AutoCompleteTextView) findViewById(R.id.auto_searchMember);
         btn_request = (Button) findViewById(R.id.btn_request);
@@ -115,6 +122,24 @@ public class CreateCampaignNextActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String text = auto_searchMember.getText().toString().trim();
                 addSelectedMember(i, text);
+            }
+        });
+
+        chk_maxAmount.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                if(buttonView.isChecked()){
+
+                    edt_amount.setText("0");
+                }else{
+
+                    edt_amount.setText("1");
+
+                }
+
+
+
             }
         });
 
@@ -152,54 +177,67 @@ public class CreateCampaignNextActivity extends AppCompatActivity {
                 String campaignTitle = edt_campaignName.getText().toString().trim();
                 String description = edt_description.getText().toString().trim();
                 String message = edt_message.getText().toString().trim();
+                String fundspotMessage = edt_msgFundspot.getText().toString().trim();
+                String maxAmount = edt_amount.getText().toString().trim();
+                int amount = Integer.parseInt(maxAmount);
                 List<Member> selectedMemberList = memberListAdapter.getMemberList();
 
                 if (campaignTitle.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter campaign title");
                 } else if (description.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter description");
-                } else if (!chk_startDateAsPossible.isChecked() && dateSelected == null) {
-                    C.INSTANCE.showToast(getApplicationContext(), "Please select start date");
-                } else if (!chk_allOrgMembers.isChecked() && selectedMemberList.size() == 0) {
+                    } else if (!chk_maxAmount.isChecked() && maxAmount.isEmpty() && amount < 1) {
+                        C.INSTANCE.showToast(getApplicationContext(), "Please enter max amount properly");
+                    } else if (!chk_allOrgMembers.isChecked() && selectedMemberList.size() == 0) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please select coupon sellers");
                 } else if (message.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter message");
-                } else {
+                }else if(fundspotMessage.isEmpty()){
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter message for fundspot");
+                }
+
+                else {
 
                     JSONArray campaignDetailArray = new JSONArray();
                     JSONObject detailObject = new JSONObject();
                     JSONArray memberIDArray = new JSONArray();
+                    JSONArray selectedProductArray = new JSONArray();
                     try {
                         detailObject.put("user_id", preference.getUserID());
+                        detailObject.put("role_id" , preference.getUserRoleID());
                         detailObject.put("title", campaignTitle);
                         detailObject.put("description", description);
                         detailObject.put("receiver_id", selectedFundspotID);
-                        detailObject.put("type_id", product.getType_id());
-                        detailObject.put("product_id", product.getId());
-                        detailObject.put("price", product.getPrice());
+                        //detailObject.put("type_id", product.getType_id());
+                        //detailObject.put("product_id", product.getId());
+                        //detailObject.put("price", product.getPrice());
+                        //detailObject.put("fine_print", couponFinePrint);
                         detailObject.put("fundspot_percent", fundspotSplit);
                         detailObject.put("organization_percent", organizationSplit);
                         detailObject.put("campaign_duration", campaignDuration);
                         detailObject.put("max_limit_of_coupons", maxLimitCoupon);
                         detailObject.put("coupon_expire_day", couponExpiry);
-
+                        detailObject.put("message", message);
+                        detailObject.put("msg" , fundspotMessage);
                         if (chk_startDateAsPossible.isChecked()) {
                             detailObject.put("campaign_asap", "1");
                             detailObject.put("start_date", "");
                         } else {
                             detailObject.put("campaign_asap", "0");
-                            detailObject.put("start_date", dateSelected);
+                            detailObject.put("start_date", "");
                         }
-
                         if (chk_allOrgMembers.isChecked()) {
                             detailObject.put("all_member", "1");
-                        } else {
+                        }else {
                             detailObject.put("all_member", "0");
                         }
+                        if(chk_maxAmount.isChecked()){
 
-                        detailObject.put("fine_print", couponFinePrint);
-                        detailObject.put("message", message);
+                            detailObject.put("target_amount" , "");
+                        }else{
 
+                            detailObject.put("target_amount" , maxAmount);
+                        }
                         campaignDetailArray.put(detailObject);
 
 
@@ -211,6 +249,20 @@ public class CreateCampaignNextActivity extends AppCompatActivity {
                             }
                         }
 
+                        for (int i=0 ; i <selectedProducts.size();i++){
+
+                            JSONObject mainObject = new JSONObject();
+
+                            mainObject.put("id", selectedProducts.get(i));
+
+                            Log.e("selectedProducts" , "---->" + selectedProducts);
+
+                            selectedProductArray.put(mainObject);
+
+                        }
+
+
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -219,7 +271,7 @@ public class CreateCampaignNextActivity extends AppCompatActivity {
                     Log.e("Params", "-- " + campaignDetailArray.toString());
 
                     dialog.show();
-                    Call<AppModel> addCampCall = adminAPI.addCampaign(preference.getUserID(), preference.getTokenHash(), campaignDetailArray.toString(), memberIDArray.toString());
+                    Call<AppModel> addCampCall = adminAPI.addCampaign(preference.getUserID(), preference.getTokenHash(), campaignDetailArray.toString(), memberIDArray.toString() , selectedProductArray.toString());
                     addCampCall.enqueue(new Callback<AppModel>() {
                         @Override
                         public void onResponse(Call<AppModel> call, Response<AppModel> response) {

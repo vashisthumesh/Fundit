@@ -174,11 +174,11 @@ public class FundSpotProfile extends AppCompatActivity {
 
             ed_fund_address.setText(member.getLocation());
 
-            imagePath = member.getImage();
+            imagePath = W.FILE_URL + member.getImage();
 
-            if(!imagePath.isEmpty()) {
+            if (!imagePath.isEmpty()) {
                 Picasso.with(getApplicationContext())
-                        .load(W.FILE_URL + imagePath)
+                        .load(imagePath)
                         .into(img_uplode_photo);
 
                 img_remove.setVisibility(View.VISIBLE);
@@ -189,7 +189,7 @@ public class FundSpotProfile extends AppCompatActivity {
             ed_fund_description.setText(fundspot.getDescription());
             ed_fund_contact_info.setText(member.getContact_info());
 
-            Log.e("categeory" , "" +fundspot.getCategory_id());
+            Log.e("categeory", "" + fundspot.getCategory_id());
         }
 
 
@@ -260,7 +260,7 @@ public class FundSpotProfile extends AppCompatActivity {
                 }
                 categoryAdapter.notifyDataSetChanged();
 
-                if(!firstTime && editMode){
+                if (!firstTime && editMode) {
                     checkforSelectedCategory();
                 }
 
@@ -324,66 +324,77 @@ public class FundSpotProfile extends AppCompatActivity {
                 } else if (funsplit.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please Enter Funsplit");
                 } else {
-                    Intent intent = new Intent(getApplicationContext(), CampaignSetting.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    intent.putExtra("user_id",preference.getUserID());
-                    intent.putExtra("tokken_hash",preference.getUserID());
-                    intent.putExtra("title",title);
-                    intent.putExtra("state_id",stateItems.get(statePosition).getId());
-                    intent.putExtra("city_id",cityItems.get(cityPosition).getId());
-                    intent.putExtra("address1",address1);
-                    intent.putExtra("zipcode",zipcode);
-                    intent.putExtra("category",categoryItems.get(categoryPosition).getId());
-                    intent.putExtra("funsplit",funsplit);
-                    intent.putExtra("description",description);
-                    intent.putExtra("contactInfo",contactInfo);
-                    intent.putExtra("imagePath",imagePath);
 
-                    startActivity(intent);
-                    /*dialog.show();
-                    Call<VerifyResponse> fundspotResponse = adminAPI.editFundsportProfile(preference.getUserID(), preference.getTokenHash(), title, stateItems.get(statePosition).getId(), cityItems.get(cityPosition).getId(), address1, zipcode, categoryItems.get(categoryPosition).getId(), funsplit, description, contactInfo, ServiceGenerator.prepareFilePart("image", imagePath));
-                    fundspotResponse.enqueue(new Callback<VerifyResponse>() {
-                        @Override
-                        public void onResponse(Call<VerifyResponse> call, Response<VerifyResponse> response) {
-                            dialog.dismiss();
-                            VerifyResponse verifyResponse = response.body();
-                            if (verifyResponse != null) {
-                                if (verifyResponse.isStatus()) {
-                                    C.INSTANCE.showToast(getApplicationContext(), verifyResponse.getMessage());
-                                    String memberData = new Gson().toJson(verifyResponse.getData().getOrganization());
-                                    preference.setMemberData(memberData);
 
-                                    Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-                                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                    startActivity(intent);
-                                    finish();
+                    if (firstTime) {
+                        Intent intent = new Intent(getApplicationContext(), CampaignSetting.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        intent.putExtra("user_id", preference.getUserID());
+                        intent.putExtra("tokken_hash", preference.getUserID());
+                        intent.putExtra("title", title);
+                        intent.putExtra("state_id", stateItems.get(statePosition).getId());
+                        intent.putExtra("city_id", cityItems.get(cityPosition).getId());
+                        intent.putExtra("address1", address1);
+                        intent.putExtra("zipcode", zipcode);
+                        intent.putExtra("category", categoryItems.get(categoryPosition).getId());
+                        intent.putExtra("funsplit", funsplit);
+                        intent.putExtra("description", description);
+                        intent.putExtra("contactInfo", contactInfo);
+                        intent.putExtra("imagePath", imagePath);
+                        intent.putExtra("firstTime" , true);
+
+                        startActivity(intent);
+                    }
+
+                    if (editMode) {
+
+                        dialog.show();
+                        Call<VerifyResponse> fundspotResponse = adminAPI.firstTimeEditFundsportProfile(preference.getUserID(), preference.getTokenHash(), title, stateItems.get(statePosition).getId(), cityItems.get(cityPosition).getId(), address1, zipcode, categoryItems.get(categoryPosition).getId(), funsplit, description, contactInfo, ServiceGenerator.prepareFilePart("image", imagePath));
+                        fundspotResponse.enqueue(new Callback<VerifyResponse>() {
+                            @Override
+                            public void onResponse(Call<VerifyResponse> call, Response<VerifyResponse> response) {
+                                dialog.dismiss();
+                                VerifyResponse verifyResponse = response.body();
+                                if (verifyResponse != null) {
+                                    if (verifyResponse.isStatus()) {
+                                        C.INSTANCE.showToast(getApplicationContext(), verifyResponse.getMessage());
+                                        String memberData = new Gson().toJson(verifyResponse.getData().getMember().getFundspot());
+                                        preference.setMemberData(memberData);
+
+                                        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                        startActivity(intent);
+                                        finish();
+                                    } else {
+                                        C.INSTANCE.showToast(getApplicationContext(), verifyResponse.getMessage());
+                                    }
                                 } else {
-                                    C.INSTANCE.showToast(getApplicationContext(), verifyResponse.getMessage());
+                                    C.INSTANCE.defaultError(getApplicationContext());
                                 }
-                            } else {
-                                C.INSTANCE.defaultError(getApplicationContext());
                             }
-                        }
 
-                        @Override
-                        public void onFailure(Call<VerifyResponse> call, Throwable t) {
-                            dialog.dismiss();
-                            C.INSTANCE.errorToast(getApplicationContext(), t);
+                            @Override
+                            public void onFailure(Call<VerifyResponse> call, Throwable t) {
+                                dialog.dismiss();
+                                C.INSTANCE.errorToast(getApplicationContext(), t);
 
 
-                        }
-                    });*/
+                            }
+                        });
+                    }
                 }
             }
         });
+
+
     }
 
     private void checkforSelectedCategory() {
 
         int pos = 0;
-        for (int i=0; i<categoryItems.size();i++){
-            if(categoryItems.get(i).getId().equals(fundspot.getCategory_id())){
-                pos=i;
+        for (int i = 0; i < categoryItems.size(); i++) {
+            if (categoryItems.get(i).getId().equals(fundspot.getCategory_id())) {
+                pos = i;
                 break;
             }
         }
@@ -466,7 +477,7 @@ public class FundSpotProfile extends AppCompatActivity {
                 }
                 cityAdapter.notifyDataSetChanged();
 
-                if(!firstTime && editMode){
+                if (!firstTime && editMode) {
 
                     checkforSelectedCity();
                 }
@@ -483,21 +494,18 @@ public class FundSpotProfile extends AppCompatActivity {
 
     private void checkforSelectedCity() {
 
-        int pos=0;
-        for(int i=0 ; i<cityItems.size();i++){
+        int pos = 0;
+        for (int i = 0; i < cityItems.size(); i++) {
 
-            if(cityItems.get(i).getId().equals(member.getCity_id())){
+            if (cityItems.get(i).getId().equals(member.getCity_id())) {
 
-                pos=i;
+                pos = i;
                 break;
             }
 
         }
 
         sp_city.setSelection(pos);
-
-
-
 
 
     }

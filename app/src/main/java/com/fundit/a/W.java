@@ -13,7 +13,7 @@ public class W {
     public static final String KEY_TOKEN = "tokenhash";
 
     public static final String BASE_URL = "http://app.nivida.in/fundit/"; //Online URL
-   // public static final String BASE_URL = "http://app.nivida.in/bita_fundit"; //Online URL
+   // public static final String BASE_URL = "http://app.nivida.in/bita_fundit/"; //Online URL
     //public static final String BASE_URL = "http://192.168.1.110/fundit/"; // Local URL
     public static final String FILE_URL = BASE_URL + "files/";
 
@@ -63,5 +63,7 @@ public class W {
     public static final String ForgetPass_edit_change_password = "User/app_change_password";
 
     public static final String MemberRequest = "Member/app_get_member_request";
+
+    public static final String GetProductsFundspotProducts = "Fundspot/app_get_fundspot_and_products";
 
 }

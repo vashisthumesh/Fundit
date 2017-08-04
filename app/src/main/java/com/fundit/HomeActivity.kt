@@ -19,6 +19,7 @@ import com.fundit.a.AppPreference
 import com.fundit.a.C
 import com.fundit.a.W
 import com.fundit.fragmet.FRequestFragment
+import com.fundit.fragmet.GeneralSettingFragment
 import com.fundit.fragmet.HomeFragment
 import com.fundit.fragmet.MyProfileFragment
 import com.fundit.fundspot.MyProductsFragment
@@ -80,12 +81,12 @@ class HomeActivity : AppCompatActivity() {
         toolbar = C.findToolbarCenteredText(this)
         actionTitle = findViewById(R.id.actionTitle) as TextView
         img_edit = findViewById(R.id.img_edit) as ImageView
-        img_notification =findViewById(R.id.img_notification) as ImageView
+        img_notification = findViewById(R.id.img_notification) as ImageView
         //actionTitle?.text = ""
         setSupportActionBar(toolbar)
 
-        img_notification.setOnClickListener{
-            val intent = Intent(this@HomeActivity , NotificationActivity::class.java)
+        img_notification.setOnClickListener {
+            val intent = Intent(this@HomeActivity, NotificationActivity::class.java)
             startActivity(intent)
         }
         img_edit.setOnClickListener {
@@ -94,24 +95,26 @@ class HomeActivity : AppCompatActivity() {
             when (preference?.userRoleID) {
                 C.ORGANIZATION -> {
 
-                    val intent = Intent(this@HomeActivity , OrganizationProfileActivity::class.java)
-                    intent.putExtra("isEdiMode" , editMode)
+                    val intent = Intent(this@HomeActivity, OrganizationProfileActivity::class.java)
+                    intent.putExtra("isEdiMode", editMode)
                     startActivity(intent)
 
 
-                } C.FUNDSPOT -> {
+                }
+                C.FUNDSPOT -> {
 
 
-                    val intent = Intent(this@HomeActivity , FundSpotProfile::class.java)
-                    intent.putExtra("isEditMode" , editMode)
+                    val intent = Intent(this@HomeActivity, FundSpotProfile::class.java)
+                    intent.putExtra("isEditMode", editMode)
                     startActivity(intent)
 
 
-                } C.GENERAL_MEMBER -> {
+                }
+                C.GENERAL_MEMBER -> {
 
 
-                    val intent = Intent(this@HomeActivity , GeneralMemberProfileActivity::class.java)
-                    intent.putExtra("isEditMode" , editMode)
+                    val intent = Intent(this@HomeActivity, GeneralMemberProfileActivity::class.java)
+                    intent.putExtra("isEditMode", editMode)
                     startActivity(intent)
 
 
@@ -236,11 +239,31 @@ class HomeActivity : AppCompatActivity() {
             transaction?.commit()
         } else if (position == 4) {
 
+
         } else if (position == 5) {
 
+            if (preference?.userRoleID.equals(C.ORGANIZATION) || preference?.userRoleID.equals(C.FUNDSPOT)) {
+                actionTitle?.text = "Settings"
+                fragment = GeneralSettingFragment()
+                val transaction = fm?.beginTransaction()
+                transaction?.replace(R.id.content, fragment)
+                transaction?.commit()
+            } else {
+                //TODO SOMTHING
+            }
+
         } else if (position == 6) {
-            val intent = Intent(this, FundraiserSettings::class.java)
-            startActivity(intent)
+            if (preference?.userRoleID.equals(C.GENERAL_MEMBER)) {
+                actionTitle?.text = "Settings"
+                fragment = GeneralSettingFragment()
+                val transaction = fm?.beginTransaction()
+                transaction?.replace(R.id.content, fragment)
+                transaction?.commit()
+            } else {
+                val intent = Intent(this, FundraiserSettings::class.java)
+                startActivity(intent)
+            }
+
         } else if (position == 7) {
 
         } else if (position == 8) {

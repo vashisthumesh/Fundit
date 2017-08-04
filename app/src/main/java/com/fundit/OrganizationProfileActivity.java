@@ -175,11 +175,11 @@ public class OrganizationProfileActivity extends AppCompatActivity {
 
             edt_address1.setText(member.getLocation());
 
-            imagePath = member.getImage();
+            imagePath = W.FILE_URL +  member.getImage();
 
             if(!imagePath.isEmpty()) {
                 Picasso.with(getApplicationContext())
-                        .load(W.FILE_URL + imagePath)
+                        .load(imagePath)
                         .into(img_profilePic);
 
                 img_remove.setVisibility(View.VISIBLE);

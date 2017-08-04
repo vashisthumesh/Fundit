@@ -177,7 +177,7 @@ public class AddProductActivity extends AppCompatActivity {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter product description");
                 } else if (productPrice < 1) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter product price min. $1");
-                } else if (fundSplitPer < 1) {
+                } /*else if (fundSplitPer < 1) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter FundSpot split min. 1%");
                 } else if (orgSplitPer < 1) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter Organization split min. 1%");
@@ -187,7 +187,7 @@ public class AddProductActivity extends AppCompatActivity {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter max. coupon limit at least 1");
                 } else if (couponExpiryDaysNum < 1) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter coupon expiry days min. 1");
-                } else if (!isEditMode && (imagePath == null || imagePath.isEmpty())) {
+                }*/ else if (!isEditMode && (imagePath == null || imagePath.isEmpty())) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please select product image");
                 } else {
 

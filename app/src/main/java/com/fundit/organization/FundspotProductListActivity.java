@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,12 +44,12 @@ public class FundspotProductListActivity extends AppCompatActivity {
     ListView list_products;
     TextView txt_fundspotName;
 
-    String fundSpotID=null;
-    String fundspotName="";
+    String fundSpotID = null;
+    String fundspotName = "";
 
     AdminAPI adminAPI;
     AppPreference preference;
-    List<ProductListResponse.Product> productList=new ArrayList<>();
+    List<ProductListResponse.Product> productList = new ArrayList<>();
     ProductsListAdapter productListAdapter;
 
     CheckBox chk_items, chk_giftCard;
@@ -62,11 +63,11 @@ public class FundspotProductListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fundspot_product_list);
 
-        adminAPI= ServiceGenerator.getAPIClass();
-        preference=new AppPreference(this);
-        dialog=new CustomDialog(this);
+        adminAPI = ServiceGenerator.getAPIClass();
+        preference = new AppPreference(this);
+        dialog = new CustomDialog(this);
 
-        Intent intent=getIntent();
+        Intent intent = getIntent();
         fundSpotID = intent.getStringExtra("fundspotID");
         fundspotName = intent.getStringExtra("fundspotName");
 
@@ -94,13 +95,14 @@ public class FundspotProductListActivity extends AppCompatActivity {
     private void fetchIDs() {
         txt_fundspotName = (TextView) findViewById(R.id.txt_fundspotName);
         list_products = (ListView) findViewById(R.id.list_products);
-        productListAdapter = new ProductsListAdapter(productList,this,true);
+        productListAdapter = new ProductsListAdapter(productList, this, true);
         list_products.setAdapter(productListAdapter);
         chk_items = (CheckBox) findViewById(R.id.chk_items);
         chk_giftCard = (CheckBox) findViewById(R.id.chk_giftCard);
         txt_fundspotName.setText(fundspotName);
 
         btn_select = (Button) findViewById(R.id.btn_select);
+
 
         listOutProducts(null);
 
@@ -118,22 +120,47 @@ public class FundspotProductListActivity extends AppCompatActivity {
             }
         });
 
-        list_products.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        /*list_products.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                Intent intent=new Intent();
-                intent.putExtra("fundspotName",fundspotName);
-                intent.putExtra("fundspotID",fundSpotID);
-                intent.putExtra("product",productList.get(position));
-                setResult(RESULT_OK,intent);
+                Intent intent = new Intent();
+                intent.putExtra("fundspotName", fundspotName);
+                intent.putExtra("fundspotID", fundSpotID);
+                intent.putExtra("product", productList.get(position));
+                setResult(RESULT_OK, intent);
                 onBackPressed();
             }
         });
-
+*/
         btn_select.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ArrayList<String> getSelectedProductsIDs = new ArrayList<String>();
+
+                ArrayList<String> selectedProductsId = new ArrayList<>();
+
+                List<ProductListResponse.Product> selectedProducts = productListAdapter.getSelectedProducts();
+
+                if (selectedProducts.size() > 0) {
+
+                    for (int i = 0; i < selectedProducts.size(); i++) {
+                        Log.e("getProductsDetails", "" + selectedProducts.get(i).getId());
+
+                        selectedProductsId.add(selectedProducts.get(i).getId());
+                    }
+
+                    Intent intent = new Intent();
+                    intent.putStringArrayListExtra("ProductsId" , selectedProductsId);
+                    intent.putExtra("fundspotName", fundspotName);
+                    intent.putExtra("fundspotID", fundSpotID);
+                    setResult(RESULT_OK , intent);
+                    onBackPressed();
+                } else {
+
+                    C.INSTANCE.showToast(getApplicationContext(), "Please Select Products");
+
+                }
+
+
             }
         });
 
@@ -141,41 +168,36 @@ public class FundspotProductListActivity extends AppCompatActivity {
     }
 
     private void listProductAfterChecks() {
-        if(chk_items.isChecked() && chk_giftCard.isChecked()){
+        if (chk_items.isChecked() && chk_giftCard.isChecked()) {
             listOutProducts(null);
-        }
-        else if(chk_items.isChecked() && !chk_giftCard.isChecked()){
+        } else if (chk_items.isChecked() && !chk_giftCard.isChecked()) {
             listOutProducts(C.TYPE_PRODUCT);
-        }
-        else if(!chk_items.isChecked() && chk_giftCard.isChecked()){
+        } else if (!chk_items.isChecked() && chk_giftCard.isChecked()) {
             listOutProducts(C.TYPE_GIFTCARD);
-        }
-        else {
+        } else {
             productList.clear();
             productListAdapter.notifyDataSetChanged();
-            C.INSTANCE.showToast(getApplicationContext(),"Please select any type to list products");
+            C.INSTANCE.showToast(getApplicationContext(), "Please select any type to list products");
         }
     }
 
-    private void listOutProducts(String typeID){
+    private void listOutProducts(String typeID) {
         dialog.show();
         productList.clear();
         productListAdapter.notifyDataSetChanged();
-        Call<ProductListResponse> productCall=adminAPI.fundSpotProducts(preference.getUserID(),preference.getTokenHash(),fundSpotID,typeID);
+        Call<ProductListResponse> productCall = adminAPI.fundSpotProducts(preference.getUserID(), preference.getTokenHash(), fundSpotID, typeID);
         productCall.enqueue(new Callback<ProductListResponse>() {
             @Override
             public void onResponse(Call<ProductListResponse> call, Response<ProductListResponse> response) {
                 dialog.dismiss();
-                ProductListResponse listResponse=response.body();
-                if(listResponse!=null){
-                    if(listResponse.isStatus()){
+                ProductListResponse listResponse = response.body();
+                if (listResponse != null) {
+                    if (listResponse.isStatus()) {
                         productList.addAll(listResponse.getData());
+                    } else {
+                        C.INSTANCE.showToast(getApplicationContext(), listResponse.getMessage());
                     }
-                    else {
-                        C.INSTANCE.showToast(getApplicationContext(),listResponse.getMessage());
-                    }
-                }
-                else{
+                } else {
                     C.INSTANCE.defaultError(getApplicationContext());
                 }
 
@@ -185,7 +207,7 @@ public class FundspotProductListActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<ProductListResponse> call, Throwable t) {
                 dialog.dismiss();
-                C.INSTANCE.errorToast(getApplicationContext(),t);
+                C.INSTANCE.errorToast(getApplicationContext(), t);
             }
         });
     }
@@ -202,7 +224,7 @@ public class FundspotProductListActivity extends AppCompatActivity {
         LayoutInflater inflater;
         AdminAPI adminAPI;
         com.fundit.adapter.ProductListAdapter.OnProductClick onProductClick;
-        boolean selectOnly=false;
+        boolean selectOnly = false;
 
         public ProductsListAdapter(List<ProductListResponse.Product> productList, Activity activity) {
             this.productList = productList;
@@ -210,8 +232,8 @@ public class FundspotProductListActivity extends AppCompatActivity {
             this.inflater = activity.getLayoutInflater();
         }
 
-        public ProductsListAdapter(List<ProductListResponse.Product> productList, Activity activity, boolean selectOnly){
-            this(productList,activity);
+        public ProductsListAdapter(List<ProductListResponse.Product> productList, Activity activity, boolean selectOnly) {
+            this(productList, activity);
             this.selectOnly = selectOnly;
         }
 
@@ -249,10 +271,10 @@ public class FundspotProductListActivity extends AppCompatActivity {
             ImageView img_delete = (ImageView) view.findViewById(R.id.img_delete);
             CheckBox checkedProducts = (CheckBox) view.findViewById(R.id.check_product);
 
-            LinearLayout layout_options=(LinearLayout) view.findViewById(R.id.layout_options);
+            LinearLayout layout_options = (LinearLayout) view.findViewById(R.id.layout_options);
 
-            if(selectOnly){
-                //layout_options.setVisibility(View.GONE);
+            if (selectOnly) {
+                //  layout_options.setVisibility(View.GONE);
                 img_delete.setVisibility(View.GONE);
                 img_edit.setVisibility(View.GONE);
             }
@@ -290,9 +312,44 @@ public class FundspotProductListActivity extends AppCompatActivity {
             });
 
 
+            checkedProducts.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                    if (isChecked) {
+
+                        productList.get(position).setChecked(isChecked);
+
+                        String id = productList.get(position).getId().toString().trim();
+
+                        Log.e("getProductId", "-->" + id);
+
+                    }
+
+
+                    productList.get(position).setChecked(isChecked);
+
+
+                }
+            });
 
 
             return view;
+        }
+
+        public List<ProductListResponse.Product> getSelectedProducts() {
+
+            List<ProductListResponse.Product> selctedProducts = new ArrayList<>();
+
+            for (int i = 0; i < productList.size(); i++) {
+
+                if (productList.get(i).isChecked()) {
+                    selctedProducts.add(productList.get(i));
+                }
+            }
+
+
+            return selctedProducts;
         }
     }
 

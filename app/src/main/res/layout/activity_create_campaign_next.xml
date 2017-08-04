@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,7 +7,7 @@
     android:orientation="vertical"
     tools:context="com.fundit.organization.CreateCampaignActivity">
 
-    <include layout="@layout/toolbar_center_text"/>
+    <include layout="@layout/toolbar_center_text" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -27,7 +26,7 @@
                 android:drawableRight="@drawable/star"
                 android:padding="5dp"
                 android:text="Title"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
 
             <EditText
                 android:id="@+id/edt_campaignName"
@@ -37,7 +36,7 @@
                 android:hint="Campaign name"
                 android:inputType="textPersonName"
                 android:padding="5dp"
-                android:textColor="@color/colorTextSecondary"/>
+                android:textColor="@color/colorTextSecondary" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -46,7 +45,7 @@
                 android:drawableRight="@drawable/star"
                 android:padding="5dp"
                 android:text="What is this fundraiser for?"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
 
             <EditText
                 android:id="@+id/edt_description"
@@ -59,7 +58,7 @@
                 android:lines="4"
                 android:maxLines="4"
                 android:padding="5dp"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -68,7 +67,8 @@
                 android:drawableRight="@drawable/star"
                 android:padding="5dp"
                 android:text="Start date"
-                android:textSize="16sp"/>
+                android:textSize="16sp"
+                android:visibility="gone" />
 
             <EditText
                 android:id="@+id/edt_startDate"
@@ -78,7 +78,8 @@
                 android:focusableInTouchMode="false"
                 android:hint="MM/DD/YY"
                 android:padding="5dp"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black"
+                android:visibility="gone" />
 
             <CheckBox
                 android:id="@+id/chk_startDateAsPossible"
@@ -88,7 +89,68 @@
                 android:padding="5dp"
                 android:text="Start as soon as possible"
                 android:textColor="@color/black"
-                android:textSize="16sp"/>
+                android:textSize="16sp"
+                android:visibility="gone" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="1dp"
+                android:drawableRight="@drawable/star"
+                android:padding="5dp"
+                android:text="Target Amount"
+                android:textSize="16sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/edt_amount"
+                    android:layout_width="170dp"
+                    android:layout_height="40dp"
+                    android:background="@color/white"
+                    android:hint="Amount"
+                    android:padding="5dp"
+                    android:inputType="number"
+                    android:textColor="@color/black" />
+
+                <CheckBox
+                    android:id="@+id/chk_max_amount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="1"
+                    android:padding="5dp"
+                    android:text="Maximum Amount Sold"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="1dp"
+                android:drawableRight="@drawable/star"
+                android:padding="5dp"
+                android:text="Message to Fundspot"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/edt_msg_fundspot"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:gravity="top|start"
+                android:hint="Message"
+                android:inputType="textMultiLine"
+                android:lines="4"
+                android:padding="5dp"
+                android:textColor="@color/black" />
+
 
             <TextView
                 android:id="@+id/txt_couponSellerLabel"
@@ -97,7 +159,7 @@
                 android:layout_marginLeft="1dp"
                 android:padding="5dp"
                 android:text="Coupon Seller"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
 
             <CheckBox
                 android:id="@+id/chk_allOrgMembers"
@@ -107,7 +169,7 @@
                 android:padding="5dp"
                 android:text="All organization members"
                 android:textColor="@color/black"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
 
             <AutoCompleteTextView
                 android:id="@+id/auto_searchMember"
@@ -119,7 +181,7 @@
                 android:hint="Search"
                 android:minHeight="40dp"
                 android:padding="5dp"
-                android:textColor="@color/colorText"/>
+                android:textColor="@color/colorText" />
 
             <com.fundit.helper.AdjustableListView
                 android:id="@+id/listMembers"
@@ -128,7 +190,7 @@
                 android:layout_margin="5dp"
                 android:background="@color/white"
                 android:divider="@color/colorTextSecondary"
-                android:dividerHeight="1dp"/>
+                android:dividerHeight="1dp" />
 
 
             <TextView
@@ -138,7 +200,7 @@
                 android:drawableRight="@drawable/star"
                 android:padding="5dp"
                 android:text="Members to sellers"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
 
             <EditText
                 android:id="@+id/edt_message"
@@ -150,7 +212,7 @@
                 android:inputType="textMultiLine"
                 android:lines="4"
                 android:padding="5dp"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black" />
 
             <Button
                 android:id="@+id/btn_request"
@@ -164,7 +226,7 @@
                 android:text="Request Campaign"
                 android:textAllCaps="false"
                 android:textColor="#000"
-                android:textSize="20sp"/>
+                android:textSize="20sp" />
         </LinearLayout>
 
     </ScrollView>
