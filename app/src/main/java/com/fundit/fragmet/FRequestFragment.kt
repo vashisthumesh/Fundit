@@ -38,7 +38,7 @@ class FRequestFragment : Fragment() {
     }
 
     private fun showMemberFragment() {
-        requestMemberFragment = Fragment()
+        requestMemberFragment = MemberRequestFragment()
         val fm: FragmentManager = activity.supportFragmentManager
         val transaction: FragmentTransaction = fm.beginTransaction()
         transaction.replace(R.id.frame_request, requestMemberFragment)

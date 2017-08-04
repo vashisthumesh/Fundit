@@ -46,6 +46,7 @@ public class VerificationActivity extends AppCompatActivity {
 
         Intent in=getIntent();
         userID=in.getStringExtra("userID");
+        Log.e("userId" , userID);
         setupToolbar();
 
 
@@ -69,6 +70,8 @@ public class VerificationActivity extends AppCompatActivity {
                         VerifyResponse verifyResponse=response.body();
                         if(verifyResponse!=null){
                             if(verifyResponse.isStatus()){
+
+                                Log.e("status" , "" +verifyResponse.isStatus());
                                 String userData= new Gson().toJson(verifyResponse.getData().getUser());
 
                                 preference.setLoggedIn(true);

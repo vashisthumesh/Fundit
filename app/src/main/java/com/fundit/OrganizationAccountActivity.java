@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -269,6 +270,7 @@ public class OrganizationAccountActivity extends AppCompatActivity {
                 Intent intent=new Intent(getApplicationContext(),VerificationActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.putExtra("userID",userID);
+                Log.e("userID" , userID);
                 startActivity(intent);
                 finish();
             }

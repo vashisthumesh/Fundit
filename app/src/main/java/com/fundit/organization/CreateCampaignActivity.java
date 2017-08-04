@@ -192,8 +192,8 @@ public class CreateCampaignActivity extends AppCompatActivity {
                 VerifyResponse.VerifyResponseData data = fundSpotList.get(i);
                 Intent intent = new Intent(getApplicationContext(), FundspotProductListActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.putExtra("fundspotName", data.getFundspot().getTitle());
-                intent.putExtra("fundspotID", data.getFundspot().getUser_id());
+                intent.putExtra("fundspotName", data.getMember().getFundspot().getTitle());
+                intent.putExtra("fundspotID", data.getMember().getFundspot().getUser_id());
                 startActivityForResult(intent, REQUEST_PRODUCT);
             }
         });

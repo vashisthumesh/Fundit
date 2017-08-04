@@ -18,7 +18,7 @@ public class FundspotListResponse extends AppModel {
         ArrayList<String> fundspotNames = new ArrayList<>();
 
         for (int i = 0; i < data.size(); i++) {
-            fundspotNames.add(data.get(i).getFundspot().getTitle());
+            fundspotNames.add(data.get(i).getMember().getFundspot().getTitle());
         }
 
         return fundspotNames;

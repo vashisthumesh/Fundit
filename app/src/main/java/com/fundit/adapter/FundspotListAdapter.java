@@ -58,11 +58,11 @@ public class FundspotListAdapter extends BaseAdapter {
         CircleImageView img_profileImage = (CircleImageView) view.findViewById(R.id.img_profileImage);
 
         Picasso.with(activity)
-                .load(W.FILE_URL+fundSpotList.get(position).getFundspot().getImage())
+                .load(W.FILE_URL+fundSpotList.get(position).getMember().getFundspot().getImage())
                 .into(img_profileImage);
 
-        txt_Name.setText(fundSpotList.get(position).getFundspot().getTitle());
-        txt_location.setText(fundSpotList.get(position).getFundspot().getLocation());
+        txt_Name.setText(fundSpotList.get(position).getMember().getFundspot().getTitle());
+        txt_location.setText(fundSpotList.get(position).getMember().getFundspot().getLocation());
 
         return view;
     }

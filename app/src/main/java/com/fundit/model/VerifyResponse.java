@@ -5,33 +5,37 @@ package com.fundit.model;
  */
 
 public class VerifyResponse extends AppModel {
-    VerifyResponseData data=new VerifyResponseData();
+
+    VerifyResponseData data = new VerifyResponseData();
 
     public VerifyResponseData getData() {
         return data;
     }
 
-    public class VerifyResponseData{
-        User User=new User();
-        Member Member=new Member();
-        Fundspot Fundspot = new Fundspot();
+    public class VerifyResponseData {
+        User User = new User();
+        Member Member = new Member();
+
+
+        /*Fundspot Fundspot = new Fundspot();
         Organization Organization = new Organization();
+*/
 
         public com.fundit.model.Member getMember() {
             return Member;
         }
 
-        public com.fundit.model.Fundspot getFundspot() {
+        public com.fundit.model.User getUser() {
+            return User;
+        }
+
+        /*public com.fundit.model.Fundspot getFundspot() {
             return Fundspot;
         }
 
         public com.fundit.model.Organization getOrganization() {
             return Organization;
         }
-
-
-        public com.fundit.model.User getUser() {
-            return User;
-        }
+*/
     }
 }

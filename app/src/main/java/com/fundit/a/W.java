@@ -56,4 +56,6 @@ public class W {
     public static final String ForgetPass_OTP = "User/app_otp_verification_for_forgotpass";
     public static final String ForgetPass_edit_change_password = "User/app_change_password";
 
+    public static final String MemberRequest = "Member/app_get_member_request";
+
 }

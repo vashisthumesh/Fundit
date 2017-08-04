@@ -11,6 +11,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -154,8 +155,10 @@ public class SignInActivity extends AppCompatActivity {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter min. 6 char password");
                 } else {
                     String firebase_token = FirebaseInstanceId.getInstance().getToken();
+                    Log.e("token " , "" + firebase_token);
                     dialog.show();
                     Call<VerifyResponse> responseCall = adminAPI.signInUser(emailID, password, firebase_token);
+                    Log.e("parameters" , "" + emailID +"-->"+ password+"-->" + firebase_token);
                     responseCall.enqueue(new Callback<VerifyResponse>() {
                         @Override
                         public void onResponse(Call<VerifyResponse> call, Response<VerifyResponse> response) {
@@ -165,28 +168,28 @@ public class SignInActivity extends AppCompatActivity {
                                 if (verifyResponse.isStatus()) {
                                     String userData = new Gson().toJson(verifyResponse.getData().getUser());
                                     String memberData = "";
-                                    String organizationData = "";
+
                                     Intent in;
                                     in = new Intent(SignInActivity.this, HomeActivity.class);
                                     in.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
                                     switch (verifyResponse.getData().getUser().getRole_id()) {
                                         case C.ORGANIZATION:
-                                            if (verifyResponse.getData().getOrganization() == null || verifyResponse.getData().getOrganization().getId() == null || verifyResponse.getData().getOrganization().getId().isEmpty()) {
+                                            if (verifyResponse.getData().getMember().getOrganization() == null || verifyResponse.getData().getMember().getOrganization().getId() == null || verifyResponse.getData().getMember().getOrganization().getId().isEmpty()) {
                                                 in = new Intent(getApplicationContext(), OrganizationProfileActivity.class);
                                                 in.putExtra("firstTime", true);
                                             } else {
-                                                memberData = new Gson().toJson(verifyResponse.getData().getOrganization());
+                                                memberData = new Gson().toJson(verifyResponse.getData().getMember().getOrganization());
 
 
                                             }
                                             break;
                                         case C.FUNDSPOT:
-                                            if (verifyResponse.getData().getFundspot() == null || verifyResponse.getData().getFundspot().getId() == null || verifyResponse.getData().getFundspot().getId().isEmpty()) {
+                                            if (verifyResponse.getData().getMember().getFundspot() == null || verifyResponse.getData().getMember().getFundspot().getId() == null || verifyResponse.getData().getMember().getFundspot().getId().isEmpty()) {
                                                 in = new Intent(getApplicationContext(), FundSpotProfile.class);
                                                 in.putExtra("firstTime",true);
                                             } else {
-                                                memberData = new Gson().toJson(verifyResponse.getData().getFundspot());
+                                                memberData = new Gson().toJson(verifyResponse.getData().getMember().getFundspot());
                                             }
                                             break;
                                         case C.GENERAL_MEMBER:

@@ -24,6 +24,13 @@ public class Member implements Serializable {
     String fundspot_id = "";
 
 
+    Fundspot Fundspot = new Fundspot();
+    Organization Organization = new Organization();
+
+
+
+
+
     public String getId() {
         return id;
     }
@@ -83,4 +90,15 @@ public class Member implements Serializable {
     public String getFundspot_id() {
         return fundspot_id;
     }
+
+
+    public com.fundit.model.Fundspot getFundspot() {
+        return Fundspot;
+    }
+
+    public com.fundit.model.Organization getOrganization() {
+        return Organization;
+    }
+
+
 }
