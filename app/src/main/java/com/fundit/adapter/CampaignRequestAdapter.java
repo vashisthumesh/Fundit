@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.fundit.CreateCampaignTermsActivity;
@@ -74,7 +75,13 @@ public class CampaignRequestAdapter extends BaseAdapter {
         TextView txt_location = (TextView) view.findViewById(R.id.txt_location);
         TextView txt_partnerLabel = (TextView) view.findViewById(R.id.txt_partnerLabel);
         TextView txt_partnerTitle = (TextView) view.findViewById(R.id.txt_partnerTitle);
+
+        LinearLayout layout_review = (LinearLayout) view.findViewById(R.id.layout_review);
+
         Button btn_reviewTerms = (Button) view.findViewById(R.id.btn_reviewTerms);
+        Button btn_accept = (Button) view.findViewById(R.id.btn_accept);
+        Button btn_decline = (Button) view.findViewById(R.id.btn_decline);
+
         CircleImageView img_partnerPic = (CircleImageView) view.findViewById(R.id.img_partnerPic);
 
         if (preference.getUserRoleID().equals(C.ORGANIZATION)) {
@@ -119,6 +126,9 @@ public class CampaignRequestAdapter extends BaseAdapter {
         //Change this when above logic get changed
         if(preference.getUserRoleID().equals(C.ORGANIZATION)){
             btn_reviewTerms.setVisibility(View.GONE);
+            layout_review.setVisibility(View.VISIBLE);
+        }else{
+            btn_reviewTerms.setVisibility(View.VISIBLE);
         }
 
         btn_reviewTerms.setOnClickListener(new View.OnClickListener() {
@@ -132,6 +142,18 @@ public class CampaignRequestAdapter extends BaseAdapter {
                 if(onReviewClickListener!=null){
                     onReviewClickListener.onReviewButtonClick(position);
                 }
+
+            }
+        });
+
+        btn_accept.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(onReviewClickListener!=null){
+                    onReviewClickListener.onReviewButtonClick(position);
+                }
+
+
 
             }
         });

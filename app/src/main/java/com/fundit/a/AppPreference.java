@@ -13,6 +13,8 @@ public class AppPreference {
     SharedPreferences preferences;
     SharedPreferences.Editor editor;
 
+    int messageCount = 0;
+
     public AppPreference(Context context) {
         preferences=context.getSharedPreferences(FILE_NAME,Context.MODE_PRIVATE);
         editor=preferences.edit();
@@ -64,5 +66,13 @@ public class AppPreference {
 
     public void setMemberData(String memberData) {
         editor.putString("memberData", memberData).commit();
+    }
+
+    public int getMessageCount() {
+        return preferences.getInt("Count" , 0);
+    }
+
+    public void setMessageCount(int messageCount) {
+        editor.putInt("Count" , messageCount).commit();
     }
 }

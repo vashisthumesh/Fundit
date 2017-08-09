@@ -183,10 +183,10 @@ public class CreateCampaignTermsNextActivity extends AppCompatActivity {
             List<Member> checkedmemberList=memberListAdapter.getMemberList();
                 String message=edt_message.getText().toString().trim();
 
-                if(dateSelected==null){
+                /*if(dateSelected==null){
                     C.INSTANCE.showToast(getApplicationContext(), "Please select start date ");
 
-                }else if(!chk_allOrgMembers.isChecked() && checkedmemberList.size()==0){
+                }*/if(!chk_allOrgMembers.isChecked() && checkedmemberList.size()==0){
                     C.INSTANCE.showToast(getApplicationContext(), "Please select fundspot member ");
 
                 }else if(message.isEmpty()){

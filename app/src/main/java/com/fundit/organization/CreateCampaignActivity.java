@@ -462,7 +462,7 @@ public class CreateCampaignActivity extends AppCompatActivity {
                         edt_organizationSplit.setEnabled(false);
                         edt_couponExpireDay.setEnabled(false);
                         edt_campaignDuration.setEnabled(false);
-                        edt_maxLimitCoupon.setEnabled(false);
+                        //edt_maxLimitCoupon.setEnabled(false);
 
 
 

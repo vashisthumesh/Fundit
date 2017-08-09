@@ -2,6 +2,7 @@ package com.fundit
 
 import android.app.Activity
 import android.content.Intent
+import android.os.AsyncTask
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
@@ -18,18 +19,21 @@ import android.widget.*
 import com.fundit.a.AppPreference
 import com.fundit.a.C
 import com.fundit.a.W
+import com.fundit.apis.ServiceHandler
 import com.fundit.fragmet.FRequestFragment
 import com.fundit.fragmet.GeneralSettingFragment
 import com.fundit.fragmet.HomeFragment
 import com.fundit.fragmet.MyProfileFragment
 import com.fundit.fundspot.MyProductsFragment
-import com.fundit.model.Fundspot
-import com.fundit.model.Member
-import com.fundit.model.Organization
-import com.fundit.model.User
+import com.fundit.model.*
 import com.google.gson.Gson
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
+import org.apache.http.NameValuePair
+import org.apache.http.message.BasicNameValuePair
+import org.json.JSONException
+import org.json.JSONObject
+import java.util.ArrayList
 
 class HomeActivity : AppCompatActivity() {
 
@@ -50,6 +54,10 @@ class HomeActivity : AppCompatActivity() {
     var img_profilePic: CircleImageView? = null
     lateinit var img_edit: ImageView
     lateinit var img_notification: ImageView
+    var cartCount: TextView? = null
+
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,6 +90,23 @@ class HomeActivity : AppCompatActivity() {
         actionTitle = findViewById(R.id.actionTitle) as TextView
         img_edit = findViewById(R.id.img_edit) as ImageView
         img_notification = findViewById(R.id.img_notification) as ImageView
+        cartCount = findViewById(R.id.cartTotal) as TextView
+        cartCount?.text= preference?.messageCount.toString()
+
+        if(cartCount?.text.toString().equals("0")){
+            cartCount?.visibility = View.GONE
+        }else {
+            cartCount?.visibility = View.VISIBLE
+        }
+
+
+
+
+
+
+
+
+
         //actionTitle?.text = ""
         setSupportActionBar(toolbar)
 
@@ -205,6 +230,8 @@ class HomeActivity : AppCompatActivity() {
         navigationAdapter = LeftNavigationAdapter(this, menuList)
         list_navigation?.adapter = navigationAdapter
         list_navigation?.setOnItemClickListener { _, _, i, _ -> handleClicks(i) }
+
+        GetNotificationCount().execute()
     }
 
     private fun handleClicks(position: Int) {
@@ -286,6 +313,7 @@ class HomeActivity : AppCompatActivity() {
         preference?.tokenHash = ""
         preference?.userData = ""
         preference?.memberData = ""
+        preference?.messageCount = 0
 
         val intent = Intent(this, SignInActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
@@ -337,4 +365,61 @@ class HomeActivity : AppCompatActivity() {
         }
     }
 
+
+    inner class GetNotificationCount : AsyncTask<Void, Void, String>() {
+
+
+        override fun doInBackground(vararg params: Void): String {
+
+
+            val parameters = ArrayList<NameValuePair>()
+
+            parameters.add(BasicNameValuePair("user_id", preference?.userID))
+            parameters.add(BasicNameValuePair("tokenhash", preference?.tokenHash))
+
+
+            val json = ServiceHandler().makeServiceCall(W.BASE_URL + W.GetNotificationCount, ServiceHandler.POST, parameters)
+
+            return json
+        }
+
+
+        override fun onPostExecute(s: String) {
+            super.onPostExecute(s)
+
+
+            if (s.equals("", ignoreCase = true) || s.isEmpty()) {
+
+
+                C.showToast(applicationContext, "Please check your Internet")
+
+
+            } else {
+
+                try {
+                    val mainObject = JSONObject(s)
+
+                    var status = false
+                    var message = ""
+
+                    status = mainObject.getBoolean("status")
+                    message = mainObject.getString("message")
+
+                    preference?.messageCount = mainObject.getInt("total_unread_msg")
+
+
+
+                    Log.e("count" , "" + preference?.messageCount)
+
+
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+
+
+            }
+
+
+        }
+    }
 }

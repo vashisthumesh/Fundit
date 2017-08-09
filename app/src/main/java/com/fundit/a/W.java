@@ -66,4 +66,6 @@ public class W {
 
     public static final String GetProductsFundspotProducts = "Fundspot/app_get_fundspot_and_products";
 
+    public static final String GetNotificationCount = "Notification/App_Get_UnRead_Notification_Count";
+
 }

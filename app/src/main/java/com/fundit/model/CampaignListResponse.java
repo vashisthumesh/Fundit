@@ -22,6 +22,13 @@ public class CampaignListResponse extends AppModel {
         UserFundspot ReceiveUser = new UserFundspot();
         UserOrganization CreateUser = new UserOrganization();
 
+
+        List<MultipleProductResponse> CampaignProduct = new ArrayList();
+
+        public List<MultipleProductResponse> getCampaignProduct() {
+            return CampaignProduct;
+        }
+
         public com.fundit.model.Campaign getCampaign() {
             return Campaign;
         }
@@ -37,6 +44,8 @@ public class CampaignListResponse extends AppModel {
         public CampaignListResponse.UserOrganization getUserOrganization() {
             return CreateUser;
         }
+
+
     }
 
     public class UserFundspot extends User implements Serializable {
