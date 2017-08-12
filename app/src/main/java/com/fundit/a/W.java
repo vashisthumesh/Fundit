@@ -69,4 +69,6 @@ public class W {
 
     public static final String GetNotificationCount = "Notification/App_Get_UnRead_Notification_Count";
 
+    public static final String GET_ALL_APPROVED_CAMPAIGN = "Campaign/app_get_all_approved_campaign";
+
 }

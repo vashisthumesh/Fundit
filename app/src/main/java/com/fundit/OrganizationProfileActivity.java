@@ -34,6 +34,9 @@ import com.squareup.picasso.Picasso;
 import java.io.File;
 import java.util.ArrayList;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -175,9 +178,9 @@ public class OrganizationProfileActivity extends AppCompatActivity {
 
             edt_address1.setText(member.getLocation());
 
-            imagePath = W.FILE_URL +  member.getImage();
+            imagePath = W.FILE_URL + member.getImage();
 
-            if(!imagePath.isEmpty()) {
+            if (!imagePath.isEmpty()) {
                 Picasso.with(getApplicationContext())
                         .load(imagePath)
                         .into(img_profilePic);
@@ -338,7 +341,19 @@ public class OrganizationProfileActivity extends AppCompatActivity {
                     C.INSTANCE.showToast(getApplicationContext(), "Please select profile image");
                 } else {
                     dialog.show();
-                    Call<VerifyResponse> profileResponse = adminAPI.editOrganizationProfile(preference.getUserID(), preference.getTokenHash(), title, stateItems.get(statePosition).getId(), cityItems.get(cityPosition).getId(), address1, zipcode, schoolItems.get(schoolPosition).getId(), subSchoolItems.get(subSchoolPosition).getId(), description, contactInfo, ServiceGenerator.prepareFilePart("image", imagePath));
+                    Call<VerifyResponse> profileResponse = null;
+
+                    if (!imagePath.startsWith("http")) {
+
+                        profileResponse = adminAPI.editOrganizationProfile(preference.getUserID(), preference.getTokenHash(), title, stateItems.get(statePosition).getId(), cityItems.get(cityPosition).getId(), address1, zipcode, schoolItems.get(schoolPosition).getId(), subSchoolItems.get(subSchoolPosition).getId(), description, contactInfo , ServiceGenerator.prepareFilePart("image", imagePath));
+                    } else {
+
+                        profileResponse = adminAPI.editTimeOrganizationProfile(preference.getUserID(), preference.getTokenHash(), title, stateItems.get(statePosition).getId(), cityItems.get(cityPosition).getId(), address1, zipcode, schoolItems.get(schoolPosition).getId(), subSchoolItems.get(subSchoolPosition).getId(), description, contactInfo);
+
+
+                    }
+
+
                     profileResponse.enqueue(new Callback<VerifyResponse>() {
                         @Override
                         public void onResponse(Call<VerifyResponse> call, Response<VerifyResponse> response) {
@@ -433,7 +448,7 @@ public class OrganizationProfileActivity extends AppCompatActivity {
                 }
                 subSchoolAdapter.notifyDataSetChanged();
 
-                if(!firstTime && editMode){
+                if (!firstTime && editMode) {
 
                     checkforSelectedSubType();
 
@@ -453,16 +468,15 @@ public class OrganizationProfileActivity extends AppCompatActivity {
 
     private void checkforSelectedSubType() {
 
-        int pos=0;
-        for(int i=0 ; i<subSchoolItems.size();i++){
+        int pos = 0;
+        for (int i = 0; i < subSchoolItems.size(); i++) {
 
-            if(subSchoolItems.get(i).getId().equals(organization.getSub_type_id())){
+            if (subSchoolItems.get(i).getId().equals(organization.getSub_type_id())) {
 
-                pos=i;
+                pos = i;
                 break;
 
             }
-
 
 
         }

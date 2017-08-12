@@ -341,15 +341,26 @@ public class FundSpotProfile extends AppCompatActivity {
                         intent.putExtra("description", description);
                         intent.putExtra("contactInfo", contactInfo);
                         intent.putExtra("imagePath", imagePath);
-                        intent.putExtra("firstTime" , true);
+                        intent.putExtra("firstTime", true);
 
                         startActivity(intent);
                     }
 
                     if (editMode) {
-
+                        Call<VerifyResponse> fundspotResponse = null;
                         dialog.show();
-                        Call<VerifyResponse> fundspotResponse = adminAPI.firstTimeEditFundsportProfile(preference.getUserID(), preference.getTokenHash(), title, stateItems.get(statePosition).getId(), cityItems.get(cityPosition).getId(), address1, zipcode, categoryItems.get(categoryPosition).getId(), funsplit, description, contactInfo, ServiceGenerator.prepareFilePart("image", imagePath));
+
+                        if (!imagePath.startsWith("http")) {
+
+                            fundspotResponse = adminAPI.firstTimeEditFundsportProfile(preference.getUserID(), preference.getTokenHash(), title, stateItems.get(statePosition).getId(), cityItems.get(cityPosition).getId(), address1, zipcode, categoryItems.get(categoryPosition).getId(), funsplit, description, contactInfo, ServiceGenerator.prepareFilePart("image", imagePath));
+                        } else {
+
+                            fundspotResponse = adminAPI.withoutImageEditFundsportProfile(preference.getUserID(), preference.getTokenHash(), title, stateItems.get(statePosition).getId(), cityItems.get(cityPosition).getId(), address1, zipcode, categoryItems.get(categoryPosition).getId(), funsplit, description, contactInfo);
+
+
+                        }
+
+
                         fundspotResponse.enqueue(new Callback<VerifyResponse>() {
                             @Override
                             public void onResponse(Call<VerifyResponse> call, Response<VerifyResponse> response) {

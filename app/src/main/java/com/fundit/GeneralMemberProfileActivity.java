@@ -331,7 +331,7 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
                 } else if (imagePath == null) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please select profile image");
                 } else {
-
+                    Call<VerifyResponse> generalMemberResponse = null;
                     int checkID = rg_type.getCheckedRadioButtonId();
 
                     String fundspotID = "";
@@ -362,7 +362,23 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
 
 
                     dialog.show();
-                    Call<VerifyResponse> generalMemberResponse = adminAPI.generalMemberProfile(preference.getUserID(), preference.getTokenHash(), firstname, lastname, location, stateItems.get(statePosition).getId(), cityItems.get(cityPosition).getId(), zipcode, orgID, fundspotID, contactInfo, ServiceGenerator.prepareFilePart("image", imagePath));
+
+                    if(!imagePath.startsWith("http")){
+
+                        generalMemberResponse  = adminAPI.generalMemberProfile(preference.getUserID(), preference.getTokenHash(), firstname, lastname, location, stateItems.get(statePosition).getId(), cityItems.get(cityPosition).getId(), zipcode, orgID, fundspotID, contactInfo, ServiceGenerator.prepareFilePart("image", imagePath));
+
+
+                    }else {
+
+
+                        generalMemberResponse  = adminAPI.generalMemberProfile(preference.getUserID(), preference.getTokenHash(), firstname, lastname, location, stateItems.get(statePosition).getId(), cityItems.get(cityPosition).getId(), zipcode, orgID, fundspotID, contactInfo, null);
+
+
+
+
+                    }
+
+
 
                     Log.e("parameters" , "" + preference.getUserID()+"-->"+ preference.getTokenHash()+"-->"+firstname+"-->"+ lastname+"--->"+ location+"--->"+"-->" +stateItems.get(statePosition).getId()+"-->"+ cityItems.get(cityPosition).getId()+"-->"+ zipcode+"-->"+ orgID+"-->"+ fundspotID+"-->"+ contactInfo+"-->"+ imagePath);
                     generalMemberResponse.enqueue(new Callback<VerifyResponse>() {

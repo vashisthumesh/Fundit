@@ -76,6 +76,12 @@ public interface AdminAPI {
     @POST(W.EDIT_ORGANIZATION_PROFILE)
     Call<VerifyResponse> editOrganizationProfile(@Part(W.KEY_USERID) String userID, @Part(W.KEY_TOKEN) String tokenHash, @Part("title") String title, @Part("state_id") String stateID, @Part("city_id") String cityID, @Part("location") String address, @Part("zip_code") String zipCode, @Part("type_id") String typeID, @Part("sub_type_id") String subSchoolID, @Part("description") String description, @Part("contact_info") String contactInfo, @Part MultipartBody.Part profileImage);
 
+
+    @Multipart
+    @POST(W.EDIT_ORGANIZATION_PROFILE)
+    Call<VerifyResponse> editTimeOrganizationProfile(@Part(W.KEY_USERID) String userID, @Part(W.KEY_TOKEN) String tokenHash, @Part("title") String title, @Part("state_id") String stateID, @Part("city_id") String cityID, @Part("location") String address, @Part("zip_code") String zipCode, @Part("type_id") String typeID, @Part("sub_type_id") String subSchoolID, @Part("description") String description, @Part("contact_info") String contactInfo);
+
+
     @Multipart
     @POST(W.EDIT_FUNDSPOT_PROFILE)
     Call<VerifyResponse> editFundsportProfile(@Part(W.KEY_USERID) String userID, @Part(W.KEY_TOKEN) String tokenHash, @Part("title") String title, @Part("state_id") String stateID, @Part("city_id") String cityID, @Part("location") String address, @Part("zip_code") String zipCode, @Part("category_id") String category_id, @Part("fundraise_split") String fundraise_split, @Part("description") String description, @Part("contact_info") String contactInfo,@Part("fundspot_percent") String fundspot_percent,@Part("organization_percent") String organization_percent,@Part("campaign_duration") String campaign_duration,@Part("max_limit_of_coupon_price") String max_limit_of_coupon_price,@Part("coupon_expire_day") String coupon_expire_day, @Part MultipartBody.Part profileImage);
@@ -84,6 +90,11 @@ public interface AdminAPI {
     @Multipart
     @POST(W.EDIT_FUNDSPOT_PROFILE)
     Call<VerifyResponse> firstTimeEditFundsportProfile(@Part(W.KEY_USERID) String userID, @Part(W.KEY_TOKEN) String tokenHash, @Part("title") String title, @Part("state_id") String stateID, @Part("city_id") String cityID, @Part("location") String address, @Part("zip_code") String zipCode, @Part("category_id") String category_id, @Part("fundraise_split") String fundraise_split, @Part("description") String description, @Part("contact_info") String contactInfo, @Part MultipartBody.Part profileImage);
+
+    @Multipart
+    @POST(W.EDIT_FUNDSPOT_PROFILE)
+    Call<VerifyResponse> withoutImageEditFundsportProfile(@Part(W.KEY_USERID) String userID, @Part(W.KEY_TOKEN) String tokenHash, @Part("title") String title, @Part("state_id") String stateID, @Part("city_id") String cityID, @Part("location") String address, @Part("zip_code") String zipCode, @Part("category_id") String category_id, @Part("fundraise_split") String fundraise_split, @Part("description") String description, @Part("contact_info") String contactInfo);
+
 
 
     @Multipart
