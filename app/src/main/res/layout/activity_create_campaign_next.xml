@@ -93,6 +93,7 @@
                 android:visibility="gone" />
 
             <TextView
+                android:id="@+id/txt_targetAmt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="1dp"
@@ -112,8 +113,8 @@
                     android:layout_height="40dp"
                     android:background="@color/white"
                     android:hint="Amount"
-                    android:padding="5dp"
                     android:inputType="number"
+                    android:padding="5dp"
                     android:textColor="@color/black" />
 
                 <CheckBox
@@ -131,6 +132,7 @@
             </LinearLayout>
 
             <TextView
+                android:id="@+id/txt_message"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="1dp"
@@ -194,6 +196,7 @@
 
 
             <TextView
+                android:id="@+id/txt_members"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="1dp"

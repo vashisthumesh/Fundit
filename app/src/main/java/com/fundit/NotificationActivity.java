@@ -1,5 +1,6 @@
 package com.fundit;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -147,4 +148,9 @@ public class NotificationActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(getApplicationContext() , HomeActivity.class);
+        startActivity(intent);
+    }
 }

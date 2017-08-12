@@ -82,6 +82,12 @@
             android:windowSoftInputMode="adjustPan"></activity>
         <activity android:name=".CampaignSetting"
             android:windowSoftInputMode="adjustPan"></activity>
+        <activity android:name=".fundspot.FundspotCampaignActivity"
+            android:windowSoftInputMode="adjustPan"></activity>
+        <activity android:name=".fundspot.FundspotCampaignNextActivity"
+            android:windowSoftInputMode="adjustPan"></activity>
+        <activity android:name=".fundspot.OrganizationListActivity"
+            android:windowSoftInputMode="adjustPan"></activity>
     </application>
 
 </manifest>

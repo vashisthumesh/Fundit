@@ -21,6 +21,7 @@
             android:padding="10dp">
 
             <TextView
+                android:id="@+id/txt_partnerLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
@@ -286,6 +287,7 @@
                 android:textSize="16sp"/>
 
             <ListView
+                android:visibility="gone"
                 android:id="@+id/list_selected_products"
                 android:layout_width="match_parent"
                 android:layout_height="360dp"

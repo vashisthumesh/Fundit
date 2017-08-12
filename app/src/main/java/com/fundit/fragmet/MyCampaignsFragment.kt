@@ -13,6 +13,9 @@ import android.view.ViewGroup
 import android.widget.ImageView
 
 import com.fundit.R
+import com.fundit.a.AppPreference
+import com.fundit.a.C
+import com.fundit.fundspot.FundspotCampaignActivity
 import com.fundit.organization.CreateCampaignActivity
 
 
@@ -22,6 +25,7 @@ import com.fundit.organization.CreateCampaignActivity
 class MyCampaignsFragment : Fragment() {
 
     var img_createCampaign: ImageView? = null
+    var preference: AppPreference? = null
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
@@ -53,12 +57,21 @@ class MyCampaignsFragment : Fragment() {
         val navigation = view.findViewById(R.id.navigation) as BottomNavigationView
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
+        preference = AppPreference(activity)
         img_createCampaign = view.findViewById(R.id.img_createCampaign) as ImageView
 
         img_createCampaign?.setOnClickListener {
-            val intent = Intent(context, CreateCampaignActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-            startActivity(intent)
+
+            if(preference?.userRoleID.equals(C?.ORGANIZATION)) {
+                val intent = Intent(context, CreateCampaignActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                startActivity(intent)
+            }else if(preference?.userRoleID.equals(C?.FUNDSPOT)){
+                val intent = Intent(context, FundspotCampaignActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                startActivity(intent)
+
+            }
         }
 
         return view

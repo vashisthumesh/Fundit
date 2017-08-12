@@ -57,8 +57,6 @@ class HomeActivity : AppCompatActivity() {
     var cartCount: TextView? = null
 
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
@@ -77,7 +75,7 @@ class HomeActivity : AppCompatActivity() {
                 menuList = arrayOf("Home", "My Profile", "Requests", "Banks and Cards", "Settings", "Invite Friends", "Help", "Logout")
             }
             C.FUNDSPOT -> {
-                menuList = arrayOf("Home", "My Profile", "Requests", "Banks and Cards", "Settings", "Invite Friends", "Help", "Logout")
+                menuList = arrayOf("Home", "My Profile", "Requests", "My Product", "Settings", "Invite Friends", "Help", "Logout")
             }
             C.GENERAL_MEMBER -> {
                 menuList = arrayOf("Home", "My Profile", "My Coupons", "My Orders", "Banks and Cards", "Settings", "Invite Friends", "Help", "Logout")
@@ -91,19 +89,7 @@ class HomeActivity : AppCompatActivity() {
         img_edit = findViewById(R.id.img_edit) as ImageView
         img_notification = findViewById(R.id.img_notification) as ImageView
         cartCount = findViewById(R.id.cartTotal) as TextView
-        cartCount?.text= preference?.messageCount.toString()
-
-        if(cartCount?.text.toString().equals("0")){
-            cartCount?.visibility = View.GONE
-        }else {
-            cartCount?.visibility = View.VISIBLE
-        }
-
-
-
-
-
-
+        //cartCount?.text = preference?.messageCount.toString()
 
 
 
@@ -164,7 +150,7 @@ class HomeActivity : AppCompatActivity() {
 
         when (preference?.userRoleID) {
             C.ORGANIZATION -> fragment = HomeFragment()
-            C.FUNDSPOT -> fragment = MyProductsFragment()
+            C.FUNDSPOT -> fragment = HomeFragment()
             C.GENERAL_MEMBER -> fragment = Fragment()
             else -> fragment = Fragment()
         }
@@ -231,6 +217,8 @@ class HomeActivity : AppCompatActivity() {
         list_navigation?.adapter = navigationAdapter
         list_navigation?.setOnItemClickListener { _, _, i, _ -> handleClicks(i) }
 
+
+
         GetNotificationCount().execute()
     }
 
@@ -244,7 +232,7 @@ class HomeActivity : AppCompatActivity() {
                     fragment = HomeFragment()
                 }
                 C.FUNDSPOT -> {
-                    fragment = MyProductsFragment()
+                    fragment = HomeFragment()
                 }
             }
             val transaction = fm?.beginTransaction()
@@ -265,8 +253,12 @@ class HomeActivity : AppCompatActivity() {
             transaction?.replace(R.id.content, fragment)
             transaction?.commit()
         } else if (position == 4) {
-
-
+            if (preference?.userRoleID.equals(C.FUNDSPOT)) {
+                fragment = MyProductsFragment()
+                val transaction = fm?.beginTransaction()
+                transaction?.replace(R.id.content, fragment)
+                transaction?.commit()
+            }
         } else if (position == 5) {
 
             if (preference?.userRoleID.equals(C.ORGANIZATION) || preference?.userRoleID.equals(C.FUNDSPOT)) {
@@ -368,7 +360,6 @@ class HomeActivity : AppCompatActivity() {
 
     inner class GetNotificationCount : AsyncTask<Void, Void, String>() {
 
-
         override fun doInBackground(vararg params: Void): String {
 
 
@@ -405,11 +396,21 @@ class HomeActivity : AppCompatActivity() {
                     status = mainObject.getBoolean("status")
                     message = mainObject.getString("message")
 
+                    cartCount?.text = mainObject.getString("total_unread_msg")
                     preference?.messageCount = mainObject.getInt("total_unread_msg")
 
+                    if (cartCount?.text.toString().equals("0")) {
+                        cartCount?.visibility = View.GONE
+                    } else {
+                        cartCount?.visibility = View.VISIBLE
+                    }
 
 
-                    Log.e("count" , "" + preference?.messageCount)
+
+
+
+
+                    Log.e("count", "" + preference?.messageCount)
 
 
                 } catch (e: JSONException) {

@@ -43,8 +43,8 @@ import retrofit2.Response;
 
 public class CreateCampaignTermsNextActivity extends AppCompatActivity {
 
-    EditText edt_campaignName, edt_description, edt_startDate, edt_message;
-    CheckBox chk_startDateAsPossible, chk_allOrgMembers;
+    EditText edt_campaignName, edt_description, edt_startDate, edt_message , edt_amount , edt_msg_fundspot;
+    CheckBox chk_startDateAsPossible, chk_allOrgMembers , chk_max_amount;
     TextView txt_couponSellerLabel;
     AutoCompleteTextView auto_searchMember;
     ListView listMembers;
@@ -61,6 +61,9 @@ public class CreateCampaignTermsNextActivity extends AppCompatActivity {
     AppPreference preference;
     CustomDialog dialog;
 
+
+
+    TextView txt_members , txt_targetAmt , txt_message;
     CampaignListResponse.CampaignList campaignList;
 
     @Override
@@ -79,6 +82,7 @@ public class CreateCampaignTermsNextActivity extends AppCompatActivity {
         setupToolbar();
 
     }
+
     private void setupToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarCenterText);
         TextView actionTitle = (TextView) findViewById(R.id.actionTitle);
@@ -101,6 +105,31 @@ public class CreateCampaignTermsNextActivity extends AppCompatActivity {
         edt_description = (EditText) findViewById(R.id.edt_description);
         edt_startDate = (EditText) findViewById(R.id.edt_startDate);
         edt_message = (EditText) findViewById(R.id.edt_message);
+        edt_amount = (EditText) findViewById(R.id.edt_amount);
+        edt_msg_fundspot = (EditText) findViewById(R.id.edt_msg_fundspot);
+        edt_amount.setVisibility(View.GONE);
+        edt_msg_fundspot.setVisibility(View.GONE);
+
+        txt_members = (TextView) findViewById(R.id.txt_members);
+        txt_targetAmt = (TextView) findViewById(R.id.txt_targetAmt);
+        txt_message = (TextView) findViewById(R.id.txt_message);
+        txt_targetAmt.setVisibility(View.GONE);
+        txt_message.setVisibility(View.GONE);
+
+        chk_max_amount = (CheckBox) findViewById(R.id.chk_max_amount);
+        chk_max_amount.setVisibility(View.GONE);
+        if (preference.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)) {
+
+            txt_members.setText("Members to redeemer");
+
+        }
+        if (preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION)) {
+
+
+            txt_members.setText("Members to sellers");
+
+        }
+
 
         edt_campaignName.setEnabled(false);
         edt_description.setEnabled(false);
@@ -108,10 +137,23 @@ public class CreateCampaignTermsNextActivity extends AppCompatActivity {
         txt_couponSellerLabel = (TextView) findViewById(R.id.txt_couponSellerLabel);
         txt_couponSellerLabel.setText("Coupon redeemers");
 
+
         chk_startDateAsPossible = (CheckBox) findViewById(R.id.chk_startDateAsPossible);
         chk_startDateAsPossible.setVisibility(View.GONE);
         chk_allOrgMembers = (CheckBox) findViewById(R.id.chk_allOrgMembers);
-        chk_allOrgMembers.setText("All fundspot members");
+
+        if (preference.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)) {
+
+            chk_allOrgMembers.setText("All fundspot members");
+
+        }
+        if (preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION)) {
+
+
+            chk_allOrgMembers.setText("All organization members");
+
+        }
+
 
         auto_searchMember = (AutoCompleteTextView) findViewById(R.id.auto_searchMember);
         memberArrayAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_textview, memberNames);
@@ -144,13 +186,27 @@ public class CreateCampaignTermsNextActivity extends AppCompatActivity {
         edt_campaignName.setText(campaignList.getCampaign().getTitle());
         edt_description.setText(campaignList.getCampaign().getDescription());
 
-        if(campaignList.getCampaign().getStart_date()!=null && !campaignList.getCampaign().getStart_date().isEmpty()){
-            edt_startDate.setText(C.INSTANCE.convertDate("yyyy-MM-dd","MM/dd/yy",campaignList.getCampaign().getStart_date()));
+        if (campaignList.getCampaign().getStart_date() != null && !campaignList.getCampaign().getStart_date().isEmpty()) {
+            edt_startDate.setText(C.INSTANCE.convertDate("yyyy-MM-dd", "MM/dd/yy", campaignList.getCampaign().getStart_date()));
             dateSelected = campaignList.getCampaign().getStart_date();
         }
 
+
+        Call<MemberListResponse> memberListResponseCall = null;
         dialog.show();
-        Call<MemberListResponse> memberListResponseCall = adminAPI.getAllMemberList(preference.getUserID(), preference.getTokenHash(), preference.getUserRoleID(), null, preference.getUserID());
+
+        if (preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION)) {
+
+            memberListResponseCall = adminAPI.getAllMemberList(preference.getUserID(), preference.getTokenHash(), preference.getUserRoleID(), preference.getUserID(), null);
+        }
+
+        if (preference.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)) {
+
+            memberListResponseCall = adminAPI.getAllMemberList(preference.getUserID(), preference.getTokenHash(), preference.getUserRoleID(), null, preference.getUserID());
+
+        }
+
+        /* memberListResponseCall = adminAPI.getAllMemberList(preference.getUserID(), preference.getTokenHash(), preference.getUserRoleID(), null, preference.getUserID());*/
         memberListResponseCall.enqueue(new Callback<MemberListResponse>() {
             @Override
             public void onResponse(Call<MemberListResponse> call, Response<MemberListResponse> response) {
@@ -180,26 +236,27 @@ public class CreateCampaignTermsNextActivity extends AppCompatActivity {
         btn_request.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            List<Member> checkedmemberList=memberListAdapter.getMemberList();
-                String message=edt_message.getText().toString().trim();
+                List<Member> checkedmemberList = memberListAdapter.getMemberList();
+                String message = edt_message.getText().toString().trim();
 
                 /*if(dateSelected==null){
                     C.INSTANCE.showToast(getApplicationContext(), "Please select start date ");
 
-                }*/if(!chk_allOrgMembers.isChecked() && checkedmemberList.size()==0){
+                }*/
+                if (!chk_allOrgMembers.isChecked() && checkedmemberList.size() == 0) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please select fundspot member ");
 
-                }else if(message.isEmpty()){
+                } else if (message.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter message to sellers");
 
-                }else{
+                } else {
                     JSONArray campaignDetailArray = new JSONArray();
                     JSONObject detailObject = new JSONObject();
                     JSONArray memberIDArray = new JSONArray();
 
                     try {
 
-                        detailObject.put("start_date", dateSelected);
+                        detailObject.put("start_date", "");
 
 
                         if (chk_allOrgMembers.isChecked()) {
@@ -224,7 +281,11 @@ public class CreateCampaignTermsNextActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     dialog.show();
-                    Call<AppModel> addCampCall = adminAPI.appEditcampaign(preference.getUserID(), preference.getTokenHash(),campaignList.getCampaign().getId() ,campaignDetailArray.toString(), memberIDArray.toString());
+                    Call<AppModel> addCampCall = adminAPI.appEditcampaign(preference.getUserID(), preference.getTokenHash(), campaignList.getCampaign().getId(), campaignDetailArray.toString(), memberIDArray.toString());
+
+
+                    Log.e("parameters", "-->" + preference.getUserID() + "-->" + preference.getTokenHash() + "--->" + campaignList.getCampaign().getId() + "-->" + campaignDetailArray.toString() + "--->" + memberIDArray.toString());
+
                     addCampCall.enqueue(new Callback<AppModel>() {
                         @Override
                         public void onResponse(Call<AppModel> call, Response<AppModel> response) {
@@ -294,6 +355,7 @@ public class CreateCampaignTermsNextActivity extends AppCompatActivity {
 
         auto_searchMember.setText("");
     }
+
     @Override
     public void onBackPressed() {
         finish();

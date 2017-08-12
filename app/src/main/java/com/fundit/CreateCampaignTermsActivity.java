@@ -135,10 +135,34 @@ public class CreateCampaignTermsActivity extends AppCompatActivity {
 
         if (preference.getUserRoleID().equals(C.ORGANIZATION)) {
             txt_partnerLabel.setText("Fundspot Partner");
-            edt_partner.setText(campaignList.getUserFundspot().getFundspot().getTitle());
+            if(campaignList.getCampaign().getReview_status().equalsIgnoreCase("1")){
+
+                edt_partner.setText(campaignList.getUserOrganization().getFundspot().getTitle());
+            }else {
+
+
+                edt_partner.setText(campaignList.getUserFundspot().getFundspot().getTitle());
+            }
+
+
         } else if (preference.getUserRoleID().equals(C.FUNDSPOT)) {
             txt_partnerLabel.setText("Organization Partner");
-            edt_partner.setText(campaignList.getUserOrganization().getOrganization().getTitle());
+
+            if(campaignList.getCampaign().getReview_status().equalsIgnoreCase("1")){
+                if(campaignList.getCampaign().getAction_status().equalsIgnoreCase("0")){
+                    edt_partner.setText(campaignList.getUserOrganization().getOrganization().getTitle());
+                }else{
+                    edt_partner.setText(campaignList.getUserFundspot().getOrganization().getTitle());
+                }
+            }else {
+                if(campaignList.getCampaign().getAction_status().equalsIgnoreCase("1")){
+                    edt_partner.setText(campaignList.getUserFundspot().getOrganization().getTitle());
+                }else {
+                    edt_partner.setText(campaignList.getUserOrganization().getOrganization().getTitle());
+                }
+            }
+
+
         }
 
 

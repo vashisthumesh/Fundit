@@ -17,7 +17,8 @@ import com.fundit.adapter.CampaignRequestAdapter
 import com.fundit.apis.AdminAPI
 import com.fundit.apis.ServiceGenerator
 import com.fundit.helper.CustomDialog
-import com.fundit.model.CampaignListResponse
+import com.fundit.model.*
+import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -36,6 +37,12 @@ class FundspotRequestFragment : Fragment() {
     var dialog: CustomDialog? = null
     val SUCCESS_CODE: Int = 369
 
+    internal var user = User()
+    internal var member = Member()
+    internal var organization = Organization()
+    internal var fundspot = Fundspot()
+
+
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         fview = inflater?.inflate(R.layout.fragment_campaign_request, container, false)
@@ -43,6 +50,22 @@ class FundspotRequestFragment : Fragment() {
         preference = AppPreference(activity)
         adminAPI = ServiceGenerator.getAPIClass()
         dialog = CustomDialog(activity)
+
+        try {
+           user = Gson().fromJson(preference?.userData, User::class.java)
+            member = Gson().fromJson(preference?.memberData, Member::class.java)
+            organization = Gson().fromJson(preference?.memberData, Organization::class.java)
+            fundspot = Gson().fromJson(preference?.memberData , Fundspot::class.java)
+
+
+            Log.e("userData","-->" +preference?.userData)
+            Log.e("userData","--->"+ preference?.memberData)
+        } catch (e: Exception) {
+            Log.e("Exception", e.message)
+        }
+
+
+
         fetchIDs()
 
         return fview
@@ -74,9 +97,13 @@ class FundspotRequestFragment : Fragment() {
             C.ORGANIZATION -> {
                 campaignCall = adminAPI?.getAllCampaigns(preference?.userID, preference?.tokenHash, preference?.userRoleID, preference?.userID, null,C.INACTIVE,null)
 
+
+
             }
             C.FUNDSPOT -> {
-                campaignCall = adminAPI?.getAllCampaigns(preference?.userID, preference?.tokenHash, preference?.userRoleID, null, preference?.userID,C.INACTIVE,C.PENDING)
+                campaignCall = adminAPI?.getAllCampaigns(preference?.userID, preference?.tokenHash, preference?.userRoleID, null,preference?.userID ,C.INACTIVE,C.PENDING)
+
+
             }
         }
         campaignCall?.enqueue(object : Callback<CampaignListResponse> {

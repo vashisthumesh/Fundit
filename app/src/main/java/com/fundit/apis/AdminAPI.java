@@ -122,12 +122,21 @@ public interface AdminAPI {
     Call<FundspotListResponse> browseFundspots(@Field(W.KEY_USERID) String userID, @Field(W.KEY_TOKEN) String token);
 
     @FormUrlEncoded
+    @POST(W.BROWSE_ORGANIZATION)
+    Call<FundspotListResponse> browseOrganization(@Field(W.KEY_USERID) String userID, @Field(W.KEY_TOKEN) String token);
+
+
+    @FormUrlEncoded
     @POST(W.FUNDSPOT_PRODUCT)
     Call<ProductListResponse> fundSpotProducts(@Field(W.KEY_USERID) String userID, @Field(W.KEY_TOKEN) String token, @Field("fundspot_id") String fundspotID, @Field("type_id") String typeID);
 
     @FormUrlEncoded
     @POST(W.FUNDSPOT_SEARCH)
     Call<FundspotListResponse> searchFundspot(@Field(W.KEY_USERID) String userID, @Field(W.KEY_TOKEN) String token, @Field("title") String title);
+
+    @FormUrlEncoded
+    @POST(W.FUNDSPOT_SEARCH)
+    Call<FundspotListResponse> searchOrganization(@Field(W.KEY_USERID) String userID, @Field(W.KEY_TOKEN) String token, @Field("title") String title);
 
     @FormUrlEncoded
     @POST(W.ADD_CAMPAIGN)

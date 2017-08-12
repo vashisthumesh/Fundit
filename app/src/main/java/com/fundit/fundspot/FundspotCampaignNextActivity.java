@@ -1,4 +1,4 @@
-package com.fundit.organization;
+package com.fundit.fundspot;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -14,6 +14,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.fundit.R;
 import com.fundit.a.AppPreference;
@@ -40,7 +41,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CreateCampaignNextActivity extends AppCompatActivity {
+/**
+ * Created by NWSPL-17 on 10-Aug-17.
+ */
+
+public class FundspotCampaignNextActivity extends AppCompatActivity {
 
     AdminAPI adminAPI;
     AppPreference preference;
@@ -62,6 +67,8 @@ public class CreateCampaignNextActivity extends AppCompatActivity {
     ArrayList<String> selectedProducts = new ArrayList<>();
     MemberListAdapter memberListAdapter;
 
+    TextView txt_message , txt_members;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +89,7 @@ public class CreateCampaignNextActivity extends AppCompatActivity {
         selectedProducts = intent.getStringArrayListExtra("products");
 
         //couponFinePrint = intent.getStringExtra("couponFinePrint");
-       // product = (ProductListResponse.Product) intent.getSerializableExtra("product");
+        // product = (ProductListResponse.Product) intent.getSerializableExtra("product");
 
         fetchIDs();
     }
@@ -94,9 +101,15 @@ public class CreateCampaignNextActivity extends AppCompatActivity {
         edt_message = (EditText) findViewById(R.id.edt_message);
         edt_amount = (EditText) findViewById(R.id.edt_amount);
         edt_msgFundspot = (EditText) findViewById(R.id.edt_msg_fundspot);
+        txt_message = (TextView) findViewById(R.id.txt_message);
+        txt_message.setText("Message to Organization");
+
+        txt_members = (TextView) findViewById(R.id.txt_members);
+        txt_members.setText("Members to redeemer");
 
         chk_startDateAsPossible = (CheckBox) findViewById(R.id.chk_startDateAsPossible);
         chk_allOrgMembers = (CheckBox) findViewById(R.id.chk_allOrgMembers);
+        chk_allOrgMembers.setText("All Fundspot Members");
         chk_maxAmount = (CheckBox) findViewById(R.id.chk_max_amount);
 
         auto_searchMember = (AutoCompleteTextView) findViewById(R.id.auto_searchMember);
@@ -146,7 +159,7 @@ public class CreateCampaignNextActivity extends AppCompatActivity {
         });
 
         dialog.show();
-        Call<MemberListResponse> memberListResponseCall = adminAPI.getAllMemberList(preference.getUserID(), preference.getTokenHash(), preference.getUserRoleID(), preference.getUserID(), null);
+        Call<MemberListResponse> memberListResponseCall = adminAPI.getAllMemberList(preference.getUserID(), preference.getTokenHash(), preference.getUserRoleID(),null, preference.getUserID());
         memberListResponseCall.enqueue(new Callback<MemberListResponse>() {
             @Override
             public void onResponse(Call<MemberListResponse> call, Response<MemberListResponse> response) {
@@ -188,9 +201,9 @@ public class CreateCampaignNextActivity extends AppCompatActivity {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter campaign title");
                 } else if (description.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter description");
-                    } else if (!chk_maxAmount.isChecked() && maxAmount.isEmpty() && amount < 1) {
-                        C.INSTANCE.showToast(getApplicationContext(), "Please enter max amount properly");
-                    } else if (!chk_allOrgMembers.isChecked() && selectedMemberList.size() == 0) {
+                } else if (!chk_maxAmount.isChecked() && maxAmount.isEmpty() && amount < 1) {
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter max amount properly");
+                } else if (!chk_allOrgMembers.isChecked() && selectedMemberList.size() == 0) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please select coupon sellers");
                 } else if (message.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter message");
@@ -341,4 +354,5 @@ public class CreateCampaignNextActivity extends AppCompatActivity {
         datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
         datePickerDialog.show();
     }
+
 }

@@ -15,6 +15,7 @@ public class Campaign extends ProductListResponse.Product implements Serializabl
     String action_status = "";
     String start_date = "";
     String all_member = "0";
+    String review_status = "";
 
     public String getReceiver_id() {
         return receiver_id;
@@ -42,5 +43,9 @@ public class Campaign extends ProductListResponse.Product implements Serializabl
 
     public String getTitle() {
         return title;
+    }
+
+    public String getReview_status() {
+        return review_status;
     }
 }

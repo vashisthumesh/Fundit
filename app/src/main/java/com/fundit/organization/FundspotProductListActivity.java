@@ -46,6 +46,7 @@ public class FundspotProductListActivity extends AppCompatActivity {
 
     String fundSpotID = null;
     String fundspotName = "";
+    String selectedOrganizationID = "";
 
     AdminAPI adminAPI;
     AppPreference preference;
@@ -69,8 +70,13 @@ public class FundspotProductListActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         fundSpotID = intent.getStringExtra("fundspotID");
+
         fundspotName = intent.getStringExtra("fundspotName");
 
+
+        selectedOrganizationID = intent.getStringExtra("organizationID");
+
+        Log.e("GetName" , fundspotName);
         fetchIDs();
         setupToolbar();
     }
@@ -151,6 +157,7 @@ public class FundspotProductListActivity extends AppCompatActivity {
                     Intent intent = new Intent();
                     intent.putStringArrayListExtra("ProductsId" , selectedProductsId);
                     intent.putExtra("fundspotName", fundspotName);
+                    intent.putExtra("organizationID" , selectedOrganizationID);
                     intent.putExtra("fundspotID", fundSpotID);
                     setResult(RESULT_OK , intent);
                     onBackPressed();
