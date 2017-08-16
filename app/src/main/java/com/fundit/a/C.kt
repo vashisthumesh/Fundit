@@ -37,6 +37,10 @@ object C{
     const val ORGANIZATION_APPROVED="2"
     const val REJECTED="3"
 
+    const val PAST = "0"
+    const val PRESENT = "1"
+    const val UPCOMING = "2"
+
     fun findToolbarCenteredText(context: Activity): Toolbar {
         return context.findViewById(R.id.toolbarCenterText) as Toolbar
     }

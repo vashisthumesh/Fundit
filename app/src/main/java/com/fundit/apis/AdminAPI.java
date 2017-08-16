@@ -10,6 +10,7 @@ import com.fundit.model.CategoryResponse;
 import com.fundit.model.ForgotPasswordEmailResponse;
 import com.fundit.model.FundspotListResponse;
 import com.fundit.model.MemberListResponse;
+import com.fundit.model.MemberResponse;
 import com.fundit.model.OrganizationResponse;
 import com.fundit.model.ProductListResponse;
 import com.fundit.model.RegisterResponse;
@@ -188,4 +189,17 @@ public interface AdminAPI {
     @FormUrlEncoded
     @POST(W.ForgetPass_edit_change_password)
     Call<AppModel> ForgetPass_change_edit(@Field("user_id")String user_id,@Field("password")String otp);
+
+
+    @FormUrlEncoded
+    @POST(W.GET_ALL_APPROVED_CAMPAIGN)
+    Call<CampaignListResponse> ApprovedCampaign(@Field(W.KEY_USERID) String userId , @Field(W.KEY_TOKEN) String tokenhash , @Field(W.KEY_ROLEID) String roleId , @Field("Campaign_status") String status);
+
+
+    @FormUrlEncoded
+    @POST(W.GET_MEMBER_FOR_CAMPAIGN)
+    Call<MemberResponse> GetMemberForCampaign(@Field(W.KEY_USERID) String userId , @Field(W.KEY_ROLEID) String roleId , @Field("campaign_id") String campaignId);
+
+
+
 }

@@ -27,6 +27,9 @@ class MyCampaignsFragment : Fragment() {
     var img_createCampaign: ImageView? = null
     var preference: AppPreference? = null
 
+
+
+
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.menu_past -> {
@@ -34,9 +37,11 @@ class MyCampaignsFragment : Fragment() {
                 return@OnNavigationItemSelectedListener true
             }
             R.id.menu_present -> {
+                setPresentCampaignFragment()
                 return@OnNavigationItemSelectedListener true
             }
             R.id.menu_upcoming -> {
+                setUpcomingCampaignFragment()
                 return@OnNavigationItemSelectedListener true
             }
         }
@@ -51,11 +56,28 @@ class MyCampaignsFragment : Fragment() {
         transaction.commit()
     }
 
+    private fun setPresentCampaignFragment() {
+        val fragment: Fragment = PresentCampaignFragment()
+        val fm: FragmentManager = activity.supportFragmentManager
+        val transaction: FragmentTransaction = fm.beginTransaction()
+        transaction.replace(R.id.frame_container,fragment)
+        transaction.commit()
+    }
+
+    private fun setUpcomingCampaignFragment() {
+        val fragment: Fragment = UpcomingCampaignFragment()
+        val fm: FragmentManager = activity.supportFragmentManager
+        val transaction: FragmentTransaction = fm.beginTransaction()
+        transaction.replace(R.id.frame_container,fragment)
+        transaction.commit()
+    }
+
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater!!.inflate(R.layout.fragment_my_campaigns, container, false)
         val navigation = view.findViewById(R.id.navigation) as BottomNavigationView
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+
 
         preference = AppPreference(activity)
         img_createCampaign = view.findViewById(R.id.img_createCampaign) as ImageView
@@ -73,6 +95,7 @@ class MyCampaignsFragment : Fragment() {
 
             }
         }
+        setPastCampaignFragment()
 
         return view
     }

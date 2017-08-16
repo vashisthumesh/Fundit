@@ -86,7 +86,7 @@ public class SignInActivity extends AppCompatActivity {
         dialog = new CustomDialog(this);
 
 
-        if (preference.isLoggedIn()) {
+        /*if (preference.isLoggedIn()) {
 
             Intent intent = new Intent(this, HomeActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -110,7 +110,7 @@ public class SignInActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }
-
+*/
         isPermissionRequestRequired(this, perms, 1);
 
         fetchid();

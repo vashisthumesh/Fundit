@@ -21,4 +21,6 @@
     <color name="lightGrey200">#f5f5f5</color>
 
     <color name="deleteColor">#ef5350</color>
+
+    <color name="splashColor">#CBFAE6</color>
 </resources>

@@ -19,6 +19,7 @@ import android.widget.*
 import com.fundit.a.AppPreference
 import com.fundit.a.C
 import com.fundit.a.W
+import com.fundit.apis.Internet
 import com.fundit.apis.ServiceHandler
 import com.fundit.fragmet.FRequestFragment
 import com.fundit.fragmet.GeneralSettingFragment
@@ -90,7 +91,6 @@ class HomeActivity : AppCompatActivity() {
         img_notification = findViewById(R.id.img_notification) as ImageView
         cartCount = findViewById(R.id.cartTotal) as TextView
         //cartCount?.text = preference?.messageCount.toString()
-
 
 
         //actionTitle?.text = ""
@@ -219,7 +219,10 @@ class HomeActivity : AppCompatActivity() {
 
 
 
-        GetNotificationCount().execute()
+        if(Internet.isConnectingToInternet(applicationContext))
+                    GetNotificationCount().execute()
+        else
+            Internet.noInternet(applicationContext)
     }
 
     private fun handleClicks(position: Int) {

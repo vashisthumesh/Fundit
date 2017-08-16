@@ -10,12 +10,11 @@
     <application
         android:name=".Fundit"
         android:allowBackup="true"
-        android:icon="@drawable/logo"
+        android:icon="@mipmap/launcher_icon"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
-        <activity android:name=".SignInActivity"
-            android:windowSoftInputMode="adjustPan">
+        <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -23,25 +22,36 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".SignInActivity"
+            android:windowSoftInputMode="adjustPan"></activity>
+        <activity
             android:name=".HomeActivity"
             android:label="@string/title_activity_home"
-            android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".AccountTypeActivity"
-            android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".OrganizationAccountActivity"
-            android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".FundraiserSettings"
-            android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".FundSpotProfile"
-            android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".GeneralMemberProfileActivity"
-            android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".OrganizationProfileActivity"
-            android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".VerificationActivity"
-            android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".PlaceOrderActivity"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".AccountTypeActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".OrganizationAccountActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".FundraiserSettings"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".FundSpotProfile"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".GeneralMemberProfileActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".OrganizationProfileActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".VerificationActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".PlaceOrderActivity"
+            android:windowSoftInputMode="adjustPan" />
 
         <service
             android:name=".services.FirebaseIIDService"
@@ -60,34 +70,50 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".fundspot.AddProductActivity"
-            android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".organization.CreateCampaignActivity"
-            android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".organization.FundspotListActivity"
-            android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".organization.FundspotProductListActivity"
-            android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".organization.CreateCampaignNextActivity"
-            android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".CreateCampaignTermsActivity"
-            android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".CreateCampaignTermsNextActivity"
-            android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".ForgotPasswordActivity"
-            android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".ChangePasswordActivity"
-            android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".NotificationActivity"
-            android:windowSoftInputMode="adjustPan"></activity>
-        <activity android:name=".CampaignSetting"
-            android:windowSoftInputMode="adjustPan"></activity>
-        <activity android:name=".fundspot.FundspotCampaignActivity"
-            android:windowSoftInputMode="adjustPan"></activity>
-        <activity android:name=".fundspot.FundspotCampaignNextActivity"
-            android:windowSoftInputMode="adjustPan"></activity>
-        <activity android:name=".fundspot.OrganizationListActivity"
-            android:windowSoftInputMode="adjustPan"></activity>
+        <activity
+            android:name=".fundspot.AddProductActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".organization.CreateCampaignActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".organization.FundspotListActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".organization.FundspotProductListActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".organization.CreateCampaignNextActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".CreateCampaignTermsActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".CreateCampaignTermsNextActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".ForgotPasswordActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".ChangePasswordActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".NotificationActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".CampaignSetting"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".fundspot.FundspotCampaignActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".fundspot.FundspotCampaignNextActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".fundspot.OrganizationListActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".OrderPlaceActivity" />
+        <activity android:name=".AddMemberToCampaign"></activity>
     </application>
 
 </manifest>

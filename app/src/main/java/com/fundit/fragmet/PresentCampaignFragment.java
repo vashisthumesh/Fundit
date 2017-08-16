@@ -1,7 +1,7 @@
 package com.fundit.fragmet;
 
-
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,9 +25,11 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Created by NWSPL-17 on 12-Aug-17.
  */
-public class UpcomingCampaignFragment extends Fragment {
+
+public class PresentCampaignFragment extends Fragment {
+
 
     View view;
     AppPreference preference;
@@ -43,7 +45,7 @@ public class UpcomingCampaignFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater,  ViewGroup container,  Bundle savedInstanceState) {
 
 
-        view = inflater.inflate(R.layout.fragment_upcoming_campaign , container , false);
+        view = inflater.inflate(R.layout.fragment_present_campaign , container , false);
         preference = new AppPreference(getActivity());
         adminAPI = ServiceGenerator.getAPIClass();
         dialog = new CustomDialog(getActivity());
@@ -64,7 +66,7 @@ public class UpcomingCampaignFragment extends Fragment {
         dialog.show();
         Call<CampaignListResponse> campaignResponse = null;
 
-        campaignResponse = adminAPI.ApprovedCampaign(preference.getUserID() , preference.getTokenHash() , preference.getUserRoleID()  , C.UPCOMING);
+        campaignResponse = adminAPI.ApprovedCampaign(preference.getUserID() , preference.getTokenHash() , preference.getUserRoleID()  , C.PRESENT);
         campaignResponse.enqueue(new Callback<CampaignListResponse>() {
             @Override
             public void onResponse(Call<CampaignListResponse> call, Response<CampaignListResponse> response) {

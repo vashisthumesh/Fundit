@@ -31,6 +31,7 @@ public class Fundspot implements Serializable {
 
 
 
+
     public String getCategory_id() {
         return category_id;
     }
@@ -106,4 +107,6 @@ public class Fundspot implements Serializable {
     public void setTitle(String title) {
         this.title = title;
     }
+
+
 }
