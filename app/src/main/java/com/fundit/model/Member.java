@@ -27,6 +27,11 @@ public class Member implements Serializable {
     Fundspot Fundspot = new Fundspot();
     Organization Organization = new Organization();
 
+    City City = new City();
+    State State = new State();
+
+
+
 
 
 
@@ -98,6 +103,48 @@ public class Member implements Serializable {
 
     public com.fundit.model.Organization getOrganization() {
         return Organization;
+    }
+
+    public Member.City getCity() {
+        return City;
+    }
+
+    public Member.State getState() {
+        return State;
+    }
+
+    public class City{
+
+        String id = "";
+        String name = "";
+
+        public String getId() {
+            return id;
+        }
+
+        public String getName() {
+            return name;
+        }
+    }
+
+    public class State{
+
+        String id = "";
+        String name = "";
+
+        public String getId() {
+            return id;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+
+
+
+
+
     }
 
 

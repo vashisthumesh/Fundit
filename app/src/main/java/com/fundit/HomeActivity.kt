@@ -21,11 +21,7 @@ import com.fundit.a.C
 import com.fundit.a.W
 import com.fundit.apis.Internet
 import com.fundit.apis.ServiceHandler
-import com.fundit.fragmet.FRequestFragment
-import com.fundit.fragmet.GeneralSettingFragment
-import com.fundit.fragmet.HomeFragment
-import com.fundit.fragmet.MyProfileFragment
-import com.fundit.fundspot.MyProductsFragment
+import com.fundit.fragmet.*
 import com.fundit.model.*
 import com.google.gson.Gson
 import com.squareup.picasso.Picasso
@@ -73,13 +69,13 @@ class HomeActivity : AppCompatActivity() {
     private fun fillMenus() {
         when (preference?.userRoleID) {
             C.ORGANIZATION -> {
-                menuList = arrayOf("Home", "My Profile", "Requests", "Banks and Cards", "Settings", "Invite Friends", "Help", "Logout")
+                menuList = arrayOf("Home", "My Profile", "Requests", "Banks and Cards", "Settings", "Invite Friends", "Scan Coupon", "Logout")
             }
             C.FUNDSPOT -> {
-                menuList = arrayOf("Home", "My Profile", "Requests", "My Product", "Settings", "Invite Friends", "Help", "Logout")
+                menuList = arrayOf("Home", "My Profile", "Requests", "My Product", "Settings", "Invite Friends", "Scan Coupon", "Logout")
             }
             C.GENERAL_MEMBER -> {
-                menuList = arrayOf("Home", "My Profile", "My Coupons", "My Orders", "Banks and Cards", "Settings", "Invite Friends", "Help", "Logout")
+                menuList = arrayOf("Home", "My Profile", "My Coupons", "My Orders", "Banks and Cards", "Settings", "Invite Friends", "Scan Coupon", "Logout")
             }
         }
     }
@@ -151,7 +147,7 @@ class HomeActivity : AppCompatActivity() {
         when (preference?.userRoleID) {
             C.ORGANIZATION -> fragment = HomeFragment()
             C.FUNDSPOT -> fragment = HomeFragment()
-            C.GENERAL_MEMBER -> fragment = Fragment()
+            C.GENERAL_MEMBER -> fragment = HomeFragment()
             else -> fragment = Fragment()
         }
 
@@ -219,8 +215,8 @@ class HomeActivity : AppCompatActivity() {
 
 
 
-        if(Internet.isConnectingToInternet(applicationContext))
-                    GetNotificationCount().execute()
+        if (Internet.isConnectingToInternet(applicationContext))
+            GetNotificationCount().execute()
         else
             Internet.noInternet(applicationContext)
     }
@@ -250,14 +246,30 @@ class HomeActivity : AppCompatActivity() {
             transaction?.replace(R.id.content, fragment)
             transaction?.commit()
         } else if (position == 3) {
-            actionTitle?.text = "Requests"
-            fragment = FRequestFragment()
-            val transaction = fm?.beginTransaction()
-            transaction?.replace(R.id.content, fragment)
-            transaction?.commit()
+            if (preference?.userRoleID.equals(C.FUNDSPOT) || preference?.userRoleID.equals(C.ORGANIZATION)) {
+                actionTitle?.text = "Requests"
+                fragment = FRequestFragment()
+                val transaction = fm?.beginTransaction()
+                transaction?.replace(R.id.content, fragment)
+                transaction?.commit()
+            }
+            if(preference?.userRoleID.equals(C.GENERAL_MEMBER)){
+                fragment = CouponFragment()
+                val transaction = fm?.beginTransaction()
+                transaction?.replace(R.id.content, fragment)
+                transaction?.commit()
+            }
         } else if (position == 4) {
             if (preference?.userRoleID.equals(C.FUNDSPOT)) {
+                actionTitle?.text = "My Product"
                 fragment = MyProductsFragment()
+                val transaction = fm?.beginTransaction()
+                transaction?.replace(R.id.content, fragment)
+                transaction?.commit()
+            }
+            if (preference?.userRoleID.equals(C.GENERAL_MEMBER)) {
+                actionTitle?.text = "My Orders"
+                fragment = OrderHistoryFragment()
                 val transaction = fm?.beginTransaction()
                 transaction?.replace(R.id.content, fragment)
                 transaction?.commit()
@@ -287,12 +299,21 @@ class HomeActivity : AppCompatActivity() {
             }
 
         } else if (position == 7) {
+            if (preference?.userRoleID.equals(C.ORGANIZATION) || preference?.userRoleID.equals(C.FUNDSPOT)) {
+
+                val intent = Intent(applicationContext , QRScannerActivity::class.java)
+                startActivity(intent)
+            }
+
 
         } else if (position == 8) {
             if (preference?.userRoleID.equals(C.ORGANIZATION) || preference?.userRoleID.equals(C.FUNDSPOT)) {
                 logout()
             } else {
-                //TODO SOMETHING
+
+                val intent = Intent(applicationContext , QRScannerActivity::class.java)
+                startActivity(intent)
+
             }
 
         } else if (position == 9) {

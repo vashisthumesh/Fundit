@@ -17,6 +17,9 @@ public class MultipleProductResponse implements Serializable{
     String fine_print = "";
     String image = "";
     String type_id = "";
+    String total_price="";
+    boolean isChecked = false;
+    int qty = 0;
 
     public String getCampaign_id() {
         return campaign_id;
@@ -80,5 +83,30 @@ public class MultipleProductResponse implements Serializable{
 
     public void setType_id(String type_id) {
         this.type_id = type_id;
+    }
+
+    public boolean isChecked() {
+        return isChecked;
+    }
+
+    public void setChecked(boolean checked) {
+        isChecked = checked;
+    }
+
+
+    public int getQty() {
+        return qty;
+    }
+
+    public void setQty(int qty) {
+        this.qty = qty;
+    }
+
+    public String getTotal_price() {
+        return total_price;
+    }
+
+    public void setTotal_price(String total_price) {
+        this.total_price = total_price;
     }
 }

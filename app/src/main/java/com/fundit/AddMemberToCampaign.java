@@ -40,7 +40,7 @@ public class AddMemberToCampaign extends AppCompatActivity {
 
     String campaignId = "";
 
-    //CustomDialog dialog;
+    CustomDialog dialog;
 
     CampaignMembersAdapter memberAdapter;
 
@@ -54,7 +54,7 @@ public class AddMemberToCampaign extends AppCompatActivity {
 
         preference = new AppPreference(getApplicationContext());
         adminAPI = ServiceGenerator.getAPIClass();
-       // dialog = new CustomDialog(getApplicationContext());
+        dialog = new CustomDialog(AddMemberToCampaign.this);
 
         Intent intent = getIntent();
         campaignId = intent.getStringExtra("campaignId");
@@ -75,7 +75,7 @@ public class AddMemberToCampaign extends AppCompatActivity {
         textCouponTitle = (TextView) findViewById(R.id.txt_coupon);
         listMembers = (ListView) findViewById(R.id.list_members);
 
-        memberAdapter = new CampaignMembersAdapter(memberData , getApplicationContext());
+        memberAdapter = new CampaignMembersAdapter(memberData , getApplicationContext() , campaignId , AddMemberToCampaign.this);
         listMembers.setAdapter(memberAdapter);
 
         autoSearchMember.addTextChangedListener(new TextWatcher() {
@@ -96,13 +96,13 @@ public class AddMemberToCampaign extends AppCompatActivity {
         });
 
 
-       // dialog.show();
+        dialog.show();
         final Call<MemberResponse> getMemberData = adminAPI.GetMemberForCampaign(preference.getUserID(), preference.getUserRoleID(), campaignId);
         Log.e("parameters" , "--->" + preference.getUserRoleID() + "--->" + preference.getUserID() + "--->" + campaignId);
         getMemberData.enqueue(new Callback<MemberResponse>() {
             @Override
             public void onResponse(Call<MemberResponse> call, Response<MemberResponse> response) {
-               // dialog.dismiss();
+                dialog.dismiss();
                 MemberResponse memberResponse = response.body();
                 if (memberResponse != null) {
                     if (memberResponse.isStatus()) {
@@ -110,13 +110,8 @@ public class AddMemberToCampaign extends AppCompatActivity {
 
                         Log.e("data" , "" + memberResponse.getData());
                     }else{
-
                         C.INSTANCE.showToast(getApplicationContext() , memberResponse.getMessage());
-
                     }
-
-
-
                 }else {
 
                     C.INSTANCE.defaultError(getApplicationContext());
@@ -129,7 +124,7 @@ public class AddMemberToCampaign extends AppCompatActivity {
             @Override
             public void onFailure(Call<MemberResponse> call, Throwable t) {
 
-             //   dialog.dismiss();
+                dialog.dismiss();
                 C.INSTANCE.errorToast(getApplicationContext() , t);
 
             }

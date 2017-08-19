@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:background="@drawable/listviewbackground"
+    android:gravity="center_vertical"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/txt_mainTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:textColor="@color/colorText"
+        android:textSize="14sp"
+         />
+
+
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+            <include layout="@layout/layout_raised_price" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_placeOrder"
+            android:layout_width="120dp"
+            android:layout_height="40dp"
+            android:background="@color/colorButton"
+            android:layout_margin="10dp"
+            android:layout_gravity="center"
+            android:text="Place Order"
+            android:textAllCaps="false"
+            android:textSize="16sp" />
+
+
+
+</LinearLayout>

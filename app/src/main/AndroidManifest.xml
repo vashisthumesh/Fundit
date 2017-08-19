@@ -7,6 +7,8 @@
 
     <permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
+    <uses-permission android:name="android.permission.CAMERA" />
+
     <application
         android:name=".Fundit"
         android:allowBackup="true"
@@ -23,7 +25,7 @@
         </activity>
         <activity
             android:name=".SignInActivity"
-            android:windowSoftInputMode="adjustPan"></activity>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".HomeActivity"
             android:label="@string/title_activity_home"
@@ -113,7 +115,14 @@
             android:name=".fundspot.OrganizationListActivity"
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".OrderPlaceActivity" />
-        <activity android:name=".AddMemberToCampaign"></activity>
+        <activity android:name=".AddMemberToCampaign" />
+        <activity
+            android:name=".FinalOrderPlace"
+            android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".OrderHistoryDetail" />
+        <activity android:name=".FullZoomViewActivity" />
+        <activity android:name=".QRScannerActivity" />
+        <activity android:name=".QRResultActivity"></activity>
     </application>
 
 </manifest>

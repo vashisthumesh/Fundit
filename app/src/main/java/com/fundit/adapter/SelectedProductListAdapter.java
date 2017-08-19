@@ -94,12 +94,6 @@ public class SelectedProductListAdapter extends BaseAdapter {
 
 
 
-
-
-
-
-
-
         return view;
     }
 }

@@ -26,7 +26,7 @@ class HomeFragment : Fragment() {
         when (item.itemId) {
             R.id.navigation_newsFeed -> {
                 setNewsFeedInboxFragment()
-                mTextMessage!!.text = item.title
+                //mTextMessage!!.text = item.title
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_inbox -> {
@@ -55,7 +55,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun setNewsFeedInboxFragment() {
-        fragment = Fragment()
+        fragment = NewsFeedFragment()
         val transaction: FragmentTransaction = fm!!.beginTransaction()
         transaction.replace(R.id.content_home, fragment)
         transaction.commit()
@@ -76,6 +76,9 @@ class HomeFragment : Fragment() {
         mTextMessage = view.findViewById(R.id.message) as TextView
         val navigation = view.findViewById(R.id.navigation) as BottomNavigationView
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+
+        setNewsFeedInboxFragment()
+
         // Inflate the layout for this fragment
         return view
     }

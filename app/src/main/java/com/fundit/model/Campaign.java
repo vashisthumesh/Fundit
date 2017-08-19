@@ -19,6 +19,7 @@ public class Campaign extends ProductListResponse.Product implements Serializabl
     String target_amount = "";
     String end_date = "";
     String message = "";
+    String role_id = "";
 
     public String getReceiver_id() {
         return receiver_id;
@@ -62,5 +63,9 @@ public class Campaign extends ProductListResponse.Product implements Serializabl
 
     public String getMessage() {
         return message;
+    }
+
+    public String getRole_id() {
+        return role_id;
     }
 }

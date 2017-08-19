@@ -17,7 +17,7 @@ public class OrderPlaceActivity extends AppCompatActivity {
     CampaignListResponse.CampaignList campaignList;
 
 
-    TextView txt_campaignName, txt_description, txt_partnerLabel ,txt_partnerName, txt_item, txt_goal, txt_split, txt_date, txt_members, txt_addMember, txt_message, txt_back, txt_raised, txt_targetAmt;
+    TextView txt_campaignName, txt_description, txt_partnerLabel, txt_partnerName, txt_item, txt_goal, txt_split, txt_date, txt_members, txt_addMember, txt_message, txt_back, txt_raised, txt_targetAmt;
 
     Button btn_placeOrder;
 
@@ -78,7 +78,10 @@ public class OrderPlaceActivity extends AppCompatActivity {
         txt_targetAmt = (TextView) findViewById(R.id.txt_targetAmt);
 
         btn_placeOrder = (Button) findViewById(R.id.btn_placeOrder);
-
+        /*if (preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION)) {
+            btn_placeOrder.setText("Share");
+        }
+*/
 
         txt_campaignName.setText(campaignList.getCampaign().getTitle());
         txt_description.setText(campaignList.getCampaign().getDescription());
@@ -90,67 +93,59 @@ public class OrderPlaceActivity extends AppCompatActivity {
 
 
         if (preference.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)) {
-
             txt_partnerLabel.setText("Fundspot Partner :");
-
-
             if (campaignList.getCampaign().getReview_status().equals(1)) {
-
                 txt_partnerName.setText(campaignList.getUserFundspot().getTitle());
             } else {
-
                 txt_partnerName.setText(campaignList.getUserFundspot().getTitle());
             }
-
-
         }
 
         if (preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION)) {
-
             txt_partnerLabel.setText("Organization Partner :");
-
             if (campaignList.getCampaign().getReview_status().equals(1)) {
-
                 txt_partnerName.setText(campaignList.getUserFundspot().getTitle());
-
             } else {
-
-
                 txt_partnerName.setText(campaignList.getUserFundspot().getTitle());
             }
-
-
         }
 
 
         for (int i = 0; i < campaignList.getCampaignProduct().size(); i++) {
-
-
             String productsName = campaignList.getCampaignProduct().get(i).getName();
-
             txt_item.setText(productsName);
-
-
         }
 
 
         txt_addMember.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
-                Intent intent = new Intent(getApplicationContext() , AddMemberToCampaign.class);
-                intent.putExtra("campaignId" , campaignList.getCampaign().getId());
+                Intent intent = new Intent(getApplicationContext(), AddMemberToCampaign.class);
+                intent.putExtra("campaignId", campaignList.getCampaign().getId());
                 startActivity(intent);
-
-
-
-
-
-
             }
         });
 
+
+        if(preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION)){
+
+
+            btn_placeOrder.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Intent intent = new Intent(getApplicationContext() , FinalOrderPlace.class);
+                    intent.putExtra("details" , campaignList);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+
+                }
+            });
+
+
+
+
+        }
 
     }
 }

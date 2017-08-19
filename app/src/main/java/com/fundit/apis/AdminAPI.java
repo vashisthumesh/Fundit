@@ -11,6 +11,7 @@ import com.fundit.model.ForgotPasswordEmailResponse;
 import com.fundit.model.FundspotListResponse;
 import com.fundit.model.MemberListResponse;
 import com.fundit.model.MemberResponse;
+import com.fundit.model.OrderHistoryResponse;
 import com.fundit.model.OrganizationResponse;
 import com.fundit.model.ProductListResponse;
 import com.fundit.model.RegisterResponse;
@@ -200,6 +201,19 @@ public interface AdminAPI {
     @POST(W.GET_MEMBER_FOR_CAMPAIGN)
     Call<MemberResponse> GetMemberForCampaign(@Field(W.KEY_USERID) String userId , @Field(W.KEY_ROLEID) String roleId , @Field("campaign_id") String campaignId);
 
+    @FormUrlEncoded
+    @POST(W.DELETE_MEMBER_FROM_CAMPAIGN)
+    Call<AppModel> RemoveUserFromCampaign(@Field(W.KEY_USERID) String userId , @Field(W.KEY_ROLEID) String roleId , @Field("campaign_id") String capmpaignId , @Field("member_id") String memberId);
+
+
+    @FormUrlEncoded
+    @POST(W.ADDORDER)
+    Call<AppModel> AddOrder(@Field(W.KEY_USERID) String userId , @Field(W.KEY_ROLEID) String roleId , @Field(W.KEY_TOKEN) String tokenhash , @Field("campaign_id") String capmpaignId , @Field("firstname") String firstName , @Field("lastname") String lastName , @Field("email") String emailId , @Field("mobile") String mobileNo , @Field("payment_address_1") String address , @Field("payment_city") String city , @Field("payment_postcode") String zipCode , @Field("payment_state") String state , @Field("payment_method") String method , @Field("total") String totalPrice , @Field("owner_id") String ownerId , @Field("latitude") String lattitude , @Field("longitude") String longitude , @Field("organization_id") String orgenizationId , @Field("fundspot_id") String fundspotId , @Field("product_id") String productIdArray);
+
+
+    @FormUrlEncoded
+    @POST(W.ORDER_HISTORY)
+    Call<OrderHistoryResponse> OrderHistory(@Field(W.KEY_USERID) String userId , @Field(W.KEY_TOKEN) String tokenHash);
 
 
 }
