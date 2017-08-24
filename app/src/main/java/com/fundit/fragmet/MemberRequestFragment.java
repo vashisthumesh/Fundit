@@ -94,7 +94,6 @@ public class MemberRequestFragment extends Fragment {
 
         list_mrequest = (ListView) view.findViewById(R.id.list_mrequest);
         memberRequestAdapter = new MemberRequestAdapter(requestBeen, getActivity());
-
         list_mrequest.setAdapter(memberRequestAdapter);
 
 
@@ -129,11 +128,13 @@ public class MemberRequestFragment extends Fragment {
             pairs.add(new BasicNameValuePair("status", "0"));
 
             if (preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION)) {
-                pairs.add(new BasicNameValuePair("organization_id", member.getId()));
+                pairs.add(new BasicNameValuePair("fund_id", member.getId()));
+
+
             }
 
             if (preference.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)) {
-                pairs.add(new BasicNameValuePair("fundspot_id", member.getId()));
+                pairs.add(new BasicNameValuePair("organization_id", member.getId()));
             }
 
 
@@ -164,11 +165,11 @@ public class MemberRequestFragment extends Fragment {
                     boolean status = true;
 
                     status = mainObject.getBoolean("status");
-
-                    if (status) {
+                    Log.e("Letssee" , "-->" + mainObject.getBoolean("status"));
+                    if (status==true) {
 
                         JSONArray dataAraay = mainObject.getJSONArray("data");
-
+                        Log.e("Letssee" , "-->" + mainObject.getJSONArray("data"));
                         for (int i = 0; i < dataAraay.length(); i++) {
 
 
@@ -183,9 +184,10 @@ public class MemberRequestFragment extends Fragment {
                             memberRequestBean.setZip_code(memberObject.getString("zip_code"));
                             memberRequestBean.setContact_info(memberObject.getString("contact_info"));
                             memberRequestBean.setImage(memberObject.getString("image"));
+                            memberRequestBean.setFirst_name(memberObject.getString("first_name"));
+                            memberRequestBean.setLast_name(memberObject.getString("last_name"));
 
-
-                            JSONObject userObject = object.getJSONObject("User");
+                            /*JSONObject userObject = object.getJSONObject("User");
 
                             memberRequestBean.setUserId(userObject.getString("id"));
                             memberRequestBean.setRole_id(userObject.getString("role_id"));
@@ -200,7 +202,8 @@ public class MemberRequestFragment extends Fragment {
                             JSONObject cityObject = object.getJSONObject("City");
 
                             memberRequestBean.setCity_name(cityObject.getString("name"));
-
+                            Log.e("Letssee" , "-->" + cityObject.getString("name"));
+*/
 
                             requestBeen.add(memberRequestBean);
 

@@ -3,6 +3,7 @@ package com.fundit.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,10 +47,12 @@ public class MemberRequestAdapter extends BaseAdapter {
 
     CustomDialog dialog;
 
+
     public MemberRequestAdapter(List<MemberRequestBean> memberRequestBeen, Activity activity) {
         this.memberRequestBeen = memberRequestBeen;
         this.activity = activity;
-        this.inflater = inflater;
+
+        this.inflater = activity.getLayoutInflater();
         this.preference = new AppPreference(activity);
 
     }
@@ -81,6 +84,7 @@ public class MemberRequestAdapter extends BaseAdapter {
         Button btnDecline = (Button) view.findViewById(R.id.btn_decline);
 
 
+        Log.e("log" , "---;" + memberRequestBeen.get(position).getTitle());
 
 
         String imagePath = W.FILE_URL + memberRequestBeen.get(position).getImage();
@@ -90,7 +94,7 @@ public class MemberRequestAdapter extends BaseAdapter {
                 .into(imageView);
 
 
-        txtTitle.setText(memberRequestBeen.get(position).getTitle());
+        txtTitle.setText(memberRequestBeen.get(position).getFirst_name() + " " + memberRequestBeen.get(position).getLast_name());
         txtLocation.setText(memberRequestBeen.get(position).getLocation());
 
         memberId = memberRequestBeen.get(position).getMemberId();
@@ -117,7 +121,7 @@ public class MemberRequestAdapter extends BaseAdapter {
 
 
 
-        return null;
+        return view;
     }
 
 
@@ -136,7 +140,7 @@ public class MemberRequestAdapter extends BaseAdapter {
             super.onPreExecute();
             try{
 
-                dialog = new CustomDialog(context);
+                dialog = new CustomDialog(activity);
                 dialog.show();
                 dialog.setCancelable(false);
 
@@ -157,6 +161,9 @@ public class MemberRequestAdapter extends BaseAdapter {
             pairs.add(new BasicNameValuePair("status" , getStatus));
 
             json = new ServiceHandler().makeServiceCall(W.BASE_URL + "Member/app_respond_member_request" , ServiceHandler.POST , pairs);
+
+            Log.e("parameters" , "" + pairs);
+
 
             return json;
         }
@@ -181,8 +188,10 @@ public class MemberRequestAdapter extends BaseAdapter {
                     status = mainObject.getBoolean("status");
                     message = mainObject.getString("message");
 
-                    C.INSTANCE.showToast(context , message);
+                    C.INSTANCE.showToast(activity , message);
                     if(status){
+
+                        notifyDataSetChanged();
 
                     }
                 }

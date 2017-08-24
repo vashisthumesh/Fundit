@@ -30,12 +30,6 @@ public class Member implements Serializable {
     City City = new City();
     State State = new State();
 
-
-
-
-
-
-
     public String getId() {
         return id;
     }

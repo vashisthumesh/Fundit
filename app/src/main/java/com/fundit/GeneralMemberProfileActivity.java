@@ -389,7 +389,7 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
                             if (verifyResponse != null) {
                                 if (verifyResponse.isStatus()) {
                                     C.INSTANCE.showToast(getApplicationContext(), verifyResponse.getMessage());
-                                    String memberData = new Gson().toJson(verifyResponse.getData().getMember().getOrganization());
+                                    String memberData = new Gson().toJson(verifyResponse.getData().getMember());
                                     preference.setMemberData(memberData);
 
                                     Intent intent = new Intent(getApplicationContext(), HomeActivity.class);

@@ -13,8 +13,8 @@ public class W {
     public static final String KEY_TOKEN = "tokenhash";
     public static final String KEY_ROLEID = "role_id";
 
-    public static final String BASE_URL = "http://app.nivida.in/fundit/"; //Online URL
-    // public static final String BASE_URL = "http://app.nivida.in/bita_fundit/"; //Online URL
+   // public static final String BASE_URL = "http://app.nivida.in/fundit/"; //Online URL
+     public static final String BASE_URL = "http://app.nivida.in/bita_fundit/"; //Online URL
     //public static final String BASE_URL = "http://192.168.1.110/fundit/"; // Local URL
     public static final String FILE_URL = BASE_URL + "files/";
 
