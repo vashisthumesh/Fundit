@@ -128,13 +128,13 @@ public class MemberRequestFragment extends Fragment {
             pairs.add(new BasicNameValuePair("status", "0"));
 
             if (preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION)) {
-                pairs.add(new BasicNameValuePair("fund_id", member.getId()));
+                pairs.add(new BasicNameValuePair("organization_id", preference.getUserID()));
 
 
             }
 
             if (preference.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)) {
-                pairs.add(new BasicNameValuePair("organization_id", member.getId()));
+                pairs.add(new BasicNameValuePair("fundspot_id", preference.getUserID()));
             }
 
 
@@ -187,7 +187,7 @@ public class MemberRequestFragment extends Fragment {
                             memberRequestBean.setFirst_name(memberObject.getString("first_name"));
                             memberRequestBean.setLast_name(memberObject.getString("last_name"));
 
-                            /*JSONObject userObject = object.getJSONObject("User");
+                            JSONObject userObject = object.getJSONObject("User");
 
                             memberRequestBean.setUserId(userObject.getString("id"));
                             memberRequestBean.setRole_id(userObject.getString("role_id"));
@@ -202,8 +202,8 @@ public class MemberRequestFragment extends Fragment {
                             JSONObject cityObject = object.getJSONObject("City");
 
                             memberRequestBean.setCity_name(cityObject.getString("name"));
-                            Log.e("Letssee" , "-->" + cityObject.getString("name"));
-*/
+
+
 
                             requestBeen.add(memberRequestBean);
 

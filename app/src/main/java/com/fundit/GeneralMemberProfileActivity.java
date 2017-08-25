@@ -346,12 +346,14 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
 
                         if(spn_assocOrganization.getSelectedItemPosition()!=0){
                             orgID = organizationList.get(spn_assocOrganization.getSelectedItemPosition()).getUser_id();
+                            Log.e("OrganizationId" , orgID);
                         }else{
                             orgID = "";
                         }
                     }if(checkID == R.id.rb_fundspot){
                         if(spn_assocFundspot.getSelectedItemPosition()!=0){
                             fundspotID = fundSpotList.get(spn_assocFundspot.getSelectedItemPosition()).getUser_id();
+                            Log.e("FundspotId" , fundspotID);
                         }else{
                             fundspotID = "";
                         }

@@ -2,6 +2,7 @@ package com.fundit.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.fundit.Bean.MemberRequestBean;
+import com.fundit.HomeActivity;
 import com.fundit.R;
 import com.fundit.a.AppPreference;
 import com.fundit.a.C;
@@ -182,17 +184,16 @@ public class MemberRequestAdapter extends BaseAdapter {
 
                     JSONObject mainObject = new JSONObject(s);
 
-                    boolean status = true;
+                    boolean status = false;
                     String message = "";
 
                     status = mainObject.getBoolean("status");
                     message = mainObject.getString("message");
 
                     C.INSTANCE.showToast(activity , message);
-                    if(status){
-
-                        notifyDataSetChanged();
-
+                    if(status==true){
+                        Intent intent = new Intent(activity , HomeActivity.class);
+                        activity.startActivity(intent);
                     }
                 }
 
