@@ -1,5 +1,8 @@
 package com.fundit.Bean;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by NWSPL-17 on 08-Aug-17.
  */
@@ -76,4 +79,5 @@ public class GetProductsFundspotBean {
     public void setFine_print(String fine_print) {
         this.fine_print = fine_print;
     }
+
 }

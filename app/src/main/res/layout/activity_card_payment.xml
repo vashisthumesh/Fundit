@@ -66,6 +66,7 @@
             android:hint="@string/enter_card_number"
             android:inputType="textNoSuggestions"
             android:padding="10dp"
+            android:textCursorDrawable="@drawable/cursor"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
             android:textSize="16sp" />
@@ -132,6 +133,7 @@
             android:hint="CVV Number"
             android:inputType="number"
             android:padding="10dp"
+            android:textCursorDrawable="@drawable/cursor"
             android:textColor="@color/white"
             android:textColorHint="@color/white" />
 

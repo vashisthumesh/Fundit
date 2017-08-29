@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.fundit.Bean.GetProductsFundspotBean;
 import com.fundit.R;
-import com.fundit.a.C;
 import com.fundit.a.W;
 import com.squareup.picasso.Picasso;
 
@@ -30,8 +29,6 @@ public class SelectedProductListAdapter extends BaseAdapter {
     List<GetProductsFundspotBean> productsFundspotBeen = new ArrayList<>();
     LayoutInflater inflater;
     Context context;
-
-
 
     public SelectedProductListAdapter(List<GetProductsFundspotBean> productsFundspotBeen, Context context) {
         this.productsFundspotBeen = productsFundspotBeen;
