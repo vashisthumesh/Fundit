@@ -3,6 +3,7 @@ package com.fundit;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -20,6 +21,7 @@ import com.fundit.adapter.OrderTimeProductAdapter;
 import com.fundit.adapter.ProductListAdapter;
 import com.fundit.apis.AdminAPI;
 import com.fundit.apis.ServiceGenerator;
+import com.fundit.apis.StringConverterFactory;
 import com.fundit.helper.CustomDialog;
 import com.fundit.model.AppModel;
 import com.fundit.model.CampaignListResponse;
@@ -108,6 +110,22 @@ public class FinalOrderPlace extends AppCompatActivity {
     }
 
     private void setupToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        TextView actionTitle = (TextView) findViewById(R.id.actionTitle);
+
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+
+
     }
 
     private void fetchIDs() {
@@ -275,7 +293,14 @@ public class FinalOrderPlace extends AppCompatActivity {
 
                     }
                     if (checkedPaymentType == 2) {
-                        C.INSTANCE.showToast(getApplicationContext() , "Please Select COD Method for now");
+
+                        Intent intent = new Intent(getApplicationContext() , CardPaymentActivity.class);
+                        intent.putExtra("details" , campaignList);
+                        intent.putExtra("productArray" , selectedProductArray.toString());
+                        intent.putExtra("allPrice" , String.valueOf(allPrice));
+                        Log.e("productArray" , selectedProductArray.toString());
+
+                        startActivity(intent);
                     }
                 }
 

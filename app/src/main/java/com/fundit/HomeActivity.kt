@@ -51,6 +51,7 @@ class HomeActivity : AppCompatActivity() {
     var img_profilePic: CircleImageView? = null
     lateinit var img_edit: ImageView
     lateinit var img_notification: ImageView
+    lateinit var img_qrscan: ImageView
     var cartCount: TextView? = null
 
 
@@ -69,13 +70,13 @@ class HomeActivity : AppCompatActivity() {
     private fun fillMenus() {
         when (preference?.userRoleID) {
             C.ORGANIZATION -> {
-                menuList = arrayOf("Home", "My Profile", "Requests", "Banks and Cards", "Settings", "Invite Friends", "Scan Coupon", "Logout")
+                menuList = arrayOf("Home", "My Profile", "Requests", "Banks and Cards", "Settings", "Invite Friends", "Help", "Logout")
             }
             C.FUNDSPOT -> {
-                menuList = arrayOf("Home", "My Profile", "Requests", "My Product", "Settings", "Invite Friends", "Scan Coupon", "Logout")
+                menuList = arrayOf("Home", "My Profile", "Requests", "My Product", "Settings", "Invite Friends", "Help", "Logout")
             }
             C.GENERAL_MEMBER -> {
-                menuList = arrayOf("Home", "My Profile", "My Coupons", "My Orders", "Banks and Cards", "Settings", "Invite Friends", "Scan Coupon", "Logout")
+                menuList = arrayOf("Home", "My Profile", "My Coupons", "My Orders", "Banks and Cards", "Settings", "Invite Friends", "Help", "Logout")
             }
         }
     }
@@ -85,17 +86,32 @@ class HomeActivity : AppCompatActivity() {
         actionTitle = findViewById(R.id.actionTitle) as TextView
         img_edit = findViewById(R.id.img_edit) as ImageView
         img_notification = findViewById(R.id.img_notification) as ImageView
+        img_qrscan = findViewById(R.id.img_qrscan) as ImageView
         cartCount = findViewById(R.id.cartTotal) as TextView
         //cartCount?.text = preference?.messageCount.toString()
-
-
         //actionTitle?.text = ""
         setSupportActionBar(toolbar)
+
+
+        if(preference?.userRoleID.equals(C.FUNDSPOT) || preference?.userRoleID.equals(C.GENERAL_MEMBER)){
+
+            img_qrscan?.visibility = View.VISIBLE
+        }else {
+
+            img_qrscan?.visibility = View.GONE
+        }
 
         img_notification.setOnClickListener {
             val intent = Intent(this@HomeActivity, NotificationActivity::class.java)
             startActivity(intent)
         }
+
+        img_qrscan.setOnClickListener {
+            val intent = Intent(this@HomeActivity, QRScannerActivity::class.java)
+            startActivity(intent)
+        }
+
+
         img_edit.setOnClickListener {
 
             val editMode: Boolean = true
@@ -131,7 +147,9 @@ class HomeActivity : AppCompatActivity() {
             }
 
 
-        }
+
+
+            }
     }
 
 
@@ -233,6 +251,9 @@ class HomeActivity : AppCompatActivity() {
                 C.FUNDSPOT -> {
                     fragment = HomeFragment()
                 }
+                C.GENERAL_MEMBER -> {
+                    fragment = HomeFragment()
+                }
             }
             val transaction = fm?.beginTransaction()
             transaction?.replace(R.id.content, fragment)
@@ -283,6 +304,14 @@ class HomeActivity : AppCompatActivity() {
                 transaction?.replace(R.id.content, fragment)
                 transaction?.commit()
             } else {
+
+                actionTitle?.text = "Saved Cards"
+                fragment = MyCardsFragment()
+                val transaction = fm?.beginTransaction()
+                transaction?.replace(R.id.content, fragment)
+                transaction?.commit()
+
+
                 //TODO SOMTHING
             }
 
@@ -299,22 +328,22 @@ class HomeActivity : AppCompatActivity() {
             }
 
         } else if (position == 7) {
-            if (preference?.userRoleID.equals(C.ORGANIZATION) || preference?.userRoleID.equals(C.FUNDSPOT)) {
+            /*if (preference?.userRoleID.equals(C.ORGANIZATION) || preference?.userRoleID.equals(C.FUNDSPOT)) {
 
                 val intent = Intent(applicationContext , QRScannerActivity::class.java)
                 startActivity(intent)
             }
-
+*/
 
         } else if (position == 8) {
             if (preference?.userRoleID.equals(C.ORGANIZATION) || preference?.userRoleID.equals(C.FUNDSPOT)) {
                 logout()
-            } else {
+            } /*else {
 
                 val intent = Intent(applicationContext , QRScannerActivity::class.java)
                 startActivity(intent)
 
-            }
+            }*/
 
         } else if (position == 9) {
             logout()

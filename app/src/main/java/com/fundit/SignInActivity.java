@@ -27,6 +27,7 @@ import com.fundit.apis.ServiceGenerator;
 import com.fundit.helper.CustomDialog;
 import com.fundit.model.AppModel;
 import com.fundit.model.VerifyResponse;
+import com.google.firebase.crash.FirebaseCrash;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
 
@@ -88,6 +89,7 @@ public class SignInActivity extends AppCompatActivity {
         dialog = new CustomDialog(this);
 
 
+        FirebaseCrash.report(new Exception("My first Android non-fatal error"));
         /*if (preference.isLoggedIn()) {
 
             Intent intent = new Intent(this, HomeActivity.class);

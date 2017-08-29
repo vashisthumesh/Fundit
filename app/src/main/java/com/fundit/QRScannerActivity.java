@@ -1,27 +1,36 @@
 package com.fundit;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.PointF;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.dlazaro66.qrcodereaderview.QRCodeReaderView;
 import com.fundit.a.C;
+import com.google.zxing.qrcode.QRCodeReader;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class QRScannerActivity extends AppCompatActivity implements QRCodeReaderView.OnQRCodeReadListener {
 
     private TextView resultTextView;
     private QRCodeReaderView qrCodeReaderView;
 
+    TextView txtProduct, txtCampign, txtPrice , customerName , sellingPrice , date;
 
+
+    String campaignName = "", customer_name = "", organization_name = "", fundspot_name = "", name = "", quantity = "", selling_price = "", item_total = "", expiry_date = "";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qrscanner);
-
 
 
         qrCodeReaderView = (QRCodeReaderView) findViewById(R.id.qrdecoderview);
@@ -33,7 +42,7 @@ public class QRScannerActivity extends AppCompatActivity implements QRCodeReader
 
         qrCodeReaderView.setTorchEnabled(true);
 
-       // qrCodeReaderView.setFrontCamera();
+        // qrCodeReaderView.setFrontCamera();
 
         qrCodeReaderView.setBackCamera();
 
@@ -43,9 +52,69 @@ public class QRScannerActivity extends AppCompatActivity implements QRCodeReader
     public void onQRCodeRead(String text, PointF[] points) {
 
         //resultTextView.setText("DEMO PIZZA");
-        Intent intent = new Intent(getApplicationContext() , QRResultActivity.class);
-        intent.putExtra("result" , text);
-        startActivity(intent);
+
+        qrCodeReaderView.stopCamera();
+
+        showQRData(text, points);
+
+    }
+
+    private void showQRData(String text, PointF[] points) {
+
+
+        final Dialog dialog = new Dialog(QRScannerActivity.this);
+        dialog.setContentView(R.layout.activity_qrresult);
+
+        txtProduct = (TextView) dialog.findViewById(R.id.productName);
+        txtCampign = (TextView) dialog.findViewById(R.id.campaignName);
+        txtPrice = (TextView) dialog.findViewById(R.id.productPrice);
+        customerName = (TextView) dialog.findViewById(R.id.customerName);
+        sellingPrice = (TextView) dialog.findViewById(R.id.sellingPrice);
+        date = (TextView) dialog.findViewById(R.id.date);
+
+
+        Button btn_cancel = (Button) dialog.findViewById(R.id.btn_cancel);
+
+        try {
+            JSONObject mainObject = new JSONObject(text);
+
+
+            campaignName = mainObject.getString("campaign_name");
+            customer_name = mainObject.getString("customer_name");
+            organization_name = mainObject.getString("organization_name");
+            fundspot_name = mainObject.getString("fundspot_name");
+            name = mainObject.getString("name");
+            quantity = mainObject.getString("quantity");
+            selling_price = mainObject.getString("selling_price");
+            item_total = mainObject.getString("item_total");
+            expiry_date = mainObject.getString("expiry_date");
+
+
+            txtCampign.setText(campaignName);
+            txtProduct.setText(name + "$ " + item_total);
+            txtPrice.setText(quantity);
+            customerName.setText(customer_name);
+            sellingPrice.setText(selling_price);
+            date.setText(expiry_date);
+
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        btn_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                dialog.dismiss();
+                qrCodeReaderView.startCamera();
+
+            }
+        });
+
+        dialog.show();
 
     }
 

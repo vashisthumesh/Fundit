@@ -41,6 +41,7 @@ dependencies {
     compile('com.dlazaro66.qrcodereaderview:qrcodereaderview:2.0.2@aar') {
         transitive = true
     }
+
     compile 'com.android.support:appcompat-v7:25.0.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha9'
     compile 'com.android.support:design:25.0.1'
@@ -59,6 +60,10 @@ dependencies {
     compile 'org.apache.httpcomponents:httpclient-cache:4.2.5'
     compile 'org.apache.httpcomponents:httpcore:4.2.4'
     compile 'org.apache.httpcomponents:httpmime:4.3'
+    compile 'com.alihafizji.creditcardedittext:library:+@aar'
+    compile 'com.google.firebase:firebase-crash:9.2.0'
+
+
     testCompile 'junit:junit:4.12'
 }
 repositories {
@@ -66,3 +71,4 @@ repositories {
 }
 
 apply plugin: 'com.google.gms.google-services'
+

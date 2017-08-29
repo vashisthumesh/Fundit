@@ -23,6 +23,22 @@
         android:layout_weight="2"
         android:id="@+id/actionTitle"
         android:text="Fundit"/>
+
+
+        <ImageView
+            android:id="@+id/img_qrscan"
+            android:layout_width="45dp"
+            android:layout_marginLeft="5dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center|right"
+            android:visibility="gone"
+            android:clickable="true"
+            android:paddingTop="10dp"
+            android:paddingRight="5dp"
+            android:paddingBottom="5dp"
+            android:src="@drawable/qrscan"/>
+
+
         <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"

@@ -357,27 +357,12 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
                         }else{
                             fundspotID = "";
                         }
-
-
                     }
-
-
-
                     dialog.show();
-
                     if(!imagePath.startsWith("http")){
-
                         generalMemberResponse  = adminAPI.generalMemberProfile(preference.getUserID(), preference.getTokenHash(), firstname, lastname, location, stateItems.get(statePosition).getId(), cityItems.get(cityPosition).getId(), zipcode, orgID, fundspotID, contactInfo, ServiceGenerator.prepareFilePart("image", imagePath));
-
-
                     }else {
-
-
                         generalMemberResponse  = adminAPI.generalMemberProfile(preference.getUserID(), preference.getTokenHash(), firstname, lastname, location, stateItems.get(statePosition).getId(), cityItems.get(cityPosition).getId(), zipcode, orgID, fundspotID, contactInfo, null);
-
-
-
-
                     }
 
 
@@ -388,6 +373,7 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
                         public void onResponse(Call<VerifyResponse> call, Response<VerifyResponse> response) {
                             dialog.dismiss();
                             VerifyResponse verifyResponse = response.body();
+                            Log.e("response" ,"" + new Gson().toJson(verifyResponse));
                             if (verifyResponse != null) {
                                 if (verifyResponse.isStatus()) {
                                     C.INSTANCE.showToast(getApplicationContext(), verifyResponse.getMessage());
@@ -410,8 +396,6 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
                         public void onFailure(Call<VerifyResponse> call, Throwable t) {
                             dialog.dismiss();
                             C.INSTANCE.errorToast(getApplicationContext(), t);
-
-
                         }
                     });
 

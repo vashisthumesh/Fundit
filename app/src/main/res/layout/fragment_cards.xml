@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <ScrollView
+        android:nestedScrollingEnabled="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:text="Cards"
+        android:gravity="start|center"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:textColor="@color/colorText"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        />
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/colorPrimary"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="5dp"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="These cards are used for payments or purchese"
+        android:gravity="start|center"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:textColor="@color/colorTextSecondary"
+        android:textSize="18sp"
+        />
+
+
+
+
+    <ListView
+        android:nestedScrollingEnabled="true"
+        android:id="@+id/list_cardsdetails"
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="360dp"></ListView>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorTextSecondary"
+        android:layout_margin="10dp"
+        />
+
+
+    <TextView
+        android:id="@+id/txt_addCards"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add Credit or Debit Card .."
+        android:gravity="center"
+        android:textColor="@color/colorPrimary"
+        android:layout_margin="10dp"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        />
+
+            <LinearLayout
+                android:layout_margin="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/star"
+                    android:layout_gravity="start"
+                    android:drawableRight="@drawable/star"
+                    android:gravity="start"/>
+
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="10dp"
+                    android:gravity="start|center"
+                    android:text="A standard 3% fees applies when sending money using credit card . Debit card are free to use."
+                    android:textColor="@color/colorTextSecondary"
+                    android:textSize="16sp" />
+
+
+            </LinearLayout>
+        </LinearLayout>
+
+
+    </ScrollView>
+
+
+
+
+</LinearLayout>

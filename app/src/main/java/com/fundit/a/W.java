@@ -83,4 +83,10 @@ public class W {
 
     public static final String ORDER_HISTORY = "Order/app_get_order";
 
+    public static final String GET_CARD_DATA = "BankCard/app_get_cards";
+    public static final String EDIT_CARD_DATA = "BankCard/app_edit_card";
+    public static final String ADD_CARD_DATA = "BankCard/app_add_card";
+
+
+
 }

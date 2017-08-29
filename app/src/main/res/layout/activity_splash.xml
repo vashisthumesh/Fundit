@@ -5,13 +5,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/splashColor"
+    android:background="@color/colorStartBackground"
     tools:context="com.fundit.SplashActivity">
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/funditlogo"/>
+        android:layout_gravity="center"
+        android:src="@drawable/transparentlogo"/>
 
 
 

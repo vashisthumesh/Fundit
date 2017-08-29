@@ -79,6 +79,10 @@ object C{
             is UnknownHostException -> noInternet(context)
             else -> defaultError(context)
         }
+
+        if(t.message?.isEmpty()!!){
+            showToast(context,"Something went wrong\nPlease try again later!")
+        }
     }
 
     fun convertDate(currentFormat: String, newFormat: String, date: String): String {

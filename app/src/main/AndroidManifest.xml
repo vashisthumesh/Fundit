@@ -122,7 +122,9 @@
         <activity android:name=".OrderHistoryDetail" />
         <activity android:name=".FullZoomViewActivity" />
         <activity android:name=".QRScannerActivity" />
-        <activity android:name=".QRResultActivity"></activity>
+        <activity android:name=".QRResultActivity" />
+        <activity android:name=".MyCardDetailsActivity" />
+        <activity android:name=".CardPaymentActivity"></activity>
     </application>
 
 </manifest>

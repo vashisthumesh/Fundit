@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.TextView
 import com.fundit.ChangePasswordActivity
 import com.fundit.OrganizationProfileActivity
@@ -28,8 +29,13 @@ class MyProfileFragment : Fragment() {
     var img_profilePic: CircleImageView? = null
     var txt_name: TextView? = null
     var txt_address: TextView? = null
+    var txt_fundspots: TextView? = null
+    var txt_organizations: TextView? = null
     var txt_emailID: TextView? = null
     lateinit var txt_change_pwd: TextView
+
+    var layout_org: LinearLayout? = null
+    var layout_fun: LinearLayout? = null
 
     var btn_edit: Button? = null
 
@@ -45,8 +51,12 @@ class MyProfileFragment : Fragment() {
         txt_address = view.findViewById(R.id.txt_address) as TextView
         txt_emailID = view.findViewById(R.id.txt_emailID) as TextView
         txt_change_pwd = view.findViewById(R.id.txt_change_pwd) as TextView
+        txt_fundspots = view.findViewById(R.id.txt_fundspots) as TextView
+        txt_organizations = view.findViewById(R.id.txt_organizations) as TextView
 
 
+        layout_org = view.findViewById(R.id.layout_org) as LinearLayout
+        layout_fun = view.findViewById(R.id.layout_fun) as LinearLayout
 
 
         val userData = Gson().fromJson(preference?.userData, User::class.java)
@@ -72,6 +82,17 @@ class MyProfileFragment : Fragment() {
                 val memberData = Gson().fromJson(preference?.memberData, Member::class.java)
                 txt_address?.text = memberData.location
                 imagePath = memberData.image
+
+                if(!memberData.fundspot.title.isEmpty()){
+                    layout_fun?.visibility = View.VISIBLE
+                    txt_fundspots?.text = memberData.fundspot.title
+                }
+
+                if(!memberData.organization.title.isEmpty()){
+                    layout_org?.visibility = View.VISIBLE
+                    txt_organizations?.text = memberData.organization.title
+                }
+
             }
         }
 
