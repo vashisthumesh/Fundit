@@ -13,11 +13,10 @@ public class W {
     public static final String KEY_TOKEN = "tokenhash";
     public static final String KEY_ROLEID = "role_id";
 
-   // public static final String BASE_URL = "http://app.nivida.in/fundit/"; //Online URL
-     public static final String BASE_URL = "http://app.nivida.in/bita_fundit/"; //Online URL
+    // public static final String BASE_URL = "http://app.nivida.in/fundit/"; //Online URL
+    public static final String BASE_URL = "http://app.nivida.in/bita_fundit/"; //Online URL
     //public static final String BASE_URL = "http://192.168.1.110/fundit/"; // Local URL
     public static final String FILE_URL = BASE_URL + "files/";
-
 
 
     public static final String USER_LOGIN = "User/app_login";
@@ -84,9 +83,12 @@ public class W {
     public static final String ORDER_HISTORY = "Order/app_get_order";
 
     public static final String GET_CARD_DATA = "BankCard/app_get_cards";
-    public static final String EDIT_CARD_DATA = "BankCard/app_edit_card";
-    public static final String ADD_CARD_DATA = "BankCard/app_add_card";
 
+
+    public static final String GET_ALL_INBOX = "Inbox/App_Get_Inbox_Msg";
+    public static final String READ_INBOX_MESSAGES = "Inbox/App_Read_Inbox_Notification";
+    public static final String SEND_MESSAGES = "Inbox/App_Send_MSG";
+    public static final String GET_UNREAD_INBOX_COUNT = "Inbox/App_Get_UnRead_Notification_Count";
 
 
 }

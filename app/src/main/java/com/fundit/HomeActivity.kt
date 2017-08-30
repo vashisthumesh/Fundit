@@ -275,6 +275,7 @@ class HomeActivity : AppCompatActivity() {
                 transaction?.commit()
             }
             if(preference?.userRoleID.equals(C.GENERAL_MEMBER)){
+                actionTitle?.text = "My Coupons"
                 fragment = CouponFragment()
                 val transaction = fm?.beginTransaction()
                 transaction?.replace(R.id.content, fragment)

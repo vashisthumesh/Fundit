@@ -10,6 +10,7 @@ import com.fundit.model.CampaignListResponse;
 import com.fundit.model.CategoryResponse;
 import com.fundit.model.ForgotPasswordEmailResponse;
 import com.fundit.model.FundspotListResponse;
+import com.fundit.model.InboxMessagesResponse;
 import com.fundit.model.MemberListResponse;
 import com.fundit.model.MemberResponse;
 import com.fundit.model.OrderHistoryResponse;
@@ -218,16 +219,27 @@ public interface AdminAPI {
     Call<AppModel> AddCardOrder(@Field(W.KEY_USERID) String userId , @Field(W.KEY_ROLEID) String roleId , @Field(W.KEY_TOKEN) String tokenhash , @Field("campaign_id") String capmpaignId , @Field("firstname") String firstName , @Field("lastname") String lastName , @Field("email") String emailId , @Field("mobile") String mobileNo , @Field("payment_address_1") String address , @Field("payment_city") String city , @Field("payment_postcode") String zipCode , @Field("payment_state") String state , @Field("payment_method") String method , @Field("total") String totalPrice , @Field("owner_id") String ownerId , @Field("latitude") String lattitude , @Field("longitude") String longitude , @Field("organization_id") String orgenizationId , @Field("fundspot_id") String fundspotId , @Field("product_id") String productIdArray , @Field("card_number") String cardNumber , @Field("card_type") String cardType , @Field("month") String month , @Field("year") String year , @Field("cvv") String cvv , @Field("bcard_id") String cardId , @Field("save_card") String savedCard);
 
 
-
-
     @FormUrlEncoded
     @POST(W.ORDER_HISTORY)
     Call<OrderHistoryResponse> OrderHistory(@Field(W.KEY_USERID) String userId , @Field(W.KEY_TOKEN) String tokenHash);
+
 
 
     @FormUrlEncoded
     @POST(W.GET_CARD_DATA)
     Call<BankCardResponse> BankCard(@Field(W.KEY_USERID) String userId , @Field(W.KEY_TOKEN) String tokenHash);
 
+
+    @FormUrlEncoded
+    @POST(W.GET_ALL_INBOX)
+    Call<InboxMessagesResponse> GetInboxMessage(@Field("receiver_id") String recieverId , @Field(W.KEY_TOKEN) String tokenHash);
+
+    @FormUrlEncoded
+    @POST(W.READ_INBOX_MESSAGES)
+    Call<AppModel> UnreadMessage (@Field(W.KEY_USERID) String userId , @Field(W.KEY_TOKEN) String tokenHash , @Field("notification_id") String messageId);
+
+    @FormUrlEncoded
+    @POST(W.SEND_MESSAGES)
+    Call<AppModel> SendMessage(@Field("sender_id") String userId , @Field(W.KEY_TOKEN) String tokenHash , @Field("receiver_id") String receiverId , @Field("subject") String subject , @Field("msg") String message);
 
 }

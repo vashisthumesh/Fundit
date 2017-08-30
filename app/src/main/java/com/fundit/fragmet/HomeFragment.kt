@@ -62,7 +62,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun setNavigationInboxFragment() {
-        fragment = Fragment()
+        fragment = InboxFragment()
         val transaction: FragmentTransaction = fm!!.beginTransaction()
         transaction.replace(R.id.content_home, fragment)
         transaction.commit()

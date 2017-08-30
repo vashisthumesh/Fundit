@@ -188,6 +188,9 @@ public class CardPaymentActivity extends AppCompatActivity {
 
                             cardName.add(cardResponse.getData().get(i).getBcard_type().toString());
                             cardId.add(cardResponse.getData().get(i).getId().toString());
+
+                            Log.e("cardId" , "" + cardId.get(i));
+
                             bankCard.addAll(cardResponse.getData());
 
                         }
@@ -222,16 +225,12 @@ public class CardPaymentActivity extends AppCompatActivity {
                 }
                 else {
 
-
-
                     chk_save.setVisibility(View.GONE);
-                    textview_credit_card.setText(bankCard.get(position).getBcard_number());
-                    String getSelectedItemMonth = bankCard.get(position).getBexp_month();
-                    String getSelectedItemYear = bankCard.get(position).getBexp_year();
-
+                    textview_credit_card.setText(bankCard.get(position - 1).getBcard_number());
+                    String getSelectedItemMonth = bankCard.get(position - 1).getBexp_month();
+                    String getSelectedItemYear = bankCard.get(position - 1).getBexp_year();
 
                     checkForSelectedMonth(getSelectedItemMonth , getSelectedItemYear);
-
 
                 }
 

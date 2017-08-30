@@ -21,7 +21,10 @@ import com.fundit.a.C;
 import com.fundit.model.CampaignListResponse;
 import com.fundit.model.OrderHistoryResponse;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -35,6 +38,7 @@ public class ShowOrderDetailsAdapter extends BaseAdapter {
     LayoutInflater inflater;
     AppPreference preference;
     Context context;
+    Date date;
 
 
     public ShowOrderDetailsAdapter(List<OrderHistoryResponse.OrderList> campaignLists, Activity activity) {
@@ -80,7 +84,17 @@ public class ShowOrderDetailsAdapter extends BaseAdapter {
 
         txt_orderId.setText(orderLists.get(position).getOrder().getId());
         txt_totalAmt.setText(orderLists.get(position).getOrder().getTotal());
-        txt_date.setText(orderLists.get(position).getOrder().getCreated());
+
+        String getCreatedDate = orderLists.get(position).getOrder().getCreated();
+        final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd k:mm:ss");
+        try {
+            date = simpleDateFormat.parse(getCreatedDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+
+        txt_date.setText(new SimpleDateFormat("dd-MMM-yyyy").format(date));
         txt_coupon.setText(orderLists.get(position).getOrder().getTotal_coupon_count());
 
 

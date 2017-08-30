@@ -3,6 +3,7 @@ package com.fundit.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.icu.util.Calendar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +15,10 @@ import com.fundit.OrderHistoryDetail;
 import com.fundit.R;
 import com.fundit.model.OrderHistoryResponse;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -27,6 +31,7 @@ public class OrderHistoryAdapter extends BaseAdapter{
     Activity activity;
     LayoutInflater inflater = null;
     Context context;
+    Date date;
 
 
     public OrderHistoryAdapter(List<OrderHistoryResponse.OrderList> orderLists, Activity activity) {
@@ -65,7 +70,18 @@ public class OrderHistoryAdapter extends BaseAdapter{
 
         txt_orderId.setText(orderLists.get(position).getOrder().getId());
         txt_totalAmt.setText(orderLists.get(position).getOrder().getTotal());
-        txt_date.setText(orderLists.get(position).getOrder().getCreated());
+
+
+        String getCreatedDate = orderLists.get(position).getOrder().getCreated();
+        final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd k:mm:ss");
+        try {
+            date = simpleDateFormat.parse(getCreatedDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+
+        txt_date.setText(new SimpleDateFormat("dd-MMM-yyyy").format(date));
 
         img_arrow.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,4 +95,7 @@ public class OrderHistoryAdapter extends BaseAdapter{
 
         return view;
     }
+
+
+
 }

@@ -124,7 +124,10 @@
         <activity android:name=".QRScannerActivity" />
         <activity android:name=".QRResultActivity" />
         <activity android:name=".MyCardDetailsActivity" />
-        <activity android:name=".CardPaymentActivity"></activity>
+        <activity android:name=".CardPaymentActivity" />
+        <activity android:name=".ReadMessageActivity" />
+        <activity android:name=".SendMessageActivity" />
+        <activity android:name=".FinalSendMessage"></activity>
     </application>
 
 </manifest>

@@ -22,7 +22,10 @@ import com.fundit.model.OrderHistoryResponse;
 import com.fundit.model.User;
 import com.squareup.picasso.Picasso;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class OrderHistoryDetail extends AppCompatActivity {
@@ -49,6 +52,7 @@ public class OrderHistoryDetail extends AppCompatActivity {
     ImageView qrScan;
     String QRSCAN = "";
     String productName = "";
+    Date date;
 
 
 
@@ -76,7 +80,18 @@ public class OrderHistoryDetail extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-        actionTitle.setText("Order History");
+
+        if(isCouponTimes){
+            actionTitle.setText("My Coupons");
+        }
+        else {
+
+            actionTitle.setText("Order History");
+
+        }
+
+
+
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,6 +120,14 @@ public class OrderHistoryDetail extends AppCompatActivity {
         txt_fundspotName.setText(historyResponse.getFundspot().getTitle());
         txt_organizations.setText(historyResponse.getOrganization().getTitle());
 
+        String getCreatedDate = historyResponse.getOrder().getCreated();
+        final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd k:mm:ss");
+        try {
+            date = simpleDateFormat.parse(getCreatedDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        txt_date.setText(new SimpleDateFormat("dd-MMM-yyyy").format(date));
 
         layout_coupon = (LinearLayout) findViewById(R.id.layout_coupon);
         qrScan = (ImageView) findViewById(R.id.img_qrScan);
@@ -143,33 +166,17 @@ public class OrderHistoryDetail extends AppCompatActivity {
                     }
                 });
 
-
-
-
-
-
-
             }
 
 
         }
-
-
-
     }
 
     private void showFullImageView(String qrscan , String productName) {
-
-
-
         Intent intent = new Intent(getApplicationContext(), FullZoomViewActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra("imagePaths", qrscan);
         intent.putExtra("productName", productName);
         startActivity(intent);
-
-
-
-
     }
 }
