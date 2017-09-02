@@ -2,6 +2,7 @@ package com.fundit.a;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 /**
  * Created by Nivida new on 17-Jul-17.
@@ -84,5 +85,13 @@ public class AppPreference {
 
     public void setSkiped(boolean skiped) {
         editor.putBoolean("skiped" , skiped).commit();
+    }
+
+
+    public void clearData(Context context){
+        SharedPreferences.Editor prefs = context.getSharedPreferences(FILE_NAME , 0).edit();
+        prefs.clear();
+        prefs.commit();
+        Log.e("Congo" , "Clear All Data");
     }
 }

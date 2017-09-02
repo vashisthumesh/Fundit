@@ -376,6 +376,8 @@ class HomeActivity : AppCompatActivity() {
         preference?.messageCount = 0
         preference?.isSkiped = false
 
+        preference?.clearData(applicationContext)
+
         val intent = Intent(this, SignInActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
         startActivity(intent)
