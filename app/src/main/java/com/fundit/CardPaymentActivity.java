@@ -102,7 +102,8 @@ public class CardPaymentActivity extends AppCompatActivity {
 
 
         preference = new AppPreference(getApplicationContext());
-        dialog = new CustomDialog(CardPaymentActivity.this , "");
+        dialog = new CustomDialog(this);
+
         adminAPI = ServiceGenerator.getAPIClass();
 
         try {
@@ -167,13 +168,13 @@ public class CardPaymentActivity extends AppCompatActivity {
         spn_year.setAdapter(yearAdapter);
 
 
-        //dialog.show();
+       // dialog.show();
         final Call<BankCardResponse> bankCardResponse = adminAPI.BankCard(preference.getUserID(), preference.getTokenHash());
         Log.e("parameters", "-->" + preference.getUserID() + "-->" + preference.getTokenHash());
         bankCardResponse.enqueue(new Callback<BankCardResponse>() {
             @Override
             public void onResponse(Call<BankCardResponse> call, Response<BankCardResponse> response) {
-                //dialog.dismiss();
+               // dialog.dismiss();
                 cardName.add("Select Card");
                 cardId.add("0");
 
@@ -204,8 +205,7 @@ public class CardPaymentActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<BankCardResponse> call, Throwable t) {
-
-                //dialog.dismiss();
+               // dialog.dismiss();
                 C.INSTANCE.errorToast(getApplicationContext() , t);
             }
         });
@@ -273,7 +273,7 @@ public class CardPaymentActivity extends AppCompatActivity {
                 }
 
 
-              //  dialog.show();
+
                 if(cardType.isEmpty()){
                     C.INSTANCE.showToast(getApplicationContext() , "Please enter proper card number");
                 }else if(getSpinnerMonth.isEmpty()){
@@ -285,19 +285,19 @@ public class CardPaymentActivity extends AppCompatActivity {
                     C.INSTANCE.showToast(getApplicationContext() , "Please enter cvv ");
                 }
                 else {
+                    dialog.show();
                     final Call<AppModel> addOrder = adminAPI.AddCardOrder(preference.getUserID(), preference.getUserRoleID(), preference.getTokenHash(), campaignList.getCampaign().getId(), user.getFirst_name(), user.getLast_name(), user.getEmail_id(), member.getContact_info(), member.getLocation(), member.getCity().getName(), member.getZip_code(), member.getState().getName(), "2", allPrice, "0", "0.0", "0.0", organizationId, fundspotId, selectedProductArray, cardNumber, cardType, getSpinnerMonth, getSpinnerYear, cvv, selectedCardId, checked);
 
                     addOrder.enqueue(new Callback<AppModel>() {
                         @Override
                         public void onResponse(Call<AppModel> call, Response<AppModel> response) {
-
-                            //  dialog.dismiss();
+                            dialog.dismiss();
                             AppModel appModel = response.body();
                             if (addOrder != null) {
                                 if (appModel.isStatus()) {
                                     C.INSTANCE.showToast(getApplicationContext(), appModel.getMessage());
-
                                     Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                     startActivity(intent);
 
                                 }
@@ -311,8 +311,7 @@ public class CardPaymentActivity extends AppCompatActivity {
 
                         @Override
                         public void onFailure(Call<AppModel> call, Throwable t) {
-
-
+                            dialog.dismiss();
                             C.INSTANCE.errorToast(getApplicationContext(), t);
 
                         }
@@ -332,8 +331,6 @@ public class CardPaymentActivity extends AppCompatActivity {
 
             }
         });
-
-
 
         new GetMonthsAndYear().execute();
     }
@@ -385,7 +382,6 @@ public class CardPaymentActivity extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
             try{
-                dialog = new CustomDialog(getApplicationContext());
                 dialog.show();
                 dialog.setCancelable(false);
             }catch (Exception e){

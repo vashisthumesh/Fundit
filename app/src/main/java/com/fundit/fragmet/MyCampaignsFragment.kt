@@ -82,6 +82,10 @@ class MyCampaignsFragment : Fragment() {
         preference = AppPreference(activity)
         img_createCampaign = view.findViewById(R.id.img_createCampaign) as ImageView
 
+        if(preference?.userRoleID.equals(C?.GENERAL_MEMBER)){
+            img_createCampaign?.visibility = View.GONE
+        }
+
         img_createCampaign?.setOnClickListener {
 
             if(preference?.userRoleID.equals(C?.ORGANIZATION)) {

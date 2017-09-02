@@ -17,7 +17,7 @@
         android:background="?android:attr/windowBackground"
         app:itemBackground="@drawable/campaign_navigation_selector_bg"
         app:itemTextColor="@drawable/campaigns_navigation_selector"
-        app:menu="@menu/menu_my_campaigns"/>
+        app:menu="@menu/menu_my_campaigns" />
 
     <FrameLayout
         android:layout_width="match_parent"

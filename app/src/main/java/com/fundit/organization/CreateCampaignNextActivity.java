@@ -181,7 +181,12 @@ public class CreateCampaignNextActivity extends AppCompatActivity {
                 String message = edt_message.getText().toString().trim();
                 String fundspotMessage = edt_msgFundspot.getText().toString().trim();
                 String maxAmount = edt_amount.getText().toString().trim();
-                int amount = Integer.parseInt(maxAmount);
+
+                int amount = 0;
+                amount = Integer.parseInt(maxAmount);
+
+                Log.e("amount" , "-->" + amount);
+
                 List<Member> selectedMemberList = memberListAdapter.getMemberList();
 
                 if (campaignTitle.isEmpty()) {
@@ -235,7 +240,7 @@ public class CreateCampaignNextActivity extends AppCompatActivity {
                         }
                         if(chk_maxAmount.isChecked()){
 
-                            detailObject.put("target_amount" , "");
+                            detailObject.put("target_amount" , 0);
                         }else{
 
                             detailObject.put("target_amount" , maxAmount);

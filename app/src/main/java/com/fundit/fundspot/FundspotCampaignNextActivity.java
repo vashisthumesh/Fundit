@@ -269,7 +269,7 @@ public class FundspotCampaignNextActivity extends AppCompatActivity {
                         }
                         if(chk_maxAmount.isChecked()){
 
-                            detailObject.put("target_amount" , "");
+                            detailObject.put("target_amount" , 0);
                         }else{
 
                             detailObject.put("target_amount" , amount);
