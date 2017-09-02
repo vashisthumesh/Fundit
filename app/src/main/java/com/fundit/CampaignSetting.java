@@ -19,6 +19,8 @@ import com.fundit.a.C;
 import com.fundit.apis.AdminAPI;
 import com.fundit.apis.ServiceGenerator;
 import com.fundit.helper.CustomDialog;
+import com.fundit.model.Fundspot;
+import com.fundit.model.Member;
 import com.fundit.model.VerifyResponse;
 import com.google.gson.Gson;
 
@@ -45,6 +47,8 @@ public class CampaignSetting extends AppCompatActivity {
 
     CustomDialog dialog;
 
+    Fundspot member = new Fundspot();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +69,16 @@ public class CampaignSetting extends AppCompatActivity {
         imagePath = in.getStringExtra("imagePath");
         firstTIme = in.getBooleanExtra("firstTime", false);
         editMode = in.getBooleanExtra("editMode", false);
+
+        try{
+            member = new Gson().fromJson(preference.getMemberData() , Fundspot.class);
+            Log.e("member" , "-->" + preference.getMemberData());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+
+
         fetchID();
         setupToolbar();
     }
@@ -123,6 +137,19 @@ public class CampaignSetting extends AppCompatActivity {
 
             }
         });
+
+        if(editMode){
+            String getMaxCoupons = member.getMax_limit_of_coupon_price();
+            edt_fubdraiser.setText(member.getFundspot_percent());
+            edt_organization.setText(member.getOrganization_percent());
+            edt_duration.setText(member.getCampaign_duration());
+            if(getMaxCoupons.equalsIgnoreCase("10000") || getMaxCoupons.equalsIgnoreCase("0")){
+                checkbox_nolimit.setChecked(true);
+            }else {
+                edt_price.setText(getMaxCoupons);
+            }
+            edt_total_days.setText(member.getCoupon_expire_day());
+        }
         checkbox_nolimit.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -132,7 +159,7 @@ public class CampaignSetting extends AppCompatActivity {
                     edt_price.setEnabled(false);
                 }
                 if (!buttonView.isChecked()) {
-                    edt_price.setEnabled(false);
+                    edt_price.setEnabled(true);
                 }
             }
         });
@@ -145,6 +172,8 @@ public class CampaignSetting extends AppCompatActivity {
                 final String campaign_days = edt_duration.getText().toString().trim();
                 final String amount = edt_price.getText().toString().trim();
                 final String totalDays = edt_total_days.getText().toString().trim();
+
+
 
 
                 if (fundraiser.isEmpty()) {

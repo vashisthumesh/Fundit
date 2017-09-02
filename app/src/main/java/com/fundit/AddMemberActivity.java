@@ -1,16 +1,21 @@
 package com.fundit;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fundit.a.AppPreference;
 import com.fundit.a.C;
@@ -20,6 +25,7 @@ import com.fundit.apis.ServiceGenerator;
 import com.fundit.helper.CustomDialog;
 import com.fundit.model.Member;
 import com.fundit.model.MemberListResponse;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,38 +34,38 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SendMessageActivity extends AppCompatActivity {
+public class AddMemberActivity extends AppCompatActivity {
 
-    AutoCompleteTextView searchUsers ;
+
+    EditText searchUsers ;
     ImageView search ;
-    ListView listUsers;
+    ListView listView;
 
     AppPreference preference ;
     CustomDialog dialog;
     AdminAPI adminAPI;
 
-    List<Member> memberList = new ArrayList<>();
-    ArrayList<String> memberNames = new ArrayList<>();
-    ArrayAdapter<String> memberArrayAdapter;
+    List<Member> searchedMembers = new ArrayList<>();
 
-    String selectedPersonId = "";
-    String selectedPersonName = "";
 
     SendMessageAdapter messageAdapter;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_send_message);
+        setContentView(R.layout.activity_add_member);
+
+
 
 
         preference = new AppPreference(getApplicationContext());
         dialog = new CustomDialog(this);
         adminAPI = ServiceGenerator.getAPIClass();
 
+
         setupToolBar();
         fetchIds();
+
 
 
 
@@ -87,34 +93,65 @@ public class SendMessageActivity extends AppCompatActivity {
 
     private void fetchIds() {
 
-        searchUsers = (AutoCompleteTextView) findViewById(R.id.auto_searchUser);
+        searchUsers = (EditText) findViewById(R.id.auto_searchUser);
         search = (ImageView) findViewById(R.id.img_search);
-        listUsers = (ListView) findViewById(R.id.list_users);
+        listView = (ListView) findViewById(R.id.list_users);
+
+        messageAdapter = new SendMessageAdapter(searchedMembers , getApplicationContext() , true);
+        listView.setAdapter(messageAdapter);
 
 
-        memberArrayAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_textview, memberNames);
-        searchUsers.setAdapter(memberArrayAdapter);
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String getText = searchUsers.getText().toString();
 
+                SearchMembers(getText);
+
+
+            }
+        });
+
+
+        searchUsers.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+
+                String getText = searchUsers.getText().toString();
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    SearchMembers(getText);
+                    return true;
+                }
+                return false;
+            }
+        });
+
+
+    }
+
+    private void SearchMembers(String getText) {
 
 
         dialog.show();
-        Call<MemberListResponse> memberListResponseCall = adminAPI.getAllMemberList(preference.getUserID(), preference.getTokenHash(), preference.getUserRoleID(), preference.getUserID(), null);
+        Call<MemberListResponse> memberListResponseCall = adminAPI.getMemberList(preference.getUserID(), preference.getTokenHash(), getText);
         memberListResponseCall.enqueue(new Callback<MemberListResponse>() {
             @Override
             public void onResponse(Call<MemberListResponse> call, Response<MemberListResponse> response) {
                 dialog.dismiss();
                 MemberListResponse memberListResponse = response.body();
+
+                Log.e("AllNames" , "--->" + new Gson().toJson(memberListResponse));
+
                 if (memberListResponse != null) {
                     if (memberListResponse.isStatus()) {
-                        memberList.addAll(memberListResponse.getData());
-                        memberNames.addAll(memberListResponse.getNames());
+                        searchedMembers.addAll(memberListResponse.getData());
                     }
                 } else {
                     C.INSTANCE.defaultError(getApplicationContext());
                 }
 
-                Log.e("Size", "--" + memberNames.size());
-                memberArrayAdapter.notifyDataSetChanged();
+
+                messageAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -125,37 +162,12 @@ public class SendMessageActivity extends AppCompatActivity {
         });
 
 
-        searchUsers.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                List<Member> searchedMembers = new ArrayList<>();
-                selectedPersonName = searchUsers.getText().toString().trim();
-                for (int i = 0 ; i < memberList.size() ; i++){
-                    String getName = memberList.get(i).getFirst_name() + " " + memberList.get(i).getLast_name();
-                    if(selectedPersonName.equalsIgnoreCase(getName)){
-                        selectedPersonId = memberList.get(i).getUser_id();
-                        searchedMembers.add(memberList.get(i));
-                        break;
-                    }
-                }
-                Log.e("getId" , "--->" + selectedPersonId);
-                Log.e("getSelectedName" , "--->" + selectedPersonName);
-                Log.e("size" , "--->" + searchedMembers.size());
-
-                messageAdapter = new SendMessageAdapter(searchedMembers , getApplicationContext() , false);
-                listUsers.setAdapter(messageAdapter);
-                messageAdapter.notifyDataSetChanged();
-
-            }
-        });
-
-
-
 
 
 
 
 
     }
+
+
 }

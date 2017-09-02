@@ -70,13 +70,17 @@ class HomeActivity : AppCompatActivity() {
     private fun fillMenus() {
         when (preference?.userRoleID) {
             C.ORGANIZATION -> {
-                menuList = arrayOf("Home", "My Profile", "Requests", "Banks and Cards", "Settings", "Invite Friends", "Help", "Logout")
+                menuList = arrayOf("Home", "My Profile", "Requests","My Members" , "Save Cards", "Settings", "Invite Friends", "Help", "Logout")
+
             }
             C.FUNDSPOT -> {
-                menuList = arrayOf("Home", "My Profile", "Requests", "My Product", "Settings", "Invite Friends", "Help", "Logout")
+                menuList = arrayOf("Home", "My Profile", "Requests", "My Product","My Members","Save Cards" ,"Settings", "Invite Friends", "Help", "Logout")
+
+
             }
             C.GENERAL_MEMBER -> {
-                menuList = arrayOf("Home", "My Profile", "My Coupons", "My Orders", "Banks and Cards", "Settings", "Invite Friends", "Help", "Logout")
+                menuList = arrayOf("Home", "My Profile", "My Coupons", "My Orders", "Save Cards", "Settings", "Invite Friends", "Help", "Logout")
+
             }
         }
     }
@@ -296,15 +300,23 @@ class HomeActivity : AppCompatActivity() {
                 transaction?.replace(R.id.content, fragment)
                 transaction?.commit()
             }
-        } else if (position == 5) {
-
-            if (preference?.userRoleID.equals(C.ORGANIZATION) || preference?.userRoleID.equals(C.FUNDSPOT)) {
-                actionTitle?.text = "Settings"
-                fragment = GeneralSettingFragment()
+            if (preference?.userRoleID.equals(C.ORGANIZATION)) {
+                actionTitle?.text = "My Members"
+                fragment = MyMemberFragment()
                 val transaction = fm?.beginTransaction()
                 transaction?.replace(R.id.content, fragment)
                 transaction?.commit()
-            } else {
+            }
+        } else if (position == 5) {
+
+            if (preference?.userRoleID.equals(C.FUNDSPOT)) {
+                actionTitle?.text = "My Members"
+                fragment = MyMemberFragment()
+                val transaction = fm?.beginTransaction()
+                transaction?.replace(R.id.content, fragment)
+                transaction?.commit()
+            }
+            if(preference?.userRoleID.equals(C.GENERAL_MEMBER) || preference?.userRoleID.equals(C.ORGANIZATION)) {
 
                 actionTitle?.text = "Saved Cards"
                 fragment = MyCardsFragment()
@@ -317,37 +329,37 @@ class HomeActivity : AppCompatActivity() {
             }
 
         } else if (position == 6) {
-            if (preference?.userRoleID.equals(C.GENERAL_MEMBER)) {
+            if (preference?.userRoleID.equals(C.GENERAL_MEMBER) || preference?.userRoleID.equals(C.ORGANIZATION)) {
                 actionTitle?.text = "Settings"
                 fragment = GeneralSettingFragment()
                 val transaction = fm?.beginTransaction()
                 transaction?.replace(R.id.content, fragment)
                 transaction?.commit()
             } else {
+
+                actionTitle?.text = "Saved Cards"
+                fragment = MyCardsFragment()
+                val transaction = fm?.beginTransaction()
+                transaction?.replace(R.id.content, fragment)
+                transaction?.commit()
+            }
+
+        } else if (position == 7) {
+            if (preference?.userRoleID.equals(C.FUNDSPOT)) {
                 val intent = Intent(this, FundraiserSettings::class.java)
                 startActivity(intent)
             }
 
-        } else if (position == 7) {
-            /*if (preference?.userRoleID.equals(C.ORGANIZATION) || preference?.userRoleID.equals(C.FUNDSPOT)) {
-
-                val intent = Intent(applicationContext , QRScannerActivity::class.java)
-                startActivity(intent)
-            }
-*/
 
         } else if (position == 8) {
-            if (preference?.userRoleID.equals(C.ORGANIZATION) || preference?.userRoleID.equals(C.FUNDSPOT)) {
-                logout()
-            } /*else {
-
-                val intent = Intent(applicationContext , QRScannerActivity::class.java)
-                startActivity(intent)
-
-            }*/
 
         } else if (position == 9) {
-            logout()
+            if (preference?.userRoleID.equals(C.ORGANIZATION)|| (preference?.userRoleID.equals(C.GENERAL_MEMBER)))
+                        logout()
+        }else if(position==10){
+
+            if (preference?.userRoleID.equals(C.FUNDSPOT))
+                        logout()
         }
         drawerLayout?.closeDrawer(Gravity.START)
     }

@@ -101,10 +101,6 @@ public class InboxViewAdapter extends BaseAdapter {
         String getSendTitle = messageResponseDatas.get(position).getSenderUser().getTitle();
         String subject = messageResponseDatas.get(position).getInbox().getSubject();
 
-        Log.e("reTitle", "-->" + getReTitle);
-        Log.e("seTitle", "-->" + getSendTitle);
-        Log.e("subject", "-->" + subject);
-
 
         txtSenderName.setText(getSendTitle);
         txtSubject.setText(subject);
@@ -128,7 +124,6 @@ public class InboxViewAdapter extends BaseAdapter {
                 if (messageResponseDatas.get(position).getInbox().getStatus().equals(1)) {
                     SendUnreadNotification(position);
                 } else {
-
                     Intent intent = new Intent(activity, ReadMessageActivity.class);
                     intent.putExtra("senderName", messageResponseDatas.get(position).getSenderUser().getTitle());
                     intent.putExtra("messages", messageResponseDatas.get(position).getInbox().getMsg());

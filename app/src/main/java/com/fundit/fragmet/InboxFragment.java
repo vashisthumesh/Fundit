@@ -75,8 +75,6 @@ public class InboxFragment extends Fragment {
     }
 
     private void fetchIds() {
-
-
         edtSearch = (AutoCompleteTextView) view.findViewById(R.id.auto_searchMessage);
         imgEdit = (ImageView) view.findViewById(R.id.img_edit);
         btnSearch = (Button) view.findViewById(R.id.btn_search);
@@ -101,10 +99,7 @@ public class InboxFragment extends Fragment {
                 if (messagesResponse != null) {
                     if (messagesResponse.isStatus()) {
                         messageResponseDatas.addAll(messagesResponse.getResponseDataList());
-                        for (int i = 0; i < messagesResponse.getResponseDataList().size(); i++) {
-                            getAllSubject.add(messagesResponse.getResponseDataList().get(i).getInbox().getSubject());
-                            getAllSubjectIds.add(messagesResponse.getResponseDataList().get(i).getInbox().getId());
-                        }
+                       // getAllSubject.addAll(messagesResponse.getSubjects());
                     } else {
                         C.INSTANCE.showToast(getActivity(), messagesResponse.getMessage());
                     }
@@ -113,7 +108,7 @@ public class InboxFragment extends Fragment {
                 }
 
                 inboxViewAdapter.notifyDataSetChanged();
-                subjectAdapter.notifyDataSetChanged();
+             //   subjectAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -123,20 +118,28 @@ public class InboxFragment extends Fragment {
             }
         });
 
-
-
-
-        edtSearch.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        /*
+        edtSearch.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+                List<InboxMessagesResponse.MessageResponseData> searchSubjects = new ArrayList<>();
+                String searchedSubject = "";
+                searchedSubject = edtSearch.getText().toString();
+
+                Log.e("searchedSubject" , "-->" + searchedSubject);
+
+                 for(int i =0 ; i <messageResponseDatas.size();i++){
+                     if(searchedSubject.equalsIgnoreCase(messageResponseDatas.get(i).getInbox().getSubject())){
+                         Log.e("searchedSubject2" , "-->" + messageResponseDatas.get(i).getInbox().getSubject());
+                         searchSubjects.add(messageResponseDatas.get(i));
+                         break;
+                     }
+                 }
+                 inboxViewAdapter.notifyDataSetChanged();
             }
+        });*/
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
 
 
         imgEdit.setOnClickListener(new View.OnClickListener() {

@@ -171,6 +171,11 @@ public interface AdminAPI {
     @POST(W.MEMBER_LIST)
     Call<MemberListResponse> getAllMemberList(@Field(W.KEY_USERID) String userID, @Field(W.KEY_TOKEN) String token, @Field("role_id") String roleID, @Field("organization_id") String organizationID, @Field("fundspot_id") String fundspotID);
 
+    @FormUrlEncoded
+    @POST(W.SEARCHMEMBER_LIST)
+    Call<MemberListResponse> getMemberList(@Field(W.KEY_USERID) String userID, @Field(W.KEY_TOKEN) String token, @Field("name") String name );
+
+
 
     @FormUrlEncoded
     @POST(W.CANCEL_CAMPAIGN)
@@ -242,4 +247,8 @@ public interface AdminAPI {
     @POST(W.SEND_MESSAGES)
     Call<AppModel> SendMessage(@Field("sender_id") String userId , @Field(W.KEY_TOKEN) String tokenHash , @Field("receiver_id") String receiverId , @Field("subject") String subject , @Field("msg") String message);
 
+
+    @FormUrlEncoded
+    @POST(W.GET_ALL_MEMBERS)
+    Call<MemberListResponse> MEMBER_LIST_RESPONSE_CALL (@Field(W.KEY_USERID) String userId , @Field(W.KEY_TOKEN) String tokenHash , @Field(W.KEY_ROLEID) String roleId);
 }

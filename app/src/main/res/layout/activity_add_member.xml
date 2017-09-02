@@ -6,23 +6,37 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.fundit.SendMessageActivity">
+    tools:context="com.fundit.AddMemberActivity">
+
+
+    <include layout="@layout/toolbar_center_text"/>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:orientation="vertical"
         android:layout_margin="10dp"
-        android:orientation="vertical">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <TextView
+            android:layout_weight="1"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="match_parent"
             android:gravity="start|center"
-            android:text="New Message"
+            android:text="Message"
             android:textColor="@color/colorText"
             android:textSize="18sp"
             android:textStyle="bold" />
 
+
+
+
+    </LinearLayout>
 
         <View
             android:layout_width="match_parent"
@@ -31,39 +45,40 @@
             android:layout_marginTop="5dp"
             android:background="@color/colorPrimary" />
 
-
         <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/auto_searchUser"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <AutoCompleteTextView
-                android:id="@+id/auto_searchUser"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:background="@drawable/background_txt_border"
-                android:drawableLeft="@drawable/usermailth"
-                android:drawablePadding="5dp"
-                android:hint="Search"
-                android:padding="5dp"
-                android:textColor="@color/colorText"
-                android:textColorHint="@color/hintColor"
-                android:textSize="14sp" />
+            android:layout_gravity="center"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/background_txt_border"
+            android:drawableLeft="@drawable/usermailth"
+            android:drawablePadding="5dp"
+            android:hint="Search"
+            android:imeOptions="actionSearch"
+            android:padding="5dp"
+            android:textColor="@color/colorText"
+            android:textColorHint="@color/hintColor"
+            android:textSize="14sp" />
 
 
             <ImageView
                 android:id="@+id/img_search"
+                app:srcCompat="@drawable/ic_search_black_24dp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_margin="5dp"
-                app:srcCompat="@drawable/ic_search_black_24dp" />
+                android:layout_height="wrap_content" />
+
 
 
         </LinearLayout>
+
 
         <ListView
             android:id="@+id/list_users"
@@ -71,9 +86,8 @@
             android:layout_height="match_parent"
             android:layout_margin="10dp"></ListView>
 
+
+
     </LinearLayout>
-
-    <include layout="@layout/toolbar_center_text"/>
-
 
 </LinearLayout>

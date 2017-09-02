@@ -35,4 +35,16 @@ public class InboxMessagesResponse extends AppModel {
             return SenderUser;
         }
     }
+
+
+
+    public ArrayList<String> getSubjects() {
+        ArrayList<String> subject = new ArrayList<>();
+
+        for (int i = 0; i < data.size(); i++) {
+            subject.add(data.get(i).getInbox().getSubject());
+        }
+
+        return subject;
+    }
 }

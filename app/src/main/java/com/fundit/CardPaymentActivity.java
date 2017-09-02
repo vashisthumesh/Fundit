@@ -102,7 +102,7 @@ public class CardPaymentActivity extends AppCompatActivity {
 
 
         preference = new AppPreference(getApplicationContext());
-        dialog = new CustomDialog(this);
+        dialog = new CustomDialog(CardPaymentActivity.this , "");
         adminAPI = ServiceGenerator.getAPIClass();
 
         try {
@@ -174,16 +174,15 @@ public class CardPaymentActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<BankCardResponse> call, Response<BankCardResponse> response) {
                 //dialog.dismiss();
+                cardName.add("Select Card");
+                cardId.add("0");
+
                 BankCardResponse cardResponse = response.body();
 
                 Log.e("getData", "-->" + new Gson().toJson(cardResponse));
 
                 if(cardResponse!=null){
                     if(cardResponse.isStatus()){
-
-                        cardName.add("Select Card");
-                        cardId.add("0");
-
                         for (int i = 0 ; i < cardResponse.getData().size() ; i++){
 
                             cardName.add(cardResponse.getData().get(i).getBcard_type().toString());

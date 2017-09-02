@@ -19,8 +19,22 @@ public class MemberListResponse extends AppModel {
 
         for (int i = 0; i < data.size(); i++) {
             names.add(data.get(i).getFirst_name() + " " + data.get(i).getLast_name());
+
         }
 
         return names;
     }
+
+    public ArrayList<String> getIds() {
+        ArrayList<String> Ids = new ArrayList<>();
+
+        for (int i = 0; i < data.size(); i++) {
+            Ids.add(data.get(i).getUser_id());
+
+        }
+
+        return Ids;
+    }
+
+
 }

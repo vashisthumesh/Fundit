@@ -26,6 +26,11 @@ public class Fundspot implements Serializable {
     String last_name="";
     String organization_id="";
     String fundspot_id = "";
+    String fundspot_percent = "";
+    String organization_percent = "";
+    String campaign_duration = "";
+    String max_limit_of_coupon_price = "";
+    String coupon_expire_day = "";
 
 
 
@@ -108,5 +113,23 @@ public class Fundspot implements Serializable {
         this.title = title;
     }
 
+    public String getFundspot_percent() {
+        return fundspot_percent;
+    }
 
+    public String getOrganization_percent() {
+        return organization_percent;
+    }
+
+    public String getCampaign_duration() {
+        return campaign_duration;
+    }
+
+    public String getMax_limit_of_coupon_price() {
+        return max_limit_of_coupon_price;
+    }
+
+    public String getCoupon_expire_day() {
+        return coupon_expire_day;
+    }
 }

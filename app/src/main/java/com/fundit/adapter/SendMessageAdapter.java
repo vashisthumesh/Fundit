@@ -8,8 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.fundit.AddMembersActivity;
 import com.fundit.FinalSendMessage;
 import com.fundit.R;
 import com.fundit.model.Member;
@@ -28,9 +30,12 @@ public class SendMessageAdapter extends BaseAdapter {
 
     LayoutInflater inflater = null;
 
-    public SendMessageAdapter(List<Member> memberList, Context context) {
+    boolean memberMode = false;
+
+    public SendMessageAdapter(List<Member> memberList, Context context , boolean memberMode) {
         this.memberList = memberList;
         this.context = context;
+        this.memberMode = memberMode;
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -58,8 +63,11 @@ public class SendMessageAdapter extends BaseAdapter {
 
         final TextView txtUserName = (TextView) view.findViewById(R.id.txt_userName);
         ImageView imgChat = (ImageView) view.findViewById(R.id.img_chat);
+        LinearLayout linearLayout = (LinearLayout) view.findViewById(R.id.layout_main);
 
         txtUserName.setText(memberList.get(position).getFirst_name() + " " + memberList.get(position).getLast_name());
+
+
 
         imgChat.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,6 +82,45 @@ public class SendMessageAdapter extends BaseAdapter {
                 context.startActivity(intent);
             }
         });
+
+
+        if (memberMode){
+            imgChat.setVisibility(View.INVISIBLE);
+
+
+            linearLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Log.e("getSelectedItemId" , "-->" + memberList.get(position).getId());
+
+                    String getSelectedMemberId = memberList.get(position).getId();
+
+                    Intent intent = new Intent(context , AddMembersActivity.class);
+                    intent.putExtra("memberId" , getSelectedMemberId);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
+                }
+            });
+
+
+
+
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
 
 
         return view;

@@ -11,15 +11,13 @@
         android:orientation="horizontal">
 
 
-
-
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/img_profilePic"
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:layout_weight="1.5"
             android:maxWidth="400dp"
-            android:padding="10dp"/>
+            android:padding="10dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -144,6 +142,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/current"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -172,6 +171,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/past"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -189,6 +189,37 @@
 
         <TextView
             android:id="@+id/txt_pastCampaigns"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            android:padding="5dp"
+            android:textColor="@color/colorText"
+            android:textSize="16sp"
+            tools:text="VT Bhangra, Godwin Robotics, Club Tennis Team, etc."/>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/layout_contact"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            android:padding="5dp"
+            android:text="Contact Info: "
+            android:textColor="@color/colorText"
+            android:textSize="16sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/txt_contct"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif"
@@ -220,5 +251,16 @@
 
 
     </LinearLayout>
+
+    <Button
+        android:visibility="gone"
+        android:layout_margin="10dp"
+        android:id="@+id/btnAdd"
+        android:text="Add Member"
+        android:textAllCaps="false"
+        android:background="@color/colorButton"
+        android:layout_gravity="center"
+        android:layout_width="150dp"
+        android:layout_height="40dp" />
 
 </LinearLayout>

@@ -55,6 +55,7 @@ public class W {
     public static final String CAMPAIGN_LIST = "Campaign/app_get_all_campaign";
 
     public static final String MEMBER_LIST = "Member/app_get_member";
+    public static final String SEARCHMEMBER_LIST = "member/app_search_member";
 
     public static final String APP_EDIT_CAMPAIGN = "Campaign/app_edit_campaign";
 
@@ -90,5 +91,6 @@ public class W {
     public static final String SEND_MESSAGES = "Inbox/App_Send_MSG";
     public static final String GET_UNREAD_INBOX_COUNT = "Inbox/App_Get_UnRead_Notification_Count";
 
+    public static final String GET_ALL_MEMBERS = "Member/app_get_member";
 
 }
