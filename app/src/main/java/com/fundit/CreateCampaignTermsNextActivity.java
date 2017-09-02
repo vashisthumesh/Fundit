@@ -130,9 +130,8 @@ public class CreateCampaignTermsNextActivity extends AppCompatActivity {
 
         }
 
-
-        edt_campaignName.setEnabled(false);
-        edt_description.setEnabled(false);
+        //edt_campaignName.setEnabled(false);
+       // edt_description.setEnabled(false);
 
         txt_couponSellerLabel = (TextView) findViewById(R.id.txt_couponSellerLabel);
         txt_couponSellerLabel.setText("Coupon redeemers");

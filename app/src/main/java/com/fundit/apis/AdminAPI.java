@@ -150,7 +150,7 @@ public interface AdminAPI {
     Call<FundspotListResponse> searchFundspot(@Field(W.KEY_USERID) String userID, @Field(W.KEY_TOKEN) String token, @Field("title") String title);
 
     @FormUrlEncoded
-    @POST(W.FUNDSPOT_SEARCH)
+    @POST(W.BROWSE_ORGANIZATION)
     Call<FundspotListResponse> searchOrganization(@Field(W.KEY_USERID) String userID, @Field(W.KEY_TOKEN) String token, @Field("title") String title);
 
     @FormUrlEncoded

@@ -67,8 +67,11 @@ public class FundspotCampaignNextActivity extends AppCompatActivity {
     ArrayList<String> selectedProducts = new ArrayList<>();
     MemberListAdapter memberListAdapter;
 
-    TextView txt_message , txt_members;
+    TextView txt_message , txt_members , txt_title , txt_fundraisertitle , txt_targetAmt ;
 
+    String maxAmount = "";
+
+    int amount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,12 +108,26 @@ public class FundspotCampaignNextActivity extends AppCompatActivity {
         txt_message.setText("Message to Organization");
 
         txt_members = (TextView) findViewById(R.id.txt_members);
+        txt_title = (TextView) findViewById(R.id.txt_title);
+        txt_fundraisertitle = (TextView) findViewById(R.id.txt_fundraisertitle);
+        txt_targetAmt = (TextView) findViewById(R.id.txt_targetAmt);
         txt_members.setText("Members to redeemer");
+
+        txt_title.setVisibility(View.GONE);
+        txt_fundraisertitle.setVisibility(View.GONE);
+        txt_targetAmt.setVisibility(View.GONE);
+        edt_campaignName.setVisibility(View.GONE);
+        edt_description.setVisibility(View.GONE);
+        edt_amount.setVisibility(View.GONE);
+
+
+
 
         chk_startDateAsPossible = (CheckBox) findViewById(R.id.chk_startDateAsPossible);
         chk_allOrgMembers = (CheckBox) findViewById(R.id.chk_allOrgMembers);
         chk_allOrgMembers.setText("All Fundspot Members");
         chk_maxAmount = (CheckBox) findViewById(R.id.chk_max_amount);
+        chk_maxAmount.setVisibility(View.GONE);
 
         auto_searchMember = (AutoCompleteTextView) findViewById(R.id.auto_searchMember);
         btn_request = (Button) findViewById(R.id.btn_request);
@@ -193,17 +210,21 @@ public class FundspotCampaignNextActivity extends AppCompatActivity {
                 String description = edt_description.getText().toString().trim();
                 String message = edt_message.getText().toString().trim();
                 String fundspotMessage = edt_msgFundspot.getText().toString().trim();
-                String maxAmount = edt_amount.getText().toString().trim();
-                int amount = Integer.parseInt(maxAmount);
+                maxAmount = edt_amount.getText().toString().trim();
+
+                if(!maxAmount.isEmpty()) {
+                    amount = Integer.parseInt(maxAmount);
+                }
+
                 List<Member> selectedMemberList = memberListAdapter.getMemberList();
 
-                if (campaignTitle.isEmpty()) {
+                /*if (campaignTitle.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter campaign title");
                 } else if (description.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter description");
                 } else if (!chk_maxAmount.isChecked() && maxAmount.isEmpty() && amount < 1) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter max amount properly");
-                } else if (!chk_allOrgMembers.isChecked() && selectedMemberList.size() == 0) {
+                }*/ if (!chk_allOrgMembers.isChecked() && selectedMemberList.size() == 0) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please select coupon sellers");
                 } else if (message.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter message");
@@ -251,7 +272,7 @@ public class FundspotCampaignNextActivity extends AppCompatActivity {
                             detailObject.put("target_amount" , "");
                         }else{
 
-                            detailObject.put("target_amount" , maxAmount);
+                            detailObject.put("target_amount" , amount);
                         }
                         campaignDetailArray.put(detailObject);
 
@@ -282,11 +303,12 @@ public class FundspotCampaignNextActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
 
-                    Log.e("Parameter", preference.getUserID() + " - " + preference.getTokenHash() + " - " + memberIDArray.toString());
-                    Log.e("Params", "-- " + campaignDetailArray.toString());
-
                     dialog.show();
                     Call<AppModel> addCampCall = adminAPI.addCampaign(preference.getUserID(), preference.getTokenHash(), campaignDetailArray.toString(), memberIDArray.toString() , selectedProductArray.toString());
+
+                    Log.e("Parameter", preference.getUserID() + " - " + preference.getTokenHash() + " - " + "-" + campaignDetailArray.toString() + "-" + memberIDArray.toString() + "-" + selectedProductArray.toString());
+
+
                     addCampCall.enqueue(new Callback<AppModel>() {
                         @Override
                         public void onResponse(Call<AppModel> call, Response<AppModel> response) {

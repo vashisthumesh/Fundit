@@ -13,6 +13,8 @@ public class AppPreference {
     SharedPreferences preferences;
     SharedPreferences.Editor editor;
 
+
+
     int messageCount = 0;
 
     public AppPreference(Context context) {
@@ -74,5 +76,13 @@ public class AppPreference {
 
     public void setMessageCount(int messageCount) {
         editor.putInt("Count" , messageCount).commit();
+    }
+
+    public boolean isSkiped() {
+        return preferences.getBoolean("skiped" , false);
+    }
+
+    public void setSkiped(boolean skiped) {
+        editor.putBoolean("skiped" , skiped).commit();
     }
 }

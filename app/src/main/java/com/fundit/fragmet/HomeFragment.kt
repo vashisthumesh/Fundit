@@ -11,6 +11,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.fundit.R
+import com.fundit.a.AppPreference
+import com.fundit.a.C
 
 /**
  * A simple [Fragment] subclass.
@@ -20,6 +22,7 @@ class HomeFragment : Fragment() {
     private var mTextMessage: TextView? = null
     internal var fragment: Fragment? = null
     internal var fm: FragmentManager? = null
+    var preferences:AppPreference?=null
 
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
@@ -72,19 +75,35 @@ class HomeFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         val view=inflater!!.inflate(R.layout.fragment_home, container, false)
 
+        preferences = AppPreference(activity)
+
         fm = activity.supportFragmentManager
         mTextMessage = view.findViewById(R.id.message) as TextView
         val navigation = view.findViewById(R.id.navigation) as BottomNavigationView
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
-        setNewsFeedInboxFragment()
 
+        if(preferences?.userRoleID.equals(C.FUNDSPOT) && preferences?.isSkiped==true){
+
+            setMyProductFragment()
+        }
+        else {
+            setNewsFeedInboxFragment()
+        }
         // Inflate the layout for this fragment
         return view
     }
 
     private fun setMyCampaignFragment() {
         fragment = MyCampaignsFragment()
+        val transaction: FragmentTransaction = fm!!.beginTransaction()
+        transaction.replace(R.id.content_home, fragment)
+        transaction.commit()
+    }
+
+    private fun setMyProductFragment(){
+
+        fragment = MyProductsFragment()
         val transaction: FragmentTransaction = fm!!.beginTransaction()
         transaction.replace(R.id.content_home, fragment)
         transaction.commit()

@@ -11,6 +11,7 @@
     <include layout="@layout/toolbar_center_text"/>
 
     <ScrollView
+        android:nestedScrollingEnabled="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -293,6 +294,7 @@
                 android:layout_height="360dp"
                 android:layout_marginTop="5dp"
                 android:background="@color/white"
+                android:nestedScrollingEnabled="true"
                 android:divider="@color/colorAccent"
                 android:dividerHeight="1dp"
                 android:scrollbars="none" />

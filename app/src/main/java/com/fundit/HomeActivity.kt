@@ -156,7 +156,6 @@ class HomeActivity : AppCompatActivity() {
             }
     }
 
-
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         //menuInflater.inflate(R.menu.navigation, menu)
         return true
@@ -346,8 +345,11 @@ class HomeActivity : AppCompatActivity() {
 
         } else if (position == 7) {
             if (preference?.userRoleID.equals(C.FUNDSPOT)) {
-                val intent = Intent(this, FundraiserSettings::class.java)
-                startActivity(intent)
+                actionTitle?.text = "Settings"
+                fragment = GeneralSettingFragment()
+                val transaction = fm?.beginTransaction()
+                transaction?.replace(R.id.content, fragment)
+                transaction?.commit()
             }
 
 
@@ -372,6 +374,7 @@ class HomeActivity : AppCompatActivity() {
         preference?.userData = ""
         preference?.memberData = ""
         preference?.messageCount = 0
+        preference?.isSkiped = false
 
         val intent = Intent(this, SignInActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
@@ -422,7 +425,6 @@ class HomeActivity : AppCompatActivity() {
             else -> System.exit(0)
         }
     }
-
 
     inner class GetNotificationCount : AsyncTask<Void, Void, String>() {
 

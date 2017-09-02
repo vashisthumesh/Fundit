@@ -60,6 +60,16 @@ public class MyProductsFragment extends Fragment {
         adminAPI = ServiceGenerator.getAPIClass();
         preference = new AppPreference(getContext());
         dialog = new CustomDialog(getActivity());
+
+        if(preference.isSkiped()){
+            Intent intent = new Intent(getContext(), AddProductActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivityForResult(intent, PRODUCT_REQUEST);
+
+        }
+
+
+
         fetchIDs();
 
         return view;

@@ -459,18 +459,22 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
     private void setupToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarCenterText);
         TextView actionTitle = (TextView) findViewById(R.id.actionTitle);
-
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
         actionTitle.setText("General Member Profile");
+        setSupportActionBar(toolbar);
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onBackPressed();
-            }
-        });
+        if(inEditModeFirstTime) {
+
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setHomeButtonEnabled(true);
+
+
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onBackPressed();
+                }
+            });
+        }
     }
 
     private void clearAssociatedOrganization() {

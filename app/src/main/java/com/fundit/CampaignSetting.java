@@ -37,7 +37,7 @@ public class CampaignSetting extends AppCompatActivity {
 
     String userid = "", title = "", state_id = "", city_id = "", address = "", zipcode = "", category = "", funsplit = "", description = "", contactInfo = "", imagePath = "";
 
-    Button btn_continue;
+    Button btn_continue , btn_skip;
 
     EditText edt_fubdraiser, edt_organization, edt_duration, edt_price, edt_total_days;
     CheckBox checkbox_indefinite, checkbox_nolimit;
@@ -88,24 +88,27 @@ public class CampaignSetting extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarCenterText);
         TextView actionTitle = (TextView) findViewById(R.id.actionTitle);
 
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
         actionTitle.setText("Campaign Setting");
+        setSupportActionBar(toolbar);
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onBackPressed();
-            }
-        });
+        if(editMode) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setHomeButtonEnabled(true);
 
 
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onBackPressed();
+                }
+            });
+        }
     }
 
     private void fetchID() {
 
         btn_continue = (Button) findViewById(R.id.btn_continue);
+        btn_skip = (Button) findViewById(R.id.btn_skip);
 
         edt_fubdraiser = (EditText) findViewById(R.id.edt_fubdraiser);
         edt_organization = (EditText) findViewById(R.id.edt_organization);
@@ -138,16 +141,36 @@ public class CampaignSetting extends AppCompatActivity {
             }
         });
 
+        if(firstTIme){
+            btn_skip.setVisibility(View.VISIBLE);
+        }
+
+
         if(editMode){
             String getMaxCoupons = member.getMax_limit_of_coupon_price();
+            String getDuration = member.getCampaign_duration();
             edt_fubdraiser.setText(member.getFundspot_percent());
             edt_organization.setText(member.getOrganization_percent());
-            edt_duration.setText(member.getCampaign_duration());
+            btn_skip.setVisibility(View.GONE);
             if(getMaxCoupons.equalsIgnoreCase("10000") || getMaxCoupons.equalsIgnoreCase("0")){
                 checkbox_nolimit.setChecked(true);
+                edt_price.setEnabled(false);
             }else {
                 edt_price.setText(getMaxCoupons);
+                edt_price.setEnabled(true);
             }
+
+            if(getDuration.equalsIgnoreCase("10000") || getDuration.equalsIgnoreCase("0")){
+                checkbox_indefinite.setChecked(true);
+                edt_duration.setEnabled(false);
+            }else {
+                edt_duration.setText(getDuration);
+                edt_duration.setEnabled(true);
+            }
+
+
+
+
             edt_total_days.setText(member.getCoupon_expire_day());
         }
         checkbox_nolimit.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -160,9 +183,61 @@ public class CampaignSetting extends AppCompatActivity {
                 }
                 if (!buttonView.isChecked()) {
                     edt_price.setEnabled(true);
+                    edt_price.setText("0");
                 }
             }
         });
+
+        btn_skip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Call<VerifyResponse> fundspotResponse = null;
+                dialog.show();
+                fundspotResponse = adminAPI.editFundsportProfile(preference.getUserID(), preference.getTokenHash(), title, state_id, city_id, address, zipcode, category, funsplit, description, contactInfo, "", "", "", "", "", ServiceGenerator.prepareFilePart("image", imagePath));
+
+                fundspotResponse.enqueue(new Callback<VerifyResponse>() {
+                    @Override
+                    public void onResponse(Call<VerifyResponse> call, Response<VerifyResponse> response) {
+                        dialog.dismiss();
+                        VerifyResponse verifyResponse = response.body();
+                        if (verifyResponse != null) {
+                            if (verifyResponse.isStatus()) {
+                                C.INSTANCE.showToast(getApplicationContext(), verifyResponse.getMessage());
+                                String memberData = new Gson().toJson(verifyResponse.getData().getMember().getFundspot());
+                                preference.setMemberData(memberData);
+                                preference.setSkiped(true);
+
+                                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intent);
+                                finish();
+                            } else {
+                                C.INSTANCE.showToast(getApplicationContext(), verifyResponse.getMessage());
+                            }
+                        } else {
+                            C.INSTANCE.defaultError(getApplicationContext());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<VerifyResponse> call, Throwable t) {
+                        dialog.dismiss();
+                        C.INSTANCE.errorToast(getApplicationContext(), t);
+                    }
+                });
+
+
+
+
+
+            }
+        });
+
+
+
+
+
         btn_continue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -182,7 +257,7 @@ public class CampaignSetting extends AppCompatActivity {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter organization percentage");
                 } else if (campaign_days.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter duration of campaign");
-                } else if (amount.isEmpty()) {
+                } else if (amount.isEmpty() && checkbox_nolimit.isChecked()==false) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter max selling limit");
                 } else if (totalDays.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter coupons expiration");
@@ -299,5 +374,14 @@ public class CampaignSetting extends AppCompatActivity {
         });
 
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (firstTIme) {
+            System.exit(0);
+        } else {
+            finish();
+        }
     }
 }

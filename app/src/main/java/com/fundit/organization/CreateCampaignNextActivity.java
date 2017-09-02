@@ -268,12 +268,12 @@ public class CreateCampaignNextActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
-                    Log.e("Parameter", preference.getUserID() + " - " + preference.getTokenHash() + " - " + memberIDArray.toString());
-                    Log.e("Params", "-- " + campaignDetailArray.toString());
-
                     dialog.show();
                     Call<AppModel> addCampCall = adminAPI.addCampaign(preference.getUserID(), preference.getTokenHash(), campaignDetailArray.toString(), memberIDArray.toString() , selectedProductArray.toString());
+
+                    Log.e("Parameter", preference.getUserID() + " - " + preference.getTokenHash() + " - " + "-" + campaignDetailArray.toString() + "-" + memberIDArray.toString() + "-" + selectedProductArray.toString());
+
+
                     addCampCall.enqueue(new Callback<AppModel>() {
                         @Override
                         public void onResponse(Call<AppModel> call, Response<AppModel> response) {

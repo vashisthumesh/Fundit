@@ -16,6 +16,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.fundit.HomeActivity;
 import com.fundit.R;
 import com.fundit.a.AppPreference;
 import com.fundit.a.C;
@@ -81,18 +82,21 @@ public class AddProductActivity extends AppCompatActivity {
     private void setupToolbar() {
         toolbar = (Toolbar) findViewById(R.id.toolbarCenterText);
         actionTitle = (TextView) findViewById(R.id.actionTitle);
-
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
         actionTitle.setText("Add Product");
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onBackPressed();
-            }
-        });
+        if(preference.isSkiped()==false) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setHomeButtonEnabled(true);
+
+
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onBackPressed();
+                }
+            });
+        }
     }
 
     private void fetchIDs() {
@@ -115,6 +119,10 @@ public class AddProductActivity extends AppCompatActivity {
         rg_productType = (RadioGroup) findViewById(R.id.rg_productType);
         btn_cancel = (Button) findViewById(R.id.btn_cancel);
         btn_addProduct = (Button) findViewById(R.id.btn_addProduct);
+
+        if(preference.isSkiped()){
+            btn_cancel.setText("Skip");
+        }
 
         if (isEditMode) {
             btn_addProduct.setText("Edit Product");
@@ -144,7 +152,20 @@ public class AddProductActivity extends AppCompatActivity {
         btn_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onBackPressed();
+
+                if(preference.isSkiped()){
+                    Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    preference.setSkiped(false);
+                    startActivity(intent);
+
+                }
+                else {
+                    onBackPressed();
+                }
+
+
+
             }
         });
 

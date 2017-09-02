@@ -134,6 +134,8 @@ public class AddMemberActivity extends AppCompatActivity {
 
         dialog.show();
         Call<MemberListResponse> memberListResponseCall = adminAPI.getMemberList(preference.getUserID(), preference.getTokenHash(), getText);
+
+        Log.e("parameters" , "-->" + preference.getUserID() + "--->" + preference.getTokenHash());
         memberListResponseCall.enqueue(new Callback<MemberListResponse>() {
             @Override
             public void onResponse(Call<MemberListResponse> call, Response<MemberListResponse> response) {

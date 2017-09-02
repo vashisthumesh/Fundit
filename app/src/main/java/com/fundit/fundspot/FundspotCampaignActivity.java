@@ -29,6 +29,7 @@ import com.fundit.apis.AdminAPI;
 import com.fundit.apis.ServiceGenerator;
 import com.fundit.apis.ServiceHandler;
 import com.fundit.helper.CustomDialog;
+import com.fundit.model.Fundspot;
 import com.fundit.model.FundspotListResponse;
 import com.fundit.model.ProductListResponse;
 import com.fundit.model.VerifyResponse;
@@ -91,6 +92,8 @@ public class FundspotCampaignActivity extends AppCompatActivity {
     String json = "";
     String selectedOrganizationID = "";
 
+    Fundspot fundspot = new Fundspot();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,6 +102,17 @@ public class FundspotCampaignActivity extends AppCompatActivity {
         adminAPI = ServiceGenerator.getAPIClass();
         preference = new AppPreference(this);
         dialog = new CustomDialog(this);
+
+
+        try {
+
+            fundspot = new Gson().fromJson(preference.getMemberData() , Fundspot.class);
+
+
+        }catch (Exception e){
+
+
+        }
 
         fetchIDs();
         setupToolbar();
@@ -229,8 +243,9 @@ public class FundspotCampaignActivity extends AppCompatActivity {
                 VerifyResponse.VerifyResponseData data = fundSpotList.get(i);
                 Intent intent = new Intent(getApplicationContext(), FundspotProductListActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.putExtra("fundspotName", data.getMember().getFundspot().getTitle());
-                intent.putExtra("fundspotID", data.getMember().getFundspot().getUser_id());
+                intent.putExtra("fundspotName",fundSpotList.get(i).getOrganization().getTitle());
+                intent.putExtra("fundspotID", preference.getUserID());
+                intent.putExtra("organizationID" , fundSpotList.get(i).getOrganization().getUser_id());
                 startActivityForResult(intent, REQUEST_PRODUCT);
             }
         });
@@ -370,7 +385,7 @@ public class FundspotCampaignActivity extends AppCompatActivity {
     }
 
     private void searchFundspot(String title) {
-        Call<FundspotListResponse> searchCall = adminAPI.searchFundspot(preference.getUserID(), preference.getTokenHash(), title);
+        Call<FundspotListResponse> searchCall = adminAPI.searchOrganization(preference.getUserID(), preference.getTokenHash(), title);
         searchCall.enqueue(new Callback<FundspotListResponse>() {
             @Override
             public void onResponse(Call<FundspotListResponse> call, Response<FundspotListResponse> response) {
@@ -380,7 +395,7 @@ public class FundspotCampaignActivity extends AppCompatActivity {
                 if (listResponse != null) {
                     if (listResponse.isStatus()) {
                         fundSpotList.addAll(listResponse.getData());
-                        fundSpotNames.addAll(listResponse.getFundSpotNames());
+                        fundSpotNames.addAll(listResponse.getOrganizationNames());
                     }
                 }
 

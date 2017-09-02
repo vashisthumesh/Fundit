@@ -256,36 +256,9 @@ public class CampaignRequestAdapter extends BaseAdapter {
 
             }
         }
-
-
-
-/*
-        if(getReviewStatus.equalsIgnoreCase("1")){
-            btn_reviewTerms.setVisibility(View.VISIBLE);
-            layout_review.setVisibility(View.GONE);
-
-        }else{
-            btn_reviewTerms.setVisibility(View.GONE);
-            layout_review.setVisibility(View.VISIBLE);
-
-        }
-
-
-        //Change this when above logic get changed
-        if(preference.getUserRoleID().equals(C.ORGANIZATION)){
-            btn_reviewTerms.setVisibility(View.GONE);
-            layout_review.setVisibility(View.VISIBLE);
-        }else{
-
-        }*/
-
         btn_reviewTerms.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*Intent intent = new Intent(activity, CreateCampaignTermsActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra("campaignItem", campaignList.get(position));
-                activity.startActivityForResult(intent,SUCCESS_CODE);*/
 
                 if (onReviewClickListener != null) {
                     onReviewClickListener.onReviewButtonClick(position);

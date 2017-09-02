@@ -20,6 +20,7 @@
             android:padding="10dp">
 
             <TextView
+                android:id="@+id/txt_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="1dp"
@@ -39,6 +40,7 @@
                 android:textColor="@color/colorTextSecondary" />
 
             <TextView
+                android:id="@+id/txt_fundraisertitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="1dp"
@@ -46,19 +48,6 @@
                 android:padding="5dp"
                 android:text="What is this fundraiser for?"
                 android:textSize="16sp" />
-
-            <EditText
-                android:id="@+id/edt_description"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:gravity="start|top"
-                android:hint="Description"
-                android:inputType="textMultiLine"
-                android:lines="4"
-                android:maxLines="4"
-                android:padding="5dp"
-                android:textColor="@color/black" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -91,6 +80,19 @@
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:visibility="gone" />
+
+            <EditText
+                android:id="@+id/edt_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:gravity="start|top"
+                android:hint="Description"
+                android:inputType="textMultiLine"
+                android:lines="4"
+                android:maxLines="4"
+                android:padding="5dp"
+                android:textColor="@color/black" />
 
             <TextView
                 android:id="@+id/txt_targetAmt"
