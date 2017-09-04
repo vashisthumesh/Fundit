@@ -52,7 +52,7 @@ public class SignInActivity extends AppCompatActivity {
 
     CustomDialog dialog;
 
-    String[] perms = {android.Manifest.permission.SYSTEM_ALERT_WINDOW, android.Manifest.permission.WRITE_EXTERNAL_STORAGE , Manifest.permission.CAMERA};
+    String[] perms = {android.Manifest.permission.SYSTEM_ALERT_WINDOW, android.Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
 
 
     AdminAPI adminAPI;
@@ -159,10 +159,10 @@ public class SignInActivity extends AppCompatActivity {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter min. 6 char password");
                 } else {
                     String firebase_token = FirebaseInstanceId.getInstance().getToken();
-                    Log.e("token " , "" + firebase_token);
+                    Log.e("token ", "" + firebase_token);
                     dialog.show();
                     Call<VerifyResponse> responseCall = adminAPI.signInUser(emailID, password, firebase_token);
-                    Log.e("parameters" , "" + emailID +"-->"+ password+"-->" + firebase_token);
+                    Log.e("parameters", "" + emailID + "-->" + password + "-->" + firebase_token);
                     responseCall.enqueue(new Callback<VerifyResponse>() {
                         @Override
                         public void onResponse(Call<VerifyResponse> call, Response<VerifyResponse> response) {
@@ -172,11 +172,9 @@ public class SignInActivity extends AppCompatActivity {
                                 if (verifyResponse.isStatus()) {
                                     String userData = new Gson().toJson(verifyResponse.getData().getUser());
                                     String memberData = "";
-
                                     Intent in;
                                     in = new Intent(SignInActivity.this, HomeActivity.class);
                                     in.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
                                     switch (verifyResponse.getData().getUser().getRole_id()) {
                                         case C.ORGANIZATION:
                                             if (verifyResponse.getData().getMember().getOrganization() == null || verifyResponse.getData().getMember().getOrganization().getId() == null || verifyResponse.getData().getMember().getOrganization().getId().isEmpty()) {
@@ -191,7 +189,7 @@ public class SignInActivity extends AppCompatActivity {
                                         case C.FUNDSPOT:
                                             if (verifyResponse.getData().getMember().getFundspot() == null || verifyResponse.getData().getMember().getFundspot().getId() == null || verifyResponse.getData().getMember().getFundspot().getId().isEmpty()) {
                                                 in = new Intent(getApplicationContext(), FundSpotProfile.class);
-                                                in.putExtra("firstTime",true);
+                                                in.putExtra("firstTime", true);
                                             } else {
                                                 memberData = new Gson().toJson(verifyResponse.getData().getMember().getFundspot());
                                             }
@@ -199,7 +197,7 @@ public class SignInActivity extends AppCompatActivity {
                                         case C.GENERAL_MEMBER:
                                             if (verifyResponse.getData().getMember() == null || verifyResponse.getData().getMember().getId() == null || verifyResponse.getData().getMember().getId().isEmpty()) {
                                                 in = new Intent(getApplicationContext(), GeneralMemberProfileActivity.class);
-                                                in.putExtra("firstTime",true);
+                                                in.putExtra("firstTime", true);
                                             } else {
                                                 memberData = new Gson().toJson(verifyResponse.getData().getMember());
                                             }
@@ -237,7 +235,7 @@ public class SignInActivity extends AppCompatActivity {
         tv_forget_password.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // showdialog();
+                // showdialog();
                 Intent in = new Intent(SignInActivity.this, ForgotPasswordActivity.class);
                 in.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(in);
