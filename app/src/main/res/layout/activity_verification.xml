@@ -33,7 +33,8 @@
             android:background="@color/white"
             android:inputType="number"
             android:padding="5dp"
-            android:hint="Please enter code"
+            android:maxLength="6"
+            android:hint="Please Enter Code*"
             android:singleLine="true"
             android:textColor="#000"
             android:textColorHint="@color/colorIcon"/>

@@ -220,8 +220,6 @@ public class OrganizationAccountActivity extends AppCompatActivity {
                             dialog.dismiss();
                             UniqueEmailResponse emailResponse=response.body();
                             if(emailResponse!=null){
-
-
                                 if(emailResponse.isStatus()){
                                     sendRegistrationData(title,firstName,lastName,email,password);
                                 }

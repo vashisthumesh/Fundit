@@ -270,6 +270,7 @@ class HomeActivity : AppCompatActivity() {
             transaction?.replace(R.id.content, fragment)
             transaction?.commit()
         } else if (position == 3) {
+            img_edit?.visibility = View.GONE
             if (preference?.userRoleID.equals(C.FUNDSPOT) || preference?.userRoleID.equals(C.ORGANIZATION)) {
                 actionTitle?.text = "Requests"
                 fragment = FRequestFragment()
@@ -285,6 +286,7 @@ class HomeActivity : AppCompatActivity() {
                 transaction?.commit()
             }
         } else if (position == 4) {
+            img_edit?.visibility = View.GONE
             if (preference?.userRoleID.equals(C.FUNDSPOT)) {
                 actionTitle?.text = "My Product"
                 fragment = MyProductsFragment()
@@ -307,7 +309,7 @@ class HomeActivity : AppCompatActivity() {
                 transaction?.commit()
             }
         } else if (position == 5) {
-
+            img_edit?.visibility = View.GONE
             if (preference?.userRoleID.equals(C.FUNDSPOT)) {
                 actionTitle?.text = "My Members"
                 fragment = MyMemberFragment()
@@ -328,6 +330,7 @@ class HomeActivity : AppCompatActivity() {
             }
 
         } else if (position == 6) {
+            img_edit?.visibility = View.GONE
             if (preference?.userRoleID.equals(C.GENERAL_MEMBER) || preference?.userRoleID.equals(C.ORGANIZATION)) {
                 actionTitle?.text = "Settings"
                 fragment = GeneralSettingFragment()
@@ -344,6 +347,7 @@ class HomeActivity : AppCompatActivity() {
             }
 
         } else if (position == 7) {
+            img_edit?.visibility = View.GONE
             if (preference?.userRoleID.equals(C.FUNDSPOT)) {
                 actionTitle?.text = "Settings"
                 fragment = GeneralSettingFragment()
@@ -354,8 +358,10 @@ class HomeActivity : AppCompatActivity() {
 
 
         } else if (position == 8) {
+            img_edit?.visibility = View.GONE
 
         } else if (position == 9) {
+            img_edit?.visibility = View.GONE
             if (preference?.userRoleID.equals(C.ORGANIZATION)|| (preference?.userRoleID.equals(C.GENERAL_MEMBER)))
                         logout()
         }else if(position==10){

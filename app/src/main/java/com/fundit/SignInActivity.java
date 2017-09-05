@@ -84,37 +84,7 @@ public class SignInActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
-        adminAPI = ServiceGenerator.getAPIClass();
-        preference = new AppPreference(this);
-        dialog = new CustomDialog(this);
 
-
-        FirebaseCrash.report(new Exception("My first Android non-fatal error"));
-        /*if (preference.isLoggedIn()) {
-
-            Intent intent = new Intent(this, HomeActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-            if (preference.getMemberData().isEmpty()) {
-                switch (preference.getUserRoleID()) {
-                    case C.ORGANIZATION:
-                        intent = new Intent(this, OrganizationProfileActivity.class);
-                        break;
-                    case C.FUNDSPOT:
-                        intent = new Intent(this, FundSpotProfile.class);
-                        break;
-                    case C.GENERAL_MEMBER:
-                        intent = new Intent(this, GeneralMemberProfileActivity.class);
-                        break;
-                }
-                intent.putExtra("firstTime", true);
-            }
-
-
-            startActivity(intent);
-            finish();
-        }
-*/
         isPermissionRequestRequired(this, perms, 1);
 
         fetchid();
@@ -136,6 +106,10 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     private void fetchid() {
+
+        adminAPI = ServiceGenerator.getAPIClass();
+        preference = new AppPreference(this);
+        dialog = new CustomDialog(this);
 
         ed_input_email = (EditText) findViewById(R.id.ed_input_email);
         ed_input_password = (EditText) findViewById(R.id.ed_input_password);
