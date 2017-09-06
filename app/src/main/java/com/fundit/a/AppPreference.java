@@ -17,6 +17,10 @@ public class AppPreference {
 
 
     int messageCount = 0;
+    int campaignCount = 0;
+    int memberCount = 0;
+    int totalCount = 0;
+
 
     public AppPreference(Context context) {
         preferences=context.getSharedPreferences(FILE_NAME,Context.MODE_PRIVATE);
@@ -87,6 +91,30 @@ public class AppPreference {
         editor.putBoolean("skiped" , skiped).commit();
     }
 
+
+    public int getCampaignCount() {
+        return preferences.getInt("campaignCount" , 0);
+    }
+
+    public void setCampaignCount(int campaignCount) {
+        editor.putInt("campaignCount" , campaignCount).commit();
+    }
+
+    public int getMemberCount() {
+        return preferences.getInt("memberCount" , 0);
+    }
+
+    public void setMemberCount(int memberCount) {
+        editor.putInt("memberCount" , memberCount).commit();
+    }
+
+    public int getTotalCount() {
+        return preferences.getInt("totalCount" , 0);
+    }
+
+    public void setTotalCount(int totalCount) {
+        editor.putInt("totalCount" , totalCount).commit();
+    }
 
     public void clearData(Context context){
         SharedPreferences.Editor prefs = context.getSharedPreferences(FILE_NAME , 0).edit();

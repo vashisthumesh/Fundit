@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"
         android:layout_width="match_parent"
@@ -16,6 +17,9 @@
         app:itemBackground="@drawable/campaign_navigation_selector_bg"
         app:itemTextColor="@drawable/campaigns_navigation_selector"
         app:menu="@menu/menu_request"/>
+
+
+
 
     <FrameLayout
         android:id="@+id/frame_request"

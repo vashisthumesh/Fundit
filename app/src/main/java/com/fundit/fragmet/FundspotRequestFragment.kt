@@ -8,7 +8,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.ListView
+import android.widget.TextView
 import com.fundit.CreateCampaignTermsActivity
 import com.fundit.R
 import com.fundit.a.AppPreference
@@ -42,6 +44,9 @@ class FundspotRequestFragment : Fragment() {
     internal var organization = Organization()
     internal var fundspot = Fundspot()
 
+    var requestLayout: LinearLayout? = null
+    var  textCount: TextView?= null
+
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -73,6 +78,21 @@ class FundspotRequestFragment : Fragment() {
 
     private fun fetchIDs() {
         listRequests = fview?.findViewById(R.id.listRequests) as ListView
+
+        textCount = fview?.findViewById(R.id.txt_count) as TextView
+        requestLayout = fview?.findViewById(R.id.layout_request) as LinearLayout
+
+        var getTotalCount = preference?.campaignCount
+
+        if(getTotalCount!! <= 0){
+            requestLayout?.visibility = View.GONE
+        }
+        else {
+            textCount?.text = getTotalCount.toString()
+        }
+
+
+
         campaignRequestAdapter = CampaignRequestAdapter(campaignList, activity,object : CampaignRequestAdapter.OnReviewClickListener{
             override fun onReviewButtonClick(position: Int) {
 

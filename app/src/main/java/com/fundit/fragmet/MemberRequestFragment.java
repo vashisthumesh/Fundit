@@ -8,7 +8,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.fundit.Bean.MemberRequestBean;
 import com.fundit.R;
@@ -57,6 +59,9 @@ public class MemberRequestFragment extends Fragment {
     Member member = new Member();
     Organization organization = new Organization();
 
+    LinearLayout layout_request;
+    TextView txt_count;
+
 
 
     public MemberRequestFragment() {
@@ -92,9 +97,23 @@ public class MemberRequestFragment extends Fragment {
 
     private void fetchIDs() {
 
+        layout_request = (LinearLayout) view.findViewById(R.id.layout_request) ;
+        txt_count = (TextView) view.findViewById(R.id.txt_count) ;
+
+
         list_mrequest = (ListView) view.findViewById(R.id.list_mrequest);
         memberRequestAdapter = new MemberRequestAdapter(requestBeen, getActivity());
         list_mrequest.setAdapter(memberRequestAdapter);
+
+        int getCount = preference.getMemberCount();
+
+        if(getCount <=0){
+            layout_request.setVisibility(View.GONE);
+        }else {
+            txt_count.setText(String.valueOf(getCount));
+        }
+
+
 
 
         new GetMemberRequests().execute();

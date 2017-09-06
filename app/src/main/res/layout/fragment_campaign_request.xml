@@ -5,6 +5,39 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <LinearLayout
+        android:id="@+id/layout_request"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="5dp"
+            android:layout_weight="1"
+            android:textColor="@color/colorText"
+            android:textSize="16sp"
+            android:text="Total Request :"
+            android:textStyle="bold"
+            android:gravity="end|center"/>
+
+        <TextView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:padding="5dp"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:text="50+"
+            android:layout_margin="5dp"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:background="@drawable/circle_count"
+            android:id="@+id/txt_count"
+            />
+
+    </LinearLayout>
+
     <ListView
         android:layout_margin="10dp"
         android:id="@+id/listRequests"

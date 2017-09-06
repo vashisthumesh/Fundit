@@ -53,6 +53,9 @@ class HomeActivity : AppCompatActivity() {
     lateinit var img_notification: ImageView
     lateinit var img_qrscan: ImageView
     var cartCount: TextView? = null
+    var memberRequest: Int = 0
+    var campaignRequestCount: Int = 0
+    var totalRequest: Int = 0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,11 +73,11 @@ class HomeActivity : AppCompatActivity() {
     private fun fillMenus() {
         when (preference?.userRoleID) {
             C.ORGANIZATION -> {
-                menuList = arrayOf("Home", "My Profile", "Requests","My Members" , "Save Cards", "Settings", "Invite Friends", "Help", "Logout")
+                menuList = arrayOf("Home", "My Profile", "Requests", "My Members", "Save Cards", "Settings", "Invite Friends", "Help", "Logout")
 
             }
             C.FUNDSPOT -> {
-                menuList = arrayOf("Home", "My Profile", "Requests", "My Product","My Members","Save Cards" ,"Settings", "Invite Friends", "Help", "Logout")
+                menuList = arrayOf("Home", "My Profile", "Requests", "My Product", "My Members", "Save Cards", "Settings", "Invite Friends", "Help", "Logout")
 
 
             }
@@ -97,10 +100,10 @@ class HomeActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
 
-        if(preference?.userRoleID.equals(C.FUNDSPOT) || preference?.userRoleID.equals(C.GENERAL_MEMBER)){
+        if (preference?.userRoleID.equals(C.FUNDSPOT) || preference?.userRoleID.equals(C.GENERAL_MEMBER)) {
 
             img_qrscan?.visibility = View.VISIBLE
-        }else {
+        } else {
 
             img_qrscan?.visibility = View.GONE
         }
@@ -151,9 +154,7 @@ class HomeActivity : AppCompatActivity() {
             }
 
 
-
-
-            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -230,7 +231,7 @@ class HomeActivity : AppCompatActivity() {
             }
         }
 
-        navigationAdapter = LeftNavigationAdapter(this, menuList)
+        navigationAdapter = LeftNavigationAdapter(this, menuList, preference)
         list_navigation?.adapter = navigationAdapter
         list_navigation?.setOnItemClickListener { _, _, i, _ -> handleClicks(i) }
 
@@ -278,7 +279,7 @@ class HomeActivity : AppCompatActivity() {
                 transaction?.replace(R.id.content, fragment)
                 transaction?.commit()
             }
-            if(preference?.userRoleID.equals(C.GENERAL_MEMBER)){
+            if (preference?.userRoleID.equals(C.GENERAL_MEMBER)) {
                 actionTitle?.text = "My Coupons"
                 fragment = CouponFragment()
                 val transaction = fm?.beginTransaction()
@@ -317,7 +318,7 @@ class HomeActivity : AppCompatActivity() {
                 transaction?.replace(R.id.content, fragment)
                 transaction?.commit()
             }
-            if(preference?.userRoleID.equals(C.GENERAL_MEMBER) || preference?.userRoleID.equals(C.ORGANIZATION)) {
+            if (preference?.userRoleID.equals(C.GENERAL_MEMBER) || preference?.userRoleID.equals(C.ORGANIZATION)) {
 
                 actionTitle?.text = "Saved Cards"
                 fragment = MyCardsFragment()
@@ -362,12 +363,12 @@ class HomeActivity : AppCompatActivity() {
 
         } else if (position == 9) {
             img_edit?.visibility = View.GONE
-            if (preference?.userRoleID.equals(C.ORGANIZATION)|| (preference?.userRoleID.equals(C.GENERAL_MEMBER)))
-                        logout()
-        }else if(position==10){
+            if (preference?.userRoleID.equals(C.ORGANIZATION) || (preference?.userRoleID.equals(C.GENERAL_MEMBER)))
+                logout()
+        } else if (position == 10) {
 
             if (preference?.userRoleID.equals(C.FUNDSPOT))
-                        logout()
+                logout()
         }
         drawerLayout?.closeDrawer(Gravity.START)
     }
@@ -390,9 +391,10 @@ class HomeActivity : AppCompatActivity() {
         finish()
     }
 
-    data class LeftNavigationAdapter(var context: Activity, var menus: Array<String>) : BaseAdapter() {
+    public class LeftNavigationAdapter(var context: Activity, var menus: Array<String>, private val preference: AppPreference?) : BaseAdapter() {
 
         var couponCount: Int = 0
+
 
         override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View? {
             val view = View.inflate(context, R.layout.layout_list_navigation, null)
@@ -402,13 +404,21 @@ class HomeActivity : AppCompatActivity() {
 
             txt_title.text = menus[position]
 
-            if (position == 2 && couponCount > 0) {
+
+            val getTotalCount = preference?.totalCount
+            Log.e("getTotalCount" , "-->" + getTotalCount)
+
+
+
+
+
+            if (position == 2) {
                 txt_count.visibility = View.VISIBLE
-                if (couponCount > 99) txt_count.text = "99+"
-                else txt_count.text = couponCount.toString()
+                txt_count.text = getTotalCount.toString()
             } else {
                 txt_count.visibility = View.GONE
             }
+
 
             return view
         }
@@ -475,15 +485,26 @@ class HomeActivity : AppCompatActivity() {
                     cartCount?.text = mainObject.getString("total_unread_msg")
                     preference?.messageCount = mainObject.getInt("total_unread_msg")
 
+                    memberRequest = mainObject.getInt("total_member_request_count")
+                    campaignRequestCount = mainObject.getInt("total_request_count")
+
+
+                    totalRequest = memberRequest + campaignRequestCount
+                    Log.e("totalCount", "--->" + totalRequest)
+
                     if (cartCount?.text.toString().equals("0")) {
                         cartCount?.visibility = View.GONE
                     } else {
                         cartCount?.visibility = View.VISIBLE
                     }
 
+                    preference?.campaignCount = campaignRequestCount
+                    preference?.memberCount = memberRequest
+                    preference?.totalCount = totalRequest
 
 
 
+                    navigationAdapter?.notifyDataSetChanged()
 
 
                     Log.e("count", "" + preference?.messageCount)

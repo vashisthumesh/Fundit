@@ -1,19 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@color/colorBackground"
-              android:orientation="vertical"
-              tools:context="com.fundit.AccountTypeActivity">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    android:orientation="vertical"
+    tools:context="com.fundit.AccountTypeActivity">
 
-    <include
-        layout="@layout/toolbar_center_text" />
+    <include layout="@layout/toolbar_center_text" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Select which type of acccount you would like to create."
+            android:textColor="@color/colorTextSecondary"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+
+    </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
+        android:layout_marginTop="30dp"
+        android:layout_weight="1"
+        android:gravity="top"
         android:orientation="vertical"
         android:paddingLeft="25dp"
         android:paddingRight="25dp">
@@ -25,7 +45,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:background="@drawable/background_bw_border"
-            android:drawableRight="@drawable/info"
+            android:drawableRight="@drawable/helpfourty"
             android:gravity="center"
             android:padding="3dp"
             android:text="Organization"
@@ -34,12 +54,24 @@
             android:textStyle="bold" />
 
         <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="3dp"
+            android:gravity="center"
+            android:text="Student club , athletic teams , special interest gropu etc"
+            android:textColor="@color/colorTextSecondary"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+
+
+        <TextView
             android:id="@+id/tv_fundspot"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:background="@drawable/background_bw_border"
-            android:drawableRight="@drawable/info"
+            android:drawableRight="@drawable/helpfourty"
             android:gravity="center"
             android:padding="3dp"
             android:text="FundSpot"
@@ -47,18 +79,43 @@
             android:textSize="16sp"
             android:textStyle="bold" />
 
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="3dp"
+            android:gravity="center"
+            android:text="Restaurants , t-shirts shops , car washes etc"
+            android:textColor="@color/colorTextSecondary"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+
+
         <TextView
             android:id="@+id/tv_General_member"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:background="@drawable/background_bw_border"
-            android:drawableRight="@drawable/info"
+            android:drawableRight="@drawable/helpfourty"
             android:gravity="center"
             android:padding="3dp"
-            android:text="General Member"
+            android:text="Individual"
             android:textColor="@color/black"
             android:textSize="16sp"
+            android:textStyle="bold" />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="3dp"
+            android:gravity="center"
+            android:text="Organization members , fundspot employees , anyone"
+            android:textColor="@color/colorTextSecondary"
+            android:textSize="13sp"
             android:textStyle="bold" />
     </LinearLayout>
 </LinearLayout>

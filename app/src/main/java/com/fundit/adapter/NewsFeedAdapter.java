@@ -77,6 +77,10 @@ public class NewsFeedAdapter extends BaseAdapter {
         Button btnPlaceOrder = (Button) view.findViewById(R.id.btn_placeOrder);
 
 
+        if(preference.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT) || preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION)){
+            btnPlaceOrder.setVisibility(View.GONE);
+        }
+
         String createdPerson = campaignLists.get(position).getUserOrganization().getTitle();
         String recievedPerson = campaignLists.get(position).getUserFundspot().getTitle();
 
