@@ -40,40 +40,48 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void run() {
 
-                if (preference.isLoggedIn()) {
 
+                if (preference.isFirstTime() == false) {
 
-                    Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), WalkThroughActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-                    if (preference.getMemberData().isEmpty()) {
-                        switch (preference.getUserRoleID()) {
-                            case C.ORGANIZATION:
-                                intent = new Intent(getApplicationContext(), OrganizationProfileActivity.class);
-                                break;
-                            case C.FUNDSPOT:
-                                intent = new Intent(getApplicationContext(), FundSpotProfile.class);
-                                break;
-                            case C.GENERAL_MEMBER:
-                                intent = new Intent(getApplicationContext(), GeneralMemberProfileActivity.class);
-                                break;
-                        }
-                        intent.putExtra("firstTime", true);
-                    }
-
-
                     startActivity(intent);
                     finish();
                 } else {
 
-                    Intent intent = new Intent(getApplicationContext(), SignInActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);
-                    finish();
+
+                    if (preference.isLoggedIn()) {
 
 
+                        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+                        if (preference.getMemberData().isEmpty()) {
+                            switch (preference.getUserRoleID()) {
+                                case C.ORGANIZATION:
+                                    intent = new Intent(getApplicationContext(), OrganizationProfileActivity.class);
+                                    break;
+                                case C.FUNDSPOT:
+                                    intent = new Intent(getApplicationContext(), FundSpotProfile.class);
+                                    break;
+                                case C.GENERAL_MEMBER:
+                                    intent = new Intent(getApplicationContext(), GeneralMemberProfileActivity.class);
+                                    break;
+                            }
+                            intent.putExtra("firstTime", true);
+                        }
+
+
+                        startActivity(intent);
+                        finish();
+                    } else {
+                        Intent intent = new Intent(getApplicationContext(), SignInActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+                        finish();
+
+                    }
                 }
-
 
             }
 

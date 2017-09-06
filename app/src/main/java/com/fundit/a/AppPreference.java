@@ -14,14 +14,6 @@ public class AppPreference {
     SharedPreferences preferences;
     SharedPreferences.Editor editor;
 
-
-
-    int messageCount = 0;
-    int campaignCount = 0;
-    int memberCount = 0;
-    int totalCount = 0;
-
-
     public AppPreference(Context context) {
         preferences=context.getSharedPreferences(FILE_NAME,Context.MODE_PRIVATE);
         editor=preferences.edit();
@@ -114,6 +106,14 @@ public class AppPreference {
 
     public void setTotalCount(int totalCount) {
         editor.putInt("totalCount" , totalCount).commit();
+    }
+
+    public boolean isFirstTime() {
+        return preferences.getBoolean("firstTime" , false);
+    }
+
+    public void setFirstTime(boolean firstTime) {
+        editor.putBoolean("firstTime" , firstTime).commit();
     }
 
     public void clearData(Context context){

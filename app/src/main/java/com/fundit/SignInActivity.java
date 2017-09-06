@@ -45,7 +45,7 @@ import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 public class SignInActivity extends AppCompatActivity {
 
     EditText ed_input_email, ed_input_password;
-    TextView tv_forget_password;
+    TextView tv_forget_password , txt_walkthrough;
     Button bt_signin, bt_Create_account;
 
     AppPreference preference;
@@ -114,6 +114,7 @@ public class SignInActivity extends AppCompatActivity {
         ed_input_email = (EditText) findViewById(R.id.ed_input_email);
         ed_input_password = (EditText) findViewById(R.id.ed_input_password);
         tv_forget_password = (TextView) findViewById(R.id.tv_forget_password);
+        txt_walkthrough = (TextView) findViewById(R.id.txt_walkthrough);
         bt_signin = (Button) findViewById(R.id.bt_signin);
         bt_Create_account = (Button) findViewById(R.id.bt_Create_account);
 
@@ -220,6 +221,15 @@ public class SignInActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent in = new Intent(SignInActivity.this, AccountTypeActivity.class);
+                in.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(in);
+            }
+        });
+
+        txt_walkthrough.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent in = new Intent(SignInActivity.this, WalkThroughActivity.class);
                 in.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(in);
             }

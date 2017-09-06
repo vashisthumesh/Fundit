@@ -64,6 +64,8 @@ dependencies {
     compile 'org.apache.httpcomponents:httpmime:4.3'
     compile 'com.alihafizji.creditcardedittext:library:+@aar'
     compile 'com.google.firebase:firebase-crash:9.2.0'
+    compile 'com.ogaclejapan.smarttablayout:library:1.2.1@aar'
+
     testCompile 'junit:junit:4.12'
 }
 repositories {
