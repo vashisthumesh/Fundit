@@ -83,7 +83,7 @@ public class ShowOrderDetailsAdapter extends BaseAdapter {
 
 
         txt_orderId.setText(orderLists.get(position).getOrder().getId());
-        txt_totalAmt.setText(orderLists.get(position).getOrder().getTotal());
+        txt_totalAmt.setText("$"+orderLists.get(position).getOrder().getTotal());
 
         String getCreatedDate = orderLists.get(position).getOrder().getCreated();
         final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd k:mm:ss");

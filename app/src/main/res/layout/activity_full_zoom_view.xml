@@ -10,6 +10,9 @@
     tools:context="com.fundit.FullZoomViewActivity">
 
 
+    <include layout="@layout/toolbar_center_text"/>
+
+
     <TextView
         android:id="@+id/productName"
         android:layout_width="match_parent"

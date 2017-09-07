@@ -118,14 +118,22 @@ public class OrderPlaceActivity extends AppCompatActivity {
         txt_addMember.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), AddMemberToCampaign.class);
+                Intent intent = new Intent(getApplicationContext(), AddMemberActivity.class);
                 intent.putExtra("campaignId", campaignList.getCampaign().getId());
                 startActivity(intent);
             }
         });
 
+        btn_placeOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                C.INSTANCE.showToast(getApplicationContext() , "Feature Coming Soon");
 
-        if(preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION)){
+            }
+        });
+
+
+        /*if(preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION)){
 
 
             btn_placeOrder.setOnClickListener(new View.OnClickListener() {
@@ -143,6 +151,6 @@ public class OrderPlaceActivity extends AppCompatActivity {
 
 
         }
-
+*/
     }
 }

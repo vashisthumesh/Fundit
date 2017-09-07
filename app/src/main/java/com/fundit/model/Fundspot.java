@@ -33,17 +33,10 @@ public class Fundspot implements Serializable {
     String coupon_expire_day = "";
 
 
-    City City = new City();
+   City City = new City();
     State State = new State();
 
 
-    public Fundspot.City getCity() {
-        return City;
-    }
-
-    public Fundspot.State getState() {
-        return State;
-    }
 
     public String getCategory_id() {
         return category_id;
@@ -141,8 +134,17 @@ public class Fundspot implements Serializable {
         return coupon_expire_day;
     }
 
+    public Fundspot.City getCity() {
+        return City;
+    }
 
-    public class City{
+    public Fundspot.State getState() {
+        return State;
+    }
+
+
+
+    public class City implements Serializable{
 
         String id = "";
         String name = "";
@@ -156,7 +158,7 @@ public class Fundspot implements Serializable {
         }
     }
 
-    public class State{
+    public class State implements Serializable{
 
         String id = "";
         String name = "";

@@ -112,7 +112,7 @@ public class OrderHistoryDetail extends AppCompatActivity {
         btnCoupon = (Button) findViewById(R.id.btn_coupon);
 
         listProducts = (ListView) findViewById(R.id.list_products);
-        productAdapter = new OrderProductAdapter(products,getApplicationContext());
+        productAdapter = new OrderProductAdapter(products,getApplicationContext() , isCouponTimes);
         listProducts.setAdapter(productAdapter);
 
         txt_recipient.setText(historyResponse.getOrder().getFirstname() + " " + historyResponse.getOrder().getLastname());
@@ -138,7 +138,7 @@ public class OrderHistoryDetail extends AppCompatActivity {
             productAdapter.notifyDataSetChanged();
         }
 
-        if(isCouponTimes){
+        /*if(isCouponTimes){
             listProducts.setVisibility(View.GONE);
             btnCoupon.setVisibility(View.GONE);
             layout_coupon.setVisibility(View.VISIBLE);
@@ -169,7 +169,7 @@ public class OrderHistoryDetail extends AppCompatActivity {
             }
 
 
-        }
+        }*/
     }
 
     private void showFullImageView(String qrscan , String productName) {

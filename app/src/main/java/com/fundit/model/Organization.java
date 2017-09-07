@@ -30,13 +30,6 @@ public class Organization implements Serializable{
     City City = new City();
     State State = new State();
 
-    public Organization.City getCity() {
-        return City;
-    }
-
-    public Organization.State getState() {
-        return State;
-    }
 
     public String getType_id() {
         return type_id;
@@ -115,7 +108,16 @@ public class Organization implements Serializable{
         return fundspot_id;
     }
 
-    public class City{
+    public Organization.City getCity() {
+        return City;
+    }
+
+    public Organization.State getState() {
+        return State;
+    }
+
+
+    public class City implements Serializable{
 
         String id = "";
         String name = "";
@@ -129,7 +131,7 @@ public class Organization implements Serializable{
         }
     }
 
-    public class State{
+    public class State implements Serializable{
 
         String id = "";
         String name = "";

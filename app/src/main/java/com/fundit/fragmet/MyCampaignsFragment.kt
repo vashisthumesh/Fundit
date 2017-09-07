@@ -49,27 +49,33 @@ class MyCampaignsFragment : Fragment() {
     }
 
     private fun setPastCampaignFragment() {
-        val fragment: Fragment = PastCampaignFragment()
-        val fm: FragmentManager = activity.supportFragmentManager
-        val transaction: FragmentTransaction = fm.beginTransaction()
-        transaction.replace(R.id.frame_container,fragment)
-        transaction.commit()
+        if(!preference?.userRoleID.equals(C.GENERAL_MEMBER)) {
+            val fragment: Fragment = PastCampaignFragment()
+            val fm: FragmentManager = activity.supportFragmentManager
+            val transaction: FragmentTransaction = fm.beginTransaction()
+            transaction.replace(R.id.frame_container, fragment)
+            transaction.commit()
+        }
     }
 
     private fun setPresentCampaignFragment() {
-        val fragment: Fragment = PresentCampaignFragment()
-        val fm: FragmentManager = activity.supportFragmentManager
-        val transaction: FragmentTransaction = fm.beginTransaction()
-        transaction.replace(R.id.frame_container,fragment)
-        transaction.commit()
+        if(!preference?.userRoleID.equals(C.GENERAL_MEMBER)) {
+            val fragment: Fragment = PresentCampaignFragment()
+            val fm: FragmentManager = activity.supportFragmentManager
+            val transaction: FragmentTransaction = fm.beginTransaction()
+            transaction.replace(R.id.frame_container, fragment)
+            transaction.commit()
+        }
     }
 
     private fun setUpcomingCampaignFragment() {
-        val fragment: Fragment = UpcomingCampaignFragment()
-        val fm: FragmentManager = activity.supportFragmentManager
-        val transaction: FragmentTransaction = fm.beginTransaction()
-        transaction.replace(R.id.frame_container,fragment)
-        transaction.commit()
+        if(!preference?.userRoleID.equals(C.GENERAL_MEMBER)) {
+            val fragment: Fragment = UpcomingCampaignFragment()
+            val fm: FragmentManager = activity.supportFragmentManager
+            val transaction: FragmentTransaction = fm.beginTransaction()
+            transaction.replace(R.id.frame_container, fragment)
+            transaction.commit()
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
@@ -99,7 +105,12 @@ class MyCampaignsFragment : Fragment() {
 
             }
         }
-        setPastCampaignFragment()
+
+
+
+
+            setPastCampaignFragment()
+
 
         return view
     }

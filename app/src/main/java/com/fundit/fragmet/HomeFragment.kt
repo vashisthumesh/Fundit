@@ -24,7 +24,7 @@ class HomeFragment : Fragment() {
     private var mTextMessage: TextView? = null
     internal var fragment: Fragment? = null
     internal var fm: FragmentManager? = null
-    var preferences:AppPreference?=null
+    var preferences: AppPreference? = null
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
@@ -75,7 +75,7 @@ class HomeFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        val view=inflater!!.inflate(R.layout.fragment_home, container, false)
+        val view = inflater!!.inflate(R.layout.fragment_home, container, false)
 
         preferences = AppPreference(activity)
 
@@ -86,11 +86,10 @@ class HomeFragment : Fragment() {
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
 
-        if(preferences?.userRoleID.equals(C.FUNDSPOT) && preferences?.isSkiped==true){
+        if (preferences?.userRoleID.equals(C.FUNDSPOT) && preferences?.isSkiped == true) {
 
             setMyProductFragment()
-        }
-        else {
+        } else {
             setNewsFeedInboxFragment()
         }
         // Inflate the layout for this fragment
@@ -98,13 +97,16 @@ class HomeFragment : Fragment() {
     }
 
     private fun setMyCampaignFragment() {
-        fragment = MyCampaignsFragment()
-        val transaction: FragmentTransaction = fm!!.beginTransaction()
-        transaction.replace(R.id.content_home, fragment)
-        transaction.commit()
+
+
+            fragment = MyCampaignsFragment()
+            val transaction: FragmentTransaction = fm!!.beginTransaction()
+            transaction.replace(R.id.content_home, fragment)
+            transaction.commit()
+
     }
 
-    private fun setMyProductFragment(){
+    private fun setMyProductFragment() {
 
         fragment = MyProductsFragment()
         val transaction: FragmentTransaction = fm!!.beginTransaction()

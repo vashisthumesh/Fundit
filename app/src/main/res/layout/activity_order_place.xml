@@ -36,7 +36,7 @@
             android:layout_height="45dp"
             android:layout_gravity="center"
             android:background="@color/colorButton"
-            android:text="Place Order"
+            android:text="Share"
             android:layout_margin="10dp"
             android:textAllCaps="false"
             android:textSize="18sp" />
