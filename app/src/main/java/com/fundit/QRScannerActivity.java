@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.PointF;
+import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,11 +15,24 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dlazaro66.qrcodereaderview.QRCodeReaderView;
+import com.fundit.a.AppPreference;
 import com.fundit.a.C;
+import com.fundit.a.W;
+import com.fundit.apis.ServiceHandler;
+import com.fundit.helper.CustomDialog;
+import com.fundit.model.Fundspot;
+import com.fundit.model.Member;
+import com.google.gson.Gson;
 import com.google.zxing.qrcode.QRCodeReader;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class QRScannerActivity extends AppCompatActivity implements QRCodeReaderView.OnQRCodeReadListener {
 
@@ -30,11 +44,41 @@ public class QRScannerActivity extends AppCompatActivity implements QRCodeReader
 
     String campaignName = "", customer_name = "", organization_name = "", fundspot_name = "", name = "", quantity = "", selling_price = "", item_total = "", expiry_date = "";
 
+    CustomDialog dialog;
+    AppPreference preference;
+
+    String user = "";
+    String role = "";
+
+    Member member = new Member();
+    Fundspot fundspot = new Fundspot();
+
+    JSONArray dataArray = new JSONArray();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qrscanner);
+
+
+
+        dialog = new CustomDialog(getApplicationContext());
+        preference = new AppPreference(getApplicationContext());
+
+
+        try{
+
+            member = new Gson().fromJson(preference.getMemberData() , Member.class);
+            fundspot = new Gson().fromJson(preference.getMemberData() , Fundspot.class);
+
+            Log.e("getDatas" , preference.getMemberData());
+
+
+        }catch (Exception e){
+
+            e.printStackTrace();
+        }
 
 
         qrCodeReaderView = (QRCodeReaderView) findViewById(R.id.qrdecoderview);
@@ -50,19 +94,42 @@ public class QRScannerActivity extends AppCompatActivity implements QRCodeReader
 
         qrCodeReaderView.setBackCamera();
 
+
+        if(preference.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)){
+
+            user = member.getFundspot().getId();
+            role = C.FUNDSPOT;
+        }
+
+        if(preference.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER)){
+
+            user = member.getId();
+            role = C.GENERAL_MEMBER;
+        }
     }
 
     @Override
     public void onQRCodeRead(String text, PointF[] points) {
 
         //resultTextView.setText("DEMO PIZZA");
+        qrCodeReaderView.stopCamera();
         Log.e("text", text);
         if (!text.contains("organization_name")) {
 
-            qrCodeReaderView.stopCamera();
+
             showSimpleDialog();
         } else {
-            qrCodeReaderView.stopCamera();
+            try {
+                JSONObject object = new JSONObject(text);
+
+                dataArray.put(object);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+            //new CheckQRDetails(user , dataArray.toString() , role);
+
             showQRData(text, points);
         }
     }
@@ -161,4 +228,53 @@ public class QRScannerActivity extends AppCompatActivity implements QRCodeReader
         super.onPause();
         qrCodeReaderView.stopCamera();
     }
+
+
+    public class CheckQRDetails extends AsyncTask<Void , Void , String>{
+
+        String userId = "";
+        String dataFromQR = "";
+        String roleId = "";
+
+        public CheckQRDetails(String userId, String dataFromQR , String roleId) {
+            this.userId = userId;
+            this.dataFromQR = dataFromQR;
+            this.roleId = roleId;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+
+            List<NameValuePair> pairs = new ArrayList<>();
+
+
+
+            pairs.add(new BasicNameValuePair(W.KEY_USERID , userId));
+            pairs.add(new BasicNameValuePair(W.KEY_ROLEID , roleId));
+            pairs.add(new BasicNameValuePair("coupon_data" , dataFromQR ));
+
+            String json = new ServiceHandler().makeServiceCall(W.BASE_URL + "Order/app_validate_coupon" , ServiceHandler.POST , pairs);
+
+            Log.e("parameters" , "-->" + pairs);
+            Log.e("json" , "-->" + json);
+
+
+
+            return json;
+        }
+
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
+            C.INSTANCE.showToast(getApplicationContext() , "success");
+
+
+
+
+        }
+    }
+
+
 }

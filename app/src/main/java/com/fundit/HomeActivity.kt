@@ -380,7 +380,7 @@ class HomeActivity : AppCompatActivity() {
         builder.setTitle("Logout Application")
         builder.setMessage("Are You sure you want to logout?")
         builder.setCancelable(false)
-        builder.setPositiveButton("Confrim") { dialogInterface, i ->
+        builder.setPositiveButton("Confirm") { dialogInterface, i ->
 
             preference?.isLoggedIn = false
             preference?.userID = ""

@@ -20,6 +20,7 @@ import com.fundit.apis.ServiceGenerator;
 import com.fundit.apis.ServiceHandler;
 import com.fundit.helper.CustomDialog;
 import com.fundit.model.Fundspot;
+import com.fundit.model.GetDataResponses;
 import com.fundit.model.Member;
 import com.fundit.model.Organization;
 import com.fundit.model.User;
@@ -46,12 +47,16 @@ public class AddMembersActivity extends AppCompatActivity {
 
     TextView txt_name, txt_address, txt_emailID, txt_organizations, txt_fundspots, txt_currentCampaigns, txt_pastCampaigns, txt_contct;
 
-    Button btnAdd;
+    Button btnAdd, btnJoin, btnFollow, btnMessage;
 
-    LinearLayout layout_contact, current, past;
+    LinearLayout layout_contact, current, past, layout_buttons;
 
 
     String memberId = "";
+    boolean profileMode = false;
+    boolean status = false;
+
+    GetDataResponses.Data getResponse;
 
 
     Fundspot fundspot = new Fundspot();
@@ -69,6 +74,9 @@ public class AddMembersActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         memberId = intent.getStringExtra("memberId");
+        getResponse = (GetDataResponses.Data) intent.getSerializableExtra("details");
+        profileMode = intent.getBooleanExtra("profileMode", false);
+        status = intent.getBooleanExtra("isStatus", false);
 
 
         try {
@@ -128,6 +136,7 @@ public class AddMembersActivity extends AppCompatActivity {
         current = (LinearLayout) findViewById(R.id.current);
         layout_contact = (LinearLayout) findViewById(R.id.layout_contact);
         past = (LinearLayout) findViewById(R.id.past);
+        layout_buttons = (LinearLayout) findViewById(R.id.layout_buttons);
 
 
         layout_contact.setVisibility(View.VISIBLE);
@@ -138,6 +147,9 @@ public class AddMembersActivity extends AppCompatActivity {
 
 
         btnAdd = (Button) findViewById(R.id.btnAdd);
+        btnJoin = (Button) findViewById(R.id.button_join);
+        btnFollow = (Button) findViewById(R.id.button_follow);
+        btnMessage = (Button) findViewById(R.id.btnmessage);
         btnAdd.setVisibility(View.VISIBLE);
 
 
@@ -151,8 +163,50 @@ public class AddMembersActivity extends AppCompatActivity {
         });
 
 
-        new GetAllDetails().execute();
+        if (profileMode) {
 
+            layout_buttons.setVisibility(View.VISIBLE);
+            btnMessage.setVisibility(View.VISIBLE);
+            txt_emailID.setVisibility(View.GONE);
+            btnAdd.setVisibility(View.GONE);
+
+            if (status) {
+
+                String imagePath = W.FILE_URL + getResponse.getFundspot().getImage();
+                Log.e("path", imagePath);
+
+                Picasso.with(getApplicationContext())
+                        .load(imagePath)
+                        .into(circleImageView);
+
+                txt_name.setText(getResponse.getFundspot().getTitle());
+                txt_address.setText(getResponse.getFundspot().getLocation());
+                txt_contct.setText(getResponse.getFundspot().getDescription());
+
+
+            } else {
+
+                String imagePath = W.FILE_URL + getResponse.getOrganization().getImage();
+                Log.e("path", imagePath);
+
+                Picasso.with(getApplicationContext())
+                        .load(imagePath)
+                        .into(circleImageView);
+
+                txt_name.setText(getResponse.getOrganization().getTitle());
+                txt_address.setText(getResponse.getOrganization().getLocation());
+                txt_contct.setText(getResponse.getOrganization().getDescription());
+
+
+            }
+
+
+        }
+
+
+        if (!profileMode) {
+            new GetAllDetails().execute();
+        }
 
     }
 
@@ -310,10 +364,10 @@ public class AddMembersActivity extends AppCompatActivity {
                     status = mainObject.getBoolean("status");
                     message = mainObject.getString("message");
 
-                    C.INSTANCE.showToast(getApplicationContext() , message);
-                    if(status){
+                    C.INSTANCE.showToast(getApplicationContext(), message);
+                    if (status) {
 
-                        Intent intent = new Intent(getApplicationContext() , HomeActivity.class);
+                        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
 

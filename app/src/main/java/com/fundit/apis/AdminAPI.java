@@ -10,6 +10,7 @@ import com.fundit.model.CampaignListResponse;
 import com.fundit.model.CategoryResponse;
 import com.fundit.model.ForgotPasswordEmailResponse;
 import com.fundit.model.FundspotListResponse;
+import com.fundit.model.GetDataResponses;
 import com.fundit.model.InboxMessagesResponse;
 import com.fundit.model.MemberListResponse;
 import com.fundit.model.MemberResponse;
@@ -251,4 +252,16 @@ public interface AdminAPI {
     @FormUrlEncoded
     @POST(W.GET_ALL_MEMBERS)
     Call<MemberListResponse> MEMBER_LIST_RESPONSE_CALL (@Field(W.KEY_USERID) String userId , @Field(W.KEY_TOKEN) String tokenHash , @Field(W.KEY_ROLEID) String roleId);
+
+
+    @FormUrlEncoded
+    @POST(W.GET_ALL_FUND)
+    Call<GetDataResponses> GET_ALL_FUNDSPOT (@Field(W.KEY_USERID) String userId , @Field("city_id") String cityId , @Field("zip_code") String zipCode);
+
+
+    @FormUrlEncoded
+    @POST(W.GET_ALL_ORG)
+    Call<GetDataResponses> GET_ALL_ORGANIZATION (@Field(W.KEY_USERID) String userId , @Field("city_id") String cityId , @Field("zip_code") String zipCode);
+
+
 }

@@ -2,6 +2,7 @@ package com.fundit.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,9 +60,8 @@ public class FundspotListAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-
-
         View view=inflater.inflate(R.layout.layout_fundspot_list_item,parent,false);
+
 
         TextView txt_Name = (TextView) view.findViewById(R.id.txt_Name);
         TextView txt_location = (TextView) view.findViewById(R.id.txt_location);
@@ -82,15 +82,17 @@ public class FundspotListAdapter extends BaseAdapter {
         else if(preference.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)){
 
             Picasso.with(activity)
-                    .load(W.FILE_URL + fundSpotList.get(position).getOrganization().getImage())
+                    .load(W.FILE_URL + fundSpotList.get(position).getFundspot().getImage())
                     .into(img_profileImage);
 
-            txt_Name.setText(fundSpotList.get(position).getOrganization().getTitle());
-            txt_location.setText(fundSpotList.get(position).getOrganization().getLocation());
+            txt_Name.setText(fundSpotList.get(position).getFundspot().getTitle());
+            txt_location.setText(fundSpotList.get(position).getFundspot().getLocation());
 
 
 
         }
+
+
         return view;
     }
 }

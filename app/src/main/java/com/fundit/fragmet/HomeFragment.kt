@@ -53,7 +53,7 @@ class HomeFragment : Fragment() {
 
 
     private fun setBrowseFragment() {
-        fragment = Fragment()
+        fragment = MyBrowseCampaign()
         val transaction: FragmentTransaction = fm!!.beginTransaction()
         transaction.replace(R.id.content_home, fragment)
         transaction.commit()
