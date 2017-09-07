@@ -3,6 +3,7 @@ package com.fundit.fragmet
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -70,17 +71,22 @@ class MyProfileFragment : Fragment() {
         when (preference?.userRoleID) {
             C.ORGANIZATION -> {
                 val memberData = Gson().fromJson(preference?.memberData, Organization::class.java)
-                txt_address?.text = memberData.location
+
+
+                Log.e("datas" , "-->" + preference?.memberData)
+
+
+                txt_address?.text = memberData.location + " , " + memberData.city.name + " , " + memberData.state.name + " - " + memberData.zip_code
                 imagePath = memberData.image
             }
             C.FUNDSPOT -> {
                 val memberData = Gson().fromJson(preference?.memberData, Fundspot::class.java)
-                txt_address?.text = memberData.location
+                txt_address?.text = memberData.location + " , " + memberData.city.name + " , " + memberData.state.name + " - " + memberData.zip_code
                 imagePath = memberData.image
             }
             C.GENERAL_MEMBER -> {
                 val memberData = Gson().fromJson(preference?.memberData, Member::class.java)
-                txt_address?.text = memberData.location
+                txt_address?.text = memberData.location + " , " + memberData.city.name + " , " + memberData.state.name + " - " + memberData.zip_code
                 imagePath = memberData.image
 
                 if(!memberData.fundspot.title.isEmpty()){

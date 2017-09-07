@@ -20,6 +20,7 @@ import com.fundit.a.W;
 import com.fundit.apis.ServiceHandler;
 import com.fundit.model.CampaignListResponse;
 import com.fundit.model.MultipleProductResponse;
+import com.google.gson.Gson;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -137,18 +138,16 @@ public class ShowCampaignAdapter extends BaseAdapter {
         /*img_forward.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                Log.e("getCampaign" , "--->" + new Gson().toJson(campaignLists.get(position)));
+
                 Intent intent = new Intent(context , OrderPlaceActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra("Details" , campaignLists.get(position));
-
-
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
             }
         });
 */
-
-
-
 
         return view;
     }

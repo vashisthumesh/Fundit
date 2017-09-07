@@ -82,11 +82,14 @@ public class ChangePasswordActivity extends AppCompatActivity {
                 if (getPassword.isEmpty()) {
 
 
-                    C.INSTANCE.showToast(getApplicationContext(), "Please enter password");
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter new password");
                     edt_password.requestFocus();
 
 
-                } else {
+                }
+                else if(getPassword.length() < 6){
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter min. 6 char password");
+                }else {
 
                     Call<AppModel> forgetpasswordcall = adminAPI.ForgetPass_change_edit(userID, getPassword);
 

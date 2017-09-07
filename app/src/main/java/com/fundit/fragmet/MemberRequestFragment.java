@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fundit.Bean.MemberRequestBean;
 import com.fundit.R;
@@ -182,8 +183,10 @@ public class MemberRequestFragment extends Fragment {
                     JSONObject mainObject = new JSONObject(s);
 
                     boolean status = true;
+                    String message = "";
 
                     status = mainObject.getBoolean("status");
+                    message = mainObject.getString("message");
                     Log.e("Letssee" , "-->" + mainObject.getBoolean("status"));
                     if (status==true) {
 
@@ -228,6 +231,10 @@ public class MemberRequestFragment extends Fragment {
 
                         }
                         memberRequestAdapter.notifyDataSetChanged();
+                    }else {
+
+                        C.INSTANCE.showToast(getActivity() , message);
+
                     }
                 }
             } catch (JSONException e) {

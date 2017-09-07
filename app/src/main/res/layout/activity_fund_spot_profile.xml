@@ -23,18 +23,18 @@
             android:padding="20dp"
             android:paddingLeft="25dp"
             android:paddingRight="25dp">
-            <TextView
+            <EditText
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:id="@+id/tv_login_email"
                 android:layout_marginLeft="1dp"
                 android:padding="5dp"
                 android:text=""
+                android:background="@color/white"
                 android:textSize="16sp" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
                 android:drawableRight="@drawable/star"
                 android:text="Title"
                 android:textSize="16sp"/>
@@ -52,7 +52,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
                 android:drawableRight="@drawable/star"
                 android:text="Location"
                 android:textSize="16sp"/>
@@ -93,7 +92,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
                 android:drawableRight="@drawable/star"
                 android:text="Zip code"
                 android:textSize="16sp"/>
@@ -123,7 +121,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
                 android:drawableRight="@drawable/star"
                 android:text="Fundraise split"
                 android:textSize="16sp"/>
@@ -141,7 +138,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
                 android:drawableRight="@drawable/star"
                 android:text="Description"
                 android:textSize="16sp"/>
@@ -161,7 +157,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
                 android:drawableRight="@drawable/star"
                 android:text="Contact Information"
                 android:textSize="16sp"/>

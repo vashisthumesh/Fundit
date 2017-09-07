@@ -22,12 +22,13 @@
             android:paddingLeft="25dp"
             android:paddingRight="25dp">
 
-            <TextView
+            <EditText
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:id="@+id/tv_login_email"
                 android:layout_marginLeft="1dp"
                 android:padding="5dp"
+                android:background="@color/white"
                 android:text=""
                 android:textSize="16sp" />
 
@@ -35,7 +36,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
                 android:drawableRight="@drawable/star"
                 android:text="First Name"
                 android:textSize="16sp"/>
@@ -53,7 +53,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
                 android:drawableRight="@drawable/star"
                 android:text="Last Name"
                 android:textSize="16sp"/>
@@ -71,7 +70,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
                 android:drawableRight="@drawable/star"
                 android:text="Location"
                 android:textSize="16sp"/>
@@ -111,7 +109,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
                 android:drawableRight="@drawable/star"
                 android:text="Zip Code"
                 android:textSize="16sp"/>
@@ -129,7 +126,6 @@
                 android:textColor="@color/black"/>
 
             <LinearLayout
-                android:visibility="gone"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -174,7 +170,6 @@
                 android:id="@+id/txt_assOrganization"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
                 android:text="Associated Organization"
                 android:textSize="16sp"/>
 
@@ -192,7 +187,6 @@
                 android:id="@+id/txt_assFundspot"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
                 android:text="Associated Fundspots"
                 android:textSize="16sp"/>
 
@@ -211,7 +205,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
                 android:drawableRight="@drawable/star"
                 android:text="Contact Information"
                 android:textSize="16sp"/>

@@ -34,7 +34,6 @@ public class OrderPlaceActivity extends AppCompatActivity {
 
         preference = new AppPreference(getApplicationContext());
 
-
         setUpToolbar();
         fetchIds();
 
@@ -82,7 +81,6 @@ public class OrderPlaceActivity extends AppCompatActivity {
             btn_placeOrder.setText("Share");
         }
 */
-
         txt_campaignName.setText(campaignList.getCampaign().getTitle());
         txt_description.setText(campaignList.getCampaign().getDescription());
         txt_goal.setText("$" + campaignList.getCampaign().getTarget_amount());
@@ -133,7 +131,6 @@ public class OrderPlaceActivity extends AppCompatActivity {
             btn_placeOrder.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                     Intent intent = new Intent(getApplicationContext() , FinalOrderPlace.class);
                     intent.putExtra("details" , campaignList);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

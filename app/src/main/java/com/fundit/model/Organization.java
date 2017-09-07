@@ -6,7 +6,7 @@ import java.io.Serializable;
  * Created by prince on 7/17/2017.
  */
 
-public class Organization implements Serializable {
+public class Organization implements Serializable{
 
     String type_id="";
     String sub_type_id="";
@@ -27,7 +27,16 @@ public class Organization implements Serializable {
     String organization_id="";
     String fundspot_id = "";
 
+    City City = new City();
+    State State = new State();
 
+    public Organization.City getCity() {
+        return City;
+    }
+
+    public Organization.State getState() {
+        return State;
+    }
 
     public String getType_id() {
         return type_id;
@@ -104,6 +113,35 @@ public class Organization implements Serializable {
 
     public String getFundspot_id() {
         return fundspot_id;
+    }
+
+    public class City{
+
+        String id = "";
+        String name = "";
+
+        public String getId() {
+            return id;
+        }
+
+        public String getName() {
+            return name;
+        }
+    }
+
+    public class State{
+
+        String id = "";
+        String name = "";
+
+        public String getId() {
+            return id;
+        }
+
+        public String getName() {
+            return name;
+        }
+
     }
 
 

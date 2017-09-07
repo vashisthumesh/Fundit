@@ -76,11 +76,12 @@ public class NewsFeedFragment extends Fragment {
                 dialog.dismiss();
                 CampaignListResponse campaignList = response.body();
                 if(campaignList!=null){
-                    C.INSTANCE.showToast(getActivity() , campaignList.getMessage());
+
                     if(campaignList.isStatus()){
                         listResponse.addAll(campaignList.getData());
                     }else {
 
+                        C.INSTANCE.showToast(getActivity() , campaignList.getMessage());
                         // FOR_NOW_ITS_NOTHING
                     }
 

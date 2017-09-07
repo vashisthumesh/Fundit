@@ -6,7 +6,9 @@ import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentTransaction
+import android.support.v4.view.MenuItemCompat
 import android.view.LayoutInflater
+import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
@@ -23,7 +25,6 @@ class HomeFragment : Fragment() {
     internal var fragment: Fragment? = null
     internal var fm: FragmentManager? = null
     var preferences:AppPreference?=null
-
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
@@ -49,6 +50,7 @@ class HomeFragment : Fragment() {
         }
         false
     }
+
 
     private fun setBrowseFragment() {
         fragment = Fragment()
@@ -79,6 +81,7 @@ class HomeFragment : Fragment() {
 
         fm = activity.supportFragmentManager
         mTextMessage = view.findViewById(R.id.message) as TextView
+
         val navigation = view.findViewById(R.id.navigation) as BottomNavigationView
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 

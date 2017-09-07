@@ -143,6 +143,7 @@ public class SignInActivity extends AppCompatActivity {
                         public void onResponse(Call<VerifyResponse> call, Response<VerifyResponse> response) {
                             dialog.dismiss();
                             VerifyResponse verifyResponse = response.body();
+                            Log.e("responseesi" , "-->" + new Gson().toJson(response.body()));
                             if (verifyResponse != null) {
                                 if (verifyResponse.isStatus()) {
                                     String userData = new Gson().toJson(verifyResponse.getData().getUser());

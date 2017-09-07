@@ -1,6 +1,7 @@
 package com.fundit
 
 import android.app.Activity
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
@@ -8,6 +9,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.util.Log
@@ -374,21 +376,42 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun logout() {
-        preference?.isLoggedIn = false
-        preference?.userID = ""
-        preference?.userRoleID = ""
-        preference?.tokenHash = ""
-        preference?.userData = ""
-        preference?.memberData = ""
-        preference?.messageCount = 0
-        preference?.isSkiped = false
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Logout Application")
+        builder.setMessage("Are You sure you want to logout?")
+        builder.setCancelable(false)
+        builder.setPositiveButton("Confrim") { dialogInterface, i ->
 
-        preference?.clearData(applicationContext)
+            preference?.isLoggedIn = false
+            preference?.userID = ""
+            preference?.userRoleID = ""
+            preference?.tokenHash = ""
+            preference?.userData = ""
+            preference?.memberData = ""
+            preference?.messageCount = 0
+            preference?.isSkiped = false
+            preference?.isFirstTime = true
 
-        val intent = Intent(this, SignInActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-        startActivity(intent)
-        finish()
+            // preference?.clearData(applicationContext)
+
+            val intent = Intent(this, SignInActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+            startActivity(intent)
+            finish()
+            dialogInterface.dismiss()
+
+        }
+        builder.setNegativeButton("Cancel"){ dialogInterface, i ->
+
+            dialogInterface.dismiss()
+
+        }
+        val bDialog = builder.create()
+        bDialog.show()
+
+
+
+
     }
 
     public class LeftNavigationAdapter(var context: Activity, var menus: Array<String>, private val preference: AppPreference?) : BaseAdapter() {
@@ -408,13 +431,13 @@ class HomeActivity : AppCompatActivity() {
             val getTotalCount = preference?.totalCount
             Log.e("getTotalCount" , "-->" + getTotalCount)
 
-
-
-
-
             if (position == 2) {
-                txt_count.visibility = View.VISIBLE
-                txt_count.text = getTotalCount.toString()
+                if(getTotalCount==0){
+                    txt_count.visibility = View.GONE
+                }else {
+                    txt_count.visibility = View.VISIBLE
+                    txt_count.text = getTotalCount.toString()
+                }
             } else {
                 txt_count.visibility = View.GONE
             }
