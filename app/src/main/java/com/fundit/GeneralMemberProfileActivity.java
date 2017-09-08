@@ -48,7 +48,7 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
     EditText edt_firstName, edt_lastName, edt_contactInfo, ed_member_address, ed_zip_code;
     ImageView img_uplode_photo, img_remove;
     Button btn_updateProfile;
-    TextView tv_login_email;
+    EditText tv_login_email;
     Spinner spn_state, spn_city, spn_assocOrganization, spn_assocFundspot;
     ArrayList<String> stateNames = new ArrayList<>();
     ArrayList<AreaItem> stateItems = new ArrayList<>();
@@ -105,7 +105,7 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
     }
 
     private void fetchIDs() {
-        tv_login_email = (TextView) findViewById(R.id.tv_login_email);
+        tv_login_email = (EditText) findViewById(R.id.tv_login_email);
 
         edt_firstName = (EditText) findViewById(R.id.edt_firstName);
         edt_lastName = (EditText) findViewById(R.id.edt_lastName);
@@ -141,7 +141,9 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
         btn_updateProfile = (Button) findViewById(R.id.btn_updateProfile);
 
 
-        tv_login_email.setText("Login with:" + user.getEmail_id());
+        tv_login_email.setText(user.getEmail_id());
+        tv_login_email.setEnabled(false);
+
         edt_firstName.setText(user.getFirst_name());
         edt_lastName.setText(user.getLast_name());
 

@@ -17,11 +17,13 @@ public class OrderPlaceActivity extends AppCompatActivity {
     CampaignListResponse.CampaignList campaignList;
 
 
-    TextView txt_campaignName, txt_description, txt_partnerLabel, txt_partnerName, txt_item, txt_goal, txt_split, txt_date, txt_members, txt_addMember, txt_message, txt_back, txt_raised, txt_targetAmt;
+    TextView txt_campaignName, txt_description, txt_partnerLabel, txt_partnerName, txt_item, txt_goal, txt_split, txt_date, txt_members, txt_addMember, txt_message, txt_back, txt_raised, txt_targetAmt  ,txt_statistic;
 
     Button btn_placeOrder;
 
     AppPreference preference;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +77,7 @@ public class OrderPlaceActivity extends AppCompatActivity {
         txt_back = (TextView) findViewById(R.id.txt_back);
         txt_raised = (TextView) findViewById(R.id.txt_raised);
         txt_targetAmt = (TextView) findViewById(R.id.txt_targetAmt);
+        txt_statistic = (TextView) findViewById(R.id.txt_statistic);
 
         btn_placeOrder = (Button) findViewById(R.id.btn_placeOrder);
         /*if (preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION)) {
@@ -132,25 +135,20 @@ public class OrderPlaceActivity extends AppCompatActivity {
             }
         });
 
+        txt_statistic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-        /*if(preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION)){
-
-
-            btn_placeOrder.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(getApplicationContext() , FinalOrderPlace.class);
-                    intent.putExtra("details" , campaignList);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
-
-                }
-            });
+                Intent intent = new Intent(getApplicationContext() , StatisticActivity.class);
+                intent.putExtra("campaignId", campaignList.getCampaign().getId());
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            }
+        });
 
 
 
 
-        }
-*/
+
     }
 }

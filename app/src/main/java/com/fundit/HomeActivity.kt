@@ -102,11 +102,9 @@ class HomeActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
 
-        if (preference?.userRoleID.equals(C.FUNDSPOT) || preference?.userRoleID.equals(C.GENERAL_MEMBER)) {
-
+        if (preference?.userRoleID.equals(C.FUNDSPOT) || (preference?.userRoleID.equals(C.GENERAL_MEMBER)&& preference?.memberData.equals("1"))) {
             img_qrscan?.visibility = View.VISIBLE
         } else {
-
             img_qrscan?.visibility = View.GONE
         }
 

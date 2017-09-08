@@ -48,7 +48,7 @@ public class FundSpotProfile extends AppCompatActivity {
     ImageView img_uplode_photo, img_remove;
     Button bt_update_profile;
 
-    TextView tv_login_email;
+    EditText tv_login_email;
 
 
     ArrayList<String> stateNames = new ArrayList<>();
@@ -121,7 +121,7 @@ public class FundSpotProfile extends AppCompatActivity {
     }
 
     private void fetchid() {
-        tv_login_email = (TextView) findViewById(R.id.tv_login_email);
+        tv_login_email = (EditText) findViewById(R.id.tv_login_email);
 
 
         ed_fund_title = (EditText) findViewById(R.id.ed_fund_title);
@@ -131,10 +131,11 @@ public class FundSpotProfile extends AppCompatActivity {
         ed_fund_description = (EditText) findViewById(R.id.ed_fund_description);
         ed_fund_contact_info = (EditText) findViewById(R.id.ed_fund_contact_info);
 
-        tv_login_email = (TextView) findViewById(R.id.tv_login_email);
 
 
-        tv_login_email.setText("Login with:" + user.getEmail_id());
+
+        tv_login_email.setText(user.getEmail_id());
+        tv_login_email.setEnabled(false);
         sp_state = (Spinner) findViewById(R.id.sp_state);
         sp_city = (Spinner) findViewById(R.id.sp_city);
         sp_category = (Spinner) findViewById(R.id.sp_category);

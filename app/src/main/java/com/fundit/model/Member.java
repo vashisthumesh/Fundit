@@ -22,6 +22,8 @@ public class Member implements Serializable {
     String last_name="";
     String organization_id="";
     String fundspot_id = "";
+    String redeemer = "";
+
 
 
     Fundspot Fundspot = new Fundspot();
@@ -90,6 +92,9 @@ public class Member implements Serializable {
         return fundspot_id;
     }
 
+    public String getRedeemer() {
+        return redeemer;
+    }
 
     public com.fundit.model.Fundspot getFundspot() {
         return Fundspot;
