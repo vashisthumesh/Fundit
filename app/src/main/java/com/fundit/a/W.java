@@ -96,6 +96,7 @@ public class W {
 
     public static final String GET_ALL_ORG = "Organization/app_browse_organization";
     public static final String GET_ALL_FUND = "Fundspot/app_browse_fundspot";
+    public static final String MESSGESUSERLIST = "Member/app_get_general_member";
 
 
 

@@ -264,4 +264,11 @@ public interface AdminAPI {
     Call<GetDataResponses> GET_ALL_ORGANIZATION (@Field(W.KEY_USERID) String userId , @Field("city_id") String cityId , @Field("zip_code") String zipCode);
 
 
+    @FormUrlEncoded
+    @POST(W.MESSGESUSERLIST)
+    Call<MemberListResponse> getMembersMessageTime(@Field(W.KEY_USERID) String userID,  @Field("title") String title);
+
+
+
+
 }

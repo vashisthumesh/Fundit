@@ -118,7 +118,7 @@ public class OrderPlaceActivity extends AppCompatActivity {
         txt_addMember.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), AddMemberActivity.class);
+                Intent intent = new Intent(getApplicationContext(), AddMemberToCampaign.class);
                 intent.putExtra("campaignId", campaignList.getCampaign().getId());
                 startActivity(intent);
             }

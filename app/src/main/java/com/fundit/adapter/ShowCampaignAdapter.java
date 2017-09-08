@@ -135,7 +135,7 @@ public class ShowCampaignAdapter extends BaseAdapter {
         }
 
 
-       /* img_forward.setOnClickListener(new View.OnClickListener() {
+        img_forward.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -147,7 +147,7 @@ public class ShowCampaignAdapter extends BaseAdapter {
                 context.startActivity(intent);
             }
         });
-*/
+
 
         return view;
     }

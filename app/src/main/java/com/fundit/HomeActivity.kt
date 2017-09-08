@@ -461,10 +461,17 @@ class HomeActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        when (isDrawerOpen) {
+        /*when (isDrawerOpen) {
             true -> drawerLayout?.closeDrawer(Gravity.START)
             else -> System.exit(0)
-        }
+        }*/
+
+        if(isDrawerOpen)
+            drawerLayout?.closeDrawer(Gravity.START)
+        else
+            System.exit(0)
+
+
     }
 
     inner class GetNotificationCount : AsyncTask<Void, Void, String>() {

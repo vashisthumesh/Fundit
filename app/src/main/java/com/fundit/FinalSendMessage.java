@@ -112,6 +112,7 @@ public class FinalSendMessage extends AppCompatActivity {
                             if(model.isStatus()){
                                 C.INSTANCE.showToast(getApplicationContext() , model.getMessage());
                                 Intent intent = new Intent(getApplicationContext() , HomeActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(intent);
                             }else {
                                 C.INSTANCE.showToast(getApplicationContext() , model.getMessage());

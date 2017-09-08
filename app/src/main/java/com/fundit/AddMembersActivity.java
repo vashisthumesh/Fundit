@@ -49,10 +49,12 @@ public class AddMembersActivity extends AppCompatActivity {
 
     Button btnAdd, btnJoin, btnFollow, btnMessage;
 
-    LinearLayout layout_contact, current, past, layout_buttons;
+    LinearLayout layout_contact, current, past, layout_buttons , layout_mail;
 
 
     String memberId = "";
+    String campaignId = "";
+    String roleIdss = "";
     boolean profileMode = false;
     boolean status = false;
 
@@ -61,6 +63,7 @@ public class AddMembersActivity extends AppCompatActivity {
 
     Fundspot fundspot = new Fundspot();
     Organization organization = new Organization();
+    Member member = new Member();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +77,7 @@ public class AddMembersActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         memberId = intent.getStringExtra("memberId");
+        campaignId = intent.getStringExtra("campaignId");
         getResponse = (GetDataResponses.Data) intent.getSerializableExtra("details");
         profileMode = intent.getBooleanExtra("profileMode", false);
         status = intent.getBooleanExtra("isStatus", false);
@@ -82,6 +86,7 @@ public class AddMembersActivity extends AppCompatActivity {
         try {
             fundspot = new Gson().fromJson(preference.getMemberData(), Fundspot.class);
             organization = new Gson().fromJson(preference.getMemberData(), Organization.class);
+            member = new Gson().fromJson(preference.getMemberData(), Member.class);
             Log.e("userData", preference.getUserData());
         } catch (Exception e) {
             Log.e("Exception", e.getMessage());
@@ -135,6 +140,7 @@ public class AddMembersActivity extends AppCompatActivity {
 
         current = (LinearLayout) findViewById(R.id.current);
         layout_contact = (LinearLayout) findViewById(R.id.layout_contact);
+        layout_mail = (LinearLayout) findViewById(R.id.layout_mail);
         past = (LinearLayout) findViewById(R.id.past);
         layout_buttons = (LinearLayout) findViewById(R.id.layout_buttons);
 
@@ -157,7 +163,16 @@ public class AddMembersActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                new AddMember().execute();
+                if(!campaignId.isEmpty()){
+
+                    new CampaignAddMember().execute();
+                }
+                else {
+
+                    new AddMember().execute();
+                }
+
+
 
             }
         });
@@ -168,10 +183,10 @@ public class AddMembersActivity extends AppCompatActivity {
             layout_buttons.setVisibility(View.VISIBLE);
             btnMessage.setVisibility(View.VISIBLE);
             txt_emailID.setVisibility(View.GONE);
+            layout_mail.setVisibility(View.GONE);
             btnAdd.setVisibility(View.GONE);
 
             if (status) {
-
                 String imagePath = W.FILE_URL + getResponse.getFundspot().getImage();
                 Log.e("path", imagePath);
 
@@ -185,7 +200,6 @@ public class AddMembersActivity extends AppCompatActivity {
 
 
             } else {
-
                 String imagePath = W.FILE_URL + getResponse.getOrganization().getImage();
                 Log.e("path", imagePath);
 
@@ -199,6 +213,54 @@ public class AddMembersActivity extends AppCompatActivity {
 
 
             }
+            if(preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION) || preference.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)){
+                btnJoin.setVisibility(View.GONE);
+            }
+
+
+            btnJoin.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String selectedUsersId = "";
+                    String membersssIdss = "";
+                    if(status){
+                        selectedUsersId = getResponse.getFundspot().getUser_id();
+                    }
+                    else {
+                        selectedUsersId = getResponse.getOrganization().getUser_id();
+                    }
+
+
+                    if(preference.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)){
+                        membersssIdss = fundspot.getId();
+                    }
+                    if(preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION)){
+                        membersssIdss = organization.getId();
+                    }
+                    if(preference.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER)){
+                        membersssIdss = member.getId();
+                    }
+
+
+
+                    new JoinMember(membersssIdss , selectedUsersId).execute();
+
+
+                }
+            });
+
+
+            btnMessage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getApplicationContext() , FinalSendMessage.class);
+                    intent.putExtra("name" , getResponse.getUser().getTitle());
+                    intent.putExtra("id" , getResponse.getUser().getId());
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                }
+            });
+
 
 
         }
@@ -337,6 +399,178 @@ public class AddMembersActivity extends AppCompatActivity {
             }
 
             String json = new ServiceHandler().makeServiceCall(W.BASE_URL + "Member/app_add_member", ServiceHandler.POST, pairs);
+
+            Log.e("parameters", "-->" + pairs);
+            Log.e("json", json);
+            return json;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            dialog.dismiss();
+
+
+            if (s.isEmpty()) {
+
+                C.INSTANCE.defaultError(getApplicationContext());
+            } else {
+
+                try {
+                    JSONObject mainObject = new JSONObject(s);
+
+                    boolean status = false;
+                    String message = "";
+
+
+                    status = mainObject.getBoolean("status");
+                    message = mainObject.getString("message");
+
+                    C.INSTANCE.showToast(getApplicationContext(), message);
+                    if (status) {
+
+                        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+    }
+
+
+    public class CampaignAddMember extends AsyncTask<Void, Void, String> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            try {
+                dialog.setCancelable(false);
+                dialog.show();
+
+
+            } catch (Exception e) {
+
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+
+            List<NameValuePair> pairs = new ArrayList<>();
+
+            pairs.add(new BasicNameValuePair(W.KEY_USERID, preference.getUserID()));
+            pairs.add(new BasicNameValuePair("member_id", memberId));
+            pairs.add(new BasicNameValuePair("campaign_id", campaignId));
+            pairs.add(new BasicNameValuePair(W.KEY_ROLEID, preference.getUserRoleID()));
+
+
+
+
+
+            String json = new ServiceHandler().makeServiceCall(W.BASE_URL + W.ADD_MEMBER_TO_CAMPAIGN, ServiceHandler.POST, pairs);
+
+            Log.e("parameters", "-->" + pairs);
+            Log.e("json", json);
+            return json;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            dialog.dismiss();
+
+
+            if (s.isEmpty()) {
+
+                C.INSTANCE.defaultError(getApplicationContext());
+            } else {
+
+                try {
+                    JSONObject mainObject = new JSONObject(s);
+
+                    boolean status = false;
+                    String message = "";
+
+
+                    status = mainObject.getBoolean("status");
+                    message = mainObject.getString("message");
+
+                    C.INSTANCE.showToast(getApplicationContext(), message);
+                    if (status) {
+
+                        Intent intent = new Intent(getApplicationContext(), AddMemberToCampaign.class);
+                        intent.putExtra("campaignId" , campaignId);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+    }
+
+
+    public class JoinMember extends AsyncTask<Void, Void, String> {
+
+        String member = "";
+        String selectedUserIdss = "";
+
+
+        public JoinMember(String member, String selectedUserIdss) {
+            this.member = member;
+            this.selectedUserIdss = selectedUserIdss;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            try {
+                dialog.setCancelable(false);
+                dialog.show();
+
+
+            } catch (Exception e) {
+
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+
+            List<NameValuePair> pairs = new ArrayList<>();
+
+            pairs.add(new BasicNameValuePair(W.KEY_USERID, preference.getUserID()));
+            pairs.add(new BasicNameValuePair("member_id", member));
+            pairs.add(new BasicNameValuePair(W.KEY_ROLEID, preference.getUserRoleID()));
+            pairs.add(new BasicNameValuePair(W.KEY_TOKEN, preference.getTokenHash()));
+
+            if(status){
+
+                pairs.add(new BasicNameValuePair("fundspot_id", selectedUserIdss));
+            }
+
+            else {
+
+                pairs.add(new BasicNameValuePair("organization_id", selectedUserIdss));
+
+            }
+
+
+
+            String json = new ServiceHandler().makeServiceCall(W.BASE_URL + "Member/app_request_join_member", ServiceHandler.POST, pairs);
 
             Log.e("parameters", "-->" + pairs);
             Log.e("json", json);

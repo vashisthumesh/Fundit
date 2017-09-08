@@ -98,7 +98,7 @@ public class SendMessageActivity extends AppCompatActivity {
 
 
         dialog.show();
-        Call<MemberListResponse> memberListResponseCall = adminAPI.getAllMemberList(preference.getUserID(), preference.getTokenHash(), preference.getUserRoleID(), preference.getUserID(), null);
+        Call<MemberListResponse> memberListResponseCall = adminAPI.getMembersMessageTime(preference.getUserID(),"");
         memberListResponseCall.enqueue(new Callback<MemberListResponse>() {
             @Override
             public void onResponse(Call<MemberListResponse> call, Response<MemberListResponse> response) {

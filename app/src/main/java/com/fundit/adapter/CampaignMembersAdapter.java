@@ -87,7 +87,7 @@ public class CampaignMembersAdapter extends BaseAdapter {
                 Log.e("memberId" , memberId);
 
 
-                RemoveUserFromCampaign(memberId);
+                RemoveUserFromCampaign(memberId , position);
             }
         });
 
@@ -99,7 +99,7 @@ public class CampaignMembersAdapter extends BaseAdapter {
         return view;
     }
 
-    private void RemoveUserFromCampaign(String memberId) {
+    private void RemoveUserFromCampaign(final String memberId , final int position) {
 
         Log.e("campaignId" , campaignId);
 
@@ -115,9 +115,12 @@ public class CampaignMembersAdapter extends BaseAdapter {
                 dialog.dismiss();
                 AppModel appModel = response.body();
                 if(appModel!=null){
+                    if(appModel.isStatus()) {
+                        C.INSTANCE.showToast(context, appModel.getMessage());
+                        memberResponses.remove(position);
+                        notifyDataSetChanged();
 
-                    C.INSTANCE.showToast(context , appModel.getMessage());
-
+                    }
                 }else {
                     C.INSTANCE.defaultError(context);
                 }

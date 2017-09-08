@@ -87,7 +87,7 @@ public class NewsFeedAdapter extends BaseAdapter {
 
         for(int i=0 ; i<campaignLists.get(position).getCampaignProduct().size();i++){
 
-            productsNames.add(campaignLists.get(position).getCampaignProduct().get(i).getName() + " for " + campaignLists.get(position).getCampaignProduct().get(i).getPrice());
+            productsNames.add(campaignLists.get(position).getCampaignProduct().get(i).getName() + " for $ " + campaignLists.get(position).getCampaignProduct().get(i).getPrice());
             // productPrice.add(campaignLists.get(position).getCampaignProduct().get(i).getPrice());
         }
 
