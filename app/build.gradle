@@ -44,6 +44,7 @@ dependencies {
 
 
 
+
     compile 'com.android.support:appcompat-v7:25.0.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha9'
     compile 'com.android.support:design:25.0.1'
@@ -65,7 +66,6 @@ dependencies {
     compile 'com.alihafizji.creditcardedittext:library:+@aar'
     compile 'com.google.firebase:firebase-crash:9.2.0'
     compile 'com.ogaclejapan.smarttablayout:library:1.2.1@aar'
-
     testCompile 'junit:junit:4.12'
 }
 repositories {

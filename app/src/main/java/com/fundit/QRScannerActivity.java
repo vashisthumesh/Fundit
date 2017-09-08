@@ -97,8 +97,11 @@ public class QRScannerActivity extends AppCompatActivity implements QRCodeReader
 
         if(preference.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)){
 
-            user = member.getFundspot().getId();
+            user = fundspot.getUser_id();
             role = C.FUNDSPOT;
+
+            Log.e("id" , "-->" + fundspot.getId());
+            Log.e("userId" , "--->" + fundspot.getUser_id());
         }
 
         if(preference.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER)){
@@ -119,18 +122,35 @@ public class QRScannerActivity extends AppCompatActivity implements QRCodeReader
 
             showSimpleDialog();
         } else {
-            try {
-                JSONObject object = new JSONObject(text);
 
-                dataArray.put(object);
+            try {
+                JSONObject mainObject = new JSONObject(text);
+
+                campaignName = mainObject.getString("campaign_name");
+                customer_name = mainObject.getString("customer_name");
+                organization_name = mainObject.getString("organization_name");
+                fundspot_name = mainObject.getString("fundspot_name");
+                name = mainObject.getString("name");
+                quantity = mainObject.getString("quantity");
+                selling_price = mainObject.getString("selling_price");
+                item_total = mainObject.getString("item_total");
+                expiry_date = mainObject.getString("expiry_date");
+
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
+            Intent intent = new Intent(QRScannerActivity.this , RedeemActivity.class);
+            intent.putExtra("text" , text);
+            intent.putExtra("userId" , user);
+            intent.putExtra("roleId" , role);
+            intent.putExtra("quantity" , quantity);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
 
-            //new CheckQRDetails(user , dataArray.toString() , role);
 
-            showQRData(text, points);
+
         }
     }
 

@@ -196,7 +196,8 @@
             android:name=".AddMembersActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".WalkThroughActivity"></activity>
+        <activity android:name=".WalkThroughActivity" />
+        <activity android:name=".RedeemActivity"></activity>
     </application>
 
 </manifest>
