@@ -139,42 +139,50 @@ public class MyBrowseCampaign extends Fragment {
 
 
         }
-
-
-
-
         rg_type.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
-
-
                 if(checkedId == R.id.rb_fundspot){
 
                     fundspotSelected = true;
                     getAllFundspot();
 
                 }
-
-
                 if(checkedId == R.id.rb_org){
 
                     fundspotSelected = false;
                     getAllOrganization();
 
                 }
-
-
-
-
             }
         });
+        btn_search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                String getSearchTermed = auto_searchUser.getText().toString();
+                String getCityName = txt_city.getText().toString().trim();
+                String getZipCode = txt_zip.getText().toString().trim();
 
+                int getSelectedId = 0;
 
+                if(rg_type.getCheckedRadioButtonId()==R.id.rb_fundspot)
+                    getSelectedId = R.id.rb_fundspot;
+                if(rg_type.getCheckedRadioButtonId()==R.id.rb_organization)
+                    getSelectedId = R.id.rb_organization;
 
-
-
-
+                if(getSearchTermed.isEmpty())
+                    C.INSTANCE.showToast(getActivity() , "Please enter name");
+                else if(getSearchTermed.length() <3)
+                    C.INSTANCE.showToast(getActivity() , "Please enter mininum 3 keuwords");
+                else if(getCityName.isEmpty())
+                    C.INSTANCE.showToast(getActivity() , "Please enter city");
+                else if(getZipCode.isEmpty())
+                    C.INSTANCE.showToast(getActivity() , "Please enter zipcode");
+                else if(getSelectedId==0)
+                    C.INSTANCE.showToast(getActivity() , "Please select organization or fundspot");
+            }
+        });
     }
 
     private void getAllFundspot() {
@@ -215,13 +223,6 @@ public class MyBrowseCampaign extends Fragment {
             }
 
         });
-
-
-
-
-
-
-
     }
 
 
