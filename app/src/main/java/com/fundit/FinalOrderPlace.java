@@ -191,7 +191,7 @@ public class FinalOrderPlace extends AppCompatActivity  {
 
         }
 
-        Log.e("testKeval" , "--->test");
+        Log.e("testKeval" , "--->test" +C.FUNDSPOT);
         if (preference.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)) {
             txt_partnerTitle.setText("Organization :");
             if (campaignList.getCampaign().getReview_status().equals(1)) {
