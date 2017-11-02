@@ -353,11 +353,12 @@ public class AddMembersActivity extends AppCompatActivity {
                 dialog.dismiss();
                 AppModel appModel = response.body();
                 if (appModel != null) {
+                    C.INSTANCE.showToast(getApplicationContext(), appModel.getMessage());
                     if (appModel.isStatus()) {
                         btnJoin.setEnabled(false);
-                    } else {
-                        C.INSTANCE.showToast(getApplicationContext(), appModel.getMessage());
                     }
+
+
                 } else {
                     C.INSTANCE.defaultError(getApplicationContext());
                 }
@@ -372,7 +373,6 @@ public class AddMembersActivity extends AppCompatActivity {
 
 
     }
-
 
     public class GetAllDetails extends AsyncTask<Void, Void, String> {
 
@@ -462,7 +462,6 @@ public class AddMembersActivity extends AppCompatActivity {
         }
     }
 
-
     public class AddMember extends AsyncTask<Void, Void, String> {
         @Override
         protected void onPreExecute() {
@@ -545,7 +544,6 @@ public class AddMembersActivity extends AppCompatActivity {
         }
     }
 
-
     public class CampaignAddMember extends AsyncTask<Void, Void, String> {
         @Override
         protected void onPreExecute() {
@@ -618,7 +616,6 @@ public class AddMembersActivity extends AppCompatActivity {
 
         }
     }
-
 
     public class JoinMember extends AsyncTask<Void, Void, String> {
 
