@@ -178,6 +178,12 @@ public class FinalOrderPlace extends AppCompatActivity  {
         serch_user= (ImageView) findViewById(R.id.serch_user);
 
 
+        edt_name.setEnabled(false);
+        edt_email.setEnabled(false);
+        edt_confirm_email.setEnabled(false);
+        txt_targetAmt.setEnabled(false);
+
+
 
 //        txt_fundraiser.setText("Fundriser : " + campaignList.getCampaign().getTitle());
       //  txt_targetAmt.setText(" $" +String.format("%.2f", Double.parseDouble( campaignList.getCampaign().getTarget_amount())));
@@ -229,6 +235,7 @@ public class FinalOrderPlace extends AppCompatActivity  {
 
 
                 me_data();
+
                 tabLayout.addTab(tabLayout.newTab().setText("Me"));
                 tabLayout.addTab(tabLayout.newTab().setText("Fundit User"));
                 tabLayout.addTab(tabLayout.newTab().setText("other"));
@@ -436,6 +443,10 @@ public class FinalOrderPlace extends AppCompatActivity  {
 
     public  void  me_data()
     {
+        edt_name.setEnabled(false);
+        edt_email.setEnabled(false);
+        edt_confirm_email.setEnabled(false);
+        txt_targetAmt.setEnabled(false);
         serch_user.setVisibility(View.GONE);
         radio_cashPayment.setVisibility(View.GONE);
         edt_name.setText(user.getTitle());
@@ -447,9 +458,18 @@ public class FinalOrderPlace extends AppCompatActivity  {
     }
     public  void fundit_user()
     {
+
+        edt_name.setEnabled(false);
+        edt_email.setEnabled(false);
+        edt_confirm_email.setEnabled(false);
+        txt_targetAmt.setEnabled(false);
         radio_cashPayment.setVisibility(View.VISIBLE);
         radio_cashPayment.setText("Send Request To");
         serch_user.setVisibility(View.VISIBLE);
+        edt_name.setText("");
+        edt_email.setText("");
+        edt_confirm_email.setText("");
+        txt_targetAmt.setText("$0.00");
 
 
         serch_user.setOnClickListener(new View.OnClickListener() {
@@ -479,8 +499,8 @@ public class FinalOrderPlace extends AppCompatActivity  {
             people = (GetSearchPeople.People) data.getSerializableExtra("id");
 
             edt_name.setText(people.getFirst_name()+""+people.getLast_name());
-            edt_email.setText(people.getContact_info_email());
-            edt_confirm_email.setText(people.getContact_info_email());
+            edt_email.setText(people.getEmail_id());
+            edt_confirm_email.setText(people.getEmail_id());
         }
     }
 
@@ -491,6 +511,10 @@ public class FinalOrderPlace extends AppCompatActivity  {
 
     public  void other_user()
     {
+        edt_name.setEnabled(true);
+        edt_email.setEnabled(true);
+        edt_confirm_email.setEnabled(true);
+        txt_targetAmt.setEnabled(false);
         radio_cashPayment.setVisibility(View.GONE);
         serch_user.setVisibility(View.GONE);
     }

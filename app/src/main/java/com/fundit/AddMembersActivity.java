@@ -50,7 +50,7 @@ public class AddMembersActivity extends AppCompatActivity {
 
     Button btnAdd, btnJoin, btnFollow, btnMessage;
 
-    LinearLayout layout_contact, current, past, layout_buttons , layout_mail;
+    LinearLayout layout_contact, current, past, layout_buttons , layout_mail,layout_category,layout_fundraiser,layout_type,layout_description,layout_org,layout_fun;
 
 
     String memberId = "";
@@ -136,6 +136,18 @@ public class AddMembersActivity extends AppCompatActivity {
         txt_con_info_mobile= (TextView) findViewById(R.id.txt_con_info_mobile);
         layout_contact_info_email= (LinearLayout) findViewById(R.id.layout_contact_info_email);
         layout_contact_info_mobile= (LinearLayout) findViewById(R.id.layout_contact_info_mobile);
+        layout_fundraiser= (LinearLayout) findViewById(R.id.layout_fundraiser);
+        layout_type= (LinearLayout) findViewById(R.id.layout_type);
+        layout_description= (LinearLayout) findViewById(R.id.layout_description);
+        layout_org= (LinearLayout) findViewById(R.id.layout_org);
+        layout_fun= (LinearLayout) findViewById(R.id.layout_fun);
+
+        layout_org.setVisibility(View.GONE);
+        layout_description.setVisibility(View.GONE);
+        layout_fun.setVisibility(View.GONE);
+        layout_type.setVisibility(View.GONE);
+        layout_fundraiser.setVisibility(View.GONE);
+
 
 
         txt_currentCampaigns.setVisibility(View.GONE);
@@ -147,10 +159,12 @@ public class AddMembersActivity extends AppCompatActivity {
         current = (LinearLayout) findViewById(R.id.current);
         layout_contact = (LinearLayout) findViewById(R.id.layout_contact);
         layout_mail = (LinearLayout) findViewById(R.id.layout_mail);
+        layout_category= (LinearLayout) findViewById(R.id.layout_category);
         past = (LinearLayout) findViewById(R.id.past);
         layout_buttons = (LinearLayout) findViewById(R.id.layout_buttons);
 
 
+        layout_category.setVisibility(View.GONE);
         layout_contact.setVisibility(View.VISIBLE);
         current.setVisibility(View.GONE);
         past.setVisibility(View.GONE);

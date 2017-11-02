@@ -119,7 +119,7 @@ public class ShowCampaignAdapter extends BaseAdapter {
 
 
 
-        txt_itemLabel.setText("Item :");
+        txt_itemLabel.setText("Product :");
         txt_dateLabel.setText("Dates :");
         txt_mainTitle.setText(campaignLists.get(position).getCampaign().getTitle());
 

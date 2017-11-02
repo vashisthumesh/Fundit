@@ -106,6 +106,7 @@ public class OrderProductAdapter extends BaseAdapter {
       final String  productName = orderedProductses.get(position).getName();
         Double x1=Double.parseDouble(orderedProductses.get(position).getItem_total());
         Double x2=Double.parseDouble(orderedProductses.get(position).getSelling_price());
+        Double x3=Double.parseDouble(orderedProductses.get(position).getLeft_money());
 
        final String price=" $ " + String.format("%.2f", x2);
         //orderedProductses.get(position).getSelling_price();
@@ -114,10 +115,12 @@ public class OrderProductAdapter extends BaseAdapter {
         //orderedProductses.get(position).getItem_total();
         final  String remain_qty=orderedProductses.get(position).getLeft_qty();
 
+        final  String remain_money=String.format("%.2f",x3);
 
 
 
-        String type_id=orderedProductses.get(position).getType_id();
+
+        final String type_id=orderedProductses.get(position).getType_id();
 
 
 
@@ -162,7 +165,7 @@ public class OrderProductAdapter extends BaseAdapter {
                         @Override
                         public void onClick(View v) {
 
-                            showFullImageView(QRSCAN , productName,price,qty,item_total,remain_qty);
+                            showFullImageView(QRSCAN , productName,price,qty,item_total,remain_qty,type_id,remain_money);
                         }
                     });
 
@@ -374,15 +377,17 @@ public class OrderProductAdapter extends BaseAdapter {
     }
 
 
-    private void showFullImageView(String qrscan , String productName,String price,String qty,String item_total,String remain_qty ) {
+    private void showFullImageView(String qrscan , String productName,String price,String qty,String item_total,String remain_qty, String type_id,String remaining_money ) {
         Intent intent = new Intent(context, FullZoomViewActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra("type_id",type_id);
         intent.putExtra("imagePaths", qrscan);
         intent.putExtra("productName", productName);
         intent.putExtra("price",price);
         intent.putExtra("qty",qty);
         intent.putExtra("item_total",item_total);
         intent.putExtra("remain_qty",remain_qty);
+        intent.putExtra("remain_money",remaining_money);
        context.startActivity(intent);
     }
 }

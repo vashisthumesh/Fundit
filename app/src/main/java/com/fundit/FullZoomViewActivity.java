@@ -19,6 +19,8 @@ public class FullZoomViewActivity extends AppCompatActivity {
     String qty="";
     String item_total="";
     String remain_qty="";
+    String type_id="";
+    String remain_money="";
 
     ImageView fullImagePager ;
     TextView productName ;
@@ -49,12 +51,24 @@ public class FullZoomViewActivity extends AppCompatActivity {
         qty=intent.getStringExtra("qty");
         item_total=intent.getStringExtra("item_total");
         remain_qty=intent.getStringExtra("remain_qty");
+        type_id=intent.getStringExtra("type_id");
+        remain_money=intent.getStringExtra("remain_money");
 
 
 
         fullImagePager = (ImageView) findViewById(R.id.fullImagePager);
         productName = (TextView) findViewById(R.id.productName);
-        productName.setText("Item : " + Name +"\n"+"Selling Price :" +price+"\n"+"Total QTY:"+qty+"\n"+"Item Total:"+"$"+item_total+"\n"+"Remaining QTY:"+remain_qty);
+
+        if(type_id.equalsIgnoreCase("1"))
+        {
+            productName.setText("Item : " + Name +"\n"+"Selling Price :" +price+"\n"+"Total QTY:"+qty+"\n"+"Item Total:"+"$"+item_total+"\n"+"Remaining QTY:"+remain_qty);
+        }
+        else if(type_id.equalsIgnoreCase("2"))
+        {
+            productName.setText("Gift Card : " + Name +"\n"+"Gift Card Value:" +price+"\n"+"Total Gift Card:"+qty+"\n"+"Gift Card Value Total:"+"$"+item_total+"\n"+"Remaining Money:"+"$"+
+                    remain_money);
+        }
+
 
         Picasso.with(getApplicationContext())
                 .load(getImagePath)

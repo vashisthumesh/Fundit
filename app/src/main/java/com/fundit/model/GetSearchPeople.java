@@ -35,6 +35,7 @@ public class GetSearchPeople extends  AppModel {
         String contact_info_email="";
         String created="";
         String modified="";
+        String email_id="";
 
         public String getId() {
             return id;
@@ -109,8 +110,8 @@ public class GetSearchPeople extends  AppModel {
         }
 
 
-
-
-
+        public String getEmail_id() {
+            return email_id;
+        }
     }
 }
