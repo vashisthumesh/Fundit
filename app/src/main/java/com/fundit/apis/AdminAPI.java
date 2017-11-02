@@ -300,6 +300,10 @@ public interface AdminAPI {
     Call<GetSearchPeople> getsearchpeople(@Field(W.KEY_USERID) String userID,@Field("title") String title,@Field(W.KEY_ROLEID) String roleID);
 
 
+    @FormUrlEncoded
+    @POST(W.CHECK_JOIN_MEMBER)
+    Call<AppModel> checkJoinMember(@Field("member_id") String memberId , @Field(W.KEY_ROLEID) String roleId , @Field(W.KEY_USERID) String userId);
+
 
 
 

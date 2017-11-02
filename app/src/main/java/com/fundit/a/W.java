@@ -103,6 +103,8 @@ public class W {
     public  static final String PEOPLE_SEARCH="Member/app_get_general_member";
 
     public  static final String GET_ORGANIZATION_BROWSE="Organization/app_search_organization";
+    public static final String CHECK_JOIN_MEMBER = "Member/App_Check_Join_request";
+
 
 
 

@@ -19,6 +19,7 @@ import com.fundit.apis.AdminAPI;
 import com.fundit.apis.ServiceGenerator;
 import com.fundit.apis.ServiceHandler;
 import com.fundit.helper.CustomDialog;
+import com.fundit.model.AppModel;
 import com.fundit.model.Fundspot;
 import com.fundit.model.GetDataResponses;
 import com.fundit.model.Member;
@@ -36,6 +37,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class AddMembersActivity extends AppCompatActivity {
 
@@ -45,12 +49,12 @@ public class AddMembersActivity extends AppCompatActivity {
 
     CircleImageView circleImageView;
 
-    TextView txt_name, txt_address, txt_emailID, txt_organizations, txt_fundspots, txt_currentCampaigns, txt_pastCampaigns, txt_contct,txt_con_info_email,txt_con_info_mobile;
-    LinearLayout layout_contact_info_email,layout_contact_info_mobile;
+    TextView txt_name, txt_address, txt_emailID, txt_organizations, txt_fundspots, txt_currentCampaigns, txt_pastCampaigns, txt_contct, txt_con_info_email, txt_con_info_mobile;
+    LinearLayout layout_contact_info_email, layout_contact_info_mobile;
 
     Button btnAdd, btnJoin, btnFollow, btnMessage;
 
-    LinearLayout layout_contact, current, past, layout_buttons , layout_mail,layout_category,layout_fundraiser,layout_type,layout_description,layout_org,layout_fun;
+    LinearLayout layout_contact, current, past, layout_buttons, layout_mail, layout_category, layout_fundraiser, layout_type, layout_description, layout_org, layout_fun;
 
 
     String memberId = "";
@@ -132,22 +136,21 @@ public class AddMembersActivity extends AppCompatActivity {
         txt_fundspots = (TextView) findViewById(R.id.txt_fundspots);
         txt_currentCampaigns = (TextView) findViewById(R.id.txt_currentCampaigns);
         txt_pastCampaigns = (TextView) findViewById(R.id.txt_pastCampaigns);
-        txt_con_info_email= (TextView) findViewById(R.id.txt_con_info_email);
-        txt_con_info_mobile= (TextView) findViewById(R.id.txt_con_info_mobile);
-        layout_contact_info_email= (LinearLayout) findViewById(R.id.layout_contact_info_email);
-        layout_contact_info_mobile= (LinearLayout) findViewById(R.id.layout_contact_info_mobile);
-        layout_fundraiser= (LinearLayout) findViewById(R.id.layout_fundraiser);
-        layout_type= (LinearLayout) findViewById(R.id.layout_type);
-        layout_description= (LinearLayout) findViewById(R.id.layout_description);
-        layout_org= (LinearLayout) findViewById(R.id.layout_org);
-        layout_fun= (LinearLayout) findViewById(R.id.layout_fun);
+        txt_con_info_email = (TextView) findViewById(R.id.txt_con_info_email);
+        txt_con_info_mobile = (TextView) findViewById(R.id.txt_con_info_mobile);
+        layout_contact_info_email = (LinearLayout) findViewById(R.id.layout_contact_info_email);
+        layout_contact_info_mobile = (LinearLayout) findViewById(R.id.layout_contact_info_mobile);
+        layout_fundraiser = (LinearLayout) findViewById(R.id.layout_fundraiser);
+        layout_type = (LinearLayout) findViewById(R.id.layout_type);
+        layout_description = (LinearLayout) findViewById(R.id.layout_description);
+        layout_org = (LinearLayout) findViewById(R.id.layout_org);
+        layout_fun = (LinearLayout) findViewById(R.id.layout_fun);
 
         layout_org.setVisibility(View.GONE);
         layout_description.setVisibility(View.GONE);
         layout_fun.setVisibility(View.GONE);
         layout_type.setVisibility(View.GONE);
         layout_fundraiser.setVisibility(View.GONE);
-
 
 
         txt_currentCampaigns.setVisibility(View.GONE);
@@ -159,7 +162,7 @@ public class AddMembersActivity extends AppCompatActivity {
         current = (LinearLayout) findViewById(R.id.current);
         layout_contact = (LinearLayout) findViewById(R.id.layout_contact);
         layout_mail = (LinearLayout) findViewById(R.id.layout_mail);
-        layout_category= (LinearLayout) findViewById(R.id.layout_category);
+        layout_category = (LinearLayout) findViewById(R.id.layout_category);
         past = (LinearLayout) findViewById(R.id.past);
         layout_buttons = (LinearLayout) findViewById(R.id.layout_buttons);
 
@@ -183,16 +186,14 @@ public class AddMembersActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if(campaignId == null){
+                if (campaignId == null) {
 
                     new AddMember().execute();
 
-                }
-                else {
+                } else {
                     new CampaignAddMember().execute();
 
                 }
-
 
 
             }
@@ -219,33 +220,25 @@ public class AddMembersActivity extends AppCompatActivity {
                 txt_name.setText(getResponse.getFundspot().getTitle());
                 txt_address.setText(getResponse.getFundspot().getLocation());
                 txt_contct.setText(getResponse.getFundspot().getDescription());
-                Log.e("email","--->"+getResponse.getFundspot().getContact_info_email());
-                if((getResponse.getFundspot().getContact_info_email())== null || getResponse.getFundspot().getContact_info_email().equalsIgnoreCase(""))
-                {
+                Log.e("email", "--->" + getResponse.getFundspot().getContact_info_email());
+                if ((getResponse.getFundspot().getContact_info_email()) == null || getResponse.getFundspot().getContact_info_email().equalsIgnoreCase("")) {
                     layout_contact_info_email.setVisibility(View.GONE);
 
 
-                }
-                else {
+                } else {
                     layout_contact_info_email.setVisibility(View.VISIBLE);
 
                     txt_con_info_email.setText(getResponse.getFundspot().getContact_info_email());
                 }
-               if(getResponse.getFundspot().getContact_info_mobile() ==null || getResponse.getFundspot().getContact_info_mobile().equalsIgnoreCase(""))
-               {
-                   layout_contact_info_mobile.setVisibility(View.GONE);
+                if (getResponse.getFundspot().getContact_info_mobile() == null || getResponse.getFundspot().getContact_info_mobile().equalsIgnoreCase("")) {
+                    layout_contact_info_mobile.setVisibility(View.GONE);
 
 
-               }
-               else {
+                } else {
 
-                   layout_contact_info_mobile.setVisibility(View.VISIBLE);
-                   txt_con_info_mobile.setText(getResponse.getFundspot().getContact_info_mobile());
-               }
-
-
-
-
+                    layout_contact_info_mobile.setVisibility(View.VISIBLE);
+                    txt_con_info_mobile.setText(getResponse.getFundspot().getContact_info_mobile());
+                }
 
 
             } else {
@@ -259,24 +252,20 @@ public class AddMembersActivity extends AppCompatActivity {
                 txt_name.setText(getResponse.getOrganization().getTitle());
                 txt_address.setText(getResponse.getOrganization().getLocation());
                 txt_contct.setText(getResponse.getOrganization().getDescription());
-                Log.e("email","--->"+getResponse.getOrganization().getContact_info_email());
-                if(getResponse.getOrganization().getContact_info_email()== null|| getResponse.getOrganization().getContact_info_mobile().equalsIgnoreCase(""))
-                {
+                Log.e("email", "--->" + getResponse.getOrganization().getContact_info_email());
+                if (getResponse.getOrganization().getContact_info_email() == null || getResponse.getOrganization().getContact_info_mobile().equalsIgnoreCase("")) {
                     layout_contact_info_email.setVisibility(View.GONE);
 
-                }
-                else {
+                } else {
                     layout_contact_info_email.setVisibility(View.VISIBLE);
                     txt_con_info_email.setText(getResponse.getOrganization().getContact_info_email());
 
                 }
-                if(getResponse.getOrganization().getContact_info_mobile() == null || getResponse.getOrganization().getContact_info_mobile().equalsIgnoreCase(""))
-                {
+                if (getResponse.getOrganization().getContact_info_mobile() == null || getResponse.getOrganization().getContact_info_mobile().equalsIgnoreCase("")) {
                     layout_contact_info_mobile.setVisibility(View.GONE);
 
 
-                }
-                else {
+                } else {
 
                     layout_contact_info_mobile.setVisibility(View.VISIBLE);
                     txt_con_info_mobile.setText(getResponse.getOrganization().getContact_info_mobile());
@@ -284,7 +273,7 @@ public class AddMembersActivity extends AppCompatActivity {
 
 
             }
-            if(preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION) || preference.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)){
+            if (preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION) || preference.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)) {
                 btnJoin.setVisibility(View.GONE);
             }
 
@@ -294,27 +283,25 @@ public class AddMembersActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     String selectedUsersId = "";
                     String membersssIdss = "";
-                    if(status){
+                    if (status) {
                         selectedUsersId = getResponse.getFundspot().getUser_id();
-                    }
-                    else {
+                    } else {
                         selectedUsersId = getResponse.getOrganization().getUser_id();
                     }
 
 
-                    if(preference.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)){
+                    if (preference.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)) {
                         membersssIdss = fundspot.getId();
                     }
-                    if(preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION)){
+                    if (preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION)) {
                         membersssIdss = organization.getId();
                     }
-                    if(preference.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER)){
+                    if (preference.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER)) {
                         membersssIdss = member.getId();
                     }
 
 
-
-                    new JoinMember(membersssIdss , selectedUsersId).execute();
+                    new JoinMember(membersssIdss, selectedUsersId).execute();
 
 
                 }
@@ -324,22 +311,65 @@ public class AddMembersActivity extends AppCompatActivity {
             btnMessage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(getApplicationContext() , FinalSendMessage.class);
-                    intent.putExtra("name" , getResponse.getUser().getTitle());
-                    intent.putExtra("id" , getResponse.getUser().getId());
+                    Intent intent = new Intent(getApplicationContext(), FinalSendMessage.class);
+                    intent.putExtra("name", getResponse.getUser().getTitle());
+                    intent.putExtra("id", getResponse.getUser().getId());
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                 }
             });
 
 
+            String checkMemberId = "";
 
+            if (preference.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)) {
+                checkMemberId = fundspot.getId();
+            }
+            if (preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION)) {
+                checkMemberId = organization.getId();
+            }
+            if (preference.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER)) {
+                checkMemberId = member.getId();
+            }
+
+
+            CheckMemberIsjoined(checkMemberId);
         }
 
 
         if (!profileMode) {
             new GetAllDetails().execute();
         }
+
+    }
+
+    private void CheckMemberIsjoined(String checkMemberId) {
+
+        dialog.show();
+        Call<AppModel> appModelCall = adminAPI.checkJoinMember(checkMemberId, preference.getUserRoleID(), preference.getUserID());
+        appModelCall.enqueue(new Callback<AppModel>() {
+            @Override
+            public void onResponse(Call<AppModel> call, Response<AppModel> response) {
+                dialog.dismiss();
+                AppModel appModel = response.body();
+                if (appModel != null) {
+                    if (appModel.isStatus()) {
+                        btnJoin.setEnabled(false);
+                    } else {
+                        C.INSTANCE.showToast(getApplicationContext(), appModel.getMessage());
+                    }
+                } else {
+                    C.INSTANCE.defaultError(getApplicationContext());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AppModel> call, Throwable t) {
+                dialog.dismiss();
+                C.INSTANCE.errorToast(getApplicationContext(), t);
+            }
+        });
+
 
     }
 
@@ -542,9 +572,6 @@ public class AddMembersActivity extends AppCompatActivity {
             pairs.add(new BasicNameValuePair(W.KEY_ROLEID, preference.getUserRoleID()));
 
 
-
-
-
             String json = new ServiceHandler().makeServiceCall(W.BASE_URL + W.ADD_MEMBER_TO_CAMPAIGN, ServiceHandler.POST, pairs);
 
             Log.e("parameters", "-->" + pairs);
@@ -577,7 +604,7 @@ public class AddMembersActivity extends AppCompatActivity {
                     if (status) {
 
                         Intent intent = new Intent(getApplicationContext(), AddMemberToCampaign.class);
-                        intent.putExtra("campaignId" , campaignId);
+                        intent.putExtra("campaignId", campaignId);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
 
@@ -628,17 +655,14 @@ public class AddMembersActivity extends AppCompatActivity {
             pairs.add(new BasicNameValuePair(W.KEY_ROLEID, preference.getUserRoleID()));
             pairs.add(new BasicNameValuePair(W.KEY_TOKEN, preference.getTokenHash()));
 
-            if(status){
+            if (status) {
 
                 pairs.add(new BasicNameValuePair("fundspot_id", selectedUserIdss));
-            }
-
-            else {
+            } else {
 
                 pairs.add(new BasicNameValuePair("organization_id", selectedUserIdss));
 
             }
-
 
 
             String json = new ServiceHandler().makeServiceCall(W.BASE_URL + "Member/app_request_join_member", ServiceHandler.POST, pairs);
