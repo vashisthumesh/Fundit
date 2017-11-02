@@ -162,14 +162,26 @@
                 android:textSize="16sp"/>
 
             <EditText
-                android:id="@+id/ed_fund_contact_info"
+                android:id="@+id/edt_contactInfo_email"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:background="@color/white"
-                android:hint="Enter contact information"
+                android:hint="Email"
                 android:inputType="text"
                 android:padding="5dp"
                 android:textColor="@color/black"/>
+
+            <EditText
+                android:id="@+id/ed_fund_contact_info"
+                android:layout_width="match_parent"
+                android:layout_marginTop="15dp"
+                android:layout_height="40dp"
+                android:background="@color/white"
+                android:hint="Mobile Number"
+                android:inputType="text"
+                android:padding="5dp"
+                android:textColor="@color/black"/>
+
 
             <TextView
                 android:id="@+id/tv_fund_uplode_photo"

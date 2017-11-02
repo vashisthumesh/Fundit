@@ -45,7 +45,7 @@ import retrofit2.Response;
 
 public class GeneralMemberProfileActivity extends AppCompatActivity {
 
-    EditText edt_firstName, edt_lastName, edt_contactInfo, ed_member_address, ed_zip_code;
+    EditText edt_firstName, edt_lastName, edt_contactInfo, ed_member_address, ed_zip_code,edt_contactInfo_email;
     ImageView img_uplode_photo, img_remove;
     Button btn_updateProfile;
     EditText tv_login_email;
@@ -112,6 +112,8 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
         spn_assocOrganization = (Spinner) findViewById(R.id.spn_assocOrganization);
         spn_assocFundspot = (Spinner) findViewById(R.id.spn_assocFundspot);
         edt_contactInfo = (EditText) findViewById(R.id.edt_contactInfo);
+        edt_contactInfo_email= (EditText) findViewById(R.id.edt_contactInfo_email);
+
         ed_member_address = (EditText) findViewById(R.id.ed_member_address);
         ed_zip_code = (EditText) findViewById(R.id.ed_zip_code);
 
@@ -171,9 +173,10 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
             ed_member_address.setText(member.getLocation());
             ed_zip_code.setText(member.getZip_code());
 
-            edt_contactInfo.setText(member.getContact_info());
-            spn_assocFundspot.setVisibility(View.GONE);
-            spn_assocOrganization.setVisibility(View.GONE);
+            edt_contactInfo.setText(member.getContact_info_mobile());
+            edt_contactInfo_email.setText(member.getContact_info_email());
+          //  spn_assocFundspot.setVisibility(View.GONE);
+           // spn_assocOrganization.setVisibility(View.GONE);
 
             imagePath =W.FILE_URL +  member.getImage();
 
@@ -303,6 +306,7 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
                 //String assocOrganization = edt_assocOrganization.getText().toString().trim();
                 //String assocFundspot = edt_assocFundspot.getText().toString().trim();
                 String contactInfo = edt_contactInfo.getText().toString().trim();
+                String contact_email=edt_contactInfo_email.getText().toString().trim();
 
 
                 int statePosition = spn_state.getSelectedItemPosition();
@@ -330,7 +334,17 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter 5 digit zip code");
                 } else if (contactInfo.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter contact information");
-                } else if (imagePath == null) {
+                }
+                else if(contact_email.isEmpty())
+                {
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter contact information");
+                }
+                else if(!C.INSTANCE.validEmail(contact_email))
+                {
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter valid email");
+                }
+                else if (imagePath == null) {
+
                     C.INSTANCE.showToast(getApplicationContext(), "Please select profile image");
                 } else {
                     Call<VerifyResponse> generalMemberResponse = null;
@@ -362,14 +376,14 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
                     }
                     dialog.show();
                     if(!imagePath.startsWith("http")){
-                        generalMemberResponse  = adminAPI.generalMemberProfile(preference.getUserID(), preference.getTokenHash(), firstname, lastname, location, stateItems.get(statePosition).getId(), cityItems.get(cityPosition).getId(), zipcode, orgID, fundspotID, contactInfo, ServiceGenerator.prepareFilePart("image", imagePath));
+                        generalMemberResponse  = adminAPI.generalMemberProfile(preference.getUserID(), preference.getTokenHash(), firstname, lastname, location, stateItems.get(statePosition).getId(), cityItems.get(cityPosition).getId(), zipcode, orgID, fundspotID, contact_email,contactInfo, ServiceGenerator.prepareFilePart("image", imagePath));
                     }else {
-                        generalMemberResponse  = adminAPI.generalMemberProfile(preference.getUserID(), preference.getTokenHash(), firstname, lastname, location, stateItems.get(statePosition).getId(), cityItems.get(cityPosition).getId(), zipcode, orgID, fundspotID, contactInfo, null);
+                        generalMemberResponse  = adminAPI.generalMemberProfile(preference.getUserID(), preference.getTokenHash(), firstname, lastname, location, stateItems.get(statePosition).getId(), cityItems.get(cityPosition).getId(), zipcode, orgID, fundspotID, contact_email,contactInfo, null);
                     }
 
 
 
-                    Log.e("parameters" , "" + preference.getUserID()+"-->"+ preference.getTokenHash()+"-->"+firstname+"-->"+ lastname+"--->"+ location+"--->"+"-->" +stateItems.get(statePosition).getId()+"-->"+ cityItems.get(cityPosition).getId()+"-->"+ zipcode+"-->"+ orgID+"-->"+ fundspotID+"-->"+ contactInfo+"-->"+ imagePath);
+                    Log.e("parameters" , "" + preference.getUserID()+"-->"+ preference.getTokenHash()+"-->"+firstname+"-->"+ lastname+"--->"+ location+"--->"+"-->" +stateItems.get(statePosition).getId()+"-->"+ cityItems.get(cityPosition).getId()+"-->"+ zipcode+"-->"+ orgID+"-->"+ fundspotID+"-->"+ contact_email+"--->"+contactInfo+"-->"+ imagePath);
                     generalMemberResponse.enqueue(new Callback<VerifyResponse>() {
                         @Override
                         public void onResponse(Call<VerifyResponse> call, Response<VerifyResponse> response) {
@@ -415,8 +429,8 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
                     spn_assocOrganization.setVisibility(View.VISIBLE);
                     txt_assorganization.setVisibility(View.VISIBLE);
 
-                    spn_assocFundspot.setVisibility(View.GONE);
-                    txt_assfundspot.setVisibility(View.GONE);
+                 //   spn_assocFundspot.setVisibility(View.GONE);
+                  //  txt_assfundspot.setVisibility(View.GONE);
 
 
                 }
@@ -427,8 +441,8 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
                     txt_assfundspot.setVisibility(View.VISIBLE);
 
 
-                    spn_assocOrganization.setVisibility(View.GONE);
-                    txt_assorganization.setVisibility(View.GONE);
+                  // spn_assocOrganization.setVisibility(View.GONE);
+                  //  txt_assorganization.setVisibility(View.GONE);
 
 
 

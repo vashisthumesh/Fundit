@@ -45,7 +45,8 @@ public class AddMembersActivity extends AppCompatActivity {
 
     CircleImageView circleImageView;
 
-    TextView txt_name, txt_address, txt_emailID, txt_organizations, txt_fundspots, txt_currentCampaigns, txt_pastCampaigns, txt_contct;
+    TextView txt_name, txt_address, txt_emailID, txt_organizations, txt_fundspots, txt_currentCampaigns, txt_pastCampaigns, txt_contct,txt_con_info_email,txt_con_info_mobile;
+    LinearLayout layout_contact_info_email,layout_contact_info_mobile;
 
     Button btnAdd, btnJoin, btnFollow, btnMessage;
 
@@ -131,6 +132,11 @@ public class AddMembersActivity extends AppCompatActivity {
         txt_fundspots = (TextView) findViewById(R.id.txt_fundspots);
         txt_currentCampaigns = (TextView) findViewById(R.id.txt_currentCampaigns);
         txt_pastCampaigns = (TextView) findViewById(R.id.txt_pastCampaigns);
+        txt_con_info_email= (TextView) findViewById(R.id.txt_con_info_email);
+        txt_con_info_mobile= (TextView) findViewById(R.id.txt_con_info_mobile);
+        layout_contact_info_email= (LinearLayout) findViewById(R.id.layout_contact_info_email);
+        layout_contact_info_mobile= (LinearLayout) findViewById(R.id.layout_contact_info_mobile);
+
 
         txt_currentCampaigns.setVisibility(View.GONE);
         txt_pastCampaigns.setVisibility(View.GONE);
@@ -163,13 +169,14 @@ public class AddMembersActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if(!campaignId.isEmpty()){
-
-                    new CampaignAddMember().execute();
-                }
-                else {
+                if(campaignId == null){
 
                     new AddMember().execute();
+
+                }
+                else {
+                    new CampaignAddMember().execute();
+
                 }
 
 
@@ -186,6 +193,7 @@ public class AddMembersActivity extends AppCompatActivity {
             layout_mail.setVisibility(View.GONE);
             btnAdd.setVisibility(View.GONE);
 
+
             if (status) {
                 String imagePath = W.FILE_URL + getResponse.getFundspot().getImage();
                 Log.e("path", imagePath);
@@ -197,6 +205,33 @@ public class AddMembersActivity extends AppCompatActivity {
                 txt_name.setText(getResponse.getFundspot().getTitle());
                 txt_address.setText(getResponse.getFundspot().getLocation());
                 txt_contct.setText(getResponse.getFundspot().getDescription());
+                Log.e("email","--->"+getResponse.getFundspot().getContact_info_email());
+                if((getResponse.getFundspot().getContact_info_email())== null || getResponse.getFundspot().getContact_info_email().equalsIgnoreCase(""))
+                {
+                    layout_contact_info_email.setVisibility(View.GONE);
+
+
+                }
+                else {
+                    layout_contact_info_email.setVisibility(View.VISIBLE);
+
+                    txt_con_info_email.setText(getResponse.getFundspot().getContact_info_email());
+                }
+               if(getResponse.getFundspot().getContact_info_mobile() ==null || getResponse.getFundspot().getContact_info_mobile().equalsIgnoreCase(""))
+               {
+                   layout_contact_info_mobile.setVisibility(View.GONE);
+
+
+               }
+               else {
+
+                   layout_contact_info_mobile.setVisibility(View.VISIBLE);
+                   txt_con_info_mobile.setText(getResponse.getFundspot().getContact_info_mobile());
+               }
+
+
+
+
 
 
             } else {
@@ -210,6 +245,28 @@ public class AddMembersActivity extends AppCompatActivity {
                 txt_name.setText(getResponse.getOrganization().getTitle());
                 txt_address.setText(getResponse.getOrganization().getLocation());
                 txt_contct.setText(getResponse.getOrganization().getDescription());
+                Log.e("email","--->"+getResponse.getOrganization().getContact_info_email());
+                if(getResponse.getOrganization().getContact_info_email()== null|| getResponse.getOrganization().getContact_info_mobile().equalsIgnoreCase(""))
+                {
+                    layout_contact_info_email.setVisibility(View.GONE);
+
+                }
+                else {
+                    layout_contact_info_email.setVisibility(View.VISIBLE);
+                    txt_con_info_email.setText(getResponse.getOrganization().getContact_info_email());
+
+                }
+                if(getResponse.getOrganization().getContact_info_mobile() == null || getResponse.getOrganization().getContact_info_mobile().equalsIgnoreCase(""))
+                {
+                    layout_contact_info_mobile.setVisibility(View.GONE);
+
+
+                }
+                else {
+
+                    layout_contact_info_mobile.setVisibility(View.VISIBLE);
+                    txt_con_info_mobile.setText(getResponse.getOrganization().getContact_info_mobile());
+                }
 
 
             }

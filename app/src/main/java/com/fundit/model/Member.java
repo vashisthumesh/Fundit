@@ -23,6 +23,11 @@ public class Member implements Serializable {
     String organization_id="";
     String fundspot_id = "";
     String redeemer = "";
+    String contact_info_email="";
+    String contact_info_mobile="";
+    String organization_names="";
+    String fundspot_names="";
+    String seller="";
 
 
 
@@ -32,8 +37,28 @@ public class Member implements Serializable {
     City City = new City();
     State State = new State();
 
+    public String getOrganization_names() {
+        return organization_names;
+    }
+
+    public String getFundspot_names() {
+        return fundspot_names;
+    }
+
     public String getId() {
         return id;
+    }
+
+    public String getContact_info_email() {
+        return contact_info_email;
+    }
+
+    public String getSeller() {
+        return seller;
+    }
+
+    public String getContact_info_mobile() {
+        return contact_info_mobile;
     }
 
     public String getUser_id() {
@@ -130,6 +155,11 @@ public class Member implements Serializable {
 
         String id = "";
         String name = "";
+        String state_code="";
+
+        public String getState_code() {
+            return state_code;
+        }
 
         public String getId() {
             return id;

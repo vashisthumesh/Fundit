@@ -1,6 +1,7 @@
 package com.fundit;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -76,10 +77,15 @@ public class StatisticActivity extends AppCompatActivity {
         layout_left.setVisibility(View.GONE);
 
 
+
+
+
         new GetStatisticDetails().execute();
     }
 
-
+    public static int getScreenWidth() {
+        return Resources.getSystem().getDisplayMetrics().widthPixels;
+    }
     private void setupToolBar() {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarCenterText);
@@ -159,15 +165,63 @@ public class StatisticActivity extends AppCompatActivity {
                         JSONObject campaignObject = dataObject.getJSONObject("Campaign");
 
                         raised = campaignObject.getString("total_earning");
+                        Log.e("raised",raised);
                         targetAmt = campaignObject.getString("target_amount");
+                        Log.e("targetamt",targetAmt);
                         itemSold = campaignObject.getString("total_coupon_sold");
                         fundspotPercent = campaignObject.getString("fundspot_percent");
                         organizationPercent = campaignObject.getString("organization_percent");
                         redeem = campaignObject.getString("total_coupon_redeem");
 
 
-                        txt_raised.setText("Raised $"+raised);
-                        txt_targetAmt.setText("$" + targetAmt);
+                        double finallength=0;
+                        finallength=(int) (getScreenWidth()/3);
+
+                        double initiallength=0;
+                        initiallength= (getScreenWidth()/3.5);
+
+                        double remaininglength=0;
+                        remaininglength= (getScreenWidth()-(int)(getScreenWidth()/3)-(getScreenWidth()/3.5));
+
+
+                        txt_targetAmt.getLayoutParams().width= (int) finallength;
+                        Log.e("final width-->",""+finallength);
+
+                        txt_raised.getLayoutParams().width= (int) initiallength;
+                        Log.e("initial width-->",""+initiallength);
+                        Log.e("remaining width-->",""+remaininglength);
+
+                        double initialno=0,finalno=0;
+                        double ibyf=0.0,multiply=0.0,toadd=0.0;
+
+                        initialno= Double.parseDouble(raised);
+                        finalno= Double.parseDouble(targetAmt);
+
+                        if(finalno == 0)
+                        {
+
+                            toadd=initiallength ;
+                            txt_raised.getLayoutParams().width= (int) toadd;
+                            
+                        }
+                        else {
+                            ibyf=(double) initialno/(double)finalno;
+                            if(ibyf >=1)
+                            {
+                                multiply=remaininglength*1;
+                            }
+                            else {
+                                multiply = remaininglength * ibyf;
+                            }
+
+                            toadd=initiallength+multiply;
+                            txt_raised.getLayoutParams().width= (int) toadd;
+                        }
+
+
+
+                        txt_raised.setText("Raised"+"\t"+"$"+raised);
+                        txt_targetAmt.setText("$" + String.format("%.2f", Double.parseDouble(targetAmt)));
                         txt_itemSold.setText(itemSold);
                         txt_couponRedeemed.setText(redeem);
 

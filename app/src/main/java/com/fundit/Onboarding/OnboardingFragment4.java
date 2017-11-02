@@ -38,7 +38,7 @@ public class OnboardingFragment4 extends Fragment {
         txt_message = (TextView) view.findViewById(R.id.txt_message);
 
 
-        image.setImageResource(R.drawable.stars);
+        image.setImageResource(R.drawable.user);
         txt_title.setText("Support Your community");
         txt_message.setText("Contribute to local fundraiser by buying coupons and helping both organization and fundspots.");
 

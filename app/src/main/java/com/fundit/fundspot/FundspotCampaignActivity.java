@@ -489,6 +489,13 @@ public class FundspotCampaignActivity extends AppCompatActivity {
                         edt_campaignDuration.setText(fundspotObject.getString("campaign_duration"));
                         edt_maxLimitCoupon.setText(fundspotObject.getString("max_limit_of_coupon_price"));
 
+
+
+                        if(edt_campaignDuration.getText().toString().trim().equalsIgnoreCase("0"))
+                        {
+                            chk_indefinite.setChecked(true);
+                        }
+
                         auto_searchFundspot.setEnabled(false);
                         edt_organizationSplit.setEnabled(false);
                         edt_couponExpireDay.setEnabled(false);
@@ -496,7 +503,7 @@ public class FundspotCampaignActivity extends AppCompatActivity {
                         //edt_maxLimitCoupon.setEnabled(false);
 
 
-
+                        fundspotBeen.clear();
                         JSONArray productArray = dataObject.getJSONArray("Product");
 
                         for (int i = 0; i < productArray.length(); i++) {

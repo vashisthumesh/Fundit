@@ -31,9 +31,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-/**
- * Created by NWSPL-17 on 01-Sep-17.
- */
+
 
 public class MyMemberFragment extends Fragment {
 

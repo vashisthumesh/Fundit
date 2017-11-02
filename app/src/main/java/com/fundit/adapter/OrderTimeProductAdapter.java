@@ -1,9 +1,11 @@
 package com.fundit.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.provider.ContactsContract;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.fundit.CartItemClickListener;
 import com.fundit.R;
 import com.fundit.a.W;
 import com.fundit.model.MultipleProductResponse;
@@ -38,7 +41,8 @@ public class OrderTimeProductAdapter extends BaseAdapter {
     String imagePath = "";
 
 
-    public OrderTimeProductAdapter(List<MultipleProductResponse> productResponses, Context context) {
+
+    public OrderTimeProductAdapter(List<MultipleProductResponse> productResponses, Context context ) {
         this.productResponses = productResponses;
         this.context = context;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -218,6 +222,8 @@ public class OrderTimeProductAdapter extends BaseAdapter {
 
 
     }
+
+
 
 
 }

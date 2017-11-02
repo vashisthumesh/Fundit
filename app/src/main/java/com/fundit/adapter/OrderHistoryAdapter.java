@@ -69,7 +69,8 @@ public class OrderHistoryAdapter extends BaseAdapter{
         ImageView img_arrow = (ImageView) view.findViewById(R.id.img_arrow);
 
         txt_orderId.setText(orderLists.get(position).getOrder().getId());
-        txt_totalAmt.setText("$"+orderLists.get(position).getOrder().getTotal());
+        Double x=Double.parseDouble(orderLists.get(position).getOrder().getTotal());
+        txt_totalAmt.setText("$" +String.format("%.2f", x));
 
 
         String getCreatedDate = orderLists.get(position).getOrder().getCreated();
@@ -81,7 +82,7 @@ public class OrderHistoryAdapter extends BaseAdapter{
         }
 
 
-        txt_date.setText(new SimpleDateFormat("dd-MMM-yyyy").format(date));
+        txt_date.setText(new SimpleDateFormat("MM/dd/yy").format(date));
 
         img_arrow.setOnClickListener(new View.OnClickListener() {
             @Override

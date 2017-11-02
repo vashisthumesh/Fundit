@@ -3,6 +3,7 @@ package com.fundit.fragmet;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,9 @@ import com.fundit.apis.AdminAPI;
 import com.fundit.apis.ServiceGenerator;
 import com.fundit.helper.CustomDialog;
 import com.fundit.model.CampaignListResponse;
+import com.fundit.model.Fundspot;
+import com.fundit.model.Member;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +41,7 @@ public class PresentCampaignFragment extends Fragment {
     ListView listCampaign;
     ShowCampaignAdapter campaignAdapter;
     CustomDialog dialog;
+    Member member=new Member();
 
     List<CampaignListResponse.CampaignList> campaignArrayList = new ArrayList<>();
 
@@ -49,6 +54,14 @@ public class PresentCampaignFragment extends Fragment {
         preference = new AppPreference(getActivity());
         adminAPI = ServiceGenerator.getAPIClass();
         dialog = new CustomDialog(getActivity());
+        try {
+
+            member = new Gson().fromJson(preference.getMemberData() , Member.class);
+
+
+        } catch (Exception e) {
+            Log.e("Exception", e.toString());
+        }
 
 
         fetchIDs();
@@ -66,7 +79,13 @@ public class PresentCampaignFragment extends Fragment {
         dialog.show();
         Call<CampaignListResponse> campaignResponse = null;
 
-        campaignResponse = adminAPI.ApprovedCampaign(preference.getUserID() , preference.getTokenHash() , preference.getUserRoleID()  , C.PRESENT);
+        if(preference.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER))
+        {
+            campaignResponse = adminAPI.SellerCampaign(member.getId(), C.PRESENT);
+        }
+        else {
+            campaignResponse = adminAPI.ApprovedCampaign(preference.getUserID(), preference.getTokenHash(), preference.getUserRoleID(), C.PRESENT);
+        }
         campaignResponse.enqueue(new Callback<CampaignListResponse>() {
             @Override
             public void onResponse(Call<CampaignListResponse> call, Response<CampaignListResponse> response) {

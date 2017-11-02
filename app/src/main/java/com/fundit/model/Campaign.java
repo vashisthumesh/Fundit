@@ -20,6 +20,9 @@ public class Campaign extends ProductListResponse.Product implements Serializabl
     String end_date = "";
     String message = "";
     String role_id = "";
+    String total_earning="";
+    String msg_seller="";
+    String msg="";
 
     public String getReceiver_id() {
         return receiver_id;
@@ -41,6 +44,10 @@ public class Campaign extends ProductListResponse.Product implements Serializabl
         return start_date;
     }
 
+    public String getMsg() {
+        return msg;
+    }
+
     public String getAll_member() {
         return all_member;
     }
@@ -53,8 +60,16 @@ public class Campaign extends ProductListResponse.Product implements Serializabl
         return review_status;
     }
 
+    public String getMsg_seller() {
+        return msg_seller;
+    }
+
     public String getTarget_amount() {
         return target_amount;
+    }
+
+    public String getTotal_earning() {
+        return total_earning;
     }
 
     public String getEnd_date() {

@@ -49,6 +49,7 @@ public class CreateCampaignTermsNextActivity extends AppCompatActivity {
     AutoCompleteTextView auto_searchMember;
     ListView listMembers;
     Button btn_request;
+    TextView txt_dollar;
 
     String dateSelected = null;
 
@@ -106,8 +107,10 @@ public class CreateCampaignTermsNextActivity extends AppCompatActivity {
         edt_startDate = (EditText) findViewById(R.id.edt_startDate);
         edt_message = (EditText) findViewById(R.id.edt_message);
         edt_amount = (EditText) findViewById(R.id.edt_amount);
+        txt_dollar= (TextView) findViewById(R.id.txt_dollar);
         edt_msg_fundspot = (EditText) findViewById(R.id.edt_msg_fundspot);
         edt_amount.setVisibility(View.GONE);
+        txt_dollar.setVisibility(View.GONE);
         edt_msg_fundspot.setVisibility(View.GONE);
 
         txt_members = (TextView) findViewById(R.id.txt_members);
@@ -242,13 +245,15 @@ public class CreateCampaignTermsNextActivity extends AppCompatActivity {
                     C.INSTANCE.showToast(getApplicationContext(), "Please select start date ");
 
                 }*/
-                if (!chk_allOrgMembers.isChecked() && checkedmemberList.size() == 0) {
-                    C.INSTANCE.showToast(getApplicationContext(), "Please select fundspot member ");
-
-                } else if (message.isEmpty()) {
-                    C.INSTANCE.showToast(getApplicationContext(), "Please enter message to sellers");
-
-                } else {
+//                if (!chk_allOrgMembers.isChecked() && checkedmemberList.size() == 0) {
+//                    C.INSTANCE.showToast(getApplicationContext(), "Please select fundspot member ");
+//
+//                }
+//                else if (message.isEmpty()) {
+//                    C.INSTANCE.showToast(getApplicationContext(), "Please enter message to sellers");
+//
+//                }
+              //  else {
                     JSONArray campaignDetailArray = new JSONArray();
                     JSONObject detailObject = new JSONObject();
                     JSONArray memberIDArray = new JSONArray();
@@ -256,27 +261,28 @@ public class CreateCampaignTermsNextActivity extends AppCompatActivity {
                     try {
 
                         detailObject.put("start_date", "");
+                        detailObject.put("all_member", "1");
 
-
-                        if (chk_allOrgMembers.isChecked()) {
-                            detailObject.put("all_member", "1");
-                        } else {
-                            detailObject.put("all_member", "0");
-                        }
-                        detailObject.put("message", message);
+//                        if (chk_allOrgMembers.isChecked()) {
+//                            detailObject.put("all_member", "1");
+//                        } else {
+//                            detailObject.put("all_member", "0");
+//                        }
+                        detailObject.put("msg_seller", message);
 
                         campaignDetailArray.put(detailObject);
 
 
-                        if (!chk_allOrgMembers.isChecked()) {
-                            for (int i = 0; i < checkedmemberList.size(); i++) {
-                                JSONObject object = new JSONObject();
-                                object.put("member_id", checkedmemberList.get(i).getUser_id());
-                                memberIDArray.put(object);
-                            }
-                        }
+//                        if (!chk_allOrgMembers.isChecked()) {
+//                            for (int i = 0; i < checkedmemberList.size(); i++) {
+//                                JSONObject object = new JSONObject();
+//                                object.put("member_id", checkedmemberList.get(i).getUser_id());
+//                                memberIDArray.put(object);
+//                            }
+//                        }
 
-                    } catch (JSONException e) {
+                    }
+                    catch (JSONException e) {
                         e.printStackTrace();
                     }
                     dialog.show();
@@ -309,8 +315,7 @@ public class CreateCampaignTermsNextActivity extends AppCompatActivity {
                             C.INSTANCE.errorToast(getApplicationContext(), t);
                         }
                     });
-
-                }
+            //}
 
             }
         });

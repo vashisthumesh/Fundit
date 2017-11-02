@@ -19,6 +19,7 @@ import com.fundit.a.AppPreference;
 import com.fundit.a.C;
 import com.fundit.a.W;
 import com.fundit.model.GetDataResponses;
+import com.fundit.model.GetSearchPeople;
 import com.fundit.model.VerifyResponse;
 import com.squareup.picasso.Picasso;
 
@@ -27,13 +28,11 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-/**
- * Created by NWSPL-17 on 07-Sep-17.
- */
 
 public class GetDataAdapter extends BaseAdapter {
 
     List<GetDataResponses.Data> fundSpotList=new ArrayList<>();
+    List<GetSearchPeople.People> people_search=new ArrayList<>();
     Activity activity;
     LayoutInflater inflater;
     Context context;
@@ -49,8 +48,6 @@ public class GetDataAdapter extends BaseAdapter {
         preference = new AppPreference(activity.getApplicationContext());
 
     }
-
-
 
     @Override
     public int getCount() {

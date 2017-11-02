@@ -43,7 +43,7 @@ import retrofit2.Response;
 
 public class OrganizationProfileActivity extends AppCompatActivity {
 
-    EditText edt_title, edt_address1, edt_zipCode, edt_description, edt_contactInfo;
+    EditText edt_title, edt_address1, edt_zipCode, edt_description, edt_contactInfo,edt_contactInfo_email;
     Spinner spn_state, spn_city, spn_schoolType, spn_schoolSubType;
     EditText tv_login_email;
     ImageView img_profilePic, img_remove;
@@ -136,6 +136,7 @@ public class OrganizationProfileActivity extends AppCompatActivity {
         edt_zipCode = (EditText) findViewById(R.id.edt_zipCode);
         edt_description = (EditText) findViewById(R.id.edt_description);
         edt_contactInfo = (EditText) findViewById(R.id.edt_contactInfo);
+        edt_contactInfo_email= (EditText) findViewById(R.id.edt_contactInfo_email);
 
         spn_state = (Spinner) findViewById(R.id.spn_state);
         spn_city = (Spinner) findViewById(R.id.spn_city);
@@ -193,7 +194,8 @@ public class OrganizationProfileActivity extends AppCompatActivity {
 
                 img_remove.setVisibility(View.VISIBLE);
             }
-            edt_contactInfo.setText(member.getContact_info());
+            edt_contactInfo.setText(member.getContact_info_mobile());
+            edt_contactInfo_email.setText(member.getContact_info_email());
             edt_description.setText(organization.getDescription());
             edt_zipCode.setText(member.getZip_code());
         }
@@ -311,6 +313,7 @@ public class OrganizationProfileActivity extends AppCompatActivity {
                 String zipcode = edt_zipCode.getText().toString().trim();
                 String description = edt_description.getText().toString().trim();
                 String contactInfo = edt_contactInfo.getText().toString().trim();
+                String contact_email=edt_contactInfo_email.getText().toString().trim();
 
                 int statePosition = spn_state.getSelectedItemPosition();
                 int cityPosition = spn_city.getSelectedItemPosition();
@@ -341,8 +344,16 @@ public class OrganizationProfileActivity extends AppCompatActivity {
                     C.INSTANCE.showToast(getApplicationContext(), "Please select school");
                 } else if (description.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter description");
-                } else if (contactInfo.isEmpty()) {
+                }else if (contactInfo.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter contact information");
+                }
+                else if(contact_email.isEmpty())
+                {
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter contact information");
+                }
+                else if(!C.INSTANCE.validEmail(contact_email))
+                {
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter valid email");
                 } else if (imagePath == null) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please select profile image");
                 } else {
@@ -351,10 +362,10 @@ public class OrganizationProfileActivity extends AppCompatActivity {
 
                     if (!imagePath.startsWith("http")) {
 
-                        profileResponse = adminAPI.editOrganizationProfile(preference.getUserID(), preference.getTokenHash(), title, stateItems.get(statePosition).getId(), cityItems.get(cityPosition).getId(), address1, zipcode, schoolItems.get(schoolPosition).getId(), subSchoolItems.get(subSchoolPosition).getId(), description, contactInfo , ServiceGenerator.prepareFilePart("image", imagePath));
+                        profileResponse = adminAPI.editOrganizationProfile(preference.getUserID(), preference.getTokenHash(), title, stateItems.get(statePosition).getId(), cityItems.get(cityPosition).getId(), address1, zipcode, schoolItems.get(schoolPosition).getId(), subSchoolItems.get(subSchoolPosition).getId(), description, contact_email,contactInfo, ServiceGenerator.prepareFilePart("image", imagePath));
                     } else {
 
-                        profileResponse = adminAPI.editTimeOrganizationProfile(preference.getUserID(), preference.getTokenHash(), title, stateItems.get(statePosition).getId(), cityItems.get(cityPosition).getId(), address1, zipcode, schoolItems.get(schoolPosition).getId(), subSchoolItems.get(subSchoolPosition).getId(), description, contactInfo);
+                        profileResponse = adminAPI.editTimeOrganizationProfile(preference.getUserID(), preference.getTokenHash(), title, stateItems.get(statePosition).getId(), cityItems.get(cityPosition).getId(), address1, zipcode, schoolItems.get(schoolPosition).getId(), subSchoolItems.get(subSchoolPosition).getId(), description, contact_email,contactInfo);
 
 
                     }

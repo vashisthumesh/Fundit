@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
     android:orientation="vertical"
+    android:focusableInTouchMode="true"
     tools:context="com.fundit.organization.CreateCampaignActivity">
 
     <include layout="@layout/toolbar_center_text"/>
@@ -122,6 +123,8 @@
                     <EditText
                         android:id="@+id/edt_organizationSplit"
                         android:layout_width="match_parent"
+                        android:focusableInTouchMode="false"
+                        android:textCursorDrawable="@drawable/cursor_color"
                         android:layout_height="40dp"
                         android:layout_margin="5dp"
                         android:background="@color/white"
@@ -148,6 +151,8 @@
                     <EditText
                         android:id="@+id/edt_fundSplit"
                         android:layout_width="match_parent"
+                        android:focusableInTouchMode="false"
+                        android:textCursorDrawable="@drawable/cursor_color"
                         android:layout_height="40dp"
                         android:layout_margin="5dp"
                         android:background="@color/white"
@@ -178,11 +183,13 @@
                     android:id="@+id/edt_campaignDuration"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
+                    android:focusableInTouchMode="false"
                     android:layout_weight="6"
+                    android:textCursorDrawable="@drawable/cursor_color"
                     android:background="@color/white"
                     android:inputType="number"
                     android:padding="5dp"
-                    android:textColor="@color/black"/>
+                    android:textColor="@color/black" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -196,6 +203,7 @@
                     android:id="@+id/chk_indefinite"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:focusableInTouchMode="false"
                     android:layout_weight="1"
                     android:padding="3dp"
                     android:text="Indefinite"
@@ -217,6 +225,8 @@
                 android:id="@+id/edt_maxLimitCoupon"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
+                android:focusableInTouchMode="false"
+                android:textCursorDrawable="@drawable/cursor_color"
                 android:background="@color/white"
                 android:inputType="number"
                 android:padding="5dp"
@@ -240,9 +250,11 @@
                     android:id="@+id/edt_couponExpireDay"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
+                    android:focusableInTouchMode="false"
                     android:layout_weight="6"
                     android:background="@color/white"
                     android:inputType="number"
+                    android:textCursorDrawable="@drawable/cursor_color"
                     android:padding="5dp"
                     android:textColor="@color/black"/>
 

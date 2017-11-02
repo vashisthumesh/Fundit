@@ -59,6 +59,10 @@ public class OrderHistoryResponse extends AppModel {
         String selling_price ="";
         String item_total ="";
         String qr_code_img ="";
+        String left_qty="";
+        String coupon_status="";
+        String type_id="";
+        String left_money="";
 
 
         public String getId() {
@@ -87,6 +91,22 @@ public class OrderHistoryResponse extends AppModel {
 
         public String getSelling_price() {
             return selling_price;
+        }
+
+        public String getLeft_qty() {
+            return left_qty;
+        }
+
+        public String getCoupon_status() {
+            return coupon_status;
+        }
+
+        public String getLeft_money() {
+            return left_money;
+        }
+
+        public String getType_id() {
+            return type_id;
         }
 
         public String getItem_total() {

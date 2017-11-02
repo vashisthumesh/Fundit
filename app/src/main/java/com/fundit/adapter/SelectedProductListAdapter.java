@@ -2,6 +2,7 @@ package com.fundit.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.fundit.Bean.GetProductsFundspotBean;
+import com.fundit.ProductActivity;
 import com.fundit.R;
 import com.fundit.a.W;
 import com.squareup.picasso.Picasso;
@@ -55,11 +57,12 @@ public class SelectedProductListAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
 
 
         View view = inflater.inflate(R.layout.layout_product_item , parent , false);
 
+        LinearLayout product_layout= (LinearLayout) view.findViewById(R.id.product_layout);
         TextView txt_productName = (TextView) view.findViewById(R.id.txt_productName);
         TextView txt_price = (TextView) view.findViewById(R.id.txt_price);
         TextView txt_type = (TextView) view.findViewById(R.id.txt_type);
@@ -76,7 +79,6 @@ public class SelectedProductListAdapter extends BaseAdapter {
 
 
 
-
         txt_productName.setText(productsFundspotBeen.get(position).getName());
         txt_price.setText(productsFundspotBeen.get(position).getPrice());
         txt_productDescription.setText(productsFundspotBeen.get(position).getProductDescription());
@@ -88,6 +90,23 @@ public class SelectedProductListAdapter extends BaseAdapter {
         Picasso.with(context)
                 .load(imagePath)
                 .into(img_productImage);
+
+        product_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i= new Intent(context, ProductActivity.class);
+                i.putExtra("name",productsFundspotBeen.get(position).getName());
+                i.putExtra("price",productsFundspotBeen.get(position).getPrice());
+                i.putExtra("Desc",productsFundspotBeen.get(position).getProductDescription());
+                i.putExtra("fine",productsFundspotBeen.get(position).getFine_print());
+                i.putExtra("image", productsFundspotBeen.get(position).getImage());
+                i.putExtra("myproduct",false);
+                context.startActivity(i);
+
+
+            }
+        });
+
 
 
 

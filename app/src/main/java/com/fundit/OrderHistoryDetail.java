@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -25,6 +26,7 @@ import com.squareup.picasso.Picasso;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -36,8 +38,9 @@ public class OrderHistoryDetail extends AppCompatActivity {
 
     ListView listProducts;
     Button btnCoupon;
+    Date date1;
 
-    TextView txt_recipient , txt_campaignName , txt_fundspotName , txt_organizations , txt_date , txt_product;
+    TextView txt_recipient , txt_campaignName , txt_fundspotName , txt_organizations , txt_date , txt_product,txt_history_address,txt_coupon_exp_date,txt_expired,txt_payment_method,payment_ref_no,payment_code,txt_expiry_date,txy_expired;
 
     OrderHistoryResponse.OrderList historyResponse;
 
@@ -47,8 +50,9 @@ public class OrderHistoryDetail extends AppCompatActivity {
     OrderProductAdapter productAdapter;
 
     boolean isCouponTimes = false;
+    boolean isExpired=false;
 
-    LinearLayout layout_coupon ;
+    LinearLayout layout_coupon ,linear_payment,linear_address,linear_resend,linear_ref,linear_code,linear_expiration,linear_expiry,linear_expired;
     ImageView qrScan;
     String QRSCAN = "";
     String productName = "";
@@ -82,10 +86,11 @@ public class OrderHistoryDetail extends AppCompatActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
 
         if(isCouponTimes){
+            Log.e("iscoupan1","--->"+isCouponTimes);
             actionTitle.setText("My Coupons");
         }
         else {
-
+            Log.e("iscoupan1","--->"+isCouponTimes);
             actionTitle.setText("Order History");
 
         }
@@ -108,17 +113,148 @@ public class OrderHistoryDetail extends AppCompatActivity {
         txt_organizations = (TextView) findViewById(R.id.txt_organizations);
         txt_date = (TextView) findViewById(R.id.txt_date);
         txt_product = (TextView) findViewById(R.id.txt_product);
+        txt_history_address= (TextView) findViewById(R.id.txt_history_address);
+        txt_coupon_exp_date= (TextView) findViewById(R.id.txt_coupon_exp_date);
+        txt_expired= (TextView) findViewById(R.id.text_expired);
+        txt_payment_method= (TextView) findViewById(R.id.txt_payment_method);
+        linear_payment= (LinearLayout) findViewById(R.id.linear_payment);
+        linear_address= (LinearLayout) findViewById(R.id.linear_address);
+        linear_resend= (LinearLayout) findViewById(R.id.linear_resend);
+        linear_code= (LinearLayout) findViewById(R.id.linear_payment_code);
+        linear_ref= (LinearLayout) findViewById(R.id.linear_payment_refno);
+        payment_ref_no= (TextView) findViewById(R.id.txt_payment_refno);
+        payment_code= (TextView) findViewById(R.id.txt_payment_code);
+        linear_expiration= (LinearLayout) findViewById(R.id.linear_expiration);
+        linear_expiry= (LinearLayout) findViewById(R.id.linear_expiry);
+        txt_expiry_date= (TextView) findViewById(R.id.txt_coupon_expiry_date);
+        txt_expired= (TextView) findViewById(R.id.text_expired);
+        linear_expired= (LinearLayout) findViewById(R.id.linear_expired);
+
+
 
         btnCoupon = (Button) findViewById(R.id.btn_coupon);
 
         listProducts = (ListView) findViewById(R.id.list_products);
-        productAdapter = new OrderProductAdapter(products,getApplicationContext() , isCouponTimes);
-        listProducts.setAdapter(productAdapter);
+
+
+        if(isCouponTimes){
+            Log.e("iscoupan","--->"+isCouponTimes);
+            txt_history_address.setVisibility(View.VISIBLE);
+            linear_address.setVisibility(View.VISIBLE);
+            txt_history_address.setText(historyResponse.getFundspot().getAddress());
+            txt_payment_method.setVisibility(View.GONE);
+            linear_payment.setVisibility(View.GONE);
+            linear_resend.setVisibility(View.GONE);
+            btnCoupon.setVisibility(View.GONE);
+            payment_code.setVisibility(View.GONE);
+            payment_ref_no.setVisibility(View.GONE);
+            linear_ref.setVisibility(View.GONE);
+            linear_code.setVisibility(View.GONE);
+            linear_expiration.setVisibility(View.VISIBLE);
+            txt_coupon_exp_date.setVisibility(View.VISIBLE);
+
+
+            String getExpDate = historyResponse.getOrder().getCoupon_expiry_date();
+            final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd k:mm:ss");
+            try {
+                date = simpleDateFormat.parse(getExpDate);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            txt_coupon_exp_date.setText(new SimpleDateFormat("MM/dd/yy").format(date));
+          //  txt_coupon_exp_date.setText(historyResponse.getOrder().getCoupon_expiry_date());
+            linear_expiry.setVisibility(View.GONE);
+            txt_expiry_date.setVisibility(View.GONE);
+
+            String getDate = historyResponse.getOrder().getCoupon_expiry_date();
+            String output = getDate.substring(0, 10);
+
+            try {
+                final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+                date1 = sdf.parse(output);
+            } catch (final ParseException e) {
+                e.printStackTrace();
+            }
+
+            Calendar c = Calendar.getInstance();
+
+            // set the calendar to start of today
+            c.set(Calendar.HOUR_OF_DAY, 0);
+            c.set(Calendar.MINUTE, 0);
+            c.set(Calendar.SECOND, 0);
+            c.set(Calendar.MILLISECOND, 0);
+
+            // and get that as a Date
+            Date today = c.getTime();
+            Log.e("today_date",today.toString());
+
+            if(date1.before(today)) {
+                linear_expired.setVisibility(View.VISIBLE);
+                txt_expired.setVisibility(View.VISIBLE);
+                isExpired=true;
+              //  productAdapter.notifyDataSetChanged();
+                Log.e("isexp1","--->"+isExpired);
+            }
+            else {
+                linear_expired.setVisibility(View.GONE);
+                txt_expired.setVisibility(View.GONE);
+                isExpired=false;
+               // productAdapter.notifyDataSetChanged();
+                Log.e("isexp2","--->"+isExpired);
+            }
+        }
+        else {
+            Log.e("iscoupan","--->"+isCouponTimes);
+            linear_address.setVisibility(View.GONE);
+           txt_history_address.setVisibility(View.GONE);
+            txt_payment_method.setVisibility(View.VISIBLE);
+            linear_payment.setVisibility(View.VISIBLE);
+            linear_resend.setVisibility(View.VISIBLE);
+            btnCoupon.setVisibility(View.VISIBLE);
+            linear_expired.setVisibility(View.GONE);
+            txt_expired.setVisibility(View.GONE);
+            String payment_method=historyResponse.getOrder().getPayment_method();
+
+            linear_expiration.setVisibility(View.GONE);
+            txt_coupon_exp_date.setVisibility(View.GONE);
+            linear_expiry.setVisibility(View.VISIBLE);
+            txt_expiry_date.setVisibility(View.VISIBLE);
+            String getExpDate = historyResponse.getOrder().getCoupon_expiry_date();
+            final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd k:mm:ss");
+            try {
+                date = simpleDateFormat.parse(getExpDate);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            txt_expiry_date.setText(new SimpleDateFormat("MM/dd/yy").format(date));
+
+            if(payment_method.equalsIgnoreCase("1")) {
+                txt_payment_method.setText("COD");
+                payment_code.setVisibility(View.GONE);
+                payment_ref_no.setVisibility(View.GONE);
+                linear_ref.setVisibility(View.GONE);
+                linear_code.setVisibility(View.GONE);
+            }
+            else {
+                txt_payment_method.setText("CC/DC");
+                payment_code.setVisibility(View.VISIBLE);
+                payment_ref_no.setVisibility(View.VISIBLE);
+                linear_ref.setVisibility(View.VISIBLE);
+                linear_code.setVisibility(View.VISIBLE);
+                payment_code.setText(historyResponse.getOrder().getPayment_code());
+                payment_ref_no.setText(historyResponse.getOrder().getPayment_refno());
+            }
+
+        }
 
         txt_recipient.setText(historyResponse.getOrder().getFirstname() + " " + historyResponse.getOrder().getLastname());
         txt_campaignName.setText(historyResponse.getCampaign().getTitle());
         txt_fundspotName.setText(historyResponse.getFundspot().getTitle());
         txt_organizations.setText(historyResponse.getOrganization().getTitle());
+
+        productAdapter = new OrderProductAdapter(products,getApplicationContext() , isCouponTimes,isExpired);
+        listProducts.setAdapter(productAdapter);
 
         String getCreatedDate = historyResponse.getOrder().getCreated();
         final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd k:mm:ss");
@@ -127,9 +263,10 @@ public class OrderHistoryDetail extends AppCompatActivity {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        txt_date.setText(new SimpleDateFormat("dd-MMM-yyyy").format(date));
+        txt_date.setText(new SimpleDateFormat("MM/dd/yy").format(date));
 
         layout_coupon = (LinearLayout) findViewById(R.id.layout_coupon);
+
         qrScan = (ImageView) findViewById(R.id.img_qrScan);
 
         for(int i=0 ; i < historyResponse.getOrderProduct().size() ; i++){

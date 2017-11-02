@@ -46,6 +46,7 @@ public class W {
     public static final String BROWSE_ORGANIZATION = "Organization/app_search_organization";
     public static final String FUNDSPOT_PRODUCT = "Product/app_search_product_via_organization";
     public static final String FUNDSPOT_SEARCH = "Fundspot/app_search_fundspot";
+    public static final String FUNDSPOT_SEARCH_FUNDSPOT = "Fundspot/app_search_fundspot";
 
     public static final String ADD_CAMPAIGN = "Campaign/app_add_campaign";
 
@@ -73,6 +74,8 @@ public class W {
 
     public static final String GET_ALL_APPROVED_CAMPAIGN = "Campaign/app_get_all_approved_campaign";
 
+    public static final String GET_SELLER_CAMPAIGN = "Campaign/app_get_seller_campaign";
+
     public static final String GET_MEMBER_FOR_CAMPAIGN = "Campaign/app_get_member_for_campaign";
     public static final String DELETE_MEMBER_FROM_CAMPAIGN = "Campaign/app_delete_member_for_campaign";
     public static final String ADD_MEMBER_TO_CAMPAIGN = "Campaign/app_add_member_to_campaign";
@@ -97,6 +100,9 @@ public class W {
     public static final String GET_ALL_ORG = "Organization/app_browse_organization";
     public static final String GET_ALL_FUND = "Fundspot/app_browse_fundspot";
     public static final String MESSGESUSERLIST = "Member/app_get_general_member";
+    public  static final String PEOPLE_SEARCH="Member/app_get_general_member";
+
+    public  static final String GET_ORGANIZATION_BROWSE="Organization/app_search_organization";
 
 
 

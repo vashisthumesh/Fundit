@@ -15,6 +15,10 @@ public class FullZoomViewActivity extends AppCompatActivity {
 
     String getImagePath = "";
     String Name = "";
+    String price="";
+    String qty="";
+    String item_total="";
+    String remain_qty="";
 
     ImageView fullImagePager ;
     TextView productName ;
@@ -41,11 +45,16 @@ public class FullZoomViewActivity extends AppCompatActivity {
         Intent intent = getIntent();
         getImagePath = intent.getStringExtra("imagePaths");
         Name = intent.getStringExtra("productName");
+        price=intent.getStringExtra("price");
+        qty=intent.getStringExtra("qty");
+        item_total=intent.getStringExtra("item_total");
+        remain_qty=intent.getStringExtra("remain_qty");
+
 
 
         fullImagePager = (ImageView) findViewById(R.id.fullImagePager);
         productName = (TextView) findViewById(R.id.productName);
-        productName.setText("Item with Price: " + Name);
+        productName.setText("Item : " + Name +"\n"+"Selling Price :" +price+"\n"+"Total QTY:"+qty+"\n"+"Item Total:"+"$"+item_total+"\n"+"Remaining QTY:"+remain_qty);
 
         Picasso.with(getApplicationContext())
                 .load(getImagePath)

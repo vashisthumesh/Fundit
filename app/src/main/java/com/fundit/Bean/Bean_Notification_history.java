@@ -12,6 +12,8 @@ public class Bean_Notification_history {
     String receive_user;
     String msg;
     String read_status;
+
+    String role_id;
     public String getId() {
         return id;
     }
@@ -49,15 +51,24 @@ public class Bean_Notification_history {
     public void setRead_status(String read_status) {
         this.read_status = read_status;
     }
+
+    public String getRole_id() {
+        return role_id;
+    }
+
+    public void setRole_id(String role_id) {
+        this.role_id = role_id;
+    }
     public Bean_Notification_history() {
     }
-    public Bean_Notification_history(String id, String sent_user, String receive_user, String msg,String read_status) {
+    public Bean_Notification_history(String id, String sent_user, String receive_user, String msg,String read_status,String role_id) {
 
         this.id = id;
         this.sent_user = sent_user;
         this.receive_user = receive_user;
         this.msg = msg;
         this.read_status = read_status;
+        this.role_id=role_id;
     }
 
 }

@@ -9,8 +9,12 @@ import com.fundit.model.BankCardResponse;
 import com.fundit.model.CampaignListResponse;
 import com.fundit.model.CategoryResponse;
 import com.fundit.model.ForgotPasswordEmailResponse;
+import com.fundit.model.Fundspot;
 import com.fundit.model.FundspotListResponse;
+import com.fundit.model.FundspotListResponseFundspot;
+import com.fundit.model.GeneralMemberProfileResponse;
 import com.fundit.model.GetDataResponses;
+import com.fundit.model.GetSearchPeople;
 import com.fundit.model.InboxMessagesResponse;
 import com.fundit.model.MemberListResponse;
 import com.fundit.model.MemberResponse;
@@ -79,12 +83,12 @@ public interface AdminAPI {
 
     @Multipart
     @POST(W.EDIT_ORGANIZATION_PROFILE)
-    Call<VerifyResponse> editOrganizationProfile(@Part(W.KEY_USERID) String userID, @Part(W.KEY_TOKEN) String tokenHash, @Part("title") String title, @Part("state_id") String stateID, @Part("city_id") String cityID, @Part("location") String address, @Part("zip_code") String zipCode, @Part("type_id") String typeID, @Part("sub_type_id") String subSchoolID, @Part("description") String description, @Part("contact_info") String contactInfo, @Part MultipartBody.Part profileImage);
+    Call<VerifyResponse> editOrganizationProfile(@Part(W.KEY_USERID) String userID, @Part(W.KEY_TOKEN) String tokenHash, @Part("title") String title, @Part("state_id") String stateID, @Part("city_id") String cityID, @Part("location") String address, @Part("zip_code") String zipCode, @Part("type_id") String typeID, @Part("sub_type_id") String subSchoolID, @Part("description") String description, @Part("contact_info_email") String contact_email,@Part("contact_info_mobile") String contactInfo, @Part MultipartBody.Part profileImage);
 
 
     @Multipart
     @POST(W.EDIT_ORGANIZATION_PROFILE)
-    Call<VerifyResponse> editTimeOrganizationProfile(@Part(W.KEY_USERID) String userID, @Part(W.KEY_TOKEN) String tokenHash, @Part("title") String title, @Part("state_id") String stateID, @Part("city_id") String cityID, @Part("location") String address, @Part("zip_code") String zipCode, @Part("type_id") String typeID, @Part("sub_type_id") String subSchoolID, @Part("description") String description, @Part("contact_info") String contactInfo);
+    Call<VerifyResponse> editTimeOrganizationProfile(@Part(W.KEY_USERID) String userID, @Part(W.KEY_TOKEN) String tokenHash, @Part("title") String title, @Part("state_id") String stateID, @Part("city_id") String cityID, @Part("location") String address, @Part("zip_code") String zipCode, @Part("type_id") String typeID, @Part("sub_type_id") String subSchoolID, @Part("description") String description, @Part("contact_info_email") String contact_email,@Part("contact_info_mobile") String contactInfo);
 
 
     @Multipart
@@ -94,11 +98,11 @@ public interface AdminAPI {
 
     @Multipart
     @POST(W.EDIT_FUNDSPOT_PROFILE)
-    Call<VerifyResponse> firstTimeEditFundsportProfile(@Part(W.KEY_USERID) String userID, @Part(W.KEY_TOKEN) String tokenHash, @Part("title") String title, @Part("state_id") String stateID, @Part("city_id") String cityID, @Part("location") String address, @Part("zip_code") String zipCode, @Part("category_id") String category_id, @Part("fundraise_split") String fundraise_split, @Part("description") String description, @Part("contact_info") String contactInfo, @Part MultipartBody.Part profileImage);
+    Call<VerifyResponse> firstTimeEditFundsportProfile(@Part(W.KEY_USERID) String userID, @Part(W.KEY_TOKEN) String tokenHash, @Part("title") String title, @Part("state_id") String stateID, @Part("city_id") String cityID, @Part("location") String address, @Part("zip_code") String zipCode, @Part("category_id") String category_id, @Part("fundraise_split") String fundraise_split, @Part("description") String description, @Part("contact_info_email") String contact_email,@Part("contact_info_mobile") String contactInfo, @Part MultipartBody.Part profileImage);
 
     @Multipart
     @POST(W.EDIT_FUNDSPOT_PROFILE)
-    Call<VerifyResponse> withoutImageEditFundsportProfile(@Part(W.KEY_USERID) String userID, @Part(W.KEY_TOKEN) String tokenHash, @Part("title") String title, @Part("state_id") String stateID, @Part("city_id") String cityID, @Part("location") String address, @Part("zip_code") String zipCode, @Part("category_id") String category_id, @Part("fundraise_split") String fundraise_split, @Part("description") String description, @Part("contact_info") String contactInfo);
+    Call<VerifyResponse> withoutImageEditFundsportProfile(@Part(W.KEY_USERID) String userID, @Part(W.KEY_TOKEN) String tokenHash, @Part("title") String title, @Part("state_id") String stateID, @Part("city_id") String cityID, @Part("location") String address, @Part("zip_code") String zipCode, @Part("category_id") String category_id, @Part("fundraise_split") String fundraise_split, @Part("description") String description, @Part("contact_info_email") String contact_email,@Part("contact_info_mobile") String contactInfo);
 
 
 
@@ -111,7 +115,7 @@ public interface AdminAPI {
 
     @Multipart
     @POST(W.EDIT_GENERALMEMBER)
-    Call<VerifyResponse> generalMemberProfile(@Part(W.KEY_USERID) String userID, @Part(W.KEY_TOKEN) String tokenHash, @Part("first_name") String first_name, @Part("last_name") String last_name, @Part("location") String location, @Part("state_id") String stateID, @Part("city_id") String cityID, @Part("zip_code") String zipCode, @Part("organization_id") String organization_id, @Part("fundspot_id") String fundspot_id, @Part("contact_info") String contact_info, @Part MultipartBody.Part profileImage);
+    Call<VerifyResponse> generalMemberProfile(@Part(W.KEY_USERID) String userID, @Part(W.KEY_TOKEN) String tokenHash, @Part("first_name") String first_name, @Part("last_name") String last_name, @Part("location") String location, @Part("state_id") String stateID, @Part("city_id") String cityID, @Part("zip_code") String zipCode, @Part("organization_id") String organization_id, @Part("fundspot_id") String fundspot_id,@Part("contact_info_email") String contact_email,@Part("contact_info_mobile") String contactInfo, @Part MultipartBody.Part profileImage);
 
     @Multipart
     @POST(W.ADD_PRODUCT)
@@ -149,6 +153,16 @@ public interface AdminAPI {
     @FormUrlEncoded
     @POST(W.FUNDSPOT_SEARCH)
     Call<FundspotListResponse> searchFundspot(@Field(W.KEY_USERID) String userID, @Field(W.KEY_TOKEN) String token, @Field("title") String title);
+
+
+    @FormUrlEncoded
+    @POST(W.FUNDSPOT_SEARCH_FUNDSPOT)
+    Call<GetDataResponses> searchFundspotOne(@Field(W.KEY_USERID) String userID, @Field(W.KEY_TOKEN) String token, @Field("title") String title, @Field("city_id") String city_id , @Field("zip_code") String zip_code);
+
+    @FormUrlEncoded
+    @POST(W.GET_ORGANIZATION_BROWSE)
+    Call<GetDataResponses> GET_ORGANIZATIONBROWSE(@Field(W.KEY_USERID) String userID, @Field(W.KEY_TOKEN) String token, @Field("title") String title, @Field("city_id") String city_id , @Field("zip_code") String zip_code);
+
 
     @FormUrlEncoded
     @POST(W.BROWSE_ORGANIZATION)
@@ -206,6 +220,10 @@ public interface AdminAPI {
 
 
     @FormUrlEncoded
+    @POST(W.GET_SELLER_CAMPAIGN)
+    Call<CampaignListResponse> SellerCampaign(@Field("member_id") String member_id , @Field("Campaign_status") String status);
+
+    @FormUrlEncoded
     @POST(W.GET_MEMBER_FOR_CAMPAIGN)
     Call<MemberResponse> GetMemberForCampaign(@Field(W.KEY_USERID) String userId , @Field(W.KEY_ROLEID) String roleId , @Field("campaign_id") String campaignId);
 
@@ -215,8 +233,17 @@ public interface AdminAPI {
 
 
     @FormUrlEncoded
+    @POST(W.VIEW_MEMBER_PROFILE)
+    Call<GeneralMemberProfileResponse>ViewGeneralMemberProfile(@Field(W.KEY_USERID) String userId,@Field(W.KEY_TOKEN) String tokenhash,@Field("member_id") String memberId);
+
+
+//    @FormUrlEncoded
+//    @POST(W.ADDORDER)
+//    Call<AppModel> AddOrder(@Field(W.KEY_USERID) String userId , @Field(W.KEY_ROLEID) String roleId , @Field(W.KEY_TOKEN) String tokenhash , @Field("campaign_id") String capmpaignId , @Field("firstname") String firstName , @Field("lastname") String lastName , @Field("email") String emailId , @Field("mobile") String mobileNo , @Field("payment_address_1") String address , @Field("payment_city") String city , @Field("payment_postcode") String zipCode , @Field("payment_state") String state , @Field("payment_method") String method , @Field("total") String totalPrice , @Field("owner_id") String ownerId , @Field("latitude") String lattitude , @Field("longitude") String longitude , @Field("organization_id") String orgenizationId , @Field("fundspot_id") String fundspotId , @Field("product_id") String productIdArray);
+
+    @FormUrlEncoded
     @POST(W.ADDORDER)
-    Call<AppModel> AddOrder(@Field(W.KEY_USERID) String userId , @Field(W.KEY_ROLEID) String roleId , @Field(W.KEY_TOKEN) String tokenhash , @Field("campaign_id") String capmpaignId , @Field("firstname") String firstName , @Field("lastname") String lastName , @Field("email") String emailId , @Field("mobile") String mobileNo , @Field("payment_address_1") String address , @Field("payment_city") String city , @Field("payment_postcode") String zipCode , @Field("payment_state") String state , @Field("payment_method") String method , @Field("total") String totalPrice , @Field("owner_id") String ownerId , @Field("latitude") String lattitude , @Field("longitude") String longitude , @Field("organization_id") String orgenizationId , @Field("fundspot_id") String fundspotId , @Field("product_id") String productIdArray);
+    Call<AppModel>AddOrder(@Field("campaign_id") String capmpaignId,@Field(W.KEY_USERID) String userId ,@Field(W.KEY_TOKEN) String tokenhash,@Field(W.KEY_ROLEID) String roleId,@Field("firstname") String firstName,@Field("lastname") String lastName ,@Field("email") String emailId,@Field("mobile") String mobileNo,@Field("payment_address_1") String address,@Field("payment_city") String city,@Field("payment_postcode") String zipCode,@Field("payment_state") String state,@Field("payment_method") String method,@Field("total") String totalPrice,@Field("owner_id") String ownerId,@Field("latitude") String lattitude,@Field("longitude") String longitude,@Field("organization_id") String orgenizationId ,@Field("fundspot_id") String fundspotId,@Field("product_id") String productIdArray,@Field("card_number") String card_number,@Field("card_type") String card_type,@Field("month") String month,@Field("year") String year,@Field("cvv") String cvv,@Field("bcard_id") String bcard_id,@Field("save_card") String save_card);
 
 
 
@@ -267,6 +294,11 @@ public interface AdminAPI {
     @FormUrlEncoded
     @POST(W.MESSGESUSERLIST)
     Call<MemberListResponse> getMembersMessageTime(@Field(W.KEY_USERID) String userID,  @Field("title") String title);
+
+    @FormUrlEncoded
+    @POST(W.PEOPLE_SEARCH)
+    Call<GetSearchPeople> getsearchpeople(@Field(W.KEY_USERID) String userID,@Field("title") String title,@Field(W.KEY_ROLEID) String roleID);
+
 
 
 

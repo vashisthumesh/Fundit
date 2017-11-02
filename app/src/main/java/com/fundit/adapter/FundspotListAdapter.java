@@ -71,8 +71,12 @@ public class FundspotListAdapter extends BaseAdapter {
 
         if(preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION)) {
 
+            String getImage = "";
+
+            getImage = W.FILE_URL +  fundSpotList.get(position).getFundspot().getImage();
+
             Picasso.with(activity)
-                    .load(W.FILE_URL + fundSpotList.get(position).getFundspot().getImage())
+                    .load(getImage)
                     .into(img_profileImage);
 
             txt_Name.setText(fundSpotList.get(position).getFundspot().getTitle());
@@ -81,12 +85,16 @@ public class FundspotListAdapter extends BaseAdapter {
 
         else if(preference.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)){
 
+            String getImage = "";
+
+            getImage = W.FILE_URL +  fundSpotList.get(position).getOrganization().getImage();
+
             Picasso.with(activity)
-                    .load(W.FILE_URL + fundSpotList.get(position).getFundspot().getImage())
+                    .load(getImage)
                     .into(img_profileImage);
 
-            txt_Name.setText(fundSpotList.get(position).getFundspot().getTitle());
-            txt_location.setText(fundSpotList.get(position).getFundspot().getLocation());
+            txt_Name.setText(fundSpotList.get(position).getOrganization().getTitle());
+            txt_location.setText(fundSpotList.get(position).getOrganization().getLocation());
 
 
 

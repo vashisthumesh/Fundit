@@ -69,12 +69,15 @@ public class ShowOrderDetailsAdapter extends BaseAdapter {
 
         preference = new AppPreference(context);
 
-        View view = inflater.inflate(R.layout.layout_order_list, parent, false);
+        View view = inflater.inflate(R.layout.layout_order_coupan, parent, false);
+        ArrayList<String> productsNames = new ArrayList<>();
 
-        TextView txt_orderId= (TextView) view.findViewById(R.id.txt_orderId);
-        TextView txt_totalAmt= (TextView) view.findViewById(R.id.txt_totalAmt);
-        TextView txt_date= (TextView) view.findViewById(R.id.txt_date);
-        TextView txt_coupon= (TextView) view.findViewById(R.id.txt_coupon);
+        TextView txt_fundspot= (TextView) view.findViewById(R.id.txt_fundspot);
+        TextView txt_campaign= (TextView) view.findViewById(R.id.txt_campaign);
+        TextView txt_address= (TextView) view.findViewById(R.id.txt_address);
+        TextView txt_exp_date= (TextView) view.findViewById(R.id.txt_expdate);
+        TextView txt_item=(TextView)view.findViewById(R.id.txt_item);
+        TextView txt_coupons=(TextView)view.findViewById(R.id.txt_coupons);
 
         ImageView img_arrow = (ImageView) view.findViewById(R.id.img_arrow);
 
@@ -82,22 +85,30 @@ public class ShowOrderDetailsAdapter extends BaseAdapter {
         layout_coupon.setVisibility(View.VISIBLE);
 
 
-        txt_orderId.setText(orderLists.get(position).getOrder().getId());
-        txt_totalAmt.setText("$"+orderLists.get(position).getOrder().getTotal());
+        txt_fundspot.setText(orderLists.get(position).getFundspot().getTitle());
+        txt_campaign.setText(orderLists.get(position).getCampaign().getTitle());
+        txt_address.setText(orderLists.get(position).getFundspot().getAddress());
 
-        String getCreatedDate = orderLists.get(position).getOrder().getCreated();
+        String getExpDate = orderLists.get(position).getOrder().getCoupon_expiry_date();
         final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd k:mm:ss");
         try {
-            date = simpleDateFormat.parse(getCreatedDate);
+            date = simpleDateFormat.parse(getExpDate);
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
 
-        txt_date.setText(new SimpleDateFormat("dd-MMM-yyyy").format(date));
-        txt_coupon.setText(orderLists.get(position).getOrder().getTotal_coupon_count());
+        txt_exp_date.setText(new SimpleDateFormat("MM/dd/yy").format(date));
+        txt_coupons.setText(orderLists.get(position).getOrder().getTotal_coupon_count());
 
 
+        for(int i=0 ; i<orderLists.get(position).getOrderProduct().size();i++) {
+            productsNames.add(orderLists.get(position).getOrderProduct().get(i).getName());
+        }
+
+        String getProductName = productsNames.toString().trim();
+        getProductName = getProductName.replaceAll("\\[", "").replaceAll("\\(", "").replaceAll("\\]", "").replaceAll("\\)", "");
+        txt_item.setText(getProductName);
         img_arrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

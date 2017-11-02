@@ -188,6 +188,7 @@ public class SignInActivity extends AppCompatActivity {
                                     preference.setMemberData(memberData);
 
                                     startActivity(in);
+                                    finish();
 
                                 } else {
                                     C.INSTANCE.showToast(getApplicationContext(), verifyResponse.getMessage());

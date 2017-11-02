@@ -6,9 +6,6 @@
     android:orientation="vertical"
     tools:context="com.fundit.fragmet.MyProfileFragment">
 
-    <include layout="@layout/toolbar_center_text"
-        android:visibility="gone"/>
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -16,5 +13,8 @@
         <include layout="@layout/layout_myprofile" />
 
     </ScrollView>
+
+    <include layout="@layout/toolbar_center_text"
+        android:visibility="gone"/>
 
 </LinearLayout>

@@ -81,6 +81,7 @@ public class CouponFragment extends Fragment {
         dialog.show();
         Call<OrderHistoryResponse> orderReponse = adminAPI.OrderHistory(preference.getUserID() , preference.getTokenHash());
         Log.e("params" , "-->" + preference.getUserID());
+        Log.e("hash","--->"+preference.getTokenHash());
         orderReponse.enqueue(new Callback<OrderHistoryResponse>() {
             @Override
             public void onResponse(Call<OrderHistoryResponse> call, Response<OrderHistoryResponse> response) {

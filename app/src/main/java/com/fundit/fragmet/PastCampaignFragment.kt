@@ -3,6 +3,7 @@ package com.fundit.fragmet
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +17,10 @@ import com.fundit.apis.AdminAPI
 import com.fundit.apis.ServiceGenerator
 import com.fundit.helper.CustomDialog
 import com.fundit.model.CampaignListResponse
+import com.fundit.model.Member
+import com.fundit.model.Organization
+import com.fundit.model.User
+import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -32,6 +37,7 @@ class PastCampaignFragment : Fragment() {
     internal lateinit var listCampaign: ListView
     internal lateinit var campaignAdapter: ShowCampaignAdapter
     internal lateinit var dialog: CustomDialog
+    internal   var member = Member()
 
     internal var campaignArrayList: MutableList<CampaignListResponse.CampaignList> = ArrayList()
 
@@ -44,6 +50,12 @@ class PastCampaignFragment : Fragment() {
         adminAPI = ServiceGenerator.getAPIClass()
         dialog = CustomDialog(activity)
 
+        try {
+            member = Gson().fromJson(preference.memberData, Member::class.java)
+            Log.e("userData", preference.userData)
+        } catch (e: Exception) {
+            Log.e("Exception", e.message)
+        }
 
         fetchIDs()
 
@@ -59,8 +71,14 @@ class PastCampaignFragment : Fragment() {
 
         dialog.show()
         var campaignResponse: Call<CampaignListResponse>? = null
+        if(preference.userRoleID.equals(C.GENERAL_MEMBER, ignoreCase = true))
+        {
+            campaignResponse = adminAPI.SellerCampaign(member.id, C.PAST)
+        }
+        else{
+            campaignResponse = adminAPI.ApprovedCampaign(preference.userID, preference.tokenHash, preference.userRoleID, C.PAST)
+        }
 
-        campaignResponse = adminAPI.ApprovedCampaign(preference.userID, preference.tokenHash, preference.userRoleID, C.PAST)
         campaignResponse!!.enqueue(object : Callback<CampaignListResponse> {
             override fun onResponse(call: Call<CampaignListResponse>, response: Response<CampaignListResponse>) {
                 dialog.dismiss()

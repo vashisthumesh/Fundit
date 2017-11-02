@@ -58,13 +58,29 @@ class HomeActivity : AppCompatActivity() {
     var memberRequest: Int = 0
     var campaignRequestCount: Int = 0
     var totalRequest: Int = 0
+    var flag=false
 
+    internal var member = Member()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
         preference = AppPreference(this)
+        var intent:Intent=getIntent()
+        flag=intent.getBooleanExtra("flag",false)
+
+
+        try {
+            member = Gson().fromJson(preference?.getMemberData(), Member::class.java)
+
+            Log.e("getMemberData" , "-->" +  member.toString())
+
+        } catch (e: Exception) {
+            Log.e("Exception", e.message)
+        }
+
+
 
         fillMenus()
         setupToolbar()
@@ -100,9 +116,9 @@ class HomeActivity : AppCompatActivity() {
         //cartCount?.text = preference?.messageCount.toString()
         //actionTitle?.text = ""
         setSupportActionBar(toolbar)
+        Log.e("redemerId" , "-->" +  member.redeemer.toString())
 
-
-        if (preference?.userRoleID.equals(C.FUNDSPOT) || (preference?.userRoleID.equals(C.GENERAL_MEMBER)&& preference?.memberData.equals("1"))) {
+        if (preference?.userRoleID.equals(C.FUNDSPOT) || (preference?.userRoleID.equals(C.GENERAL_MEMBER)&& member.redeemer.equals("1"))) {
             img_qrscan?.visibility = View.VISIBLE
         } else {
             img_qrscan?.visibility = View.GONE
@@ -166,6 +182,7 @@ class HomeActivity : AppCompatActivity() {
 
         Log.e("roleID", preference?.userRoleID + " - " + preference?.userID + " - " + preference?.tokenHash)
 
+
         when (preference?.userRoleID) {
             C.ORGANIZATION -> fragment = HomeFragment()
             C.FUNDSPOT -> fragment = HomeFragment()
@@ -173,6 +190,11 @@ class HomeActivity : AppCompatActivity() {
             else -> fragment = Fragment()
         }
 
+        if (flag == true)
+        {
+            coupon()
+
+        }
         drawerLayout = findViewById(R.id.drawerLayout) as DrawerLayout
         drawerToggle = object : ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close) {
             override fun onDrawerOpened(drawerView: View?) {
@@ -319,14 +341,11 @@ class HomeActivity : AppCompatActivity() {
                 transaction?.commit()
             }
             if (preference?.userRoleID.equals(C.GENERAL_MEMBER) || preference?.userRoleID.equals(C.ORGANIZATION)) {
-
                 actionTitle?.text = "Saved Cards"
                 fragment = MyCardsFragment()
                 val transaction = fm?.beginTransaction()
                 transaction?.replace(R.id.content, fragment)
                 transaction?.commit()
-
-
                 //TODO SOMTHING
             }
 
@@ -356,10 +375,31 @@ class HomeActivity : AppCompatActivity() {
                 transaction?.replace(R.id.content, fragment)
                 transaction?.commit()
             }
+            if(preference?.userRoleID.equals(C.GENERAL_MEMBER) || preference?.userRoleID.equals(C.ORGANIZATION))
+            {
+                val sharingIntent = Intent(android.content.Intent.ACTION_SEND)
+                sharingIntent.type = "text/plain"
+                //val shareBodyText = GlobalFile.share
+                sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Fundit")
+                sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT,"")
+                startActivity(Intent.createChooser(sharingIntent, "Share Via"))
+
+            }
 
 
         } else if (position == 8) {
             img_edit?.visibility = View.GONE
+
+            if(preference?.userRoleID.equals(C.FUNDSPOT))
+            {
+                val sharingIntent = Intent(android.content.Intent.ACTION_SEND)
+                sharingIntent.type = "text/plain"
+                //val shareBodyText = GlobalFile.share
+                sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Fundit")
+                sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT,"")
+                startActivity(Intent.createChooser(sharingIntent, "Share Via"))
+
+            }
 
         } else if (position == 9) {
             img_edit?.visibility = View.GONE
@@ -372,6 +412,18 @@ class HomeActivity : AppCompatActivity() {
         }
         drawerLayout?.closeDrawer(Gravity.START)
     }
+
+    private  fun  coupon()
+    {
+        actionTitle?.text = "My Coupons"
+        fragment = CouponFragment()
+        val transaction = fm?.beginTransaction()
+        transaction?.replace(R.id.content, fragment)
+        transaction?.commit()
+        flag =false
+
+    }
+
 
     private fun logout() {
         val builder = AlertDialog.Builder(this)
@@ -467,7 +519,8 @@ class HomeActivity : AppCompatActivity() {
         if(isDrawerOpen)
             drawerLayout?.closeDrawer(Gravity.START)
         else
-            System.exit(0)
+           System.exit(0)
+
 
 
     }
