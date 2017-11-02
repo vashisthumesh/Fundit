@@ -1,0 +1,191 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.fundit.fragmet.MyProfileFragment">
+
+    <include layout="@layout/toolbar_center_text"
+        android:visibility="gone"/>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/img_profilePic"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:layout_weight="1.5"
+                    android:maxWidth="400dp"
+                    android:padding="10dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        android:id="@+id/txt_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:textColor="@color/colorText"
+                        android:textSize="19sp"
+                        android:textStyle="bold"
+                        tools:text="Aliya Nayeem" />
+
+                    <TextView
+                        android:id="@+id/txt_address"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:textColor="@color/colorText"
+                        android:textSize="19sp"
+                        tools:text="Falls Church, VA" />
+
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_mail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="5dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:paddingLeft="5dp"
+                    android:text="Email Id:"
+                    android:textColor="@color/colorText"
+                    android:textSize="16sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/txt_emailID"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:padding="2dp"
+                    android:textColor="@color/colorText"
+                    android:textSize="16sp"
+                    tools:text="aliyafundit@gmail.com"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_org"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="5dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:padding="5dp"
+                    android:text="Organizations: "
+                    android:textColor="@color/colorText"
+                    android:textSize="16sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/txt_organizations"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:padding="5dp"
+                    android:textColor="@color/colorText"
+                    android:textSize="16sp"
+                    tools:text="VT Club Tennis, VT Bhangra, SIA"/>
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/layout_fundspot"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="5dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:padding="5dp"
+                    android:text="Fundspots:"
+                    android:textColor="@color/colorText"
+                    android:textSize="16sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/txt_fundspot"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:padding="5dp"
+                    android:textColor="@color/colorText"
+                    android:textSize="16sp"
+                    tools:text="VT Club Tennis, VT Bhangra, SIA"/>
+
+            </LinearLayout>
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_gravity="bottom"
+    android:gravity="bottom">
+
+            <Button
+
+                android:layout_margin="10dp"
+                android:id="@+id/btnAdd"
+                android:text="Add Member"
+                android:textAllCaps="false"
+                android:background="@color/colorButton"
+                android:layout_gravity="center"
+                android:layout_width="150dp"
+                android:layout_height="40dp" />
+
+
+            <Button
+                android:layout_margin="10dp"
+                android:id="@+id/btnmessage"
+                android:text="Message"
+                android:textAllCaps="false"
+                android:background="@color/colorButton"
+                android:layout_gravity="center"
+                android:layout_width="150dp"
+                android:layout_height="40dp" />
+
+
+</LinearLayout>
+        </LinearLayout>
+
+
+
+</LinearLayout>
