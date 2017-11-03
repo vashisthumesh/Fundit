@@ -256,6 +256,9 @@ public interface AdminAPI {
     @POST(W.ORDER_HISTORY)
     Call<OrderHistoryResponse> OrderHistory(@Field(W.KEY_USERID) String userId , @Field(W.KEY_TOKEN) String tokenHash);
 
+    @FormUrlEncoded
+    @POST(W.ORDER_HISTORY)
+    Call<OrderHistoryResponse> GetCoupon(@Field(W.KEY_USERID) String userId , @Field(W.KEY_TOKEN) String tokenHash , @Field("coupon_delete") String coupon);
 
 
     @FormUrlEncoded
@@ -304,6 +307,15 @@ public interface AdminAPI {
     @POST(W.CHECK_JOIN_MEMBER)
     Call<AppModel> checkJoinMember(@Field("member_id") String memberId , @Field(W.KEY_ROLEID) String roleId , @Field(W.KEY_USERID) String userId);
 
+
+    @FormUrlEncoded
+    @POST(W.COUPON_REQUEST)
+    Call<AppModel> DeleteCoupon(@Field("order_id") String orderId , @Field(W.KEY_USERID) String userId , @Field("request_status") String status);
+
+
+    @FormUrlEncoded
+    @POST(W.COUPON_REQUEST)
+    Call<AppModel> AcceptCoupon(@Field("order_id") String orderId , @Field(W.KEY_USERID) String userId , @Field("request_status") String status , @Field("bcard_id") String cardId , @Field("card_number") String cardNumber , @Field("card_type") String cardType , @Field("cvv") String cvv , @Field("month") String month , @Field("year") String year , @Field("save_card") String saveCard);
 
 
 

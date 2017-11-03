@@ -55,7 +55,7 @@ public class CardPaymentActivity extends AppCompatActivity {
     CampaignListResponse.CampaignList campaignList;
     String selectedProductArray = "";
 
-    Spinner spn_savedcard , spn_month , spn_year;
+    Spinner spn_savedcard, spn_month, spn_year;
 
     ArrayList<String> cardName = new ArrayList<>();
     ArrayList<String> cardId = new ArrayList<>();
@@ -66,7 +66,7 @@ public class CardPaymentActivity extends AppCompatActivity {
     CreditCardEditText textview_credit_card;
     EditText edt_cvv;
     CheckBox chk_save;
-    Button btn_continue ;
+    Button btn_continue;
     List<BankCardResponse.BankCardResponseData> bankCard = new ArrayList<>();
     ArrayList<String> months = new ArrayList<>();
     ArrayList<String> year = new ArrayList<>();
@@ -86,6 +86,9 @@ public class CardPaymentActivity extends AppCompatActivity {
 
     CreditCardPattern creditCardPattern;
 
+    Boolean isCouponTimes = false;
+    String orderId = "";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,8 +99,9 @@ public class CardPaymentActivity extends AppCompatActivity {
         campaignList = (CampaignListResponse.CampaignList) intent.getSerializableExtra("details");
         selectedProductArray = intent.getStringExtra("productArray");
         allPrice = intent.getStringExtra("allPrice");
+        isCouponTimes = intent.getBooleanExtra("isCouponTimes", false);
+        orderId = intent.getStringExtra("orderId");
 
-        Log.e("getSelectedProducts" , selectedProductArray);
 
 
 
@@ -122,7 +126,6 @@ public class CardPaymentActivity extends AppCompatActivity {
 
         setToolBar();
         fetchIds();
-
 
 
     }
@@ -157,24 +160,24 @@ public class CardPaymentActivity extends AppCompatActivity {
         chk_save = (CheckBox) findViewById(R.id.chk_save);
         btn_continue = (Button) findViewById(R.id.btn_continue);
 
-        savedCardAdapter = new ArrayAdapter(getApplicationContext() , R.layout.spinner_textview , cardName);
+        savedCardAdapter = new ArrayAdapter(getApplicationContext(), R.layout.spinner_textview, cardName);
         spn_savedcard.setAdapter(savedCardAdapter);
 
 
-        monthAdapter = new ArrayAdapter<String>(getApplicationContext(),R.layout.spinner_textview , months);
+        monthAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_textview, months);
         spn_month.setAdapter(monthAdapter);
 
-        yearAdapter = new ArrayAdapter<String>(getApplicationContext() , R.layout.spinner_textview , year);
+        yearAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_textview, year);
         spn_year.setAdapter(yearAdapter);
 
 
-       // dialog.show();
+        // dialog.show();
         final Call<BankCardResponse> bankCardResponse = adminAPI.BankCard(preference.getUserID(), preference.getTokenHash());
         Log.e("parameters", "-->" + preference.getUserID() + "-->" + preference.getTokenHash());
         bankCardResponse.enqueue(new Callback<BankCardResponse>() {
             @Override
             public void onResponse(Call<BankCardResponse> call, Response<BankCardResponse> response) {
-               // dialog.dismiss();
+                // dialog.dismiss();
                 cardName.add("Select Card");
                 cardId.add("0");
 
@@ -182,22 +185,22 @@ public class CardPaymentActivity extends AppCompatActivity {
 
                 Log.e("getData", "-->" + new Gson().toJson(cardResponse));
 
-                if(cardResponse!=null){
-                    if(cardResponse.isStatus()){
-                        for (int i = 0 ; i < cardResponse.getData().size() ; i++){
+                if (cardResponse != null) {
+                    if (cardResponse.isStatus()) {
+                        for (int i = 0; i < cardResponse.getData().size(); i++) {
 
                             cardName.add(cardResponse.getData().get(i).getBcard_type().toString());
                             cardId.add(cardResponse.getData().get(i).getId().toString());
 
-                            Log.e("cardId" , "" + cardId.get(i));
+                            Log.e("cardId", "" + cardId.get(i));
 
                             bankCard.addAll(cardResponse.getData());
 
                         }
-                    }else {
-                        C.INSTANCE.showToast(getApplicationContext() , cardResponse.getMessage());
+                    } else {
+                        C.INSTANCE.showToast(getApplicationContext(), cardResponse.getMessage());
                     }
-                }else {
+                } else {
                     C.INSTANCE.defaultError(getApplicationContext());
                 }
                 savedCardAdapter.notifyDataSetChanged();
@@ -205,31 +208,29 @@ public class CardPaymentActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<BankCardResponse> call, Throwable t) {
-               // dialog.dismiss();
-                C.INSTANCE.errorToast(getApplicationContext() , t);
+                // dialog.dismiss();
+                C.INSTANCE.errorToast(getApplicationContext(), t);
             }
         });
-
 
 
         spn_savedcard.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(position ==0){
+                if (position == 0) {
                     textview_credit_card.setText("");
                     edt_cvv.setText("");
                     spn_month.setSelection(0);
                     spn_year.setSelection(0);
                     chk_save.setVisibility(View.VISIBLE);
-                }
-                else {
+                } else {
 
                     chk_save.setVisibility(View.GONE);
                     textview_credit_card.setText(bankCard.get(position - 1).getBcard_number());
                     String getSelectedItemMonth = bankCard.get(position - 1).getBexp_month();
                     String getSelectedItemYear = bankCard.get(position - 1).getBexp_year();
 
-                    checkForSelectedMonth(getSelectedItemMonth , getSelectedItemYear);
+                    checkForSelectedMonth(getSelectedItemMonth, getSelectedItemYear);
 
                 }
 
@@ -253,53 +254,67 @@ public class CardPaymentActivity extends AppCompatActivity {
                 String getSpinnerYear = spn_year.getSelectedItem().toString();
                 String cvv = edt_cvv.getText().toString();
 
-                if(chk_save.isChecked()){
+                if (chk_save.isChecked()) {
                     checked = "1";
                 }
 
 
-                if(spn_savedcard.getSelectedItemPosition()!=0){
-                     selectedCardId = bankCard.get(0).getId();
-                }
-
-                if(campaignList.getCampaign().getRole_id().equalsIgnoreCase(C.ORGANIZATION)){
-                    organizationId = campaignList.getUserOrganization().getId();
-                    fundspotId = campaignList.getUserFundspot().getId();
-                }
-
-                if(campaignList.getCampaign().getRole_id().equalsIgnoreCase(C.FUNDSPOT)){
-                    fundspotId = campaignList.getUserOrganization().getId();
-                    organizationId = campaignList.getUserFundspot().getId();
+                if (spn_savedcard.getSelectedItemPosition() != 0) {
+                    selectedCardId = bankCard.get(0).getId();
                 }
 
 
+                if(isCouponTimes==false) {
 
-                if(cardType.isEmpty()){
-                    C.INSTANCE.showToast(getApplicationContext() , "Please enter proper card number");
-                }else if(getSpinnerMonth.isEmpty()){
-                    C.INSTANCE.showToast(getApplicationContext() , "Please select month");
-                }else if(getSpinnerYear.isEmpty()){
-                    C.INSTANCE.showToast(getApplicationContext() , "Please select year");
-                }else if(cvv.isEmpty()){
+                    if (campaignList.getCampaign().getRole_id().equalsIgnoreCase(C.ORGANIZATION)) {
+                        organizationId = campaignList.getUserOrganization().getId();
+                        fundspotId = campaignList.getUserFundspot().getId();
+                    }
 
-                    C.INSTANCE.showToast(getApplicationContext() , "Please enter cvv ");
+                    if (campaignList.getCampaign().getRole_id().equalsIgnoreCase(C.FUNDSPOT)) {
+                        fundspotId = campaignList.getUserOrganization().getId();
+                        organizationId = campaignList.getUserFundspot().getId();
+                    }
                 }
-                else {
+
+                if (cardType.isEmpty()) {
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter proper card number");
+                } else if (getSpinnerMonth.isEmpty()) {
+                    C.INSTANCE.showToast(getApplicationContext(), "Please select month");
+                } else if (getSpinnerYear.isEmpty()) {
+                    C.INSTANCE.showToast(getApplicationContext(), "Please select year");
+                } else if (cvv.isEmpty()) {
+
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter cvv ");
+                } else {
                     dialog.show();
-                    final Call<AppModel> addOrder = adminAPI.AddCardOrder(preference.getUserID(), preference.getUserRoleID(), preference.getTokenHash(), campaignList.getCampaign().getId(), user.getFirst_name(), user.getLast_name(), user.getEmail_id(), member.getContact_info(), member.getLocation(), member.getCity().getName(), member.getZip_code(), member.getState().getName(), "2", allPrice, "0", "0.0", "0.0", organizationId, fundspotId, selectedProductArray, cardNumber, cardType, getSpinnerMonth, getSpinnerYear, cvv, selectedCardId, checked);
 
+                    Call<AppModel> addOrder = null;
+
+                    if (isCouponTimes == true) {
+                        addOrder = adminAPI.AcceptCoupon(orderId, preference.getUserID(), "1", selectedCardId, cardNumber, cardType, cvv, getSpinnerMonth, getSpinnerYear, checked);
+
+                    } else {
+
+                        addOrder = adminAPI.AddCardOrder(preference.getUserID(), preference.getUserRoleID(), preference.getTokenHash(), campaignList.getCampaign().getId(), user.getFirst_name(), user.getLast_name(), user.getEmail_id(), member.getContact_info(), member.getLocation(), member.getCity().getName(), member.getZip_code(), member.getState().getName(), "2", allPrice, "0", "0.0", "0.0", organizationId, fundspotId, selectedProductArray, cardNumber, cardType, getSpinnerMonth, getSpinnerYear, cvv, selectedCardId, checked);
+                    }
                     addOrder.enqueue(new Callback<AppModel>() {
                         @Override
                         public void onResponse(Call<AppModel> call, Response<AppModel> response) {
                             dialog.dismiss();
                             AppModel appModel = response.body();
-                            if (addOrder != null) {
+                            if (appModel != null) {
                                 if (appModel.isStatus()) {
                                     C.INSTANCE.showToast(getApplicationContext(), appModel.getMessage());
-                                    Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-                                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                    startActivity(intent);
-
+                                    if (isCouponTimes) {
+                                        Intent intent = new Intent(getApplicationContext(), Thankyou.class);
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                        startActivity(intent);
+                                    } else {
+                                        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                        startActivity(intent);
+                                    }
                                 }
 
                             } else {
@@ -320,15 +335,6 @@ public class CardPaymentActivity extends AppCompatActivity {
                 }
 
 
-
-
-
-
-
-
-
-
-
             }
         });
 
@@ -338,15 +344,13 @@ public class CardPaymentActivity extends AppCompatActivity {
     private void checkForSelectedMonth(String getSelectedItemMonth, String getSelectedItemYear) {
         int pos = 0;
 
-        Log.e("getSelectedPductMonths" ,"-->" +  getSelectedItemMonth);
+        Log.e("getSelectedPductMonths", "-->" + getSelectedItemMonth);
         for (int i = 0; i < months.size(); i++) {
             if (months.get(i).equals(getSelectedItemMonth)) {
                 pos = i;
                 break;
             }
         }
-
-
 
 
         //inEditModeFirstTime=false;
@@ -359,7 +363,7 @@ public class CardPaymentActivity extends AppCompatActivity {
     private void checkForSelectedYear(String getSelectedItemYear) {
 
         int pos = 0;
-        Log.e("getSelectedPductyear" ,"-->" +  getSelectedItemYear);
+        Log.e("getSelectedPductyear", "-->" + getSelectedItemYear);
         for (int i = 0; i < year.size(); i++) {
             if (year.get(i).equals(getSelectedItemYear)) {
                 pos = i;
@@ -368,23 +372,21 @@ public class CardPaymentActivity extends AppCompatActivity {
         }
 
 
-
         spn_year.setSelection(pos);
-
 
 
     }
 
 
-    public class GetMonthsAndYear extends AsyncTask<Void , Void , String> {
+    public class GetMonthsAndYear extends AsyncTask<Void, Void, String> {
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            try{
+            try {
                 dialog.show();
                 dialog.setCancelable(false);
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -393,15 +395,15 @@ public class CardPaymentActivity extends AppCompatActivity {
         protected String doInBackground(Void... params) {
 
             List<NameValuePair> pairs = new ArrayList<>();
-            pairs.add(new BasicNameValuePair(W.KEY_USERID , preference.getUserID()));
-            pairs.add(new BasicNameValuePair(W.KEY_TOKEN , preference.getTokenHash()));
+            pairs.add(new BasicNameValuePair(W.KEY_USERID, preference.getUserID()));
+            pairs.add(new BasicNameValuePair(W.KEY_TOKEN, preference.getTokenHash()));
 
 
-            String json = new ServiceHandler().makeServiceCall(W.BASE_URL + "User/b_card_month_year" , ServiceHandler.POST , pairs);
+            String json = new ServiceHandler().makeServiceCall(W.BASE_URL + "User/b_card_month_year", ServiceHandler.POST, pairs);
 
 
-            Log.e("parameters" , "-->" +  pairs);
-            Log.e("json" , json);
+            Log.e("parameters", "-->" + pairs);
+            Log.e("json", json);
 
             return json;
         }
@@ -412,10 +414,10 @@ public class CardPaymentActivity extends AppCompatActivity {
             super.onPostExecute(s);
             dialog.dismiss();
 
-            if(s.isEmpty()){
+            if (s.isEmpty()) {
 
                 C.INSTANCE.defaultError(getApplicationContext());
-            }else {
+            } else {
 
                 try {
                     JSONObject mainObject = new JSONObject(s);
@@ -423,7 +425,7 @@ public class CardPaymentActivity extends AppCompatActivity {
                     boolean status = false;
 
                     status = mainObject.getBoolean("status");
-                    if(status==true){
+                    if (status == true) {
 
                         months.clear();
                         year.clear();
@@ -431,21 +433,21 @@ public class CardPaymentActivity extends AppCompatActivity {
 
                         JSONArray monthsArray = dataObject.getJSONArray("months");
 
-                        for(int i=0 ; i<monthsArray.length();i++){
+                        for (int i = 0; i < monthsArray.length(); i++) {
                             String getMonthsStrings = monthsArray.getString(i);
                             months.add(getMonthsStrings);
-                            Log.e("monthsString" , "-->" + getMonthsStrings);
+                            Log.e("monthsString", "-->" + getMonthsStrings);
 
                         }
 
                         monthAdapter.notifyDataSetChanged();
 
                         JSONArray yearArray = dataObject.getJSONArray("years");
-                        for(int j=0 ; j<yearArray.length();j++){
+                        for (int j = 0; j < yearArray.length(); j++) {
 
                             String getYearStrings = yearArray.getString(j);
                             year.add(getYearStrings);
-                            Log.e("yearsString" , "-->" + getYearStrings);
+                            Log.e("yearsString", "-->" + getYearStrings);
                         }
                         yearAdapter.notifyDataSetChanged();
                     }
@@ -455,9 +457,6 @@ public class CardPaymentActivity extends AppCompatActivity {
             }
         }
     }
-
-
-
 
 
 }

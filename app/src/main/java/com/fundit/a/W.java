@@ -105,6 +105,9 @@ public class W {
     public  static final String GET_ORGANIZATION_BROWSE="Organization/app_search_organization";
     public static final String CHECK_JOIN_MEMBER = "Member/App_Check_Join_request";
 
+    public static final String COUPON_REQUEST = "Order/app_accept_coupon_request";
+
+
 
 
 

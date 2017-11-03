@@ -79,7 +79,7 @@ public class CouponFragment extends Fragment {
 
     private void GetAllDatas() {
         dialog.show();
-        Call<OrderHistoryResponse> orderReponse = adminAPI.OrderHistory(preference.getUserID() , preference.getTokenHash());
+        Call<OrderHistoryResponse> orderReponse = adminAPI.GetCoupon(preference.getUserID() , preference.getTokenHash() , "0");
         Log.e("params" , "-->" + preference.getUserID());
         Log.e("hash","--->"+preference.getTokenHash());
         orderReponse.enqueue(new Callback<OrderHistoryResponse>() {
