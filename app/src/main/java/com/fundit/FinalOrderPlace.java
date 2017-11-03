@@ -282,13 +282,71 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
             else {
                 tab_layout.setVisibility(View.GONE);
                 confirm_layout.setVisibility(View.GONE);
-
+                radio_cashPayment.setVisibility(View.GONE);
+                serch_user.setVisibility(View.GONE);
                 edt_name.setText(user.getTitle());
                 edt_email.setText(user.getEmail_id());
                 edt_confirm_email.setText(user.getEmail_id());
                 txt_targetAmt.setText("$0.00");
             }
 
+
+        }
+
+        if(preference.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT) || preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION))
+        {
+
+            if(member.getSeller().equalsIgnoreCase("1"))
+            {
+                tab_layout.setVisibility(View.VISIBLE);
+                confirm_layout.setVisibility(View.VISIBLE);
+
+
+                me_data();
+
+               // tabLayout.addTab(tabLayout.newTab().setText("Me"));
+                tabLayout.addTab(tabLayout.newTab().setText("Fundit User"));
+                tabLayout.addTab(tabLayout.newTab().setText("other"));
+
+
+                tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                    @Override
+                    public void onTabSelected(TabLayout.Tab tab) {
+                        if(tab.getPosition() == 0)
+                        {
+                            fundit_user();
+
+
+                        }
+                        else if(tab.getPosition() == 1)
+                        {
+                            other_user();
+
+                        }
+
+                    }
+
+                    @Override
+                    public void onTabUnselected(TabLayout.Tab tab) {
+
+                    }
+
+                    @Override
+                    public void onTabReselected(TabLayout.Tab tab) {
+
+                    }
+                });
+            }
+            else {
+                tab_layout.setVisibility(View.GONE);
+                confirm_layout.setVisibility(View.GONE);
+                radio_cashPayment.setVisibility(View.GONE);
+                serch_user.setVisibility(View.GONE);
+                edt_name.setText(user.getTitle());
+                edt_email.setText(user.getEmail_id());
+                edt_confirm_email.setText(user.getEmail_id());
+                txt_targetAmt.setText("$0.00");
+            }
 
         }
 
