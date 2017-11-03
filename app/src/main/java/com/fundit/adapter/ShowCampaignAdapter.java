@@ -49,7 +49,6 @@ public class ShowCampaignAdapter extends BaseAdapter {
     AppPreference preference;
     Context context;
     Date startdate,enddate;
-    LinearLayout org_layout;
 
     public ShowCampaignAdapter(List<CampaignListResponse.CampaignList> campaignLists, Activity activity) {
         this.campaignLists = campaignLists;
@@ -93,18 +92,28 @@ public class ShowCampaignAdapter extends BaseAdapter {
         TextView txt_labelpart= (TextView) view.findViewById(R.id.txt_labelpart);
         TextView txt_orgPartner= (TextView) view.findViewById(R.id.txt_orgPartner);
         LinearLayout org_layout= (LinearLayout) view.findViewById(R.id.org_layout);
+        LinearLayout main_layout2= (LinearLayout) view.findViewById(R.id.main_layout2);
+        LinearLayout main_layout= (LinearLayout) view.findViewById(R.id.main_layout);
+        LinearLayout outer= (LinearLayout) view.findViewById(R.id.outer);
 
         ImageView img_forward = (ImageView) view.findViewById(R.id.img_forward);
 
 
+
+        double halflength=0;
+        halflength=(int) (getScreenWidth()/0.1);
+        main_layout.getLayoutParams().width=(int) halflength;
+        main_layout2.getLayoutParams().width=(int) halflength;
+        outer.getLayoutParams().width=(int) halflength;
+
         double finallength=0;
-        finallength=(int) (getScreenWidth()/3);
+        finallength= (halflength/3);
 
         double initiallength=0;
-        initiallength= (getScreenWidth()/3.5);
+        initiallength= (halflength/3.5);
 
         double remaininglength=0;
-        remaininglength= (getScreenWidth()-(int)(getScreenWidth()/3)-(getScreenWidth()/3.5));
+        remaininglength= (halflength-(halflength/3)-(halflength/3.5));
 
 
         txt_targetAmt.getLayoutParams().width= (int) finallength;
