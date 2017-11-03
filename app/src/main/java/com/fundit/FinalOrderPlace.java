@@ -496,11 +496,13 @@ public class FinalOrderPlace extends AppCompatActivity  {
         // check if the request code is same as what is passed  here it is 2
         if(requestCode==1)
         {
-            people = (GetSearchPeople.People) data.getSerializableExtra("id");
+            if(data != null) {
+                people = (GetSearchPeople.People) data.getSerializableExtra("id");
 
-            edt_name.setText(people.getFirst_name()+""+people.getLast_name());
-            edt_email.setText(people.getEmail_id());
-            edt_confirm_email.setText(people.getEmail_id());
+                edt_name.setText(people.getFirst_name() + "" + people.getLast_name());
+                edt_email.setText(people.getEmail_id());
+                edt_confirm_email.setText(people.getEmail_id());
+            }
         }
     }
 

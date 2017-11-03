@@ -45,11 +45,11 @@ public class SerchPeopleActivity extends AppCompatActivity {
 
     CircleImageView circleImageView;
 
-    TextView txt_name, txt_address, txt_emailID, txt_organizations, txt_fundspots, txt_currentCampaigns, txt_pastCampaigns, txt_contct;
+    TextView txt_name, txt_address, txt_emailID, txt_organizations, txt_fundspots, txt_currentCampaigns, txt_pastCampaigns, txt_email,txt_mobile;
 
     Button btnAdd, btnJoin, btnFollow, btnMessage;
 
-    LinearLayout layout_contact, current, past, layout_buttons , layout_mail,layout_fundspot;
+    LinearLayout layout_contact, current, past, layout_buttons , layout_mail,layout_fundspot,layput_contact_mobile,layput_contact_email;
 
 
     String Id = "";
@@ -118,6 +118,10 @@ public class SerchPeopleActivity extends AppCompatActivity {
         circleImageView = (CircleImageView) findViewById(R.id.img_profilePic);
         txt_fundspots= (TextView) findViewById(R.id.txt_fundspot);
         layout_fundspot= (LinearLayout) findViewById(R.id.layout_fundspot);
+        layput_contact_email= (LinearLayout) findViewById(R.id.layput_contact_email);
+        layput_contact_mobile= (LinearLayout) findViewById(R.id.layput_contact_mobile);
+        txt_email= (TextView) findViewById(R.id.txt_email);
+        txt_mobile= (TextView) findViewById(R.id.txt_mobile);
 
 
         btnAdd = (Button) findViewById(R.id.btnAdd);

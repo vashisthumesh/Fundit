@@ -134,6 +134,7 @@ public class Search_fundituserActivity extends AppCompatActivity implements Peop
     }
 
 
+
     @Override
     public void updateintent(GetSearchPeople.People position) {
         Intent intent=new Intent();
