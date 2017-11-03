@@ -37,14 +37,16 @@ public class OrderTimeProductAdapter extends BaseAdapter {
     List<MultipleProductResponse> productResponses = new ArrayList<>();
     Context context;
     LayoutInflater inflater;
+    OnClick onClick;
 
     String imagePath = "";
 
 
 
-    public OrderTimeProductAdapter(List<MultipleProductResponse> productResponses, Context context ) {
+    public OrderTimeProductAdapter(List<MultipleProductResponse> productResponses, Context context , OnClick onClick) {
         this.productResponses = productResponses;
         this.context = context;
+        this.onClick = onClick;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -160,6 +162,8 @@ public class OrderTimeProductAdapter extends BaseAdapter {
 
                         productResponses.get(position).setTotal_price(String.valueOf(totalPrice));
 
+                        onClick.UpdateTotalPrice(totalPrice);
+
                     }
 
                 }
@@ -223,6 +227,11 @@ public class OrderTimeProductAdapter extends BaseAdapter {
 
     }
 
+
+    public interface OnClick{
+
+        void UpdateTotalPrice(float totalPrice);
+    }
 
 
 

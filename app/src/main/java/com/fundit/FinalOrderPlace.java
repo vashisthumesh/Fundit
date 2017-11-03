@@ -53,7 +53,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class FinalOrderPlace extends AppCompatActivity  {
+public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProductAdapter.OnClick  {
 
     AppPreference preference;
     AdminAPI adminAPI;
@@ -186,9 +186,9 @@ public class FinalOrderPlace extends AppCompatActivity  {
 
 
 //        txt_fundraiser.setText("Fundriser : " + campaignList.getCampaign().getTitle());
-      //  txt_targetAmt.setText(" $" +String.format("%.2f", Double.parseDouble( campaignList.getCampaign().getTarget_amount())));
+        //  txt_targetAmt.setText(" $" +String.format("%.2f", Double.parseDouble( campaignList.getCampaign().getTarget_amount())));
 
-        productAdapter = new OrderTimeProductAdapter(productList, getApplicationContext());
+        productAdapter = new OrderTimeProductAdapter(productList, getApplicationContext() , FinalOrderPlace.this);
         list_products.setAdapter(productAdapter);
         for (int i = 0; i < campaignList.getCampaignProduct().size(); i++) {
 
@@ -280,7 +280,7 @@ public class FinalOrderPlace extends AppCompatActivity  {
                 edt_name.setText(user.getTitle());
                 edt_email.setText(user.getEmail_id());
                 edt_confirm_email.setText(user.getEmail_id());
-                txt_targetAmt.setText(" $" +String.format("%.2f", Double.parseDouble( campaignList.getCampaign().getTarget_amount())));
+                txt_targetAmt.setText("$0.00");
             }
 
 
@@ -452,7 +452,7 @@ public class FinalOrderPlace extends AppCompatActivity  {
         edt_name.setText(user.getTitle());
         edt_email.setText(user.getEmail_id());
         edt_confirm_email.setText(user.getEmail_id());
-        txt_targetAmt.setText(" $" +String.format("%.2f", Double.parseDouble( campaignList.getCampaign().getTarget_amount())));
+        txt_targetAmt.setText("$0.00");
 
 
     }
@@ -475,8 +475,8 @@ public class FinalOrderPlace extends AppCompatActivity  {
         serch_user.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              Intent i=new Intent(FinalOrderPlace.this,Search_fundituserActivity.class);
-               startActivityForResult(i,1);
+                Intent i=new Intent(FinalOrderPlace.this,Search_fundituserActivity.class);
+                startActivityForResult(i,1);
             }
         });
 
@@ -494,7 +494,7 @@ public class FinalOrderPlace extends AppCompatActivity  {
     {
         super.onActivityResult(requestCode, resultCode, data);
         // check if the request code is same as what is passed  here it is 2
-        if(requestCode==1)
+        if(requestCode==1 )
         {
             if(data != null) {
                 people = (GetSearchPeople.People) data.getSerializableExtra("id");
@@ -522,7 +522,9 @@ public class FinalOrderPlace extends AppCompatActivity  {
     }
 
 
-
-
-
+    @Override
+    public void UpdateTotalPrice(float totalPrice) {
+        Log.e("price" , "-->" + totalPrice);
+        txt_targetAmt.setText("$" + String.valueOf(totalPrice));
+    }
 }

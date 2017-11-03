@@ -49,7 +49,7 @@ public class Search_fundituserActivity extends AppCompatActivity implements Peop
         preferences = new AppPreference(getApplicationContext());
         dialog = new CustomDialog(getApplicationContext());
 
-            FetchIds();
+        FetchIds();
 
     }
 
@@ -140,7 +140,7 @@ public class Search_fundituserActivity extends AppCompatActivity implements Peop
         Intent intent=new Intent();
         intent.putExtra("id",position);
         setResult(1,intent);
-         finish();
+        finish();
 
 
 
