@@ -350,7 +350,7 @@
                     android:checked="true"
                     android:gravity="center"
                     android:padding="3dp"
-                    android:text="Creadit/Debit Card"
+                    android:text="Credit/Debit Card"
                     android:textColor="@color/black"
                     android:textSize="14sp" />
 

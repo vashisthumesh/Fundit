@@ -59,6 +59,7 @@ class HomeActivity : AppCompatActivity() {
     var campaignRequestCount: Int = 0
     var totalRequest: Int = 0
     var flag=false
+    internal var user = User()
 
     internal var member = Member()
 
@@ -227,7 +228,15 @@ class HomeActivity : AppCompatActivity() {
         img_profilePic = headerView?.findViewById(R.id.img_profilePic) as CircleImageView
         list_navigation?.addHeaderView(headerView)
         val gson = Gson()
-        val user: User = gson.fromJson(preference?.userData, User::class.java)
+        try{
+            user = gson.fromJson(preference?.userData, User::class.java)
+        }
+        catch(e: JSONException)
+        {
+            e.printStackTrace();
+        }
+
+
         txt_userEmail?.text = user.email_id
         when (preference?.userRoleID) {
             C.ORGANIZATION -> {

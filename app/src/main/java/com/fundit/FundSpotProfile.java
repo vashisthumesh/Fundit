@@ -297,7 +297,8 @@ public class FundSpotProfile extends AppCompatActivity {
                 String zipcode = ed_fund_zipcode.getText().toString().trim();
                 String funsplit = ed_fund_fundsplit.getText().toString().trim();
                 String description = ed_fund_description.getText().toString().trim();
-                String contactInfo = ed_fund_contact_info.getText().toString().trim();
+                String con="+";
+                String contactInfo = con+ed_fund_contact_info.getText().toString().trim();
                 String contact_email=edt_contactInfo_email.getText().toString().trim();
 
                 int statePosition = sp_state.getSelectedItemPosition();
