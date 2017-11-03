@@ -231,6 +231,7 @@ public class MyBrowseCampaign extends Fragment {
                     }
                     else if(getSelectedId == R.id.rb_people)
                     {
+                        list.setVisibility(View.VISIBLE);
                         fundspotSelected = false;
                         SEARCH_PEOPLE(getSearchTermed);
                         Log.e("id:",preferences.getUserID());

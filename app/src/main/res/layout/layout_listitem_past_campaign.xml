@@ -126,7 +126,7 @@
             android:paddingTop="5dp"
             android:paddingBottom="5dp">
 
-            <include layout="@layout/layout_raised_price" />
+            <include layout="@layout/layout_raised_pricelinear" />
 
         </LinearLayout>
 

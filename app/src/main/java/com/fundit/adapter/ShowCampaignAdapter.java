@@ -98,22 +98,25 @@ public class ShowCampaignAdapter extends BaseAdapter {
 
         ImageView img_forward = (ImageView) view.findViewById(R.id.img_forward);
 
-
+        Log.e("screen", "---->"+getScreenWidth());
 
         double halflength=0;
-        halflength=(int) (getScreenWidth()/0.1);
+        halflength=(int) (getScreenWidth()/1.4);
         main_layout.getLayoutParams().width=(int) halflength;
         main_layout2.getLayoutParams().width=(int) halflength;
         outer.getLayoutParams().width=(int) halflength;
+        Log.e("screenhalf","----->"+halflength);
 
         double finallength=0;
-        finallength= (halflength/3);
+        finallength= (halflength/2.1);
+        Log.e("finallength","--->"+finallength);
 
         double initiallength=0;
-        initiallength= (halflength/3.5);
+        initiallength= (halflength/2.6);
+        Log.e("initial","--->"+initiallength);
 
         double remaininglength=0;
-        remaininglength= (halflength-(halflength/3)-(halflength/3.5));
+        remaininglength= (halflength-(halflength/2.1)-(halflength/2.6));
 
 
         txt_targetAmt.getLayoutParams().width= (int) finallength;
@@ -160,7 +163,7 @@ public class ShowCampaignAdapter extends BaseAdapter {
             txt_targetAmt.setText("$" +String.format("%.2f",Double.parseDouble( campaignLists.get(position).getCampaign().getTarget_amount())));
         }
 
-
+       // txt_raised.setText("Raised"+"\t"+"$"+1200.00);
 
         txt_raised.setText("Raised"+"\t"+"$"+campaignLists.get(position).getCampaign().getTotal_earning());
 
