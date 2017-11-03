@@ -263,14 +263,18 @@ public class OrderPlaceActivity extends AppCompatActivity {
             }
         });
 
-        btn_placeOrder.setOnClickListener(new View.OnClickListener() {
+        btn_placeOrder1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                C.INSTANCE.showToast(getApplicationContext() , "Feature Coming Soon");
+                Intent intent = new Intent(getApplicationContext(), FinalOrderPlace.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra("details", campaignList);
+                startActivity(intent);
+
 
             }
         });
-        btn_placeOrder1.setOnClickListener(new View.OnClickListener() {
+        btn_placeOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 C.INSTANCE.showToast(getApplicationContext() , "Feature Coming Soon");
