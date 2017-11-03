@@ -248,7 +248,7 @@ public class CreateCampaignNextActivity extends AppCompatActivity {
                     JSONArray campaignDetailArray = new JSONArray();
                     JSONObject detailObject = new JSONObject();
                     JSONArray memberIDArray = new JSONArray();
-                    JSONArray selectedProductArray = new JSONArray();
+                    JSONArray   selectedProductArray = new JSONArray();
                     try {
                         detailObject.put("user_id", preference.getUserID());
                         detailObject.put("role_id" , preference.getUserRoleID());
