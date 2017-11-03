@@ -133,6 +133,7 @@ public class SerchPeopleActivity extends AppCompatActivity {
         if(preference.getUserRoleID().equalsIgnoreCase("4"))
         {
             btnAdd.setVisibility(View.GONE);
+
         }
         else if(preference.getUserRoleID().equalsIgnoreCase("2"))
         {
@@ -148,6 +149,7 @@ public class SerchPeopleActivity extends AppCompatActivity {
             if(flag == true)
             {
                 btnAdd.setVisibility(View.GONE);
+                btnMessage.setVisibility(View.GONE);
             }
             else {
                 btnAdd.setVisibility(View.VISIBLE);
@@ -258,8 +260,11 @@ public class SerchPeopleActivity extends AppCompatActivity {
                         txt_emailID.setText(userObject.getString("email_id"));
 
 
-                        txt_address.setText(cityObject.getString("name") + stateObject.getString("state_code") + " , " + memberObject.getString("zip_code"));
+                        txt_address.setText(memberObject.getString("location")+"\n"+cityObject.getString("name") + stateObject.getString("state_code") + " , " + memberObject.getString("zip_code"));
                         txt_organizations.setText(memberObject.getString("organization_names"));
+
+                        txt_email.setText(memberObject.getString("contact_info_email"));
+                        txt_mobile.setText(memberObject.getString("contact_info_mobile"));
 
 
                         String getURL = W.FILE_URL + memberObject.getString("image");
