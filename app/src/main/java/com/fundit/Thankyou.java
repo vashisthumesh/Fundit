@@ -78,4 +78,14 @@ public class Thankyou extends AppCompatActivity {
 
 
     }
+
+    @Override
+    public void onBackPressed() {
+       /* super.onBackPressed();*/
+        Intent i=new Intent(getApplicationContext(),HomeActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        i.putExtra("flag",true);
+        startActivity(i);
+        finish();
+    }
 }

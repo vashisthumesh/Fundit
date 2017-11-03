@@ -89,6 +89,18 @@ public class CardPaymentActivity extends AppCompatActivity {
     Boolean isCouponTimes = false;
     String orderId = "";
 
+    String userId = "";
+    String roleId = "";
+    boolean isOtherUser = false;
+
+    String orderRequest = "";
+    String onBehalfOf = "";
+    String otherUser = "";
+
+    String firstName = "";
+    String lastName = "";
+    String emailId = "";
+    String ownerId = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,9 +113,14 @@ public class CardPaymentActivity extends AppCompatActivity {
         allPrice = intent.getStringExtra("allPrice");
         isCouponTimes = intent.getBooleanExtra("isCouponTimes", false);
         orderId = intent.getStringExtra("orderId");
+        userId = intent.getStringExtra("selectedFundUserId");
+        isOtherUser = intent.getBooleanExtra("otherUser", false);
+        firstName = intent.getStringExtra("firstName");
+        lastName = intent.getStringExtra("lastName");
+        emailId = intent.getStringExtra("emailId");
 
 
-
+        Log.e("userId", "--->" + userId);
 
         preference = new AppPreference(getApplicationContext());
         dialog = new CustomDialog(this);
@@ -254,6 +271,37 @@ public class CardPaymentActivity extends AppCompatActivity {
                 String getSpinnerYear = spn_year.getSelectedItem().toString();
                 String cvv = edt_cvv.getText().toString();
 
+                if (isCouponTimes == false) {
+
+                    if (userId.isEmpty()) {
+
+                        userId = preference.getUserID();
+                        roleId = preference.getUserRoleID();
+
+                        onBehalfOf = "0";
+                        orderRequest = "0";
+
+                        if (isOtherUser) {
+                            otherUser = "1";
+                        } else {
+                            otherUser = "0";
+                            firstName = user.getFirst_name();
+                            lastName = user.getLast_name();
+                            emailId = member.getContact_info_email();
+                        }
+                    } else {
+                        roleId = "4";
+                        onBehalfOf = "1";
+                        orderRequest = "0";
+                        otherUser = "0";
+                        /*firstName = user.getFirst_name();
+                        lastName = user.getLast_name();
+                        emailId = member.getContact_info_email();
+*/
+                    }
+
+                }
+
                 if (chk_save.isChecked()) {
                     checked = "1";
                 }
@@ -264,7 +312,7 @@ public class CardPaymentActivity extends AppCompatActivity {
                 }
 
 
-                if(isCouponTimes==false) {
+                if (isCouponTimes == false) {
 
                     if (campaignList.getCampaign().getRole_id().equalsIgnoreCase(C.ORGANIZATION)) {
                         organizationId = campaignList.getUserOrganization().getId();
@@ -296,7 +344,10 @@ public class CardPaymentActivity extends AppCompatActivity {
 
                     } else {
 
-                        addOrder = adminAPI.AddCardOrder(preference.getUserID(), preference.getUserRoleID(), preference.getTokenHash(), campaignList.getCampaign().getId(), user.getFirst_name(), user.getLast_name(), user.getEmail_id(), member.getContact_info(), member.getLocation(), member.getCity().getName(), member.getZip_code(), member.getState().getName(), "2", allPrice, "0", "0.0", "0.0", organizationId, fundspotId, selectedProductArray, cardNumber, cardType, getSpinnerMonth, getSpinnerYear, cvv, selectedCardId, checked);
+                        addOrder = adminAPI.AddCardOrder(userId, roleId, preference.getTokenHash(), campaignList.getCampaign().getId(), firstName , lastName , emailId, member.getContact_info(), member.getLocation(), member.getCity().getName(), member.getZip_code(), member.getState().getName(), "2", allPrice, preference.getUserID(), "0.0", "0.0", organizationId, fundspotId, selectedProductArray, cardNumber, cardType, getSpinnerMonth, getSpinnerYear, cvv, selectedCardId, checked, onBehalfOf, orderRequest, otherUser);
+
+                        Log.e("check", "-->" + onBehalfOf + "-->" + orderRequest + "--->" + otherUser + "--->" +userId +"--->" + firstName + "--->"+ lastName + "--->" + preference.getUserID());
+
                     }
                     addOrder.enqueue(new Callback<AppModel>() {
                         @Override

@@ -165,6 +165,11 @@ public class OrderTimeProductAdapter extends BaseAdapter {
                         onClick.UpdateTotalPrice(totalPrice);
 
                     }
+                    if(quantity==0){
+                        float totalPrice = 0;
+                        onClick.UpdateTotalPrice(totalPrice);
+
+                    }
 
                 }
 

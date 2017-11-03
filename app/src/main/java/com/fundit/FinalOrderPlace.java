@@ -94,6 +94,12 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
     String fundspotId = "";
 
 
+    String selectedFundsUserId = "";
+    String firstName = "";
+    String lastName = "";
+    String emailId = "";
+
+    boolean isotherTimes = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -296,6 +302,19 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
             public void onClick(View v) {
                 int allPrice = 0;
 
+                if(tabLayout.getSelectedTabPosition()==2){
+
+                    firstName = edt_name.getText().toString().trim();
+                    lastName = "";
+                    emailId = edt_email.getText().toString().trim();
+                    isotherTimes = true;
+
+
+
+                }
+
+
+
                 int checkedPaymentType = radioGroup_paymentType.getCheckedRadioButtonId();
 
                 if (checkedPaymentType == R.id.radio_cardPayment) {
@@ -362,7 +381,7 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
                             organizationId = campaignList.getUserFundspot().getId();
                         }
                         dialog.show();
-                        final Call<AppModel> addOrder = adminAPI.AddOrder(campaignList.getCampaign().getId(),preference.getUserID(),preference.getTokenHash(), preference.getUserRoleID(),  user.getFirst_name(), user.getLast_name(), user.getEmail_id(), member.getContact_info(), member.getLocation(), member.getCity().getName(), member.getZip_code(), member.getState().getName(), String.valueOf(checkedPaymentType), String.valueOf(allPrice), "0", "0.0", "0.0", organizationId, fundspotId, selectedProductArray.toString(),"","","","","","","");
+                        final Call<AppModel> addOrder = adminAPI.AddOrder(campaignList.getCampaign().getId(),selectedFundsUserId,preference.getTokenHash(), "4",  firstName, lastName, emailId, member.getContact_info(), member.getLocation(), member.getCity().getName(), member.getZip_code(), member.getState().getName(), String.valueOf(checkedPaymentType), String.valueOf(allPrice), preference.getUserID(), "0.0", "0.0", organizationId, fundspotId, selectedProductArray.toString(),"","","","","","","" , "0" , "1" , "0");
 
 
 
@@ -425,6 +444,11 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
                         intent.putExtra("details" , campaignList);
                         intent.putExtra("productArray" , selectedProductArray.toString());
                         intent.putExtra("allPrice" , String.valueOf(allPrice));
+                        intent.putExtra("selectedFundUserId" , selectedFundsUserId);
+                        intent.putExtra("otherUser" , isotherTimes);
+                        intent.putExtra("firstName" ,firstName);
+                        intent.putExtra("lastName" ,lastName);
+                        intent.putExtra("emailId" ,emailId);
                         Log.e("productArray" , selectedProductArray.toString());
 
                         startActivity(intent);
@@ -502,14 +526,13 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
                 edt_name.setText(people.getFirst_name() + "" + people.getLast_name());
                 edt_email.setText(people.getEmail_id());
                 edt_confirm_email.setText(people.getEmail_id());
+                selectedFundsUserId = people.getUser_id();
+                firstName = people.getFirst_name();
+                lastName = people.getLast_name();
+                emailId = people.getEmail_id();
             }
         }
     }
-
-
-
-
-
 
     public  void other_user()
     {
