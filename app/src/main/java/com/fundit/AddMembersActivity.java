@@ -98,7 +98,7 @@ public class AddMembersActivity extends AppCompatActivity {
         }
 
 
-        setupToolbar();
+        //setupToolbar();
         fetchIds();
 
 
@@ -207,9 +207,10 @@ public class AddMembersActivity extends AppCompatActivity {
             txt_emailID.setVisibility(View.GONE);
             layout_mail.setVisibility(View.GONE);
             btnAdd.setVisibility(View.GONE);
-
+            setupToolbar();
 
             if (status) {
+
                 String imagePath = W.FILE_URL + getResponse.getFundspot().getImage();
                 Log.e("path", imagePath);
 
@@ -218,7 +219,20 @@ public class AddMembersActivity extends AppCompatActivity {
                         .into(circleImageView);
 
                 txt_name.setText(getResponse.getFundspot().getTitle());
-                txt_address.setText(getResponse.getFundspot().getLocation());
+
+
+                txt_address.setText(getResponse.getFundspot().getLocation()+"\n"+getResponse.getCity().getName()+","+getResponse.getState().getState_code()+" "+getResponse.getFundspot().getZip_code());
+
+
+                Log.e("location",getResponse.getFundspot().getLocation());
+                Log.e("location","---->"+getResponse.getFundspot().getCity().getName());
+                Log.e("location","---->"+getResponse.getFundspot().getState().getState_code());
+                Log.e("location",getResponse.getFundspot().getZip_code());
+
+
+
+
+
                 txt_contct.setText(getResponse.getFundspot().getDescription());
                 Log.e("email", "--->" + getResponse.getFundspot().getContact_info_email());
                 if ((getResponse.getFundspot().getContact_info_email()) == null || getResponse.getFundspot().getContact_info_email().equalsIgnoreCase("")) {
@@ -250,7 +264,13 @@ public class AddMembersActivity extends AppCompatActivity {
                         .into(circleImageView);
 
                 txt_name.setText(getResponse.getOrganization().getTitle());
-                txt_address.setText(getResponse.getOrganization().getLocation());
+                txt_address.setText(getResponse.getOrganization().getLocation()+"\n"+getResponse.getCity().getName()+","+getResponse.getState().getState_code()+" "+getResponse.getOrganization().getZip_code());
+
+                Log.e("location",getResponse.getOrganization().getLocation());
+                Log.e("location","---->"+getResponse.getOrganization().getCity().getName());
+                Log.e("location","--->"+getResponse.getOrganization().getState().getState_code());
+                Log.e("location",getResponse.getOrganization().getZip_code());
+
                 txt_contct.setText(getResponse.getOrganization().getDescription());
                 Log.e("email", "--->" + getResponse.getOrganization().getContact_info_email());
                 if (getResponse.getOrganization().getContact_info_email() == null || getResponse.getOrganization().getContact_info_mobile().equalsIgnoreCase("")) {
@@ -339,6 +359,7 @@ public class AddMembersActivity extends AppCompatActivity {
 
         if (!profileMode) {
             new GetAllDetails().execute();
+
         }
 
     }

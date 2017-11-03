@@ -73,6 +73,7 @@ public class GetDataAdapter extends BaseAdapter {
         TextView txt_Name = (TextView) view.findViewById(R.id.txt_Name);
         TextView txt_location = (TextView) view.findViewById(R.id.txt_location);
         LinearLayout layout_main = (LinearLayout) view.findViewById(R.id.layout_main);
+        TextView txt_title= (TextView) view.findViewById(R.id.txt_title);
 
         CircleImageView img_profileImage = (CircleImageView) view.findViewById(R.id.img_profileImage);
 
@@ -89,6 +90,7 @@ public class GetDataAdapter extends BaseAdapter {
 
             txt_Name.setText(fundSpotList.get(position).getFundspot().getTitle());
             txt_location.setText(fundSpotList.get(position).getFundspot().getLocation());
+            txt_title.setText(fundSpotList.get(position).getFundspot().getDescription());
 
 
 
@@ -107,6 +109,7 @@ public class GetDataAdapter extends BaseAdapter {
 
             txt_Name.setText(fundSpotList.get(position).getOrganization().getTitle());
             txt_location.setText(fundSpotList.get(position).getOrganization().getLocation());
+            txt_title.setText(fundSpotList.get(position).getOrganization().getDescription());
 
 
         }

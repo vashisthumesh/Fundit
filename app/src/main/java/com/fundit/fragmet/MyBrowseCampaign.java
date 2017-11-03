@@ -287,6 +287,12 @@ public class MyBrowseCampaign extends Fragment {
     private void getAllOrganization() {
 
         dialog.show();
+        Log.e("user","-->"+preferences.getUserID());
+        Log.e("user","--->"+fundspot.getCity_id());
+        Log.e("user","--->"+fundspot.getZip_code());
+
+
+
         Call<GetDataResponses> verifyResponse = adminAPI.GET_ALL_ORGANIZATION(preferences.getUserID() , fundspot.getCity_id() , fundspot.getZip_code());
         verifyResponse.enqueue(new Callback<GetDataResponses>() {
             @Override

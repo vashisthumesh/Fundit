@@ -14,7 +14,7 @@ import android.widget.ListView;
 
 import com.fundit.a.AppPreference;
 import com.fundit.a.C;
-import com.fundit.adapter.GetSearchAdapter;
+
 import com.fundit.adapter.PeopleSerchAdapter;
 import com.fundit.apis.AdminAPI;
 import com.fundit.apis.ServiceGenerator;

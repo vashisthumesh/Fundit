@@ -139,6 +139,7 @@ public class SerchPeopleActivity extends AppCompatActivity {
         {
             if(flag==true) {
                 btnAdd.setVisibility(View.GONE);
+                btnMessage.setVisibility(View.GONE);
             }
             else {
                 btnAdd.setVisibility(View.VISIBLE);
@@ -263,8 +264,27 @@ public class SerchPeopleActivity extends AppCompatActivity {
                         txt_address.setText(memberObject.getString("location")+"\n"+cityObject.getString("name") + stateObject.getString("state_code") + " , " + memberObject.getString("zip_code"));
                         txt_organizations.setText(memberObject.getString("organization_names"));
 
-                        txt_email.setText(memberObject.getString("contact_info_email"));
-                        txt_mobile.setText(memberObject.getString("contact_info_mobile"));
+
+
+                        if(memberObject.getString("contact_info_email") == null || memberObject.getString("contact_info_email").equalsIgnoreCase(""))
+                        {
+                            layput_contact_email.setVisibility(View.GONE);
+                        }
+                        else {
+                            layput_contact_email.setVisibility(View.VISIBLE);
+                            txt_email.setText(memberObject.getString("contact_info_email"));
+                        }
+
+
+                        if(memberObject.getString("contact_info_mobile") == null || memberObject.getString("contact_info_mobile").equalsIgnoreCase(""))
+                        {
+                            layput_contact_mobile.setVisibility(View.GONE);
+                        }
+                        else {
+                            layput_contact_mobile.setVisibility(View.VISIBLE);
+                            txt_mobile.setText(memberObject.getString("contact_info_mobile"));
+                        }
+
 
 
                         String getURL = W.FILE_URL + memberObject.getString("image");

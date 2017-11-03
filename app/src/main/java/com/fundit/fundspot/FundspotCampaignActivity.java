@@ -97,7 +97,7 @@ public class FundspotCampaignActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_campaign);
+        setContentView(R.layout.activity_create_campaign_fundspot);
 
         adminAPI = ServiceGenerator.getAPIClass();
         preference = new AppPreference(this);
@@ -496,10 +496,10 @@ public class FundspotCampaignActivity extends AppCompatActivity {
                             chk_indefinite.setChecked(true);
                         }
 
-                        auto_searchFundspot.setEnabled(false);
-                        edt_organizationSplit.setEnabled(false);
-                        edt_couponExpireDay.setEnabled(false);
-                        edt_campaignDuration.setEnabled(false);
+//                        auto_searchFundspot.setEnabled(false);
+//                        edt_organizationSplit.setEnabled(false);
+//                        edt_couponExpireDay.setEnabled(false);
+//                        edt_campaignDuration.setEnabled(false);
                         //edt_maxLimitCoupon.setEnabled(false);
 
 

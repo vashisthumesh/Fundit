@@ -5,6 +5,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.fundit.fragmet.MyProfileFragment">
+    <include layout="@layout/toolbar_center_text"
+        android:visibility="gone"/>
 
 
     <ScrollView
