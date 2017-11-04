@@ -87,11 +87,13 @@ public class CardPaymentActivity extends AppCompatActivity {
     CreditCardPattern creditCardPattern;
 
     Boolean isCouponTimes = false;
+    Boolean isOrderTimes = false;
     String orderId = "";
 
     String userId = "";
     String roleId = "";
     boolean isOtherUser = false;
+    boolean isFundTimes = false;
 
     String orderRequest = "";
     String onBehalfOf = "";
@@ -101,6 +103,8 @@ public class CardPaymentActivity extends AppCompatActivity {
     String lastName = "";
     String emailId = "";
     String ownerId = "";
+
+    TextView txt_titleSavedCard;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,6 +122,8 @@ public class CardPaymentActivity extends AppCompatActivity {
         firstName = intent.getStringExtra("firstName");
         lastName = intent.getStringExtra("lastName");
         emailId = intent.getStringExtra("emailId");
+        isOrderTimes = intent.getBooleanExtra("orderTimes" , false);
+        isFundTimes = intent.getBooleanExtra("fundTimes" , false);
 
 
         Log.e("userId", "--->" + userId);
@@ -166,6 +172,9 @@ public class CardPaymentActivity extends AppCompatActivity {
     }
 
     private void fetchIds() {
+
+        txt_titleSavedCard = (TextView) findViewById(R.id.txt_titleSavedCard);
+
         spn_savedcard = (Spinner) findViewById(R.id.spn_savedcard);
         spn_month = (Spinner) findViewById(R.id.spn_month);
         spn_year = (Spinner) findViewById(R.id.spn_year);
@@ -186,6 +195,14 @@ public class CardPaymentActivity extends AppCompatActivity {
 
         yearAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_textview, year);
         spn_year.setAdapter(yearAdapter);
+
+
+        if(isFundTimes){
+            spn_savedcard.setVisibility(View.GONE);
+            chk_save.setVisibility(View.GONE);
+            txt_titleSavedCard.setVisibility(View.GONE);
+        }
+
 
 
         // dialog.show();
@@ -360,8 +377,21 @@ public class CardPaymentActivity extends AppCompatActivity {
                                     if (isCouponTimes) {
                                         Intent intent = new Intent(getApplicationContext(), Thankyou.class);
                                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                        intent.putExtra("selectedUserId" , "");
+                                        intent.putExtra("isCouponTimes" , isCouponTimes);
                                         startActivity(intent);
-                                    } else {
+                                    }else if(isOrderTimes){
+                                        Intent intent = new Intent(getApplicationContext(), Thankyou.class);
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                        intent.putExtra("isOtherUser" , isOtherUser);
+                                        intent.putExtra("name" , firstName);
+                                        intent.putExtra("selectedUserId" , userId);
+                                        intent.putExtra("org", campaignList.getUserOrganization().getTitle());
+                                        intent.putExtra("fundspot", campaignList.getUserFundspot().getTitle());
+                                        intent.putExtra("fundTimes" , isFundTimes);
+                                        startActivity(intent);
+                                    }
+                                    else {
                                         Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                         startActivity(intent);
