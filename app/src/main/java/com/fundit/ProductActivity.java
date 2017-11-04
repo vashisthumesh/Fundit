@@ -73,7 +73,7 @@ public class ProductActivity extends AppCompatActivity {
 
         setUpToolbar();
         txttitle.setText(name);
-        txt_sellprice.setText("$"+price);
+        txt_sellprice.setText("$" +String.format("%.2f",Double.parseDouble(price)));
         txt_desc.setText(Desc);
         txt_fine.setText(fine);
 

@@ -22,7 +22,7 @@ import retrofit2.Response;
 
 public class ChangePasswordActivity extends AppCompatActivity {
 
-    EditText edt_password;
+    EditText edt_password,edt_cnf_password;
     Button btn_change;
 
     String userID = "";
@@ -70,6 +70,8 @@ public class ChangePasswordActivity extends AppCompatActivity {
         userID = preference.getUserID();
 
         edt_password = (EditText) findViewById(R.id.edt_password);
+        edt_cnf_password= (EditText) findViewById(R.id.edt_cnf_password);
+
         btn_change = (Button) findViewById(R.id.btn_change);
 
 
@@ -78,6 +80,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 String getPassword = edt_password.getText().toString().trim();
+                String confirmPassword=edt_cnf_password.getText().toString().trim();
 
                 if (getPassword.isEmpty()) {
 
@@ -87,9 +90,19 @@ public class ChangePasswordActivity extends AppCompatActivity {
 
 
                 }
-                else if(getPassword.length() < 6){
+                if(confirmPassword.isEmpty())
+                {
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter confirm password");
+                    edt_cnf_password.requestFocus();
+                }
+                else if(getPassword.length() < 6 || edt_cnf_password.length() < 6){
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter min. 6 char password");
-                }else {
+                }
+                else if(!getPassword.equalsIgnoreCase(confirmPassword))
+                {
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter valid password");
+                }
+                else {
 
                     Call<AppModel> forgetpasswordcall = adminAPI.ForgetPass_change_edit(userID, getPassword);
 

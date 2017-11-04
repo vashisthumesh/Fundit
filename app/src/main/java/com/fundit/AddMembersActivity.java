@@ -46,6 +46,8 @@ public class AddMembersActivity extends AppCompatActivity {
     AppPreference preference;
     CustomDialog dialog;
     AdminAPI adminAPI;
+    String name="";
+    String id="";
 
     CircleImageView circleImageView;
 
@@ -358,8 +360,21 @@ public class AddMembersActivity extends AppCompatActivity {
 
 
         if (!profileMode) {
-            new GetAllDetails().execute();
+            setupToolbar();
+            btnMessage.setVisibility(View.VISIBLE);
 
+            btnMessage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getApplicationContext(), FinalSendMessage.class);
+                    intent.putExtra("name", name);
+                    intent.putExtra("id",id);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                }
+            });
+
+            new GetAllDetails().execute();
         }
 
     }
@@ -396,6 +411,9 @@ public class AddMembersActivity extends AppCompatActivity {
 
 
     }
+
+
+
 
     public class GetAllDetails extends AsyncTask<Void, Void, String> {
 
@@ -461,9 +479,31 @@ public class AddMembersActivity extends AppCompatActivity {
 
                         txt_name.setText(userObject.getString("title"));
                         txt_emailID.setText(userObject.getString("email_id"));
-                        txt_contct.setText(memberObject.getString("contact_info"));
+                        layout_contact.setVisibility(View.GONE);
+
+                        if(memberObject.getString("contact_info_email").equalsIgnoreCase("") || memberObject.getString("contact_info_email") == null)
+                        {
+                            layout_contact_info_email.setVisibility(View.GONE);
+                        }
+                        else {
+                            layout_contact_info_email.setVisibility(View.VISIBLE);
+                            txt_con_info_email.setText(memberObject.getString("contact_info_email"));
+                        }
+
+                        if (memberObject.getString("contact_info_mobile").equalsIgnoreCase("") || memberObject.getString("contact_info_mobile") == null)
+                        {
+                            layout_contact_info_mobile.setVisibility(View.GONE);
+                        }
+                        else {
+                            layout_contact_info_mobile.setVisibility(View.VISIBLE);
+                            txt_con_info_mobile.setText(memberObject.getString("contact_info_mobile"));
+                        }
+
 
                         txt_address.setText(memberObject.getString("location") + " , " + cityObject.getString("name") + stateObject.getString("name") + " , " + memberObject.getString("zip_code"));
+
+                        name=userObject.getString("title");
+                        id=userObject.getString("id");
 
 
                         String getURL = W.FILE_URL + memberObject.getString("image");
