@@ -319,14 +319,11 @@ class HomeActivity : AppCompatActivity() {
                 transaction?.commit()
             }
             if (preference?.userRoleID.equals(C.GENERAL_MEMBER) || preference?.userRoleID.equals(C.ORGANIZATION)) {
-
                 actionTitle?.text = "Saved Cards"
                 fragment = MyCardsFragment()
                 val transaction = fm?.beginTransaction()
                 transaction?.replace(R.id.content, fragment)
                 transaction?.commit()
-
-
                 //TODO SOMTHING
             }
 

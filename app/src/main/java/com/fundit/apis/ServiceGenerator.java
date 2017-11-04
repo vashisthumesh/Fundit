@@ -1,8 +1,10 @@
 package com.fundit.apis;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.fundit.a.W;
+import com.readystatesoftware.chuck.ChuckInterceptor;
 
 import java.io.File;
 import java.net.URLConnection;
@@ -43,6 +45,7 @@ public class ServiceGenerator {
     }
 
     private static OkHttpClient getRequestHeader() {
+
         OkHttpClient httpClient = new OkHttpClient().newBuilder().connectTimeout(20, TimeUnit.SECONDS).readTimeout(30, TimeUnit.SECONDS).build();
 
         return httpClient;
