@@ -65,7 +65,7 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
     GetSearchPeople.People people;
 
 
-    TextView txt_fundraiser, txt_partnerTitle, txt_partnerName, txt_targetAmt,txt_address;
+    TextView txt_fundraiser, txt_partnerTitle, txt_partnerName, txt_targetAmt;
 
     EditText edt_name, edt_email,edt_confirm_email;
 
@@ -158,7 +158,6 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
     }
 
     private void fetchIDs() {
-        txt_address= (TextView) findViewById(R.id.txt_address);
         txt_fundraiser = (TextView) findViewById(R.id.txt_fundraiser);
         txt_partnerTitle = (TextView) findViewById(R.id.txt_partnerTitle);
         txt_partnerName = (TextView) findViewById(R.id.txt_partnerName);
