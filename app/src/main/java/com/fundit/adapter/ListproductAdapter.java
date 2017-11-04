@@ -67,10 +67,11 @@ public class ListproductAdapter extends BaseAdapter {
         TextView txt_desc = (TextView) view.findViewById(R.id.txt_desc);
         CircleImageView img_Pic = (CircleImageView) view.findViewById(R.id.img_Pic);
         LinearLayout layout_click= (LinearLayout) view.findViewById(R.id.layout_click);
-
         txt_title.setText(campaignList1.get(0).getCampaignProduct().get(position).getName());
         Log.e("name",campaignList1.get(0).getCampaignProduct().get(position).getName());
-        txt_sellprice.setText("$"+campaignList1.get(0).getCampaignProduct().get(position).getPrice());
+        txt_sellprice.setText("$" +String.format("%.2f",Double.parseDouble( campaignList1.get(0).getCampaignProduct().get(position).getPrice())));
+
+
         Log.e("price",campaignList1.get(0).getCampaignProduct().get(position).getPrice());
         txt_desc.setText(campaignList1.get(0).getCampaignProduct().get(position).getDescription());
         Log.e("desc",campaignList1.get(0).getCampaignProduct().get(position).getDescription());

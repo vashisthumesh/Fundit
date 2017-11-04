@@ -410,10 +410,37 @@ class HomeActivity : AppCompatActivity() {
 
             }
 
+            if(preference?.userRoleID.equals(C.ORGANIZATION))
+            {
+                actionTitle?.text = "Help"
+                fragment = HelpFragment()
+                val transaction = fm?.beginTransaction()
+                transaction?.replace(R.id.content, fragment)
+                transaction?.commit()
+            }
+            if(preference?.userRoleID.equals(C.GENERAL_MEMBER))
+            {
+                actionTitle?.text = "Help"
+                fragment = HelpFragment()
+                val transaction = fm?.beginTransaction()
+                transaction?.replace(R.id.content, fragment)
+                transaction?.commit()
+            }
         } else if (position == 9) {
             img_edit?.visibility = View.GONE
             if (preference?.userRoleID.equals(C.ORGANIZATION) || (preference?.userRoleID.equals(C.GENERAL_MEMBER)))
+            {
                 logout()
+            }
+            if(preference?.userRoleID.equals(C.FUNDSPOT))
+            {
+                actionTitle?.text = "Help"
+                fragment = HelpFragment()
+                val transaction = fm?.beginTransaction()
+                transaction?.replace(R.id.content, fragment)
+                transaction?.commit()
+            }
+
         } else if (position == 10) {
 
             if (preference?.userRoleID.equals(C.FUNDSPOT))

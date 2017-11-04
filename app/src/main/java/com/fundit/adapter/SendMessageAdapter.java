@@ -19,9 +19,7 @@ import com.fundit.model.Member;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by NWSPL-17 on 30-Aug-17.
- */
+
 
 public class SendMessageAdapter extends BaseAdapter {
 
