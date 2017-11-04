@@ -16,7 +16,7 @@ import com.fundit.R
 /**
  * Created by Nivida new on 25-Jul-17.
  */
-class FRequestFragment : Fragment() {
+class   FRequestFragment : Fragment() {
 
     var fView: View? = null
     var requestCampaignFragment: FundspotRequestFragment? = null

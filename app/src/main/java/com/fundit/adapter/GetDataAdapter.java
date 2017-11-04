@@ -19,6 +19,7 @@ import com.fundit.a.AppPreference;
 import com.fundit.a.C;
 import com.fundit.a.W;
 import com.fundit.model.GetDataResponses;
+import com.fundit.model.GetSearchPeople;
 import com.fundit.model.VerifyResponse;
 import com.squareup.picasso.Picasso;
 
@@ -27,13 +28,11 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-/**
- * Created by NWSPL-17 on 07-Sep-17.
- */
 
 public class GetDataAdapter extends BaseAdapter {
 
     List<GetDataResponses.Data> fundSpotList=new ArrayList<>();
+    List<GetSearchPeople.People> people_search=new ArrayList<>();
     Activity activity;
     LayoutInflater inflater;
     Context context;
@@ -49,8 +48,6 @@ public class GetDataAdapter extends BaseAdapter {
         preference = new AppPreference(activity.getApplicationContext());
 
     }
-
-
 
     @Override
     public int getCount() {
@@ -76,6 +73,7 @@ public class GetDataAdapter extends BaseAdapter {
         TextView txt_Name = (TextView) view.findViewById(R.id.txt_Name);
         TextView txt_location = (TextView) view.findViewById(R.id.txt_location);
         LinearLayout layout_main = (LinearLayout) view.findViewById(R.id.layout_main);
+        TextView txt_title= (TextView) view.findViewById(R.id.txt_title);
 
         CircleImageView img_profileImage = (CircleImageView) view.findViewById(R.id.img_profileImage);
 
@@ -92,6 +90,7 @@ public class GetDataAdapter extends BaseAdapter {
 
             txt_Name.setText(fundSpotList.get(position).getFundspot().getTitle());
             txt_location.setText(fundSpotList.get(position).getFundspot().getLocation());
+            txt_title.setText(fundSpotList.get(position).getFundspot().getDescription());
 
 
 
@@ -110,6 +109,7 @@ public class GetDataAdapter extends BaseAdapter {
 
             txt_Name.setText(fundSpotList.get(position).getOrganization().getTitle());
             txt_location.setText(fundSpotList.get(position).getOrganization().getLocation());
+            txt_title.setText(fundSpotList.get(position).getOrganization().getDescription());
 
 
         }

@@ -30,6 +30,7 @@ import com.fundit.helper.CustomDialog;
 import com.fundit.model.AppModel;
 import com.fundit.model.CampaignListResponse;
 import com.fundit.model.MultipleProductResponse;
+import com.google.gson.Gson;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -47,7 +48,8 @@ import retrofit2.Response;
 public class CreateCampaignTermsActivity extends AppCompatActivity {
 
     TextView txt_partnerLabel, txt_itemLabel;
-    EditText edt_partner, edt_itemName, edt_price, edt_split, edt_campaignDuration, edt_maxLimitCoupon, edt_couponExpireDay, edt_finePrint , edt_orgSplit;
+    TextView txt_message;
+    EditText edt_partner, edt_itemName, edt_price, edt_split, edt_campaignDuration, edt_maxLimitCoupon, edt_couponExpireDay, edt_finePrint, edt_orgSplit;
     RadioGroup rg_productType;
     RadioButton rdo_typeItem, rdo_typeGiftCard;
     CheckBox chk_infinite;
@@ -79,6 +81,8 @@ public class CreateCampaignTermsActivity extends AppCompatActivity {
         Intent intent = getIntent();
 
         campaignList = (CampaignListResponse.CampaignList) intent.getSerializableExtra("campaignItem");
+
+        Log.e("campaignList", "--->" + new Gson().toJson(campaignList));
 
 
         fetchIDs();
@@ -116,6 +120,7 @@ public class CreateCampaignTermsActivity extends AppCompatActivity {
         edt_maxLimitCoupon = (EditText) findViewById(R.id.edt_maxLimitCoupon);
         edt_couponExpireDay = (EditText) findViewById(R.id.edt_couponExpireDay);
         edt_finePrint = (EditText) findViewById(R.id.edt_finePrint);
+        txt_message = (TextView) findViewById(R.id.txt_message);
 
         rg_productType = (RadioGroup) findViewById(R.id.rg_productType);
 
@@ -129,16 +134,16 @@ public class CreateCampaignTermsActivity extends AppCompatActivity {
         btn_decline = (Button) findViewById(R.id.btn_decline);
 
         listGetProducts = (ListView) findViewById(R.id.list_get_products);
-        allProductsAdapter = new GetAllProductsAdapter(productResponse , getApplicationContext());
+        allProductsAdapter = new GetAllProductsAdapter(productResponse, getApplicationContext());
         listGetProducts.setAdapter(allProductsAdapter);
 
 
         if (preference.getUserRoleID().equals(C.ORGANIZATION)) {
             txt_partnerLabel.setText("Fundspot Partner");
-            if(campaignList.getCampaign().getReview_status().equalsIgnoreCase("1")){
+            if (campaignList.getCampaign().getReview_status().equalsIgnoreCase("1")) {
 
                 edt_partner.setText(campaignList.getUserOrganization().getFundspot().getTitle());
-            }else {
+            } else {
 
 
                 edt_partner.setText(campaignList.getUserFundspot().getFundspot().getTitle());
@@ -148,16 +153,16 @@ public class CreateCampaignTermsActivity extends AppCompatActivity {
         } else if (preference.getUserRoleID().equals(C.FUNDSPOT)) {
             txt_partnerLabel.setText("Organization Partner");
 
-            if(campaignList.getCampaign().getReview_status().equalsIgnoreCase("1")){
-                if(campaignList.getCampaign().getAction_status().equalsIgnoreCase("0")){
+            if (campaignList.getCampaign().getReview_status().equalsIgnoreCase("1")) {
+                if (campaignList.getCampaign().getAction_status().equalsIgnoreCase("0")) {
                     edt_partner.setText(campaignList.getUserOrganization().getOrganization().getTitle());
-                }else{
+                } else {
                     edt_partner.setText(campaignList.getUserFundspot().getOrganization().getTitle());
                 }
-            }else {
-                if(campaignList.getCampaign().getAction_status().equalsIgnoreCase("1")){
+            } else {
+                if (campaignList.getCampaign().getAction_status().equalsIgnoreCase("1")) {
                     edt_partner.setText(campaignList.getUserFundspot().getOrganization().getTitle());
-                }else {
+                } else {
                     edt_partner.setText(campaignList.getUserOrganization().getOrganization().getTitle());
                 }
             }
@@ -173,6 +178,7 @@ public class CreateCampaignTermsActivity extends AppCompatActivity {
         edt_campaignDuration.setText(campaignList.getCampaign().getCampaign_duration());
         edt_maxLimitCoupon.setText(campaignList.getCampaign().getMax_limit_of_coupons());
         edt_couponExpireDay.setText(campaignList.getCampaign().getCoupon_expire_day());
+        txt_message.setText(campaignList.getCampaign().getMsg());
         // edt_finePrint.setText(campaignList.getCampaign().getFine_print());
 
         if (campaignList.getCampaign().getCampaign_duration().equals("0")) {
@@ -226,7 +232,22 @@ public class CreateCampaignTermsActivity extends AppCompatActivity {
         });
 
 
-        new GetAllProductsData().execute();
+        Log.e("products", "-->" + campaignList.getCampaignProduct().size());
+
+        for (int i = 0; i < campaignList.getCampaignProduct().size(); i++) {
+
+
+            productResponse.add(campaignList.getCampaignProduct().get(i));
+
+            Log.e("getResponse" , "===>" + new Gson().toJson(productResponse.get(i)));
+
+
+        }
+        listGetProducts.setVisibility(View.VISIBLE);
+        allProductsAdapter.notifyDataSetChanged();
+
+
+
     }
 
     @Override
@@ -274,6 +295,7 @@ public class CreateCampaignTermsActivity extends AppCompatActivity {
             parameters.add(new BasicNameValuePair("status", "0"));
             parameters.add(new BasicNameValuePair("action_status", "0"));
 
+            Log.e("parameters", "--->" + parameters);
 
             String json = new ServiceHandler().makeServiceCall(W.BASE_URL + W.CAMPAIGN_LIST, ServiceHandler.POST, parameters);
 
@@ -303,7 +325,11 @@ public class CreateCampaignTermsActivity extends AppCompatActivity {
                     status = mainObject.getBoolean("status");
                     message = mainObject.getString("message");
 
+
+                    productResponse.clear();
+
                     if (status == true) {
+
 
                         JSONArray dataArray = mainObject.getJSONArray("data");
 
@@ -320,7 +346,9 @@ public class CreateCampaignTermsActivity extends AppCompatActivity {
                                 MultipleProductResponse response = new MultipleProductResponse();
 
                                 response.setCampaign_id(obj.getString("campaign_id"));
+                                Log.e("campaignId", "--->" + obj.getString("campaign_id"));
                                 response.setProduct_id(obj.getString("product_id"));
+                                Log.e("productId", "--->" + obj.getString("product_id"));
                                 response.setPrice(obj.getString("price"));
                                 response.setName(obj.getString("name"));
                                 response.setDescription(obj.getString("description"));
@@ -357,6 +385,9 @@ public class CreateCampaignTermsActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        Intent intent = new Intent(getApplicationContext() , HomeActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
         finish();
     }
 }

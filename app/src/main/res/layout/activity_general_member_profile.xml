@@ -71,6 +71,22 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawableRight="@drawable/star"
+                android:text="Email"
+                android:textSize="16sp"/>
+
+            <EditText
+                android:id="@+id/edt_email"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@color/white"
+                android:inputType="textEmailAddress"
+                android:padding="5dp"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableRight="@drawable/star"
                 android:text="Location"
                 android:textSize="16sp"/>
 
@@ -128,9 +144,11 @@
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:visibility="gone">
 
                 <RadioGroup
+                    android:visibility="gone"
                     android:orientation="horizontal"
                     android:layout_weight="1"
                     android:id="@+id/rg_selectType"
@@ -166,7 +184,6 @@
                 android:layout_height="wrap_content">
 
             <TextView
-                android:visibility="gone"
                 android:id="@+id/txt_assOrganization"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -174,7 +191,6 @@
                 android:textSize="16sp"/>
 
             <Spinner
-                android:visibility="gone"
                 android:id="@+id/spn_assocOrganization"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
@@ -183,7 +199,6 @@
                 android:textColor="@color/black"/>
 
             <TextView
-                android:visibility="gone"
                 android:id="@+id/txt_assFundspot"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -191,7 +206,6 @@
                 android:textSize="16sp"/>
 
             <Spinner
-                android:visibility="gone"
                 android:id="@+id/spn_assocFundspot"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
@@ -208,13 +222,23 @@
                 android:drawableRight="@drawable/star"
                 android:text="Contact Information"
                 android:textSize="16sp"/>
+            <EditText
+                android:id="@+id/edt_contactInfo_email"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@color/white"
+                android:hint="Email"
+                android:inputType="text"
+                android:padding="5dp"
+                android:textColor="@color/black"/>
 
             <EditText
                 android:id="@+id/edt_contactInfo"
                 android:layout_width="match_parent"
+                android:layout_marginTop="15dp"
                 android:layout_height="40dp"
                 android:background="@color/white"
-                android:hint="Enter contact information"
+                android:hint="Mobile Number"
                 android:inputType="text"
                 android:padding="5dp"
                 android:textColor="@color/black"/>

@@ -23,7 +23,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:gravity="center"
-                android:text="Message To :"
+                android:text="Message To* :"
                 android:textColor="@color/colorText"
                 android:textSize="16sp" />
 
@@ -52,7 +52,7 @@
                 android:layout_height="40dp"
                 android:gravity="center"
                 android:padding="5dp"
-                android:text="Subject :"
+                android:text="Subject* :"
                 android:textColor="@color/colorText"
                 android:textSize="16sp" />
 
@@ -86,7 +86,7 @@
                 android:layout_height="40dp"
                 android:gravity="center"
                 android:padding="5dp"
-                android:text="Message :"
+                android:text="Message* :"
                 android:textColor="@color/colorText"
                 android:textSize="16sp" />
 

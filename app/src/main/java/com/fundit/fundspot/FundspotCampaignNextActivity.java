@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -54,9 +55,11 @@ public class FundspotCampaignNextActivity extends AppCompatActivity {
 
     AdjustableListView listMembers;
     EditText edt_campaignName, edt_description, edt_startDate, edt_message , edt_amount , edt_msgFundspot;
+    TextView txt_dollar;
     CheckBox chk_startDateAsPossible, chk_allOrgMembers , chk_maxAmount;
     AutoCompleteTextView auto_searchMember;
     Button btn_request;
+
 
     String selectedFundspotID, fundspotSplit, organizationSplit, campaignDuration, maxLimitCoupon, couponExpiry, couponFinePrint;
     ProductListResponse.Product product;
@@ -95,6 +98,7 @@ public class FundspotCampaignNextActivity extends AppCompatActivity {
         // product = (ProductListResponse.Product) intent.getSerializableExtra("product");
 
         fetchIDs();
+        setupToolbar();
     }
 
     private void fetchIDs() {
@@ -103,6 +107,7 @@ public class FundspotCampaignNextActivity extends AppCompatActivity {
         edt_startDate = (EditText) findViewById(R.id.edt_startDate);
         edt_message = (EditText) findViewById(R.id.edt_message);
         edt_amount = (EditText) findViewById(R.id.edt_amount);
+        txt_dollar= (TextView) findViewById(R.id.txt_dollar);
         edt_msgFundspot = (EditText) findViewById(R.id.edt_msg_fundspot);
         txt_message = (TextView) findViewById(R.id.txt_message);
         txt_message.setText("Message to Organization");
@@ -119,6 +124,7 @@ public class FundspotCampaignNextActivity extends AppCompatActivity {
         edt_campaignName.setVisibility(View.GONE);
         edt_description.setVisibility(View.GONE);
         edt_amount.setVisibility(View.GONE);
+        txt_dollar.setVisibility(View.GONE);
 
 
 
@@ -218,15 +224,8 @@ public class FundspotCampaignNextActivity extends AppCompatActivity {
 
                 List<Member> selectedMemberList = memberListAdapter.getMemberList();
 
-                /*if (campaignTitle.isEmpty()) {
-                    C.INSTANCE.showToast(getApplicationContext(), "Please enter campaign title");
-                } else if (description.isEmpty()) {
-                    C.INSTANCE.showToast(getApplicationContext(), "Please enter description");
-                } else if (!chk_maxAmount.isChecked() && maxAmount.isEmpty() && amount < 1) {
-                    C.INSTANCE.showToast(getApplicationContext(), "Please enter max amount properly");
-                }*/ if (!chk_allOrgMembers.isChecked() && selectedMemberList.size() == 0) {
-                    C.INSTANCE.showToast(getApplicationContext(), "Please select coupon sellers");
-                } else if (message.isEmpty()) {
+
+                 if (message.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter message");
                 }else if(fundspotMessage.isEmpty()){
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter message for fundspot");
@@ -337,6 +336,24 @@ public class FundspotCampaignNextActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void setupToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarCenterText);
+        TextView actionTitle = (TextView) findViewById(R.id.actionTitle);
+
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        actionTitle.setText("Create Campaign");
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+    }
+
 
     private void addSelectedMember(int position, String name) {
         List<Member> searchedMembers = new ArrayList<>();

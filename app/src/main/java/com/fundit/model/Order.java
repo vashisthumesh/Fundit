@@ -28,6 +28,13 @@ public class Order implements Serializable {
     String fundspot_id = "";
     String created = "";
     String total_coupon_count = "";
+    String coupon_expiry_date="";
+    String payment_refno="";
+    String order_request = "";
+
+    public String getCoupon_expiry_date() {
+        return coupon_expiry_date;
+    }
 
     public String getId() {
         return id;
@@ -85,6 +92,10 @@ public class Order implements Serializable {
         return payment_method;
     }
 
+    public String getPayment_refno() {
+        return payment_refno;
+    }
+
     public String getPayment_code() {
         return payment_code;
     }
@@ -107,5 +118,9 @@ public class Order implements Serializable {
 
     public String getTotal_coupon_count() {
         return total_coupon_count;
+    }
+
+    public String getOrder_request() {
+        return order_request;
     }
 }

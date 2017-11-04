@@ -89,8 +89,17 @@ class HomeFragment : Fragment() {
         if (preferences?.userRoleID.equals(C.FUNDSPOT) && preferences?.isSkiped == true) {
 
             setMyProductFragment()
-        } else {
+
+        }
+        else if(preferences?.userRoleID.equals(C.FUNDSPOT) || preferences?.userRoleID.equals(C.ORGANIZATION) && preferences?.isSkiped == false)
+        {
+            setMyCampaignFragment()
+            navigation.getMenu().getItem(2).setChecked(true);
+        }
+        else
+        {
             setNewsFeedInboxFragment()
+            navigation.getMenu().getItem(0).setChecked(true);
         }
         // Inflate the layout for this fragment
         return view

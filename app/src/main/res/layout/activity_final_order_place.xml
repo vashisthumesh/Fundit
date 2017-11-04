@@ -143,7 +143,38 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/tab_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="5dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
+                    <android.support.design.widget.TabLayout
+                        android:id="@+id/tabs_layout"
+                        app:tabGravity="fill"
+                        app:tabMode="fixed"
+                        app:tabBackground="@drawable/tab_color_selector"
+                        app:tabSelectedTextColor="@color/white"
+                        app:tabIndicatorColor="@color/colordarkblue"
+                        app:tabIndicatorHeight="1dp"
+                        app:tabTextColor="@color/colordarkblue"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp">
+                    </android.support.design.widget.TabLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/text_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -161,9 +192,19 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
+                    android:layout_weight="1"
                     android:textSize="14sp"
                     android:background="@drawable/edittextborder"
                     android:padding="5dp" />
+
+                <ImageView
+                    android:id="@+id/serch_user"
+                    android:layout_marginLeft="5dp"
+                    android:src="@drawable/searchuser"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp" />
+
+
             </LinearLayout>
 
 
@@ -191,7 +232,29 @@
                     android:padding="5dp" />
             </LinearLayout>
 
+                <LinearLayout
+                    android:id="@+id/confirm_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="5dp">
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Confirm Email:"
+                        android:textSize="14sp" />
+
+                    <EditText
+                        android:id="@+id/edt_confirm_email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:background="@drawable/edittextborder"
+                        android:hint=""
+                        android:textSize="14sp"
+                        android:padding="5dp" />
+                </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -287,7 +350,7 @@
                     android:checked="true"
                     android:gravity="center"
                     android:padding="3dp"
-                    android:text="Creadit/Debit Card"
+                    android:text="Credit/Debit Card"
                     android:textColor="@color/black"
                     android:textSize="14sp" />
 
@@ -313,6 +376,7 @@
                     android:textSize="14sp"
                     android:visibility="gone" />
             </RadioGroup>
+            </LinearLayout>
 
             <Button
                 android:id="@+id/btn_placeOrder"

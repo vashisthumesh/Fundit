@@ -3,6 +3,7 @@ package com.fundit.fragmet;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,45 +66,44 @@ public class NewsFeedFragment extends Fragment {
         newsfeedAdapter = new NewsFeedAdapter(listResponse , getActivity());
         listNewsfeed.setAdapter(newsfeedAdapter);
 
+   //   if(preference.getUserRoleID().equalsIgnoreCase("4")) {
+            dialog.show();
+            Call<CampaignListResponse> campaignResponse = null;
+            Log.e("userid", preference.getUserID());
+            Log.e("hash", preference.getTokenHash());
+            Log.e("rollid", preference.getUserRoleID());
 
-        dialog.show();
-        Call<CampaignListResponse> campaignResponse = null;
 
-        campaignResponse = adminAPI.ApprovedCampaign(preference.getUserID() , preference.getTokenHash() , preference.getUserRoleID()  , C.PRESENT);
-        campaignResponse.enqueue(new Callback<CampaignListResponse>() {
-            @Override
-            public void onResponse(Call<CampaignListResponse> call, Response<CampaignListResponse> response) {
-                dialog.dismiss();
-                CampaignListResponse campaignList = response.body();
-                if(campaignList!=null){
+            campaignResponse = adminAPI.ApprovedCampaign(preference.getUserID(), preference.getTokenHash(), preference.getUserRoleID(), C.PRESENT);
+            campaignResponse.enqueue(new Callback<CampaignListResponse>() {
+                @Override
+                public void onResponse(Call<CampaignListResponse> call, Response<CampaignListResponse> response) {
+                    dialog.dismiss();
+                    CampaignListResponse campaignList = response.body();
+                    if (campaignList != null) {
 
-                    if(campaignList.isStatus()){
-                        listResponse.addAll(campaignList.getData());
-                    }else {
+                        if (campaignList.isStatus()) {
+                            listResponse.addAll(campaignList.getData());
+                        } else {
 
-                        C.INSTANCE.showToast(getActivity() , campaignList.getMessage());
-                        // FOR_NOW_ITS_NOTHING
+                            C.INSTANCE.showToast(getActivity(), campaignList.getMessage());
+                            // FOR_NOW_ITS_NOTHING
+                        }
+
+                        newsfeedAdapter.notifyDataSetChanged();
                     }
-
-                    newsfeedAdapter.notifyDataSetChanged();
                 }
-            }
 
-            @Override
-            public void onFailure(Call<CampaignListResponse> call, Throwable t) {
-                dialog.dismiss();
-                C.INSTANCE.errorToast(getActivity() , t);
+                @Override
+                public void onFailure(Call<CampaignListResponse> call, Throwable t) {
+                    dialog.dismiss();
+                    C.INSTANCE.errorToast(getActivity(), t);
 
-            }
-        });
-
+                }
+            });
 
 
-
-
-
-
-
+      // }
 
 
     }

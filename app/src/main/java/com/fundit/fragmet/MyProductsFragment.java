@@ -88,6 +88,7 @@ public class MyProductsFragment extends Fragment {
                 intent.putExtra("editMode", true);
                 intent.putExtra("product", productList.get(position));
                 startActivityForResult(intent, PRODUCT_REQUEST);
+                //startActivity(intent);
             }
 
             @Override

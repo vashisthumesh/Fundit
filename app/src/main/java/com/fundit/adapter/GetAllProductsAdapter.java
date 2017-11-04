@@ -1,6 +1,7 @@
 package com.fundit.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.fundit.ProductActivity;
 import com.fundit.R;
 import com.fundit.a.W;
 import com.fundit.model.MultipleProductResponse;
@@ -53,10 +55,10 @@ public class GetAllProductsAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, final View convertView, ViewGroup parent) {
         View view = inflater.inflate(R.layout.layout_product_item, parent, false);
 
-
+        LinearLayout product_layout= (LinearLayout) view.findViewById(R.id.product_layout);
         TextView txt_productName = (TextView) view.findViewById(R.id.txt_productName);
         TextView txt_price = (TextView) view.findViewById(R.id.txt_price);
         TextView txt_type = (TextView) view.findViewById(R.id.txt_type);
@@ -81,6 +83,21 @@ public class GetAllProductsAdapter extends BaseAdapter {
         Picasso.with(context)
                 .load(imagePath)
                 .into(img_productImage);
+
+        product_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i=new Intent(context, ProductActivity.class);
+                i.putExtra("name", productResponses.get(position).getName());
+                i.putExtra("price",productResponses.get(position).getPrice());
+                i.putExtra("Desc",productResponses.get(position).getDescription());
+                i.putExtra("fine",productResponses.get(position).getFine_print());
+                i.putExtra("image",productResponses.get(position).getImage());
+                i.putExtra("myproduct",false);
+                i.setFlags(i.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(i);
+            }
+        });
 
 
         return view;

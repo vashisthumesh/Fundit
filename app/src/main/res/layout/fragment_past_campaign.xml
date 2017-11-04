@@ -12,7 +12,6 @@
         android:layout_height="match_parent"
         android:id="@+id/list_pastCampaigns"
         android:divider="@color/colorTextSecondary"
-
         android:layout_margin="10dp"/>
 
 </LinearLayout>

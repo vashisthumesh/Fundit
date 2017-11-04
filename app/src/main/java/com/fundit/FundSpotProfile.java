@@ -43,7 +43,7 @@ import retrofit2.Response;
 public class FundSpotProfile extends AppCompatActivity {
 
 
-    EditText ed_fund_title, ed_fund_address, ed_fund_zipcode, ed_fund_fundsplit, ed_fund_description, ed_fund_contact_info;
+    EditText ed_fund_title, ed_fund_address, ed_fund_zipcode, ed_fund_fundsplit, ed_fund_description, ed_fund_contact_info,edt_contactInfo_email;
     Spinner sp_state, sp_city, sp_category;
     ImageView img_uplode_photo, img_remove;
     Button bt_update_profile;
@@ -130,6 +130,7 @@ public class FundSpotProfile extends AppCompatActivity {
         ed_fund_fundsplit = (EditText) findViewById(R.id.ed_fund_fundsplit);
         ed_fund_description = (EditText) findViewById(R.id.ed_fund_description);
         ed_fund_contact_info = (EditText) findViewById(R.id.ed_fund_contact_info);
+        edt_contactInfo_email= (EditText) findViewById(R.id.edt_contactInfo_email);
 
 
 
@@ -190,7 +191,8 @@ public class FundSpotProfile extends AppCompatActivity {
             ed_fund_fundsplit.setText(fundspot.getFundraise_split());
 
             ed_fund_description.setText(fundspot.getDescription());
-            ed_fund_contact_info.setText(member.getContact_info());
+            ed_fund_contact_info.setText(member.getContact_info_mobile());
+            edt_contactInfo_email.setText(member.getContact_info_email());
 
             Log.e("categeory", "" + fundspot.getCategory_id());
         }
@@ -295,7 +297,9 @@ public class FundSpotProfile extends AppCompatActivity {
                 String zipcode = ed_fund_zipcode.getText().toString().trim();
                 String funsplit = ed_fund_fundsplit.getText().toString().trim();
                 String description = ed_fund_description.getText().toString().trim();
-                String contactInfo = ed_fund_contact_info.getText().toString().trim();
+                String con="+";
+                String contactInfo = con+ed_fund_contact_info.getText().toString().trim();
+                String contact_email=edt_contactInfo_email.getText().toString().trim();
 
                 int statePosition = sp_state.getSelectedItemPosition();
                 int cityPosition = sp_city.getSelectedItemPosition();
@@ -320,9 +324,18 @@ public class FundSpotProfile extends AppCompatActivity {
                     C.INSTANCE.showToast(getApplicationContext(), "Please select category");
                 } else if (description.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter description");
-                } else if (contactInfo.isEmpty()) {
+                }else if (contactInfo.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter contact information");
-                } else if (imagePath == null) {
+                }
+                else if(contact_email.isEmpty())
+                {
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter contact information");
+                }
+                else if(!C.INSTANCE.validEmail(contact_email))
+                {
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter valid email");
+                }
+                else if (imagePath == null) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please select profile image");
                 } else if (funsplit.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please Enter Funsplit");
@@ -355,10 +368,10 @@ public class FundSpotProfile extends AppCompatActivity {
 
                         if (!imagePath.startsWith("http")) {
 
-                            fundspotResponse = adminAPI.firstTimeEditFundsportProfile(preference.getUserID(), preference.getTokenHash(), title, stateItems.get(statePosition).getId(), cityItems.get(cityPosition).getId(), address1, zipcode, categoryItems.get(categoryPosition).getId(), funsplit, description, contactInfo, ServiceGenerator.prepareFilePart("image", imagePath));
+                            fundspotResponse = adminAPI.firstTimeEditFundsportProfile(preference.getUserID(), preference.getTokenHash(), title, stateItems.get(statePosition).getId(), cityItems.get(cityPosition).getId(), address1, zipcode, categoryItems.get(categoryPosition).getId(), funsplit, description, contact_email,contactInfo, ServiceGenerator.prepareFilePart("image", imagePath));
                         } else {
 
-                            fundspotResponse = adminAPI.withoutImageEditFundsportProfile(preference.getUserID(), preference.getTokenHash(), title, stateItems.get(statePosition).getId(), cityItems.get(cityPosition).getId(), address1, zipcode, categoryItems.get(categoryPosition).getId(), funsplit, description, contactInfo);
+                            fundspotResponse = adminAPI.withoutImageEditFundsportProfile(preference.getUserID(), preference.getTokenHash(), title, stateItems.get(statePosition).getId(), cityItems.get(cityPosition).getId(), address1, zipcode, categoryItems.get(categoryPosition).getId(), funsplit, description, contact_email,contactInfo);
 
 
                         }

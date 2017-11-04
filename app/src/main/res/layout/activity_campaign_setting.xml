@@ -156,6 +156,7 @@
                         android:padding="5dp" />
 
                     <CheckBox
+                        android:visibility="gone"
                         android:id="@+id/checkbox_nolimit"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

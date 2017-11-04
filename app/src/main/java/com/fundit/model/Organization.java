@@ -26,10 +26,22 @@ public class Organization implements Serializable{
     String last_name="";
     String organization_id="";
     String fundspot_id = "";
+    String contact_info_email="";
+    String contact_info_mobile="";
+
 
     City City = new City();
     State State = new State();
+    Type Type=new Type();
+    SubType SubType=new SubType();
 
+    public Organization.Type getType() {
+        return Type;
+    }
+
+    public Organization.SubType getSubType() {
+        return SubType;
+    }
 
     public String getType_id() {
         return type_id;
@@ -104,6 +116,14 @@ public class Organization implements Serializable{
         return organization_id;
     }
 
+    public String getContact_info_email() {
+        return contact_info_email;
+    }
+
+    public String getContact_info_mobile() {
+        return contact_info_mobile;
+    }
+
     public String getFundspot_id() {
         return fundspot_id;
     }
@@ -135,6 +155,26 @@ public class Organization implements Serializable{
 
         String id = "";
         String name = "";
+        String state_code="";
+
+        public String getId() {
+            return id;
+        }
+
+        public String getState_code() {
+            return state_code;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+    }
+
+    public  class  Type implements Serializable{
+
+        String id="";
+        String name="";
 
         public String getId() {
             return id;
@@ -143,8 +183,21 @@ public class Organization implements Serializable{
         public String getName() {
             return name;
         }
-
     }
+
+    public class SubType implements  Serializable{
+        String id="";
+        String name="";
+
+        public String getId() {
+            return id;
+        }
+
+        public String getName() {
+            return name;
+        }
+    }
+
 
 
 }

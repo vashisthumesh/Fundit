@@ -40,32 +40,33 @@ class MyCampaignsFragment : Fragment() {
                 setPresentCampaignFragment()
                 return@OnNavigationItemSelectedListener true
             }
-            R.id.menu_upcoming -> {
-                setUpcomingCampaignFragment()
-                return@OnNavigationItemSelectedListener true
-            }
+//            R.id.menu_upcoming -> {
+//                setUpcomingCampaignFragment()
+//                return@OnNavigationItemSelectedListener true
+//            }
         }
         false
     }
 
     private fun setPastCampaignFragment() {
-        if(!preference?.userRoleID.equals(C.GENERAL_MEMBER)) {
+        //if(!preference?.userRoleID.equals(C.GENERAL_MEMBER)) {
             val fragment: Fragment = PastCampaignFragment()
             val fm: FragmentManager = activity.supportFragmentManager
             val transaction: FragmentTransaction = fm.beginTransaction()
             transaction.replace(R.id.frame_container, fragment)
             transaction.commit()
-        }
+        //}
+
     }
 
     private fun setPresentCampaignFragment() {
-        if(!preference?.userRoleID.equals(C.GENERAL_MEMBER)) {
+      //  if(!preference?.userRoleID.equals(C.GENERAL_MEMBER)) {
             val fragment: Fragment = PresentCampaignFragment()
             val fm: FragmentManager = activity.supportFragmentManager
             val transaction: FragmentTransaction = fm.beginTransaction()
             transaction.replace(R.id.frame_container, fragment)
             transaction.commit()
-        }
+       // }
     }
 
     private fun setUpcomingCampaignFragment() {
@@ -108,8 +109,9 @@ class MyCampaignsFragment : Fragment() {
 
 
 
-
-            setPastCampaignFragment()
+                setPresentCampaignFragment()
+        navigation.getMenu().getItem(1).setChecked(true);
+            //setPastCampaignFragment()
 
 
         return view

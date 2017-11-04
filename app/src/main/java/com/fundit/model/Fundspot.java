@@ -31,6 +31,9 @@ public class Fundspot implements Serializable {
     String campaign_duration = "";
     String max_limit_of_coupon_price = "";
     String coupon_expire_day = "";
+    String Address="";
+    String contact_info_email="";
+    String contact_info_mobile="";
 
 
    City City = new City();
@@ -56,6 +59,14 @@ public class Fundspot implements Serializable {
 
     public String getImage() {
         return image;
+    }
+
+    public String getContact_info_email() {
+        return contact_info_email;
+    }
+
+    public String getContact_info_mobile() {
+        return contact_info_mobile;
     }
 
     public String getLocation() {
@@ -138,6 +149,10 @@ public class Fundspot implements Serializable {
         return City;
     }
 
+    public String getAddress() {
+        return Address;
+    }
+
     public Fundspot.State getState() {
         return State;
     }
@@ -162,6 +177,11 @@ public class Fundspot implements Serializable {
 
         String id = "";
         String name = "";
+        String state_code="";
+
+        public String getState_code() {
+            return state_code;
+        }
 
         public String getId() {
             return id;

@@ -24,7 +24,16 @@ public class GetDataResponses extends AppModel {
         Fundspot Fundspot = new Fundspot();
         Organization Organization = new Organization();
         User User = new User();
+        State State=new State();
+        City City=new City();
 
+        public GetDataResponses.State getState() {
+            return State;
+        }
+
+        public GetDataResponses.City getCity() {
+            return City;
+        }
 
         public com.fundit.model.Fundspot getFundspot() {
             return Fundspot;
@@ -37,7 +46,47 @@ public class GetDataResponses extends AppModel {
         public com.fundit.model.Organization getOrganization() {
             return Organization;
         }
+
+
+
+
+
     }
+
+    public class City implements Serializable{
+
+        String id = "";
+        String name = "";
+
+        public String getId() {
+            return id;
+        }
+
+        public String getName() {
+            return name;
+        }
+    }
+
+    public class State implements Serializable{
+
+        String id = "";
+        String name = "";
+        String state_code="";
+
+        public String getId() {
+            return id;
+        }
+
+        public String getState_code() {
+            return state_code;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+    }
+
 
 
 }

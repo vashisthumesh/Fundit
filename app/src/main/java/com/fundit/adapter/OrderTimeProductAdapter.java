@@ -1,9 +1,11 @@
 package com.fundit.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.provider.ContactsContract;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.fundit.CartItemClickListener;
 import com.fundit.R;
 import com.fundit.a.W;
 import com.fundit.model.MultipleProductResponse;
@@ -34,13 +37,16 @@ public class OrderTimeProductAdapter extends BaseAdapter {
     List<MultipleProductResponse> productResponses = new ArrayList<>();
     Context context;
     LayoutInflater inflater;
+    OnClick onClick;
 
     String imagePath = "";
 
 
-    public OrderTimeProductAdapter(List<MultipleProductResponse> productResponses, Context context) {
+
+    public OrderTimeProductAdapter(List<MultipleProductResponse> productResponses, Context context , OnClick onClick) {
         this.productResponses = productResponses;
         this.context = context;
+        this.onClick = onClick;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -156,6 +162,13 @@ public class OrderTimeProductAdapter extends BaseAdapter {
 
                         productResponses.get(position).setTotal_price(String.valueOf(totalPrice));
 
+                        onClick.UpdateTotalPrice(totalPrice);
+
+                    }
+                    if(quantity==0){
+                        float totalPrice = 0;
+                        onClick.UpdateTotalPrice(totalPrice);
+
                     }
 
                 }
@@ -218,6 +231,13 @@ public class OrderTimeProductAdapter extends BaseAdapter {
 
 
     }
+
+
+    public interface OnClick{
+
+        void UpdateTotalPrice(float totalPrice);
+    }
+
 
 
 }

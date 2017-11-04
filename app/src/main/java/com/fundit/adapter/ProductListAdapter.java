@@ -1,6 +1,7 @@
 package com.fundit.adapter;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.fundit.ProductActivity;
 import com.fundit.R;
 import com.fundit.a.C;
 import com.fundit.a.W;
@@ -74,6 +76,7 @@ public class ProductListAdapter extends BaseAdapter {
         TextView txt_price = (TextView) view.findViewById(R.id.txt_price);
         TextView txt_type = (TextView) view.findViewById(R.id.txt_type);
         TextView txt_productDescription = (TextView) view.findViewById(R.id.txt_productDescription);
+        LinearLayout product_layout= (LinearLayout) view.findViewById(R.id.product_layout);
 
         CircleImageView img_productImage = (CircleImageView) view.findViewById(R.id.img_productImage);
         ImageView img_edit = (ImageView) view.findViewById(R.id.img_edit);
@@ -117,6 +120,25 @@ public class ProductListAdapter extends BaseAdapter {
                 if (onProductClick != null) {
                     onProductClick.setOnProductEditClickListener(position, productList.get(position).getId());
                 }
+            }
+        });
+
+
+
+        product_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i= new Intent(activity, ProductActivity.class);
+                i.putExtra("name",productList.get(position).getName());
+                i.putExtra("price",productList.get(position).getPrice());
+                i.putExtra("Desc",productList.get(position).getDescription());
+                i.putExtra("fine",productList.get(position).getFine_print());
+                i.putExtra("image", productList.get(position).getImage());
+                i.putExtra("myproduct",true);
+                i.putExtra("product", productList.get(position));
+                activity.startActivity(i);
+
+
             }
         });
 

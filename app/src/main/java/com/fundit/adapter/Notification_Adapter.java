@@ -23,6 +23,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.fundit.Bean.Bean_Notification_history;
 import com.fundit.Fundit;
 import com.fundit.NotificationActivity;
+import com.fundit.NotificationDetailActivity;
 import com.fundit.R;
 import com.fundit.SignInActivity;
 import com.fundit.a.AppPreference;
@@ -61,6 +62,7 @@ public class Notification_Adapter extends BaseAdapter {
     // List<ProductItem> result;
     int[] imageId;
     boolean checked = false;
+    String role_id="";
     private static LayoutInflater inflater = null;
 
     public Notification_Adapter(NotificationActivity add_to_cartActivity, ArrayList<Bean_Notification_history> productItemList, NotificationActivity activity) {
@@ -122,14 +124,30 @@ public class Notification_Adapter extends BaseAdapter {
                 String tokenhash=pref.getTokenHash();
                 String notificationId=result.get(position).getId();
                 int read= Integer.parseInt(result.get(position).getRead_status());
+                  role_id=result.get(position).getRole_id();
 
-                if(read==1){
-                    showdialog(position);
-                }
-                else{
-                    read_notification(user_id,tokenhash,notificationId,position);
 
-                }
+             if(pref.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER)) {
+                 if (read == 1) {
+                     Intent i=new Intent(activity, NotificationDetailActivity.class);
+                     i.putExtra("role_id",role_id);
+                     i.putExtra("sent_user",result.get(position).getSent_user());
+                     i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                     activity.startActivity(i);
+                     //showdialog(position);
+                 } else {
+                     read_notification(user_id, tokenhash, notificationId, position);
+
+                 }
+             }
+             else {
+                 if (read == 1) {
+                     showdialog(position);
+                 } else {
+                     read_notification(user_id, tokenhash, notificationId, position);
+
+                 }
+             }
             }
         });
         return rowView;
@@ -149,7 +167,19 @@ public class Notification_Adapter extends BaseAdapter {
                             String  message=object.getString("message");
                             Toast.makeText(context,""+message, Toast.LENGTH_SHORT).show();
                             loadingView.dismiss();
-                            showdialog(position);
+
+
+                            if(pref.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER)) {
+                                Intent i=new Intent(activity, NotificationDetailActivity.class);
+                                i.putExtra("role_id",role_id);
+                                i.putExtra("sent_user",result.get(position).getSent_user());
+                                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                activity.startActivity(i);
+                            }
+                            else {
+                                showdialog(position);
+                            }
+
                         }catch(JSONException j){
                             j.printStackTrace();
                             Log.e("Exception",""+j.getMessage());

@@ -126,7 +126,10 @@ public class CreateCampaignActivity extends AppCompatActivity {
         edt_itemName.setEnabled(false);
         edt_couponCost.setEnabled(false);
 
+
+
         chk_indefinite = (CheckBox) findViewById(R.id.chk_indefinite);
+        chk_indefinite.setClickable(false);
 
         chk_indefinite.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -232,13 +235,14 @@ public class CreateCampaignActivity extends AppCompatActivity {
                 String organizationSplit = edt_organizationSplit.getText().toString().trim();
                 String fundSpotSplit = edt_fundSplit.getText().toString().trim();
                 String campaignDuration = edt_campaignDuration.getText().toString().trim();
-                String maxLimitCoupon = edt_maxLimitCoupon.getText().toString().trim();
+                String maxLimitCoupon1 = edt_maxLimitCoupon.getText().toString().trim();
+                String maxLimitCoupon=maxLimitCoupon1.replace("$","");
                 String couponExpiry = edt_couponExpireDay.getText().toString().trim();
                 String couponFinePrint = edt_finePrint.getText().toString().trim();
 
                 float orgSplit = Float.parseFloat(organizationSplit.isEmpty() ? "0" : organizationSplit);
                 int campDurationNum = Integer.parseInt(campaignDuration.isEmpty() ? "0" : campaignDuration);
-                int maxLimitCouponNum = Integer.parseInt(maxLimitCoupon.isEmpty() ? "0" : maxLimitCoupon);
+                int maxLimitCouponNum = Integer.parseInt(maxLimitCoupon.trim().isEmpty() ? "0" : maxLimitCoupon.trim());
                 int couponExpiryNum = Integer.parseInt(couponExpiry.isEmpty() ? "0" : couponExpiry);
 
                 if (selectedFundSpotName == null) {
@@ -343,7 +347,7 @@ public class CreateCampaignActivity extends AppCompatActivity {
         // edt_couponCost.setText(product.getPrice());
         edt_organizationSplit.setText(product.getOrganization_percent());
         edt_campaignDuration.setText(product.getCampaign_duration());
-        edt_maxLimitCoupon.setText(product.getMax_limit_of_coupons());
+        edt_maxLimitCoupon.setText("$"+product.getMax_limit_of_coupons());
         //  edt_finePrint.setText(product.getFine_print());
         edt_couponExpireDay.setText(product.getCoupon_expire_day());
 
@@ -459,7 +463,11 @@ public class CreateCampaignActivity extends AppCompatActivity {
                         edt_organizationSplit.setText(fundspotObject.getString("organization_percent"));
                         edt_couponExpireDay.setText(fundspotObject.getString("coupon_expire_day"));
                         edt_campaignDuration.setText(fundspotObject.getString("campaign_duration"));
-                        edt_maxLimitCoupon.setText(fundspotObject.getString("max_limit_of_coupon_price"));
+                        edt_maxLimitCoupon.setText("$"+fundspotObject.getString("max_limit_of_coupon_price"));
+                        if(edt_campaignDuration.getText().toString().trim().equalsIgnoreCase("0"))
+                        {
+                            chk_indefinite.setChecked(true);
+                        }
 
                         auto_searchFundspot.setEnabled(false);
                         edt_organizationSplit.setEnabled(false);
@@ -467,7 +475,7 @@ public class CreateCampaignActivity extends AppCompatActivity {
                         edt_campaignDuration.setEnabled(false);
                         //edt_maxLimitCoupon.setEnabled(false);
 
-
+                        fundspotBeen.clear();
 
                         JSONArray productArray = dataObject.getJSONArray("Product");
 
@@ -512,4 +520,7 @@ public class CreateCampaignActivity extends AppCompatActivity {
     public void onBackPressed() {
         finish();
     }
+
+
+
 }

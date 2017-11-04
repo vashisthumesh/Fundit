@@ -99,37 +99,46 @@ public class FinalSendMessage extends AppCompatActivity {
                 String subject = edtSubject.getText().toString().trim();
                 String message = edtMessage.getText().toString().trim();
 
+                if (subject.isEmpty()) {
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter subject");
+                } else if (message.isEmpty()) {
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter message");
+                }
+                else {
+
                 dialog.show();
-                Call<AppModel> sendFinalMessage = adminAPI.SendMessage(preference.getUserID() , preference.getTokenHash() , id , subject , message);
+                Call<AppModel> sendFinalMessage = adminAPI.SendMessage(preference.getUserID(), preference.getTokenHash(), id, subject, message);
                 sendFinalMessage.enqueue(new Callback<AppModel>() {
                     @Override
                     public void onResponse(Call<AppModel> call, Response<AppModel> response) {
                         dialog.dismiss();
                         AppModel model = response.body();
 
-                        Log.e("response" , "" + new Gson().toJson(model));
-                        if(model!=null){
-                            if(model.isStatus()){
-                                C.INSTANCE.showToast(getApplicationContext() , model.getMessage());
-                                Intent intent = new Intent(getApplicationContext() , HomeActivity.class);
+                        Log.e("response", "" + new Gson().toJson(model));
+                        if (model != null) {
+                            if (model.isStatus()) {
+                                C.INSTANCE.showToast(getApplicationContext(), model.getMessage());
+                                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(intent);
-                            }else {
-                                C.INSTANCE.showToast(getApplicationContext() , model.getMessage());
+                            } else {
+                                C.INSTANCE.showToast(getApplicationContext(), model.getMessage());
                             }
-                        }else {
+                        } else {
                             C.INSTANCE.defaultError(getApplicationContext());
                         }
                     }
+
                     @Override
                     public void onFailure(Call<AppModel> call, Throwable t) {
                         dialog.dismiss();
-                        C.INSTANCE.errorToast(getApplicationContext() , t);
+                        C.INSTANCE.errorToast(getApplicationContext(), t);
                     }
                 });
             }
+            }
         });
 
-
+        }
     }
-}
+

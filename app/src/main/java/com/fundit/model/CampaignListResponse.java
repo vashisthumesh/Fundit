@@ -35,7 +35,7 @@ public class CampaignListResponse extends AppModel {
             return CampaignProduct;
         }
 
-        public com.fundit.model.Campaign getCampaign() {
+        public com.fundit.model.Campaign  getCampaign() {
             return Campaign;
         }
 

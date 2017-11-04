@@ -87,7 +87,7 @@ public class SendFeedbackActivity extends AppCompatActivity {
                 else if(emailId.isEmpty())
                     C.INSTANCE.showToast(getApplicationContext() , "Please enter your email-id");
                 else if (message.isEmpty())
-                    C.INSTANCE.showToast(getApplicationContext() , "Please enter messsage");
+                    C.INSTANCE.showToast(getApplicationContext() , "Please enter message");
                 else
                    new SendFeedBack(name , emailId , message).execute();
             }

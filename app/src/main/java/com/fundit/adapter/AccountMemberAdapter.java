@@ -1,6 +1,7 @@
 package com.fundit.adapter;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.fundit.R;
+import com.fundit.SerchPeopleActivity;
 import com.fundit.a.AppPreference;
 import com.fundit.a.C;
 import com.fundit.a.W;
@@ -32,6 +34,7 @@ import java.util.List;
 
 public class AccountMemberAdapter extends BaseAdapter {
 
+    boolean flag=false;
     List<Member> memberList = new ArrayList<>();
     Activity activity;
     LayoutInflater inflater = null;
@@ -71,6 +74,20 @@ public class AccountMemberAdapter extends BaseAdapter {
                 new RemoveFromMyList(memberList.get(position).getId() , position).execute();
 
                 Log.e("check123" , "--->");
+            }
+        });
+
+        txt_memberName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                flag=true;
+                Intent intent = new Intent(activity , SerchPeopleActivity.class);
+                intent.putExtra("id" , memberList.get(position).getId());
+                intent.putExtra("flag",flag);
+                Log.e("id",memberList.get(position).getId());
+
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                activity.startActivity(intent);
             }
         });
 

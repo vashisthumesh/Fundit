@@ -11,8 +11,8 @@
         android:title="Present"
         app:showAsAction="collapseActionView|withText"/>
 
-    <item
-        android:id="@+id/menu_upcoming"
-        android:title="Upcoming"
-        app:showAsAction="collapseActionView|withText"/>
+    <!--<item-->
+        <!--android:id="@+id/menu_upcoming"-->
+        <!--android:title="Upcoming"-->
+        <!--app:showAsAction="collapseActionView|withText"/>-->
 </menu>
