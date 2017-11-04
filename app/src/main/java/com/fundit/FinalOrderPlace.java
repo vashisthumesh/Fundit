@@ -58,7 +58,7 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
     AppPreference preference;
     AdminAPI adminAPI;
     public static TabLayout tabLayout;
-    LinearLayout tab_layout,confirm_layout,fundraiser;
+    LinearLayout tab_layout,confirm_layout , fundraiser;
     ImageView serch_user;
     String Id = "";
 
@@ -158,12 +158,15 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
     }
 
     private void fetchIDs() {
+
+
+
+        fundraiser= (LinearLayout) findViewById(R.id.fundraiser);
+
         txt_fundraiser = (TextView) findViewById(R.id.txt_fundraiser);
         txt_partnerTitle = (TextView) findViewById(R.id.txt_partnerTitle);
         txt_partnerName = (TextView) findViewById(R.id.txt_partnerName);
         txt_targetAmt = (TextView) findViewById(R.id.txt_targetAmt);
-
-        fundraiser= (LinearLayout) findViewById(R.id.fundraiser);
 
         edt_name = (EditText) findViewById(R.id.edt_name);
         edt_email = (EditText) findViewById(R.id.edt_email);
@@ -191,16 +194,16 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
         txt_targetAmt.setEnabled(false);
 
 
+
         if(campaignList.getCampaign().getTitle().equalsIgnoreCase("") || campaignList.getCampaign().getTitle() == null) {
-                fundraiser.setVisibility(View.GONE);
+            fundraiser.setVisibility(View.GONE);
         }
         else {
             fundraiser.setVisibility(View.VISIBLE);
             txt_fundraiser.setText("Fundriser : " + campaignList.getCampaign().getTitle());
         }
 
-
-
+//        txt_fundraiser.setText("Fundriser : " + campaignList.getCampaign().getTitle());
         //  txt_targetAmt.setText(" $" +String.format("%.2f", Double.parseDouble( campaignList.getCampaign().getTarget_amount())));
 
         productAdapter = new OrderTimeProductAdapter(productList, getApplicationContext() , FinalOrderPlace.this);
@@ -313,7 +316,7 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
 
                 me_data();
 
-               // tabLayout.addTab(tabLayout.newTab().setText("Me"));
+                // tabLayout.addTab(tabLayout.newTab().setText("Me"));
                 tabLayout.addTab(tabLayout.newTab().setText("Fundit User"));
                 tabLayout.addTab(tabLayout.newTab().setText("other"));
 
