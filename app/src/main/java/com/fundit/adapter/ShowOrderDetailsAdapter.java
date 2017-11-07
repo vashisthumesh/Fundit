@@ -92,6 +92,7 @@ public class ShowOrderDetailsAdapter extends BaseAdapter {
         TextView txt_item = (TextView) view.findViewById(R.id.txt_item);
         TextView txt_coupons = (TextView) view.findViewById(R.id.txt_coupons);
 
+
         ImageView img_arrow = (ImageView) view.findViewById(R.id.img_arrow);
 
         LinearLayout layout_coupon = (LinearLayout) view.findViewById(R.id.layout_coupon);
