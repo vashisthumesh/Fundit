@@ -451,8 +451,8 @@ class HomeActivity : AppCompatActivity() {
 
     private  fun  coupon()
     {
-        actionTitle?.text = "My Coupons"
-        fragment = CouponFragment()
+        actionTitle?.text = "My Orders"
+        fragment = OrderHistoryFragment()
         val transaction = fm?.beginTransaction()
         transaction?.replace(R.id.content, fragment)
         transaction?.commit()

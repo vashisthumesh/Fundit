@@ -20,6 +20,12 @@ public class Thankyou extends AppCompatActivity {
     String org="";
     String fundspot="";
 
+    boolean isOtherUser = false;
+    boolean isFundTimes = false;
+    boolean isCouponTimes = false;
+    String name = "";
+    String userId = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,15 +34,44 @@ public class Thankyou extends AppCompatActivity {
         Intent i=getIntent();
        org= i.getStringExtra("org");
        fundspot= i.getStringExtra("fundspot");
+       isOtherUser = i.getBooleanExtra("isOtherUser" , false);
+       name = i.getStringExtra("name");
+       userId = i.getStringExtra("selectedUserId");
+        isFundTimes = i.getBooleanExtra("fundTimes" , false);
+        isCouponTimes = i.getBooleanExtra("isCouponTimes" , false);
+
+
+
+
+
+
         txt1= (TextView) findViewById(R.id.txt1);
         txt2= (TextView) findViewById(R.id.txt2);
         txt3= (TextView) findViewById(R.id.txt3);
         txt4= (TextView) findViewById(R.id.txt4);
         txt_coupon= (TextView) findViewById(R.id.txt_coupon);
         home= (Button) findViewById(R.id.home);
+
         txt1.setText("Thank you for supporting"+"\t"+org+"!");
-        txt2.setText("Your order has been completed");
-        txt3.setText("You can use your coupon @"+fundspot+"!");
+        if(isOtherUser){
+            txt2.setText("Your order has been completed");
+            txt4.setVisibility(View.VISIBLE);
+        }else if(isFundTimes){
+            txt2.setText("Your order has been completed on Behalf of " + name);
+            txt4.setVisibility(View.GONE);
+            txt_coupon.setVisibility(View.GONE);
+        }else if(isCouponTimes) {
+            txt1.setVisibility(View.GONE);
+            txt2.setText("Your order has been completed");
+            txt4.setVisibility(View.VISIBLE);
+        }else{
+            txt2.setText("Your order has been completed");
+            txt4.setVisibility(View.VISIBLE);
+        }
+
+
+        /*txt3.setText("You can use your coupon @"+fundspot+"!");*/
+        txt3.setVisibility(View.GONE);
 
         txt_coupon.setOnClickListener(new View.OnClickListener() {
             @Override

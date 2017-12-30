@@ -127,7 +127,16 @@ public class OrderPlaceActivity extends AppCompatActivity {
 
         txt_campaignName.setText(campaignList.getCampaign().getTitle());
         txt_description.setText(campaignList.getCampaign().getDescription());
-        txt_goal.setText("$" +String.format("%.2f",Double.parseDouble(campaignList.getCampaign().getTarget_amount())));
+
+        if(campaignList.getCampaign().getTarget_amount().equalsIgnoreCase("0"))
+        {
+            txt_goal.setText("No Limit");
+        }
+        else
+        {
+            txt_goal.setText("$" +String.format("%.2f",Double.parseDouble(campaignList.getCampaign().getTarget_amount())));
+        }
+
 
 
 

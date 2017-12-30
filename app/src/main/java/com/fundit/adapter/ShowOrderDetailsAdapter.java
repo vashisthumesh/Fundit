@@ -92,6 +92,7 @@ public class ShowOrderDetailsAdapter extends BaseAdapter {
         TextView txt_item = (TextView) view.findViewById(R.id.txt_item);
         TextView txt_coupons = (TextView) view.findViewById(R.id.txt_coupons);
 
+
         ImageView img_arrow = (ImageView) view.findViewById(R.id.img_arrow);
 
         LinearLayout layout_coupon = (LinearLayout) view.findViewById(R.id.layout_coupon);
@@ -108,15 +109,18 @@ public class ShowOrderDetailsAdapter extends BaseAdapter {
         txt_address.setText(orderLists.get(position).getFundspot().getAddress());
 
         String getExpDate = orderLists.get(position).getOrder().getCoupon_expiry_date();
+        Log.e("expdate",getExpDate);
         final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd k:mm:ss");
         try {
             date = simpleDateFormat.parse(getExpDate);
+            Log.e("date","---->"+date);
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
 
-        txt_exp_date.setText(new SimpleDateFormat("MM/dd/yy").format(date));
+        txt_exp_date.setText(new SimpleDateFormat("MM/dd/yyyy").format(date));
+        Log.e("date1","---->"+new SimpleDateFormat("MM/dd/yyyy").format(date));
         txt_coupons.setText(orderLists.get(position).getOrder().getTotal_coupon_count());
 
         if (orderLists.get(position).getOrder().getOrder_request().equalsIgnoreCase("1")) {
@@ -152,11 +156,14 @@ public class ShowOrderDetailsAdapter extends BaseAdapter {
         btn_accept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(activity , CardPaymentActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra("isCouponTimes" , true);
-                intent.putExtra("orderId" , orderLists.get(position).getOrder().getId());
-                activity.startActivity(intent);
+                Intent intent = new Intent(context, OrderHistoryDetail.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("details", orderLists.get(position));
+                intent.putExtra("accept",true);
+                intent.putExtra("couponTimes", true);
+                context.startActivity(intent);
+
+
 
             }
         });

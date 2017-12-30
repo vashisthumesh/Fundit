@@ -358,8 +358,6 @@ public class AddMembersActivity extends AppCompatActivity {
 
 
         if (!profileMode) {
-            btnMessage.setVisibility(View.VISIBLE);
-
             new GetAllDetails().execute();
 
         }

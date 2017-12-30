@@ -51,6 +51,7 @@ public class OrderHistoryDetail extends AppCompatActivity {
 
     boolean isCouponTimes = false;
     boolean isExpired=false;
+    boolean isaccept=false;
 
     LinearLayout layout_coupon ,linear_payment,linear_address,linear_resend,linear_ref,linear_code,linear_expiration,linear_expiry,linear_expired;
     ImageView qrScan;
@@ -73,6 +74,7 @@ public class OrderHistoryDetail extends AppCompatActivity {
 
         historyResponse = (OrderHistoryResponse.OrderList) intent.getSerializableExtra("details");
         isCouponTimes = intent.getBooleanExtra("couponTimes" , false);
+        isaccept=intent.getBooleanExtra("accept",false);
 
        setupToolBar();
         fetchIDs();
@@ -144,15 +146,35 @@ public class OrderHistoryDetail extends AppCompatActivity {
             txt_history_address.setText(historyResponse.getFundspot().getAddress());
             txt_payment_method.setVisibility(View.GONE);
             linear_payment.setVisibility(View.GONE);
-            linear_resend.setVisibility(View.GONE);
-            btnCoupon.setVisibility(View.GONE);
+
+
             payment_code.setVisibility(View.GONE);
             payment_ref_no.setVisibility(View.GONE);
             linear_ref.setVisibility(View.GONE);
             linear_code.setVisibility(View.GONE);
             linear_expiration.setVisibility(View.VISIBLE);
             txt_coupon_exp_date.setVisibility(View.VISIBLE);
+            if(isaccept == true)
+            {
+                linear_resend.setVisibility(View.VISIBLE);
+                btnCoupon.setVisibility(View.VISIBLE);
+                btnCoupon.setText("Confirm");
+                btnCoupon.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(getApplicationContext() , CardPaymentActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.putExtra("isCouponTimes" , true);
+                        intent.putExtra("orderId" , historyResponse.getOrder().getId());
+                        startActivity(intent);
+                    }
+                });
 
+            }
+            else {
+                linear_resend.setVisibility(View.GONE);
+                btnCoupon.setVisibility(View.GONE);
+            }
 
             String getExpDate = historyResponse.getOrder().getCoupon_expiry_date();
             final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd k:mm:ss");

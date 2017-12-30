@@ -6,111 +6,119 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.fundit.Thankyou">
+
     <include
         android:id="@+id/toolbar"
         layout="@layout/toolbar_center_text" />
+
     <LinearLayout
-        android:layout_gravity="top"
-        android:gravity="top"
-        android:layout_marginTop="10dp"
-        android:padding="10dp"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:orientation="vertical">
+        android:layout_gravity="top"
+        android:layout_marginTop="10dp"
+        android:gravity="top"
+        android:orientation="vertical"
+        android:padding="10dp">
+
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:src="@drawable/transparentlogo"/>
+            android:src="@drawable/transparentlogo" />
     </LinearLayout>
 
 
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:orientation="vertical">
-    <TextView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-       android:paddingLeft="20dp"
-        android:paddingTop="20dp"
-        android:paddingRight="20dp"
-        android:paddingBottom="10dp"
-        android:id="@+id/txt1"
-    android:textStyle="bold"
-    android:textSize="18sp"
-    android:textColor="@color/black"
-    />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-       android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:id="@+id/txt2"
-        android:textStyle="bold"
-        android:textSize="18sp"
-        android:textColor="@color/black"
-        />
+
+        <TextView
+            android:id="@+id/txt1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingBottom="5dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="20dp"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txt2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingBottom="5dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="5dp"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/txt3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingBottom="5dp"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
+            android:paddingTop="5dp"
             android:textColor="@color/black"
             android:textSize="18sp" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_gravity="center"
             android:orientation="horizontal">
 
-        <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:paddingLeft="20dp"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:paddingRight="5dp"
-            android:text="View your coupon in"
-        android:id="@+id/txt4"
-        android:textSize="18sp"
-        android:textColor="@color/black"
-        />
+            <TextView
+                android:id="@+id/txt4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingBottom="5dp"
+                android:paddingLeft="20dp"
+                android:paddingTop="5dp"
+                android:text="View your Order in"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
             <TextView
                 android:id="@+id/txt_coupon"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
-                android:layout_weight="1"
-                android:textSize="18sp"
+                android:gravity="start|center"
+                android:paddingLeft="5dp"
+                android:text="My Orders"
                 android:textColor="@color/colorPrimary"
-                android:textStyle="bold"
-                android:text="My Coupons"/>
+                android:textSize="18sp"
+                android:textStyle="bold" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:paddingBottom="20dp"
             android:paddingLeft="80dp"
             android:paddingRight="80dp"
-            android:paddingTop="20dp"
-            android:paddingBottom="20dp"
-           >
-        <Button
-            android:id="@+id/home"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Go Home"
-            android:background="@color/colorPrimary"
-            />
+            android:paddingTop="20dp">
+
+            <Button
+                android:id="@+id/home"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:text="Go Home" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>
