@@ -208,6 +208,7 @@
 
     </LinearLayout>
 
+
     <LinearLayout
         android:id="@+id/layout_description"
         android:layout_width="match_parent"

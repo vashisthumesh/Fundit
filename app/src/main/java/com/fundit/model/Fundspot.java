@@ -163,6 +163,11 @@ public class Fundspot implements Serializable {
 
         String id = "";
         String name = "";
+        String state_code="";
+
+        public String getState_code() {
+            return state_code;
+        }
 
         public String getId() {
             return id;

@@ -142,6 +142,25 @@ public class ProductListAdapter extends BaseAdapter {
             }
         });
 
+
+
+        product_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i= new Intent(activity, ProductActivity.class);
+                i.putExtra("name",productList.get(position).getName());
+                i.putExtra("price",productList.get(position).getPrice());
+                i.putExtra("Desc",productList.get(position).getDescription());
+                i.putExtra("fine",productList.get(position).getFine_print());
+                i.putExtra("image", productList.get(position).getImage());
+                i.putExtra("myproduct",true);
+                i.putExtra("product", productList.get(position));
+                activity.startActivity(i);
+
+
+            }
+        });
+
         return view;
     }
 

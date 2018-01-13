@@ -55,7 +55,6 @@ public class ShowOrderDetailsAdapter extends BaseAdapter {
     Date date;
 
 
-
     public ShowOrderDetailsAdapter(List<OrderHistoryResponse.OrderList> campaignLists, Activity activity) {
         this.orderLists = campaignLists;
         this.activity = activity;
@@ -92,30 +91,22 @@ public class ShowOrderDetailsAdapter extends BaseAdapter {
         TextView txt_exp_date = (TextView) view.findViewById(R.id.txt_expdate);
         TextView txt_item = (TextView) view.findViewById(R.id.txt_item);
         TextView txt_coupons = (TextView) view.findViewById(R.id.txt_coupons);
-        TextView txt_sendfrom= (TextView) view.findViewById(R.id.txt_sendfrom);
-        TextView txt_organization= (TextView) view.findViewById(R.id.txt_organization);
+
 
         ImageView img_arrow = (ImageView) view.findViewById(R.id.img_arrow);
 
         LinearLayout layout_coupon = (LinearLayout) view.findViewById(R.id.layout_coupon);
-        LinearLayout layout_date= (LinearLayout) view.findViewById(R.id.layout_date);
-        LinearLayout layout_org= (LinearLayout) view.findViewById(R.id.layout_org);
         final LinearLayout layout_request = (LinearLayout) view.findViewById(R.id.layout_request);
         final LinearLayout layout_couponmain = (LinearLayout) view.findViewById(R.id.layout_main);
-        LinearLayout layout_from= (LinearLayout) view.findViewById(R.id.layout_from);
-        LinearLayout layout_camp= (LinearLayout) view.findViewById(R.id.layout_camp);
-
-        layout_coupon.setVisibility(View.GONE);
+        layout_coupon.setVisibility(View.VISIBLE);
 
         Button btn_accept = (Button) view.findViewById(R.id.btn_accept);
         Button btn_decline = (Button) view.findViewById(R.id.btn_decline);
 
 
         txt_fundspot.setText(orderLists.get(position).getFundspot().getTitle());
-        layout_camp.setVisibility(View.VISIBLE);
         txt_campaign.setText(orderLists.get(position).getCampaign().getTitle());
         txt_address.setText(orderLists.get(position).getFundspot().getAddress());
-         txt_organization.setText(orderLists.get(position).getOrganization().getTitle());
 
         String getExpDate = orderLists.get(position).getOrder().getCoupon_expiry_date();
         Log.e("expdate",getExpDate);
@@ -127,7 +118,7 @@ public class ShowOrderDetailsAdapter extends BaseAdapter {
             e.printStackTrace();
         }
 
-        layout_date.setVisibility(View.VISIBLE);
+
         txt_exp_date.setText(new SimpleDateFormat("MM/dd/yyyy").format(date));
         Log.e("date1","---->"+new SimpleDateFormat("MM/dd/yyyy").format(date));
         txt_coupons.setText(orderLists.get(position).getOrder().getTotal_coupon_count());
@@ -136,11 +127,7 @@ public class ShowOrderDetailsAdapter extends BaseAdapter {
 
             layout_request.setVisibility(View.VISIBLE);
             layout_couponmain.setBackgroundColor(Color.parseColor("#FF8A80"));
-            layout_from.setVisibility(View.VISIBLE);
-            txt_sendfrom.setText("Pending request from "+orderLists.get(position).getOrder().getRequested_user_name());
-            layout_date.setVisibility(View.GONE);
-            layout_camp.setVisibility(View.GONE);
-            layout_coupon.setVisibility(View.VISIBLE);
+
 
         }
 
@@ -155,29 +142,13 @@ public class ShowOrderDetailsAdapter extends BaseAdapter {
         img_arrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(context, OrderHistoryDetail.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("details", orderLists.get(position));
+                intent.putExtra("couponTimes", true);
 
 
-                if (orderLists.get(position).getOrder().getOrder_request().equalsIgnoreCase("1")) {
-                    Intent intent = new Intent(context, OrderHistoryDetail.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    intent.putExtra("details", orderLists.get(position));
-                    intent.putExtra("couponTimes", true);
-                    intent.putExtra("flag",true);
-
-
-                    context.startActivity(intent);
-                }
-                else {
-                    Intent intent = new Intent(context, OrderHistoryDetail.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    intent.putExtra("details", orderLists.get(position));
-                    intent.putExtra("couponTimes", true);
-                    intent.putExtra("flag",false);
-
-
-                    context.startActivity(intent);
-                }
-
+                context.startActivity(intent);
             }
         });
 
@@ -190,7 +161,6 @@ public class ShowOrderDetailsAdapter extends BaseAdapter {
                 intent.putExtra("details", orderLists.get(position));
                 intent.putExtra("accept",true);
                 intent.putExtra("couponTimes", true);
-                intent.putExtra("flag",true);
                 context.startActivity(intent);
 
 

@@ -1,8 +1,6 @@
 package com.fundit.fragmet;
 
 import android.os.Bundle;
-import android.support.annotation.IdRes;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -159,7 +157,7 @@ public class MyBrowseCampaign extends Fragment {
         }
         rg_type.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
+            public void onCheckedChanged(RadioGroup group,  int checkedId) {
                 if(checkedId == R.id.rb_fundspot){
                     list.setVisibility(View.VISIBLE);
                     fundspotSelected = true;
@@ -268,51 +266,6 @@ public class MyBrowseCampaign extends Fragment {
                 fundspotListAdapter = new GetDataAdapter(verifyResponseDatas , getActivity() , fundspotSelected);
                 list.setAdapter(fundspotListAdapter);
 
-                fundspotListAdapter.notifyDataSetChanged();
-            }
-
-
-            @Override
-            public void onFailure(Call<GetDataResponses> call, Throwable t) {
-
-                dialog.dismiss();
-                C.INSTANCE.errorToast(getActivity(), t);
-
-            }
-
-        });
-    }
-
-
-    private void getAllOrganization() {
-
-        dialog.show();
-        Log.e("user","-->"+preferences.getUserID());
-        Log.e("user","--->"+fundspot.getCity_id());
-        Log.e("user","--->"+fundspot.getZip_code());
-
-
-
-        Call<GetDataResponses> verifyResponse = adminAPI.GET_ALL_ORGANIZATION(preferences.getUserID() , fundspot.getCity_id() , fundspot.getZip_code());
-        verifyResponse.enqueue(new Callback<GetDataResponses>() {
-            @Override
-            public void onResponse(Call<GetDataResponses> call, Response<GetDataResponses> response) {
-                verifyResponseDatas.clear();
-                dialog.dismiss();
-
-                GetDataResponses responses = response.body();
-                Log.e("response", new Gson().toJson(response));
-                if (response != null) {
-                    if (responses.isStatus()) {
-
-                        Log.e("datas" , "-->");
-                        verifyResponseDatas.addAll(responses.getData());
-                    }
-                } else {
-                    C.INSTANCE.defaultError(getActivity());
-                }
-                fundspotListAdapter = new GetDataAdapter(verifyResponseDatas , getActivity() , fundspotSelected);
-                list.setAdapter(fundspotListAdapter);
                 fundspotListAdapter.notifyDataSetChanged();
             }
 
@@ -435,4 +388,156 @@ public class MyBrowseCampaign extends Fragment {
         });
     }
 
+
+    private void getAllOrganization() {
+
+        dialog.show();
+        Log.e("user","-->"+preferences.getUserID());
+        Log.e("user","--->"+fundspot.getCity_id());
+        Log.e("user","--->"+fundspot.getZip_code());
+
+
+
+        Call<GetDataResponses> verifyResponse = adminAPI.GET_ALL_ORGANIZATION(preferences.getUserID() , fundspot.getCity_id() , fundspot.getZip_code());
+        verifyResponse.enqueue(new Callback<GetDataResponses>() {
+            @Override
+            public void onResponse(Call<GetDataResponses> call, Response<GetDataResponses> response) {
+                verifyResponseDatas.clear();
+                dialog.dismiss();
+
+                GetDataResponses responses = response.body();
+                Log.e("response", new Gson().toJson(response));
+                if (response != null) {
+                    if (responses.isStatus()) {
+
+                        Log.e("datas" , "-->");
+                        verifyResponseDatas.addAll(responses.getData());
+                    }
+                } else {
+                    C.INSTANCE.defaultError(getActivity());
+                }
+                fundspotListAdapter = new GetDataAdapter(verifyResponseDatas , getActivity() , fundspotSelected);
+                list.setAdapter(fundspotListAdapter);
+                fundspotListAdapter.notifyDataSetChanged();
+            }
+
+
+            @Override
+            public void onFailure(Call<GetDataResponses> call, Throwable t) {
+
+                dialog.dismiss();
+                C.INSTANCE.errorToast(getActivity(), t);
+
+            }
+
+        });
+
+
+
+
+
+
+
+    }
+
+    /*private void searchFundspot(String title,String city_id, String zip_code) {
+        Call<GetDataResponses> searchCall = adminAPI.searchFundspotOne(preferences.getUserID(), preferences.getTokenHash(), title,city_id,zip_code);
+        searchCall.enqueue(new Callback<GetDataResponses>() {
+            @Override
+            public void onResponse(Call<GetDataResponses> call, Response<GetDataResponses> response) {
+                fundspot_search.clear();
+                dialog.dismiss();
+                GetDataResponses listResponse = response.body();
+                if (listResponse != null) {
+                    if (listResponse.isStatus()) {
+                        Log.e("true","true");
+
+                        fundspot_search.addAll(listResponse.getData());
+                    }
+                }
+             else {
+                C.INSTANCE.defaultError(getActivity());
+            }
+                fundspotListAdapter = new GetDataAdapter(fundspot_search , getActivity() , fundspotSelected);
+                list.setAdapter(fundspotListAdapter);
+
+                fundspotListAdapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onFailure(Call<GetDataResponses> call, Throwable t) {
+                dialog.dismiss();
+                C.INSTANCE.errorToast(getActivity(), t);
+            }
+        });
+    }
+
+
+    private void searchOrganization(String title,String city_id, String zip_code) {
+        Call<GetDataResponses> searchCall = adminAPI.GET_ORGANIZATIONBROWSE(preferences.getUserID(), preferences.getTokenHash(), title,city_id,zip_code);
+        searchCall.enqueue(new Callback<GetDataResponses>() {
+            @Override
+            public void onResponse(Call<GetDataResponses> call, Response<GetDataResponses> response) {
+                fundspot_search.clear();
+                dialog.dismiss();
+                GetDataResponses listResponse = response.body();
+                if (listResponse != null) {
+                    if (listResponse.isStatus()) {
+                        Log.e("true","true");
+
+                        fundspot_search.addAll(listResponse.getData());
+                    }
+                }
+                else {
+                    C.INSTANCE.defaultError(getActivity());
+                }
+                fundspotListAdapter = new GetDataAdapter(fundspot_search , getActivity() , fundspotSelected);
+                list.setAdapter(fundspotListAdapter);
+
+                fundspotListAdapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onFailure(Call<GetDataResponses> call, Throwable t) {
+                dialog.dismiss();
+                C.INSTANCE.errorToast(getActivity(), t);
+            }
+        });
+    }
+
+    private void SEARCH_PEOPLE(String title) {
+        Call<GetSearchPeople> searchCall = adminAPI.getsearchpeople(preferences.getUserID(), title, preferences.getUserRoleID());
+        searchCall.enqueue(new Callback<GetSearchPeople>() {
+            @Override
+            public void onResponse(Call<GetSearchPeople> call, Response<GetSearchPeople> response) {
+                people_search.clear();
+                dialog.dismiss();
+                GetSearchPeople listResponse = response.body();
+                if (listResponse != null) {
+                    if (listResponse.isStatus()) {
+                        Log.e("true","true");
+
+                        people_search.addAll(listResponse.getData());
+                    }
+                }
+                else {
+                    C.INSTANCE.defaultError(getActivity());
+                }
+                searchAdapter = new GetSearchAdapter(people_search , getActivity() , fundspotSelected);
+                list.setAdapter(searchAdapter);
+
+                searchAdapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onFailure(Call<GetSearchPeople> call, Throwable t) {
+                dialog.dismiss();
+                C.INSTANCE.errorToast(getActivity(), t);
+            }
+        });
+    }
+*/
 }

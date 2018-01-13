@@ -101,6 +101,134 @@
 
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/linear_total_gift_value"
+            android:layout_margin="5dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+
+                android:text="Total Gift Card Value: "
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/colorText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/txt_totalgift_value"
+                android:text=""
+                android:textSize="16sp"
+                android:layout_marginLeft="5dp"
+                android:textColor="@color/colorTextSecondary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/linear_total_price"
+            android:layout_margin="5dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+
+                android:text="Total Price: "
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/colorText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/txt_totalprice"
+                android:text=""
+                android:textSize="16sp"
+                android:layout_marginLeft="5dp"
+                android:textColor="@color/colorTextSecondary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/linear_remaining_money"
+            android:layout_margin="5dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:text="Remaining Money"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/colorText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/txt_remainig_money"
+                android:text=""
+                android:textSize="16sp"
+                android:layout_marginLeft="5dp"
+                android:textColor="@color/colorTextSecondary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/linear_redeem"
+            android:layout_margin="5dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/txt_reedem"
+                android:text="Redeemed"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:background="@color/lightgreen"
+                android:textColor="@color/colorText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/linear_remaining"
+            android:layout_margin="5dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+
+                android:text="Remaining QTY: "
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/colorText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/txt_remainig_qty"
+                android:text=""
+                android:textSize="16sp"
+                android:layout_marginLeft="5dp"
+                android:textColor="@color/colorTextSecondary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+
+
+
+        </LinearLayout>
+        <LinearLayout
             android:id="@+id/linear_sellingprice"
             android:layout_margin="5dp"
             android:orientation="horizontal"
@@ -158,7 +286,6 @@
 
 
         </LinearLayout>
-
         <LinearLayout
             android:id="@+id/linear_total_qty"
             android:layout_margin="5dp"

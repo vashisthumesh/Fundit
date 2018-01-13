@@ -91,6 +91,20 @@ public class AccountMemberAdapter extends BaseAdapter {
             }
         });
 
+        txt_memberName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                flag=true;
+                Intent intent = new Intent(activity , SerchPeopleActivity.class);
+                intent.putExtra("id" , memberList.get(position).getId());
+                intent.putExtra("flag",flag);
+                Log.e("id",memberList.get(position).getId());
+
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                activity.startActivity(intent);
+            }
+        });
+
         return view;
     }
 

@@ -141,20 +141,6 @@ public class Organization implements Serializable{
 
         String id = "";
         String name = "";
-
-        public String getId() {
-            return id;
-        }
-
-        public String getName() {
-            return name;
-        }
-    }
-
-    public class State implements Serializable{
-
-        String id = "";
-        String name = "";
         String state_code="";
 
         public String getId() {
@@ -198,6 +184,52 @@ public class Organization implements Serializable{
         }
     }
 
+    public class State implements Serializable{
+
+        String id = "";
+        String name = "";
+        String state_code="";
+
+        public String getId() {
+            return id;
+        }
+
+        public String getState_code() {
+            return state_code;
+        }
+
+        public String getName() {
+            return name;
+        }
+    }
+
+    /*public  class  Type implements Serializable{
+
+        String id="";
+        String name="";
+
+        public String getId() {
+            return id;
+        }
+
+        public String getName() {
+            return name;
+        }
+    }
+
+    public class SubType implements  Serializable{
+        String id="";
+        String name="";
+
+        public String getId() {
+            return id;
+        }
+
+        public String getName() {
+            return name;
+        }
+    }
+*/
 
 
 }
