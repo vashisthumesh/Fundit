@@ -31,6 +31,7 @@ public class Order implements Serializable {
     String coupon_expiry_date="";
     String payment_refno="";
     String order_request = "";
+    String requested_user_name="";
 
     public String getCoupon_expiry_date() {
         return coupon_expiry_date;
@@ -114,6 +115,10 @@ public class Order implements Serializable {
 
     public String getCreated() {
         return created;
+    }
+
+    public String getRequested_user_name() {
+        return requested_user_name;
     }
 
     public String getTotal_coupon_count() {

@@ -52,8 +52,8 @@ public class OrderHistoryDetail extends AppCompatActivity {
     boolean isCouponTimes = false;
     boolean isExpired=false;
     boolean isaccept=false;
-
-    LinearLayout layout_coupon ,linear_payment,linear_address,linear_resend,linear_ref,linear_code,linear_expiration,linear_expiry,linear_expired;
+    boolean flag=false;
+    LinearLayout layout_coupon ,linear_payment,linear_address,linear_resend,linear_ref,linear_code,linear_expiration,linear_expiry,linear_expired,layout_camp;
     ImageView qrScan;
     String QRSCAN = "";
     String productName = "";
@@ -75,6 +75,7 @@ public class OrderHistoryDetail extends AppCompatActivity {
         historyResponse = (OrderHistoryResponse.OrderList) intent.getSerializableExtra("details");
         isCouponTimes = intent.getBooleanExtra("couponTimes" , false);
         isaccept=intent.getBooleanExtra("accept",false);
+        flag=intent.getBooleanExtra("flag",false);
 
        setupToolBar();
         fetchIDs();
@@ -131,6 +132,7 @@ public class OrderHistoryDetail extends AppCompatActivity {
         txt_expiry_date= (TextView) findViewById(R.id.txt_coupon_expiry_date);
         txt_expired= (TextView) findViewById(R.id.text_expired);
         linear_expired= (LinearLayout) findViewById(R.id.linear_expired);
+        layout_camp= (LinearLayout) findViewById(R.id.layout_camp);
 
 
 
@@ -152,29 +154,83 @@ public class OrderHistoryDetail extends AppCompatActivity {
             payment_ref_no.setVisibility(View.GONE);
             linear_ref.setVisibility(View.GONE);
             linear_code.setVisibility(View.GONE);
-            linear_expiration.setVisibility(View.VISIBLE);
-            txt_coupon_exp_date.setVisibility(View.VISIBLE);
-            if(isaccept == true)
-            {
-                linear_resend.setVisibility(View.VISIBLE);
-                btnCoupon.setVisibility(View.VISIBLE);
-                btnCoupon.setText("Confirm");
-                btnCoupon.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent intent = new Intent(getApplicationContext() , CardPaymentActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        intent.putExtra("isCouponTimes" , true);
-                        intent.putExtra("orderId" , historyResponse.getOrder().getId());
-                        startActivity(intent);
-                    }
-                });
 
+            txt_coupon_exp_date.setVisibility(View.VISIBLE);
+
+            if(flag == true)
+            {
+
+                linear_expiration.setVisibility(View.GONE);
+                layout_camp.setVisibility(View.GONE);
+                linear_expired.setVisibility(View.GONE);
+                if(isaccept == true)
+                {
+                    linear_resend.setVisibility(View.VISIBLE);
+                    btnCoupon.setVisibility(View.VISIBLE);
+                    btnCoupon.setText("Confirm");
+                    btnCoupon.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent intent = new Intent(getApplicationContext() , CardPaymentActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            intent.putExtra("isCouponTimes" , true);
+                            intent.putExtra("orderId" , historyResponse.getOrder().getId());
+                            startActivity(intent);
+                        }
+                    });
+
+                }
+                else {
+                    linear_resend.setVisibility(View.GONE);
+                    btnCoupon.setVisibility(View.GONE);
+                }
             }
             else {
-                linear_resend.setVisibility(View.GONE);
-                btnCoupon.setVisibility(View.GONE);
+
+
+                String getDate = historyResponse.getOrder().getCoupon_expiry_date();
+                String output = getDate.substring(0, 10);
+
+                try {
+                    final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+                    date1 = sdf.parse(output);
+                } catch (final ParseException e) {
+                    e.printStackTrace();
+                }
+
+                Calendar c = Calendar.getInstance();
+
+                // set the calendar to start of today
+                c.set(Calendar.HOUR_OF_DAY, 0);
+                c.set(Calendar.MINUTE, 0);
+                c.set(Calendar.SECOND, 0);
+                c.set(Calendar.MILLISECOND, 0);
+
+                // and get that as a Date
+                Date today = c.getTime();
+                Log.e("today_date",today.toString());
+
+                linear_expiration.setVisibility(View.VISIBLE);
+                layout_camp.setVisibility(View.VISIBLE);
+                if(date1.before(today)) {
+                    linear_expired.setVisibility(View.VISIBLE);
+                    txt_expired.setVisibility(View.VISIBLE);
+                    isExpired=true;
+                    //  productAdapter.notifyDataSetChanged();
+                    Log.e("isexp1","--->"+isExpired);
+                }
+                else {
+                    linear_expired.setVisibility(View.GONE);
+                    txt_expired.setVisibility(View.GONE);
+                    isExpired=false;
+                    // productAdapter.notifyDataSetChanged();
+                    Log.e("isexp2","--->"+isExpired);
+                }
             }
+
+
+
 
             String getExpDate = historyResponse.getOrder().getCoupon_expiry_date();
             final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd k:mm:ss");
@@ -188,43 +244,8 @@ public class OrderHistoryDetail extends AppCompatActivity {
             linear_expiry.setVisibility(View.GONE);
             txt_expiry_date.setVisibility(View.GONE);
 
-            String getDate = historyResponse.getOrder().getCoupon_expiry_date();
-            String output = getDate.substring(0, 10);
 
-            try {
-                final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
-                date1 = sdf.parse(output);
-            } catch (final ParseException e) {
-                e.printStackTrace();
-            }
-
-            Calendar c = Calendar.getInstance();
-
-            // set the calendar to start of today
-            c.set(Calendar.HOUR_OF_DAY, 0);
-            c.set(Calendar.MINUTE, 0);
-            c.set(Calendar.SECOND, 0);
-            c.set(Calendar.MILLISECOND, 0);
-
-            // and get that as a Date
-            Date today = c.getTime();
-            Log.e("today_date",today.toString());
-
-            if(date1.before(today)) {
-                linear_expired.setVisibility(View.VISIBLE);
-                txt_expired.setVisibility(View.VISIBLE);
-                isExpired=true;
-              //  productAdapter.notifyDataSetChanged();
-                Log.e("isexp1","--->"+isExpired);
-            }
-            else {
-                linear_expired.setVisibility(View.GONE);
-                txt_expired.setVisibility(View.GONE);
-                isExpired=false;
-               // productAdapter.notifyDataSetChanged();
-                Log.e("isexp2","--->"+isExpired);
-            }
         }
         else {
             Log.e("iscoupan","--->"+isCouponTimes);
