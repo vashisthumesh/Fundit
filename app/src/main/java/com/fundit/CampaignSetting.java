@@ -37,10 +37,10 @@ public class CampaignSetting extends AppCompatActivity {
 
     String userid = "", title = "", state_id = "", city_id = "", address = "", zipcode = "", category = "", funsplit = "", description = "", contactInfo = "", imagePath = "";
 
-    Button btn_continue , btn_skip;
+    Button btn_continue, btn_skip;
 
     EditText edt_fubdraiser, edt_organization, edt_duration, edt_price, edt_total_days;
-    CheckBox checkbox_indefinite, checkbox_nolimit;
+    CheckBox checkbox_indefinite, checkbox_nolimit, checkbox_visible;
 
     boolean firstTIme = false;
     boolean editMode = false;
@@ -70,13 +70,12 @@ public class CampaignSetting extends AppCompatActivity {
         firstTIme = in.getBooleanExtra("firstTime", false);
         editMode = in.getBooleanExtra("editMode", false);
 
-        try{
-            member = new Gson().fromJson(preference.getMemberData() , Fundspot.class);
-            Log.e("member" , "-->" + preference.getMemberData());
-        }catch (Exception e){
+        try {
+            member = new Gson().fromJson(preference.getMemberData(), Fundspot.class);
+            Log.e("member", "-->" + preference.getMemberData());
+        } catch (Exception e) {
             e.printStackTrace();
         }
-
 
 
         fetchID();
@@ -91,7 +90,7 @@ public class CampaignSetting extends AppCompatActivity {
         actionTitle.setText("Campaign Setting");
         setSupportActionBar(toolbar);
 
-        if(editMode) {
+        if (editMode) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setHomeButtonEnabled(true);
 
@@ -120,6 +119,7 @@ public class CampaignSetting extends AppCompatActivity {
 
         checkbox_indefinite = (CheckBox) findViewById(R.id.checkbox_indefinite);
         checkbox_nolimit = (CheckBox) findViewById(R.id.checkbox_nolimit);
+        checkbox_visible = (CheckBox) findViewById(R.id.checkbox_visible);
         checkbox_indefinite.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -141,34 +141,32 @@ public class CampaignSetting extends AppCompatActivity {
             }
         });
 
-        if(firstTIme){
+        if (firstTIme) {
             btn_skip.setVisibility(View.VISIBLE);
         }
 
 
-        if(editMode){
+        if (editMode) {
             String getMaxCoupons = member.getMax_limit_of_coupon_price();
             String getDuration = member.getCampaign_duration();
             edt_fubdraiser.setText(member.getFundspot_percent());
             edt_organization.setText(member.getOrganization_percent());
             btn_skip.setVisibility(View.GONE);
-            if(getMaxCoupons.equalsIgnoreCase("10000") || getMaxCoupons.equalsIgnoreCase("0")){
+            if (getMaxCoupons.equalsIgnoreCase("10000") || getMaxCoupons.equalsIgnoreCase("0")) {
                 checkbox_nolimit.setChecked(true);
                 edt_price.setEnabled(false);
-            }else {
+            } else {
                 edt_price.setText(getMaxCoupons);
                 edt_price.setEnabled(true);
             }
 
-            if(getDuration.equalsIgnoreCase("10000") || getDuration.equalsIgnoreCase("0")){
+            if (getDuration.equalsIgnoreCase("10000") || getDuration.equalsIgnoreCase("0")) {
                 checkbox_indefinite.setChecked(true);
                 edt_duration.setEnabled(false);
-            }else {
+            } else {
                 edt_duration.setText(getDuration);
                 edt_duration.setEnabled(true);
             }
-
-
 
 
             edt_total_days.setText(member.getCoupon_expire_day());
@@ -194,7 +192,7 @@ public class CampaignSetting extends AppCompatActivity {
 
                 Call<VerifyResponse> fundspotResponse = null;
                 dialog.show();
-                fundspotResponse = adminAPI.editFundsportProfile(preference.getUserID(), preference.getTokenHash(), title, state_id, city_id, address, zipcode, category, funsplit, description, contactInfo, "", "", "", "", "", ServiceGenerator.prepareFilePart("image", imagePath));
+                fundspotResponse = adminAPI.editFundsportProfile(preference.getUserID(), preference.getTokenHash(), title, state_id, city_id, address, zipcode, category, funsplit, description, contactInfo, "", "", "", "", "","0", ServiceGenerator.prepareFilePart("image", imagePath));
 
                 fundspotResponse.enqueue(new Callback<VerifyResponse>() {
                     @Override
@@ -228,14 +226,8 @@ public class CampaignSetting extends AppCompatActivity {
                 });
 
 
-
-
-
             }
         });
-
-
-
 
 
         btn_continue.setOnClickListener(new View.OnClickListener() {
@@ -247,8 +239,11 @@ public class CampaignSetting extends AppCompatActivity {
                 final String campaign_days = edt_duration.getText().toString().trim();
                 final String amount = edt_price.getText().toString().trim();
                 final String totalDays = edt_total_days.getText().toString().trim();
+                String splitVisibility = "0";
 
-
+                if (checkbox_visible.isChecked()) {
+                    splitVisibility = "1";
+                }
 
 
                 if (fundraiser.isEmpty()) {
@@ -257,7 +252,7 @@ public class CampaignSetting extends AppCompatActivity {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter organization percentage");
                 } else if (campaign_days.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter duration of campaign");
-                } else if (amount.isEmpty() && checkbox_nolimit.isChecked()==false) {
+                } else if (amount.isEmpty() && checkbox_nolimit.isChecked() == false) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter max selling limit");
                 } else if (totalDays.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter coupons expiration");
@@ -267,7 +262,7 @@ public class CampaignSetting extends AppCompatActivity {
 
 
                     if (firstTIme) {
-                        fundspotResponse = adminAPI.editFundsportProfile(preference.getUserID(), preference.getTokenHash(), title, state_id, city_id, address, zipcode, category, funsplit, description, contactInfo, fundraiser, organization, campaign_days, amount, totalDays, ServiceGenerator.prepareFilePart("image", imagePath));
+                        fundspotResponse = adminAPI.editFundsportProfile(preference.getUserID(), preference.getTokenHash(), title, state_id, city_id, address, zipcode, category, funsplit, description, contactInfo, fundraiser, organization, campaign_days, amount, totalDays, splitVisibility, ServiceGenerator.prepareFilePart("image", imagePath));
                     } else if (editMode) {
 
                         fundspotResponse = adminAPI.onlyCampaignEdit(preference.getUserID(), preference.getTokenHash(), fundraiser, organization, campaign_days, amount, totalDays);

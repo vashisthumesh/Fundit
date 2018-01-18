@@ -45,7 +45,7 @@ import retrofit2.Response;
 
 public class GeneralMemberProfileActivity extends AppCompatActivity {
 
-    EditText edt_firstName, edt_lastName, edt_contactInfo, ed_member_address, ed_zip_code,edt_contactInfo_email;
+    EditText edt_firstName, edt_lastName, edt_contactInfo, ed_member_address, ed_zip_code,edt_contactInfo_email , tv_city;
     ImageView img_uplode_photo, img_remove;
     Button btn_updateProfile;
     EditText tv_login_email;
@@ -109,6 +109,7 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
 
         edt_firstName = (EditText) findViewById(R.id.edt_firstName);
         edt_lastName = (EditText) findViewById(R.id.edt_lastName);
+        tv_city = (EditText) findViewById(R.id.tv_city);
         spn_assocOrganization = (Spinner) findViewById(R.id.spn_assocOrganization);
         spn_assocFundspot = (Spinner) findViewById(R.id.spn_assocFundspot);
         edt_contactInfo = (EditText) findViewById(R.id.edt_contactInfo);
@@ -144,6 +145,7 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
 
 
         tv_login_email.setText(user.getEmail_id());
+        edt_contactInfo_email.setText(user.getEmail_id());
         tv_login_email.setEnabled(false);
 
         edt_firstName.setText(user.getFirst_name());
@@ -200,9 +202,9 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
                 if (position == 0) {
-                    clearCities();
+                   // clearCities();
                 } else {
-                    loadCities(stateItems.get(position).getId());
+                   // loadCities(stateItems.get(position).getId());
                 }
             }
 
@@ -244,7 +246,7 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
             }
         });
 
-        Call<OrganizationResponse> organizationResponseCall = adminAPI.getAllOrganizations();
+      /*  Call<OrganizationResponse> organizationResponseCall = adminAPI.getAllOrganizations();
         organizationResponseCall.enqueue(new Callback<OrganizationResponse>() {
             @Override
             public void onResponse(Call<OrganizationResponse> call, Response<OrganizationResponse> response) {
@@ -285,7 +287,7 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
                 clearAssociatedFundspot();
             }
         });
-
+*/
         img_uplode_photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -307,15 +309,16 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
                 //String assocFundspot = edt_assocFundspot.getText().toString().trim();
                 String contactInfo = edt_contactInfo.getText().toString().trim();
                 String contact_email=edt_contactInfo_email.getText().toString().trim();
+                String cityName = tv_city.getText().toString();
 
 
                 int statePosition = spn_state.getSelectedItemPosition();
-                int cityPosition = spn_city.getSelectedItemPosition();
+              //  int cityPosition = spn_city.getSelectedItemPosition();
                 // int categoryPosition = sp_category.getSelectedItemPosition();
 
                 Log.e("token", preference.getTokenHash());
                 Log.e("userID", preference.getUserID());
-                Log.e("positions", statePosition + " " + cityPosition + " " + " ");
+
                 if (firstname.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter first name");
                 } else if (firstname.length() < 2) {
@@ -328,8 +331,8 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter your location");
                 } else if (statePosition == 0) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please select state");
-                } else if (cityPosition == 0) {
-                    C.INSTANCE.showToast(getApplicationContext(), "Please select city");
+                } else if (cityName.isEmpty()) {
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter city");
                 } else if (zipcode.isEmpty() || zipcode.length() < 5) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter 5 digit zip code");
                 } else if (contactInfo.isEmpty()) {
@@ -376,14 +379,14 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
                     }
                     dialog.show();
                     if(!imagePath.startsWith("http")){
-                        generalMemberResponse  = adminAPI.generalMemberProfile(preference.getUserID(), preference.getTokenHash(), firstname, lastname, location, stateItems.get(statePosition).getId(), cityItems.get(cityPosition).getId(), zipcode, orgID, fundspotID, contact_email,contactInfo, ServiceGenerator.prepareFilePart("image", imagePath));
+                        generalMemberResponse  = adminAPI.generalMemberProfile(preference.getUserID(), preference.getTokenHash(), firstname, lastname, location, stateItems.get(statePosition).getId(), /*cityItems.get(cityPosition).getId()*/ cityName, zipcode, orgID, fundspotID, contact_email,contactInfo, ServiceGenerator.prepareFilePart("image", imagePath));
                     }else {
-                        generalMemberResponse  = adminAPI.generalMemberProfile(preference.getUserID(), preference.getTokenHash(), firstname, lastname, location, stateItems.get(statePosition).getId(), cityItems.get(cityPosition).getId(), zipcode, orgID, fundspotID, contact_email,contactInfo, null);
+                        generalMemberResponse  = adminAPI.generalMemberProfile(preference.getUserID(), preference.getTokenHash(), firstname, lastname, location, stateItems.get(statePosition).getId(), /*cityItems.get(cityPosition).getId()*/ cityName, zipcode, orgID, fundspotID, contact_email,contactInfo, null);
                     }
 
 
 
-                    Log.e("parameters" , "" + preference.getUserID()+"-->"+ preference.getTokenHash()+"-->"+firstname+"-->"+ lastname+"--->"+ location+"--->"+"-->" +stateItems.get(statePosition).getId()+"-->"+ cityItems.get(cityPosition).getId()+"-->"+ zipcode+"-->"+ orgID+"-->"+ fundspotID+"-->"+ contact_email+"--->"+contactInfo+"-->"+ imagePath);
+                    Log.e("parameters" , "" + preference.getUserID()+"-->"+ preference.getTokenHash()+"-->"+firstname+"-->"+ lastname+"--->"+ location+"--->"+"-->" +stateItems.get(statePosition).getId()+"-->"+ cityName+"-->"+ zipcode+"-->"+ orgID+"-->"+ fundspotID+"-->"+ contact_email+"--->"+contactInfo+"-->"+ imagePath);
                     generalMemberResponse.enqueue(new Callback<VerifyResponse>() {
                         @Override
                         public void onResponse(Call<VerifyResponse> call, Response<VerifyResponse> response) {
@@ -580,7 +583,10 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
                 C.INSTANCE.errorToast(getApplicationContext(), t);
             }
         });
+
+        Log.e("finalcheck" , "--->");
     }
+
 
     private void checkForUserSelectedCity() {
         int pos = 0;

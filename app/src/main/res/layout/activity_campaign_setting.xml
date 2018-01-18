@@ -41,6 +41,16 @@
 
             </LinearLayout>
 
+            <CheckBox
+                android:id="@+id/checkbox_visible"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:layout_gravity="end|center"
+                android:text="Make Visible" />
+
+
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -118,6 +128,7 @@
                         android:padding="5dp" />
 
                     <CheckBox
+                        android:visibility="gone"
                         android:id="@+id/checkbox_indefinite"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

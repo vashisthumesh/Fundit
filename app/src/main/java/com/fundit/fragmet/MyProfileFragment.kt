@@ -130,7 +130,7 @@ class MyProfileFragment : Fragment() {
                 }
 
 
-                if(memberData.type.name.isEmpty() || memberData.subType.name.isEmpty())
+                /*if(memberData.type.name.isEmpty() || memberData.subType.name.isEmpty())
                 {
                     layout_type?.visibility=View.GONE
 
@@ -140,7 +140,7 @@ class MyProfileFragment : Fragment() {
                     type?.text=memberData.type.name
                     txt_type?.text=memberData.subType.name
                 }
-
+*/
                 if(memberData.contact_info_email.isEmpty())
                 {
                     layout_contact_info_email?.visibility=View.GONE
@@ -163,7 +163,7 @@ class MyProfileFragment : Fragment() {
                 Log.e("datas" , "-->" + preference?.memberData)
 
 
-                txt_address?.text = memberData.location + "\n" + memberData.city.name + " , " + memberData.state.state_code + "  " + memberData.zip_code
+                txt_address?.text = memberData.location + "\n" + memberData.city_name + " , " + memberData.state.state_code + "  " + memberData.zip_code
                 layout_fun?.visibility = View.GONE
                 layout_org?.visibility = View.GONE
                 Log.e("state_code",memberData.state.state_code);
@@ -202,7 +202,7 @@ class MyProfileFragment : Fragment() {
                 }
 
 
-                txt_address?.text = memberData.location + "\n" + memberData.city.name + " , " + memberData.state.state_code + "   " + memberData.zip_code
+                txt_address?.text = memberData.location + "\n" + memberData.city_name + " , " + memberData.state.state_code + "   " + memberData.zip_code
 
                 if(memberData.category_id.isEmpty())
                 {

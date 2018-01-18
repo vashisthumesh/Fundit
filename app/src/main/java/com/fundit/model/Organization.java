@@ -28,21 +28,22 @@ public class Organization implements Serializable{
     String fundspot_id = "";
     String contact_info_email="";
     String contact_info_mobile="";
+    String city_name="";
 
 
-    City City = new City();
+  /*  City City = new City();*/
     State State = new State();
-    Type Type=new Type();
+   /* Type Type=new Type();
     SubType SubType=new SubType();
-
-    public Organization.Type getType() {
+*/
+    /*public Organization.Type getType() {
         return Type;
     }
 
     public Organization.SubType getSubType() {
         return SubType;
     }
-
+*/
     public String getType_id() {
         return type_id;
     }
@@ -128,9 +129,13 @@ public class Organization implements Serializable{
         return fundspot_id;
     }
 
-    public Organization.City getCity() {
-        return City;
+    public String getCity_name() {
+        return city_name;
     }
+
+    /*public Organization.City getCity() {
+        return City;
+    }*/
 
     public Organization.State getState() {
         return State;

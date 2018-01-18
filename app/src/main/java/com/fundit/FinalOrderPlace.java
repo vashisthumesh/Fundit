@@ -448,7 +448,7 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
                             organizationId = campaignList.getUserFundspot().getId();
                         }
                         dialog.show();
-                        final Call<AppModel> addOrder = adminAPI.AddOrder(campaignList.getCampaign().getId(),selectedFundsUserId,preference.getTokenHash(), "4",  firstName, lastName, emailId, member.getContact_info(), member.getLocation(), member.getCity().getName(), member.getZip_code(), member.getState().getName(), String.valueOf(checkedPaymentType), String.valueOf(allPrice), preference.getUserID(), "0.0", "0.0", organizationId, fundspotId, selectedProductArray.toString(),"","","","","","","" , "0" , "1" , "0");
+                        final Call<AppModel> addOrder = adminAPI.AddOrder(campaignList.getCampaign().getId(),selectedFundsUserId,preference.getTokenHash(), "4",  firstName, lastName, emailId, member.getContact_info(), member.getLocation(), /*member.getCity().getName()*/ member.getCity_name(), member.getZip_code(), member.getState().getName(), String.valueOf(checkedPaymentType), String.valueOf(allPrice), preference.getUserID(), "0.0", "0.0", organizationId, fundspotId, selectedProductArray.toString(),"","","","","","","" , "0" , "1" , "0");
 
 
 
@@ -461,7 +461,6 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
                         Log.e("email",user.getEmail_id());
                         Log.e("contact",member.getContact_info());
                         Log.e("member", member.getLocation());
-                        Log.e("name", member.getCity().getName());
                         Log.e("zip",member.getZip_code());
                         Log.e("state",member.getState().getName());
                         Log.e("paymenttype",String.valueOf(checkedPaymentType));

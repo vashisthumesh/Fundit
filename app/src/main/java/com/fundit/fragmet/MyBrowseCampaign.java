@@ -135,7 +135,8 @@ public class MyBrowseCampaign extends Fragment {
         list = (ListView) view.findViewById(R.id.list);
 
         if(preferences.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION)){
-            txt_city.setText(organization.getCity().getName());
+           // txt_city.setText(organization.getCity().getName());
+            txt_city.setText(organization.getCity_name());
             txt_zip.setText(organization.getZip_code());
 
 
@@ -143,14 +144,15 @@ public class MyBrowseCampaign extends Fragment {
 
         if(preferences.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)){
 
-            txt_city.setText(fundspot.getCity().getName());
+            txt_city.setText(fundspot.getCity_name());
             txt_zip.setText(fundspot.getZip_code());
 
         }
 
         if(preferences.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER)){
 
-            txt_city.setText(member.getCity().getName());
+           // txt_city.setText(member.getCity().getName());
+            txt_city.setText(member.getCity_name());
             txt_zip.setText(member.getZip_code());
 
 

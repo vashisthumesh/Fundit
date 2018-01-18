@@ -29,7 +29,6 @@ class MyCampaignsFragment : Fragment() {
 
 
 
-
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.menu_past -> {
@@ -47,6 +46,7 @@ class MyCampaignsFragment : Fragment() {
         }
         false
     }
+
 
     private fun setPastCampaignFragment() {
         //if(!preference?.userRoleID.equals(C.GENERAL_MEMBER)) {
@@ -106,6 +106,7 @@ class MyCampaignsFragment : Fragment() {
 
             }
         }
+
 
 
 

@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@color/colorBackground"
-              android:orientation="vertical"
-              tools:context="com.fundit.OrganizationProfileActivity">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    android:orientation="vertical"
+    tools:context="com.fundit.OrganizationProfileActivity">
 
-    <include
-        layout="@layout/toolbar_center_text"/>
+    <include layout="@layout/toolbar_center_text" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -23,14 +22,15 @@
             android:paddingRight="25dp">
 
             <EditText
+                android:id="@+id/tv_login_email"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:id="@+id/tv_login_email"
                 android:layout_marginLeft="1dp"
-                android:padding="5dp"
                 android:background="@color/white"
+                android:padding="5dp"
                 android:text=""
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:visibility="gone" />
 
 
             <TextView
@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:drawableRight="@drawable/star"
                 android:text="First Name"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
 
             <EditText
                 android:id="@+id/edt_firstName"
@@ -48,14 +48,14 @@
                 android:hint="Enter first name"
                 android:inputType="textPersonName"
                 android:padding="5dp"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawableRight="@drawable/star"
                 android:text="Last Name"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
 
             <EditText
                 android:id="@+id/edt_lastName"
@@ -65,46 +65,49 @@
                 android:hint="Enter last name"
                 android:inputType="textPersonName"
                 android:padding="5dp"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black" />
 
             <TextView
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawableRight="@drawable/star"
                 android:text="Email"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
 
             <EditText
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@color/white"
+                android:inputType="textEmailAddress"
+                android:padding="5dp"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableRight="@drawable/star"
+                android:text="Email"
+                android:textSize="16sp" />
+
+            <EditText
+                android:visibility="gone"
                 android:id="@+id/edt_email"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:background="@color/white"
                 android:inputType="textEmailAddress"
                 android:padding="5dp"
-                android:textColor="@color/black"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableRight="@drawable/star"
-                android:text="Email"
-                android:textSize="16sp"/>
-
-            <EditText
-                android:id="@+id/edt_email"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:background="@color/white"
-                android:inputType="textEmailAddress"
-                android:padding="5dp"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawableRight="@drawable/star"
                 android:text="Location"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
 
             <EditText
                 android:id="@+id/ed_member_address"
@@ -114,7 +117,7 @@
                 android:hint="Address 1"
                 android:inputType="text"
                 android:padding="5dp"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black" />
 
             <Spinner
                 android:id="@+id/spn_state"
@@ -125,9 +128,10 @@
                 android:background="@drawable/spinner_bg"
                 android:padding="5dp"
                 android:popupBackground="#fff"
-                android:spinnerMode="dropdown"/>
+                android:spinnerMode="dropdown" />
 
             <Spinner
+                android:visibility="gone"
                 android:id="@+id/spn_city"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
@@ -136,14 +140,33 @@
                 android:background="@drawable/spinner_bg"
                 android:padding="5dp"
                 android:popupBackground="#fff"
-                android:spinnerMode="dropdown"/>
+                android:spinnerMode="dropdown" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableRight="@drawable/star"
+                android:text="City "
+                android:textSize="16sp" />
+
+
+            <EditText
+                android:id="@+id/tv_city"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@color/white"
+                android:hint="City"
+                android:padding="5dp"
+                android:textSize="16sp" />
+
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawableRight="@drawable/star"
                 android:text="Zip Code"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
 
             <EditText
                 android:id="@+id/ed_zip_code"
@@ -155,79 +178,78 @@
                 android:inputType="number"
                 android:maxLength="5"
                 android:padding="5dp"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black" />
 
             <LinearLayout
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="horizontal"
                 android:visibility="gone">
 
                 <RadioGroup
-                    android:visibility="gone"
-                    android:orientation="horizontal"
-                    android:layout_weight="1"
                     android:id="@+id/rg_selectType"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
 
                     <RadioButton
-                        android:layout_weight="1"
                         android:id="@+id/rb_organization"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_weight="1"
                         android:text="Select Organization"
-                        android:textSize="14sp"
-                        />
+                        android:textSize="14sp" />
 
                     <RadioButton
                         android:id="@+id/rb_fundspot"
-                        android:layout_weight="1"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_weight="1"
                         android:text="Select Fundspot"
-                        android:textSize="14sp"/>
+                        android:textSize="14sp" />
 
                 </RadioGroup>
 
             </LinearLayout>
 
             <LinearLayout
-
+android:visibility="gone"
                 android:id="@+id/layout_spinner"
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/txt_assOrganization"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Associated Organization"
-                android:textSize="16sp"/>
+                android:orientation="vertical">
 
-            <Spinner
-                android:id="@+id/spn_assocOrganization"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/spinner_bg"
-                android:textColor="@color/black"/>
+                <TextView
+                    android:id="@+id/txt_assOrganization"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Associated Organization"
+                    android:textSize="16sp" />
 
-            <TextView
-                android:id="@+id/txt_assFundspot"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Associated Fundspots"
-                android:textSize="16sp"/>
+                <Spinner
+                    android:id="@+id/spn_assocOrganization"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/spinner_bg"
+                    android:textColor="@color/black" />
 
-            <Spinner
-                android:id="@+id/spn_assocFundspot"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:background="@drawable/spinner_bg"
-                android:hint=""
-                android:textColor="@color/black"/>
+                <TextView
+                    android:id="@+id/txt_assFundspot"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Associated Fundspots"
+                    android:textSize="16sp" />
+
+                <Spinner
+                    android:id="@+id/spn_assocFundspot"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/spinner_bg"
+                    android:hint=""
+                    android:textColor="@color/black" />
 
 
             </LinearLayout>
@@ -237,7 +259,8 @@
                 android:layout_height="wrap_content"
                 android:drawableRight="@drawable/star"
                 android:text="Contact Information"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
+
             <EditText
                 android:id="@+id/edt_contactInfo_email"
                 android:layout_width="match_parent"
@@ -246,18 +269,18 @@
                 android:hint="Email"
                 android:inputType="text"
                 android:padding="5dp"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black" />
 
             <EditText
                 android:id="@+id/edt_contactInfo"
                 android:layout_width="match_parent"
-                android:layout_marginTop="15dp"
                 android:layout_height="40dp"
+                android:layout_marginTop="15dp"
                 android:background="@color/white"
                 android:hint="Mobile Number"
                 android:inputType="text"
                 android:padding="5dp"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -267,7 +290,7 @@
                 android:layout_marginTop="5dp"
                 android:drawableRight="@drawable/star"
                 android:text="Upload Photo"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
 
             <FrameLayout
                 android:layout_width="wrap_content"
@@ -279,7 +302,7 @@
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/img"/>
+                    android:src="@drawable/img" />
 
                 <ImageView
                     android:id="@+id/img_remove"
@@ -287,8 +310,7 @@
                     android:layout_height="25dp"
                     android:layout_gravity="top|end"
                     android:src="@drawable/ic_remove"
-                    android:visibility="gone"
-                    />
+                    android:visibility="gone" />
 
             </FrameLayout>
 
@@ -302,7 +324,7 @@
                 android:text="Update Profile"
                 android:textAllCaps="false"
                 android:textColor="#000"
-                android:textSize="20sp"/>
+                android:textSize="20sp" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@color/colorBackground"
-              android:orientation="vertical"
-              tools:context="com.fundit.OrganizationProfileActivity">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    android:orientation="vertical"
+    tools:context="com.fundit.OrganizationProfileActivity">
 
-    <include
-        layout="@layout/toolbar_center_text"/>
+    <include layout="@layout/toolbar_center_text" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -23,21 +22,24 @@
             android:padding="20dp"
             android:paddingLeft="25dp"
             android:paddingRight="25dp">
+
             <EditText
+                android:id="@+id/tv_login_email"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:id="@+id/tv_login_email"
                 android:layout_marginLeft="1dp"
+                android:background="@color/white"
                 android:padding="5dp"
                 android:text=""
-                android:background="@color/white"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:visibility="gone" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawableRight="@drawable/star"
                 android:text="Title"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
 
             <EditText
                 android:id="@+id/ed_fund_title"
@@ -47,14 +49,14 @@
                 android:hint="Enter fundspot title"
                 android:inputType="text"
                 android:padding="5dp"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawableRight="@drawable/star"
                 android:text="Location"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
 
             <EditText
                 android:id="@+id/ed_fund_address"
@@ -64,7 +66,7 @@
                 android:hint="Address 1"
                 android:inputType="text"
                 android:padding="5dp"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black" />
 
             <Spinner
                 android:id="@+id/sp_state"
@@ -75,7 +77,7 @@
                 android:background="@drawable/spinner_bg"
                 android:padding="5dp"
                 android:popupBackground="#fff"
-                android:spinnerMode="dropdown"/>
+                android:spinnerMode="dropdown" />
 
             <Spinner
                 android:id="@+id/sp_city"
@@ -86,7 +88,25 @@
                 android:background="@drawable/spinner_bg"
                 android:padding="5dp"
                 android:popupBackground="#fff"
-                android:spinnerMode="dropdown"/>
+                android:spinnerMode="dropdown"
+                android:visibility="gone" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableRight="@drawable/star"
+                android:text="City "
+                android:textSize="16sp" />
+
+
+            <EditText
+                android:id="@+id/tv_city"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@color/white"
+                android:hint="City"
+                android:padding="5dp"
+                android:textSize="16sp" />
 
 
             <TextView
@@ -94,7 +114,7 @@
                 android:layout_height="wrap_content"
                 android:drawableRight="@drawable/star"
                 android:text="Zip code"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
 
             <EditText
                 android:id="@+id/ed_fund_zipcode"
@@ -106,7 +126,7 @@
                 android:inputType="number"
                 android:maxLength="5"
                 android:padding="5dp"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black" />
 
             <Spinner
                 android:id="@+id/sp_category"
@@ -116,14 +136,16 @@
                 android:background="@drawable/spinner_bg"
                 android:padding="5dp"
                 android:popupBackground="#fff"
-                android:spinnerMode="dropdown"/>
+                android:spinnerMode="dropdown"
+                android:visibility="gone" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawableRight="@drawable/star"
                 android:text="Fundraise split"
-                android:textSize="16sp"/>
+                android:textSize="16sp"
+                android:visibility="gone" />
 
             <EditText
                 android:id="@+id/ed_fund_fundsplit"
@@ -133,14 +155,15 @@
                 android:hint="Enter fundraise split"
                 android:inputType="text"
                 android:padding="5dp"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black"
+                android:visibility="gone" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawableRight="@drawable/star"
-                android:text="Description"
-                android:textSize="16sp"/>
+                android:text="About Us"
+                android:textSize="16sp" />
 
             <EditText
                 android:id="@+id/ed_fund_description"
@@ -152,14 +175,14 @@
                 android:inputType="textMultiLine"
                 android:lines="4"
                 android:padding="5dp"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawableRight="@drawable/star"
                 android:text="Contact Information"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
 
             <EditText
                 android:id="@+id/edt_contactInfo_email"
@@ -169,37 +192,19 @@
                 android:hint="Email"
                 android:inputType="text"
                 android:padding="5dp"
-                android:textColor="@color/black"/>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-                <TextView
-                    android:id="@+id/text"
-                    android:layout_width="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:layout_height="40dp"
-                    android:background="@color/white"
-                    android:hint="+"
-                    android:inputType="text"
-                    android:padding="5dp"
-                    android:layout_gravity="center_vertical"
-                    android:gravity="center_vertical"
-                    android:textColor="@color/black"/>
+                android:textColor="@color/black" />
+
+
                 <EditText
                     android:id="@+id/ed_fund_contact_info"
                     android:layout_width="match_parent"
-                    android:layout_marginTop="15dp"
                     android:layout_height="40dp"
+                    android:layout_marginTop="5dp"
                     android:background="@color/white"
                     android:hint="Mobile Number"
                     android:inputType="text"
                     android:padding="5dp"
-                    android:textColor="@color/black"/>
-            </LinearLayout>
-
+                    android:textColor="@color/black" />
 
 
 
@@ -212,7 +217,7 @@
                 android:layout_marginTop="5dp"
                 android:drawableRight="@drawable/star"
                 android:text="Upload Photo"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
 
             <FrameLayout
                 android:layout_width="wrap_content"
@@ -224,7 +229,7 @@
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/img"/>
+                    android:src="@drawable/img" />
 
                 <ImageView
                     android:id="@+id/img_remove"
@@ -232,8 +237,7 @@
                     android:layout_height="25dp"
                     android:layout_gravity="top|end"
                     android:src="@drawable/ic_remove"
-                    android:visibility="gone"
-                    />
+                    android:visibility="gone" />
 
             </FrameLayout>
 
@@ -247,7 +251,7 @@
                 android:text="Update Profile"
                 android:textAllCaps="false"
                 android:textColor="#000"
-                android:textSize="20sp"/>
+                android:textSize="20sp" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

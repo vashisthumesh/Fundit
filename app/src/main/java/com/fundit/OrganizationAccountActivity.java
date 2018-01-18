@@ -85,13 +85,14 @@ public class OrganizationAccountActivity extends AppCompatActivity {
         et_confirm_password=(EditText)findViewById(R.id.et_confirm_password);
 
         if (roleID.equals(C.FUNDSPOT)) {
-            et_organization_name.setHint("Fundspot name");
+            et_organization_name.setHint("Fundspot Title");
         }
 
         layout_names=(LinearLayout) findViewById(R.id.layout_names);
         layout_title=(LinearLayout) findViewById(R.id.layout_title);
 
-        et_organization_email.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        et_organization_email.setOnFocusChangeListener(
+                new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
                 if(!b){

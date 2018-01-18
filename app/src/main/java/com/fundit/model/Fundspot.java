@@ -34,9 +34,10 @@ public class Fundspot implements Serializable {
     String Address="";
     String contact_info_email="";
     String contact_info_mobile="";
+    String city_name="";
 
 
-   City City = new City();
+ /*  City City = new City();*/
     State State = new State();
 
 
@@ -145,9 +146,13 @@ public class Fundspot implements Serializable {
         return coupon_expire_day;
     }
 
-    public Fundspot.City getCity() {
-        return City;
+    public String getCity_name() {
+        return city_name;
     }
+
+   /* public Fundspot.City getCity() {
+        return City;
+    }*/
 
     public String getAddress() {
         return Address;

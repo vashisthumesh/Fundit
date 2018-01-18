@@ -28,13 +28,15 @@ public class Member implements Serializable {
     String organization_names="";
     String fundspot_names="";
     String seller="";
+    String city_name="";
+
 
 
 
     Fundspot Fundspot = new Fundspot();
     Organization Organization = new Organization();
 
-    City City = new City();
+   // City City = new City();
     State State = new State();
 
     public String getOrganization_names() {
@@ -121,6 +123,10 @@ public class Member implements Serializable {
         return redeemer;
     }
 
+    public String getCity_name() {
+        return city_name;
+    }
+
     public com.fundit.model.Fundspot getFundspot() {
         return Fundspot;
     }
@@ -129,9 +135,9 @@ public class Member implements Serializable {
         return Organization;
     }
 
-    public Member.City getCity() {
+  /*  public Member.City getCity() {
         return City;
-    }
+    }*/
 
     public Member.State getState() {
         return State;

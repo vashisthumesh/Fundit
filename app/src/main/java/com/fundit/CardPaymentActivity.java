@@ -361,7 +361,7 @@ public class CardPaymentActivity extends AppCompatActivity {
 
                     } else {
 
-                        addOrder = adminAPI.AddCardOrder(userId, roleId, preference.getTokenHash(), campaignList.getCampaign().getId(), firstName , lastName , emailId, member.getContact_info(), member.getLocation(), member.getCity().getName(), member.getZip_code(), member.getState().getName(), "2", allPrice, preference.getUserID(), "0.0", "0.0", organizationId, fundspotId, selectedProductArray, cardNumber, cardType, getSpinnerMonth, getSpinnerYear, cvv, selectedCardId, checked, onBehalfOf, orderRequest, otherUser);
+                        addOrder = adminAPI.AddCardOrder(userId, roleId, preference.getTokenHash(), campaignList.getCampaign().getId(), firstName , lastName , emailId, member.getContact_info(), member.getLocation(), /*member.getCity().getName()*/ member.getCity_name(), member.getZip_code(), member.getState().getName(), "2", allPrice, preference.getUserID(), "0.0", "0.0", organizationId, fundspotId, selectedProductArray, cardNumber, cardType, getSpinnerMonth, getSpinnerYear, cvv, selectedCardId, checked, onBehalfOf, orderRequest, otherUser);
 
                         Log.e("check", "-->" + onBehalfOf + "-->" + orderRequest + "--->" + otherUser + "--->" +userId +"--->" + firstName + "--->"+ lastName + "--->" + preference.getUserID());
 

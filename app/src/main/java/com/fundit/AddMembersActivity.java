@@ -225,7 +225,6 @@ public class AddMembersActivity extends AppCompatActivity {
 
 
                 Log.e("location",getResponse.getFundspot().getLocation());
-                Log.e("location","---->"+getResponse.getFundspot().getCity().getName());
                 Log.e("location","---->"+getResponse.getFundspot().getState().getState_code());
                 Log.e("location",getResponse.getFundspot().getZip_code());
 
@@ -267,7 +266,6 @@ public class AddMembersActivity extends AppCompatActivity {
                 txt_address.setText(getResponse.getOrganization().getLocation()+"\n"+getResponse.getCity().getName()+","+getResponse.getState().getState_code()+" "+getResponse.getOrganization().getZip_code());
 
                 Log.e("location",getResponse.getOrganization().getLocation());
-                Log.e("location","---->"+getResponse.getOrganization().getCity().getName());
                 Log.e("location","--->"+getResponse.getOrganization().getState().getState_code());
                 Log.e("location",getResponse.getOrganization().getZip_code());
 

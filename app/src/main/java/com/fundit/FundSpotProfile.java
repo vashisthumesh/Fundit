@@ -43,7 +43,7 @@ import retrofit2.Response;
 public class FundSpotProfile extends AppCompatActivity {
 
 
-    EditText ed_fund_title, ed_fund_address, ed_fund_zipcode, ed_fund_fundsplit, ed_fund_description, ed_fund_contact_info,edt_contactInfo_email;
+    EditText ed_fund_title, ed_fund_address, ed_fund_zipcode, ed_fund_fundsplit, ed_fund_description, ed_fund_contact_info,edt_contactInfo_email , tv_city;
     Spinner sp_state, sp_city, sp_category;
     ImageView img_uplode_photo, img_remove;
     Button bt_update_profile;
@@ -122,6 +122,7 @@ public class FundSpotProfile extends AppCompatActivity {
 
     private void fetchid() {
         tv_login_email = (EditText) findViewById(R.id.tv_login_email);
+        tv_city = (EditText) findViewById(R.id.tv_city);
 
 
         ed_fund_title = (EditText) findViewById(R.id.ed_fund_title);
@@ -136,6 +137,7 @@ public class FundSpotProfile extends AppCompatActivity {
 
 
         tv_login_email.setText(user.getEmail_id());
+        edt_contactInfo_email.setText(user.getEmail_id());
         tv_login_email.setEnabled(false);
         sp_state = (Spinner) findViewById(R.id.sp_state);
         sp_city = (Spinner) findViewById(R.id.sp_city);
@@ -202,9 +204,9 @@ public class FundSpotProfile extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
                 if (position == 0) {
-                    clearCities();
+                   // clearCities();
                 } else {
-                    loadCities(stateItems.get(position).getId());
+                   // loadCities(stateItems.get(position).getId());
                 }
             }
 
@@ -248,7 +250,7 @@ public class FundSpotProfile extends AppCompatActivity {
             }
         });
 
-        Call<CategoryResponse> categoryCall = adminAPI.getCategoryList();
+        /*Call<CategoryResponse> categoryCall = adminAPI.getCategoryList();
         categoryCall.enqueue(new Callback<CategoryResponse>() {
             @Override
             public void onResponse(Call<CategoryResponse> call, Response<CategoryResponse> response) {
@@ -278,7 +280,7 @@ public class FundSpotProfile extends AppCompatActivity {
                 categoryNames.add("Select Category");
                 categoryAdapter.notifyDataSetChanged();
             }
-        });
+        });*/
         img_uplode_photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -295,19 +297,20 @@ public class FundSpotProfile extends AppCompatActivity {
                 String title = ed_fund_title.getText().toString().trim();
                 String address1 = ed_fund_address.getText().toString().trim();
                 String zipcode = ed_fund_zipcode.getText().toString().trim();
-                String funsplit = ed_fund_fundsplit.getText().toString().trim();
+             //   String funsplit = ed_fund_fundsplit.getText().toString().trim();
                 String description = ed_fund_description.getText().toString().trim();
                 String con="+";
                 String contactInfo = con+ed_fund_contact_info.getText().toString().trim();
                 String contact_email=edt_contactInfo_email.getText().toString().trim();
+                String cityName = tv_city.getText().toString().trim() ;
 
                 int statePosition = sp_state.getSelectedItemPosition();
-                int cityPosition = sp_city.getSelectedItemPosition();
-                int categoryPosition = sp_category.getSelectedItemPosition();
+               // int cityPosition = sp_city.getSelectedItemPosition();
+             //   int categoryPosition = sp_category.getSelectedItemPosition();
 
                 Log.e("token", preference.getTokenHash());
                 Log.e("userID", preference.getUserID());
-                Log.e("positions", statePosition + " " + cityPosition + " " + categoryPosition + " ");
+               // Log.e("positions", statePosition + " " + cityPosition + " " + categoryPosition + " ");
                 if (title.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter Funspot title");
                 } else if (title.length() < 2) {
@@ -316,13 +319,13 @@ public class FundSpotProfile extends AppCompatActivity {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter location");
                 } else if (statePosition == 0) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please select state");
-                } else if (cityPosition == 0) {
-                    C.INSTANCE.showToast(getApplicationContext(), "Please select city");
+                } else if (cityName.isEmpty()) {
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter city");
                 } else if (zipcode.isEmpty() || zipcode.length() < 5) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter 5 digit zip code");
-                } else if (categoryPosition == 0) {
+                } /*else if (categoryPosition == 0) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please select category");
-                } else if (description.isEmpty()) {
+                }*/ else if (description.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter description");
                 }else if (contactInfo.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter contact information");
@@ -337,9 +340,9 @@ public class FundSpotProfile extends AppCompatActivity {
                 }
                 else if (imagePath == null) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please select profile image");
-                } else if (funsplit.isEmpty()) {
+                } /*else if (funsplit.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please Enter Funsplit");
-                } else {
+                }*/ else {
 
 
                     if (firstTime) {
@@ -349,11 +352,11 @@ public class FundSpotProfile extends AppCompatActivity {
                         intent.putExtra("tokken_hash", preference.getUserID());
                         intent.putExtra("title", title);
                         intent.putExtra("state_id", stateItems.get(statePosition).getId());
-                        intent.putExtra("city_id", cityItems.get(cityPosition).getId());
+                        intent.putExtra("city_id", cityName);
                         intent.putExtra("address1", address1);
                         intent.putExtra("zipcode", zipcode);
-                        intent.putExtra("category", categoryItems.get(categoryPosition).getId());
-                        intent.putExtra("funsplit", funsplit);
+                        intent.putExtra("category", "");
+                        intent.putExtra("funsplit", "");
                         intent.putExtra("description", description);
                         intent.putExtra("contactInfo", contactInfo);
                         intent.putExtra("imagePath", imagePath);
@@ -368,10 +371,10 @@ public class FundSpotProfile extends AppCompatActivity {
 
                         if (!imagePath.startsWith("http")) {
 
-                            fundspotResponse = adminAPI.firstTimeEditFundsportProfile(preference.getUserID(), preference.getTokenHash(), title, stateItems.get(statePosition).getId(), cityItems.get(cityPosition).getId(), address1, zipcode, categoryItems.get(categoryPosition).getId(), funsplit, description, contact_email,contactInfo, ServiceGenerator.prepareFilePart("image", imagePath));
+                            fundspotResponse = adminAPI.firstTimeEditFundsportProfile(preference.getUserID(), preference.getTokenHash(), title, stateItems.get(statePosition).getId(), /*cityItems.get(cityPosition).getId()*/ cityName, address1, zipcode, /*categoryItems.get(categoryPosition).getId()*/ "", "", description, contact_email,contactInfo, ServiceGenerator.prepareFilePart("image", imagePath));
                         } else {
 
-                            fundspotResponse = adminAPI.withoutImageEditFundsportProfile(preference.getUserID(), preference.getTokenHash(), title, stateItems.get(statePosition).getId(), cityItems.get(cityPosition).getId(), address1, zipcode, categoryItems.get(categoryPosition).getId(), funsplit, description, contact_email,contactInfo);
+                            fundspotResponse = adminAPI.withoutImageEditFundsportProfile(preference.getUserID(), preference.getTokenHash(), title, stateItems.get(statePosition).getId(), /*cityItems.get(cityPosition).getId()*/ cityName, address1, zipcode, /*categoryItems.get(categoryPosition).getId()*/ "", "", description, contact_email,contactInfo);
 
 
                         }
