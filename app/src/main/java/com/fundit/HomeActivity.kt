@@ -79,6 +79,7 @@ class HomeActivity : AppCompatActivity() {
 
         } catch (e: Exception) {
             Log.e("Exception", e.message)
+            Log.e("VCS TESTING" , "VCS PLEASE")
         }
 
 
