@@ -18,6 +18,7 @@ import com.fundit.model.GetSearchPeople;
 import com.fundit.model.InboxMessagesResponse;
 import com.fundit.model.MemberListResponse;
 import com.fundit.model.MemberResponse;
+import com.fundit.model.News_model;
 import com.fundit.model.OrderHistoryResponse;
 import com.fundit.model.OrganizationResponse;
 import com.fundit.model.ProductListResponse;
@@ -217,6 +218,11 @@ public interface AdminAPI {
     @FormUrlEncoded
     @POST(W.GET_ALL_APPROVED_CAMPAIGN)
     Call<CampaignListResponse> ApprovedCampaign(@Field(W.KEY_USERID) String userId , @Field(W.KEY_TOKEN) String tokenhash , @Field(W.KEY_ROLEID) String roleId , @Field("Campaign_status") String status);
+
+    @FormUrlEncoded
+    @POST(W.GET_ALL_NEWS)
+    Call<News_model> NEWS_MODEL(@Field(W.KEY_USERID) String userId,@Field("page") String page);
+
 
 
     @FormUrlEncoded

@@ -60,7 +60,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun setNewsFeedInboxFragment() {
-        fragment = NewsFeedFragment()
+        fragment = NewsFragment()
         val transaction: FragmentTransaction = fm!!.beginTransaction()
         transaction.replace(R.id.content_home, fragment)
         transaction.commit()

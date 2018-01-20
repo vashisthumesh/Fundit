@@ -74,6 +74,8 @@ public class W {
 
     public static final String GET_ALL_APPROVED_CAMPAIGN = "Campaign/app_get_all_approved_campaign";
 
+    public static final String GET_ALL_NEWS="NewsFeed/app_get_news_feed";
+
     public static final String GET_SELLER_CAMPAIGN = "Campaign/app_get_seller_campaign";
 
     public static final String GET_MEMBER_FOR_CAMPAIGN = "Campaign/app_get_member_for_campaign";
