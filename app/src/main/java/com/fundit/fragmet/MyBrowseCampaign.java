@@ -199,8 +199,8 @@ public class MyBrowseCampaign extends Fragment {
 
                 if(getSearchTermed.isEmpty())
                     C.INSTANCE.showToast(getActivity() , "Please enter name");
-                else if(getSearchTermed.length() <3)
-                    C.INSTANCE.showToast(getActivity() , "Please enter mininum 3 keuwords");
+                /*else if(getSearchTermed.length() <3)
+                    C.INSTANCE.showToast(getActivity() , "Please enter mininum 3 keuwords");*/
                 else if(getCityName.isEmpty())
                     C.INSTANCE.showToast(getActivity() , "Please enter city");
                 else if(getZipCode.isEmpty())

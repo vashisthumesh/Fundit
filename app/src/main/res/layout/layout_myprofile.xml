@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -50,41 +50,37 @@
                 tools:text="Falls Church, VA" />
 
             <LinearLayout
-                android:visibility="gone"
                 android:id="@+id/layout_buttons"
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:visibility="gone">
 
 
                 <Button
                     android:id="@+id/button_join"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:text="Join"
-                    android:background="@color/colorButton"
-                    android:textAllCaps="false"
-                    android:textStyle="bold"
                     android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="@color/colorButton"
+                    android:text="Join"
+                    android:textAllCaps="false"
                     android:textColor="@color/colorText"
-                    android:layout_weight="1"/>
+                    android:textStyle="bold" />
 
 
                 <Button
                     android:id="@+id/button_follow"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:text="Follow"
                     android:layout_margin="5dp"
+                    android:layout_weight="1"
                     android:background="@color/colorButton"
+                    android:text="Follow"
                     android:textAllCaps="false"
-                    android:textStyle="bold"
                     android:textColor="@color/colorText"
-                    android:layout_weight="1"/>
-
-
-
-
+                    android:textStyle="bold" />
 
 
             </LinearLayout>
@@ -92,6 +88,38 @@
         </LinearLayout>
 
     </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/layout_contact"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="5dp"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            android:padding="5dp"
+            android:text="About Us: "
+            android:textColor="@color/colorText"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txt_contct"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            android:padding="5dp"
+            android:textColor="@color/colorText"
+            android:textSize="16sp"
+            tools:text="VT Bhangra, Godwin Robotics, Club Tennis Team, etc." />
+
+    </LinearLayout>
+
 
     <LinearLayout
         android:id="@+id/layout_mail"
@@ -108,7 +136,7 @@
             android:text="Email Id:"
             android:textColor="@color/colorText"
             android:textSize="16sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/txt_emailID"
@@ -118,7 +146,7 @@
             android:padding="2dp"
             android:textColor="@color/colorText"
             android:textSize="16sp"
-            tools:text="aliyafundit@gmail.com"/>
+            tools:text="aliyafundit@gmail.com" />
 
     </LinearLayout>
 
@@ -138,7 +166,7 @@
             android:text="Category: "
             android:textColor="@color/colorText"
             android:textSize="16sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/txt_category"
@@ -148,9 +176,10 @@
             android:padding="5dp"
             android:textColor="@color/colorText"
             android:textSize="16sp"
-            tools:text="Chipotle"/>
+            tools:text="Chipotle" />
 
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/layout_fundraiser"
         android:layout_width="match_parent"
@@ -159,6 +188,7 @@
         android:padding="5dp">
 
         <TextView
+            android:id="@+id/txt_fundtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif"
@@ -166,7 +196,7 @@
             android:text="Fundraiser Split: "
             android:textColor="@color/colorText"
             android:textSize="16sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/txt_fundraiser_split"
@@ -176,9 +206,10 @@
             android:padding="5dp"
             android:textColor="@color/colorText"
             android:textSize="16sp"
-            tools:text="Chipotle"/>
+            tools:text="Chipotle" />
 
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/layout_type"
         android:layout_width="match_parent"
@@ -194,7 +225,7 @@
             android:padding="5dp"
             android:textColor="@color/colorText"
             android:textSize="16sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/txt_type"
@@ -204,7 +235,7 @@
             android:padding="5dp"
             android:textColor="@color/colorText"
             android:textSize="16sp"
-            tools:text="Chipotle"/>
+            tools:text="Chipotle" />
 
     </LinearLayout>
 
@@ -224,7 +255,7 @@
             android:text="Description: "
             android:textColor="@color/colorText"
             android:textSize="16sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/txt_description_data"
@@ -234,9 +265,10 @@
             android:padding="5dp"
             android:textColor="@color/colorText"
             android:textSize="16sp"
-            tools:text="Chipotle"/>
+            tools:text="Chipotle" />
 
     </LinearLayout>
+
     <LinearLayout
 
         android:id="@+id/layout_org"
@@ -253,7 +285,7 @@
             android:text="Organizations: "
             android:textColor="@color/colorText"
             android:textSize="16sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/txt_organizations"
@@ -263,7 +295,7 @@
             android:padding="5dp"
             android:textColor="@color/colorText"
             android:textSize="16sp"
-            tools:text="VT Club Tennis, VT Bhangra, SIA"/>
+            tools:text="VT Club Tennis, VT Bhangra, SIA" />
 
     </LinearLayout>
 
@@ -283,7 +315,7 @@
             android:text="Fundspots: "
             android:textColor="@color/colorText"
             android:textSize="16sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/txt_fundspots"
@@ -293,7 +325,7 @@
             android:padding="5dp"
             android:textColor="@color/colorText"
             android:textSize="16sp"
-            tools:text="Chipotle"/>
+            tools:text="Chipotle" />
 
     </LinearLayout>
 
@@ -312,7 +344,7 @@
             android:text="Contact Info Email: "
             android:textColor="@color/colorText"
             android:textSize="16sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/txt_con_info_email"
@@ -322,9 +354,10 @@
             android:padding="5dp"
             android:textColor="@color/colorText"
             android:textSize="16sp"
-            tools:text="Chipotle"/>
+            tools:text="Chipotle" />
 
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/layout_contact_info_mobile"
         android:layout_width="match_parent"
@@ -340,7 +373,7 @@
             android:text="Contact Info Mobile: "
             android:textColor="@color/colorText"
             android:textSize="16sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/txt_con_info_mobile"
@@ -350,17 +383,17 @@
             android:padding="5dp"
             android:textColor="@color/colorText"
             android:textSize="16sp"
-            tools:text="Chipotle"/>
+            tools:text="Chipotle" />
 
     </LinearLayout>
 
     <LinearLayout
-        android:visibility="gone"
         android:id="@+id/current"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="5dp">
+        android:padding="5dp"
+        android:visibility="gone">
 
         <TextView
             android:layout_width="wrap_content"
@@ -370,7 +403,7 @@
             android:text="Current Campaign: "
             android:textColor="@color/colorText"
             android:textSize="16sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/txt_currentCampaigns"
@@ -380,17 +413,17 @@
             android:padding="5dp"
             android:textColor="@color/colorText"
             android:textSize="16sp"
-            tools:text="Pizza Hut"/>
+            tools:text="Pizza Hut" />
 
     </LinearLayout>
 
     <LinearLayout
-       android:visibility="gone"
         android:id="@+id/past"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="5dp">
+        android:padding="5dp"
+        android:visibility="gone">
 
 
         <TextView
@@ -401,7 +434,7 @@
             android:text="Past Campaigns: "
             android:textColor="@color/colorText"
             android:textSize="16sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/txt_pastCampaigns"
@@ -411,87 +444,65 @@
             android:padding="5dp"
             android:textColor="@color/colorText"
             android:textSize="16sp"
-            tools:text="VT Bhangra, Godwin Robotics, Club Tennis Team, etc."/>
+            tools:text="VT Bhangra, Godwin Robotics, Club Tennis Team, etc." />
 
     </LinearLayout>
 
 
     <LinearLayout
-        android:id="@+id/layout_contact"
-        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="5dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif"
-            android:padding="5dp"
-            android:text="About Us: "
-            android:textColor="@color/colorText"
-            android:textSize="16sp"
-            android:textStyle="bold"/>
-
-        <TextView
-            android:id="@+id/txt_contct"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif"
-            android:padding="5dp"
-            android:textColor="@color/colorText"
-            android:textSize="16sp"
-            tools:text="VT Bhangra, Godwin Robotics, Club Tennis Team, etc."/>
-
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:orientation="vertical">
 
 
         <TextView
-            android:visibility="gone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Change Password"
-            android:textSize="18sp"
-            android:textColor="@color/colorPrimary"
-            android:textStyle="bold"
             android:id="@+id/txt_change_pwd"
-            android:layout_margin="10dp"/>
-
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="Change Password"
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
 
 
     </LinearLayout>
 
     <Button
-        android:visibility="gone"
-        android:layout_margin="10dp"
         android:id="@+id/btnAdd"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:background="@color/colorButton"
         android:text="Add Member"
         android:textAllCaps="false"
-        android:background="@color/colorButton"
-        android:layout_gravity="center"
-        android:layout_width="150dp"
-        android:layout_height="40dp" />
+        android:visibility="gone" />
 
 
     <Button
-        android:visibility="gone"
-        android:layout_margin="10dp"
         android:id="@+id/btnmessage"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:background="@color/colorButton"
         android:text="Message"
         android:textAllCaps="false"
-        android:background="@color/colorButton"
-        android:layout_gravity="center"
+        android:visibility="gone" />
+
+
+    <Button
+        android:id="@+id/btnrequest"
         android:layout_width="150dp"
-        android:layout_height="40dp" />
-
-
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:background="@color/colorButton"
+        android:text="Request Campaign"
+        android:textAllCaps="false"
+        android:visibility="gone" />
 
 
 </LinearLayout>

@@ -78,6 +78,7 @@ public class CreateCampaignTermsActivity extends AppCompatActivity {
         dialog = new CustomDialog(this);
         preference = new AppPreference(this);
 
+
         Intent intent = getIntent();
 
         campaignList = (CampaignListResponse.CampaignList) intent.getSerializableExtra("campaignItem");

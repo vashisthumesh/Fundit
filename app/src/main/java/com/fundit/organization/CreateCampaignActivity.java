@@ -83,6 +83,8 @@ public class CreateCampaignActivity extends AppCompatActivity {
 
     String json = "";
 
+    boolean isProfileMode = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,6 +93,11 @@ public class CreateCampaignActivity extends AppCompatActivity {
         adminAPI = ServiceGenerator.getAPIClass();
         preference = new AppPreference(this);
         dialog = new CustomDialog(this);
+
+
+        Intent intent = getIntent();
+        isProfileMode = intent.getBooleanExtra("isProfileMode", false);
+
 
         fetchIDs();
         setupToolbar();
@@ -125,7 +132,6 @@ public class CreateCampaignActivity extends AppCompatActivity {
 
         edt_itemName.setEnabled(false);
         edt_couponCost.setEnabled(false);
-
 
 
         chk_indefinite = (CheckBox) findViewById(R.id.chk_indefinite);
@@ -236,7 +242,7 @@ public class CreateCampaignActivity extends AppCompatActivity {
                 String fundSpotSplit = edt_fundSplit.getText().toString().trim();
                 String campaignDuration = edt_campaignDuration.getText().toString().trim();
                 String maxLimitCoupon1 = edt_maxLimitCoupon.getText().toString().trim();
-                String maxLimitCoupon=maxLimitCoupon1.replace("$","");
+                String maxLimitCoupon = maxLimitCoupon1.replace("$", "");
                 String couponExpiry = edt_couponExpireDay.getText().toString().trim();
                 String couponFinePrint = edt_finePrint.getText().toString().trim();
 
@@ -273,11 +279,46 @@ public class CreateCampaignActivity extends AppCompatActivity {
                     intent.putExtra("maxLimitCoupon", maxLimitCoupon);
                     intent.putExtra("couponExpiry", couponExpiry);
                     //intent.putExtra("couponFinePrint", couponFinePrint);
-                    intent.putStringArrayListExtra("products" , selectedProducts);
+                    intent.putStringArrayListExtra("products", selectedProducts);
                     startActivityForResult(intent, NEXT_STEP);
                 }
             }
         });
+
+        if(isProfileMode){
+
+            Intent data = getIntent();
+
+
+            productListAdapter = new SelectedProductListAdapter(fundspotBeen, getApplicationContext());
+            listSelectedProducts.setAdapter(productListAdapter);
+
+            selectedProducts = data.getStringArrayListExtra("ProductsId");
+            selectedFundSpotName = data.getStringExtra("fundspotName");
+            selectedFundSpotID = data.getStringExtra("fundspotID");
+
+            for (int i = 0; i < selectedProducts.size(); i++) {
+
+                try {
+                    JSONObject mainObject = new JSONObject();
+
+                    mainObject.put("id", selectedProducts.get(i));
+
+                    jsonArrayProductId.put(mainObject);
+
+                    Log.e("check", "ckeck12345");
+
+                } catch (Exception e) {
+
+                    e.printStackTrace();
+                }
+
+
+            }
+            Log.e("selectedProducts", "-->" + selectedProducts);
+            new GetAllDatas().execute();
+//             auto_searchFundspot.setText("");
+        }
 
     }
 
@@ -347,7 +388,7 @@ public class CreateCampaignActivity extends AppCompatActivity {
         // edt_couponCost.setText(product.getPrice());
         edt_organizationSplit.setText(product.getOrganization_percent());
         edt_campaignDuration.setText(product.getCampaign_duration());
-        edt_maxLimitCoupon.setText("$"+product.getMax_limit_of_coupons());
+        edt_maxLimitCoupon.setText("$" + product.getMax_limit_of_coupons());
         //  edt_finePrint.setText(product.getFine_print());
         edt_couponExpireDay.setText(product.getCoupon_expire_day());
 
@@ -453,8 +494,6 @@ public class CreateCampaignActivity extends AppCompatActivity {
                     if (status) {
 
 
-
-
                         JSONObject dataObject = mainObject.getJSONObject("data");
                         JSONObject fundspotObject = dataObject.getJSONObject("Fundspot");
 
@@ -463,9 +502,8 @@ public class CreateCampaignActivity extends AppCompatActivity {
                         edt_organizationSplit.setText(fundspotObject.getString("organization_percent"));
                         edt_couponExpireDay.setText(fundspotObject.getString("coupon_expire_day"));
                         edt_campaignDuration.setText(fundspotObject.getString("campaign_duration"));
-                        edt_maxLimitCoupon.setText("$"+fundspotObject.getString("max_limit_of_coupon_price"));
-                        if(edt_campaignDuration.getText().toString().trim().equalsIgnoreCase("0"))
-                        {
+                        edt_maxLimitCoupon.setText("$" + fundspotObject.getString("max_limit_of_coupon_price"));
+                        if (edt_campaignDuration.getText().toString().trim().equalsIgnoreCase("0")) {
                             chk_indefinite.setChecked(true);
                         }
 
@@ -520,7 +558,6 @@ public class CreateCampaignActivity extends AppCompatActivity {
     public void onBackPressed() {
         finish();
     }
-
 
 
 }

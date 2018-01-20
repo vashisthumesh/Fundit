@@ -58,7 +58,7 @@ class HomeActivity : AppCompatActivity() {
     var memberRequest: Int = 0
     var campaignRequestCount: Int = 0
     var totalRequest: Int = 0
-    var flag=false
+    var flag = false
     internal var user = User()
 
     internal var member = Member()
@@ -68,14 +68,14 @@ class HomeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_home)
 
         preference = AppPreference(this)
-        var intent:Intent=getIntent()
-        flag=intent.getBooleanExtra("flag",false)
+        var intent: Intent = getIntent()
+        flag = intent.getBooleanExtra("flag", false)
 
 
         try {
             member = Gson().fromJson(preference?.getMemberData(), Member::class.java)
 
-            Log.e("getMemberData" , "-->" +  member.toString())
+            Log.e("getMemberData", "-->" + member.toString())
 
         } catch (e: Exception) {
             Log.e("Exception", e.message)
@@ -92,11 +92,11 @@ class HomeActivity : AppCompatActivity() {
     private fun fillMenus() {
         when (preference?.userRoleID) {
             C.ORGANIZATION -> {
-                menuList = arrayOf("Home", "My Profile", "Requests", "My Members", "Save Cards", "Settings", "Invite Friends", "Help", "Logout")
+                menuList = arrayOf("Home", "My Profile", "Requests", "My Orders", "My Members", "Settings", "Invite Friends", "Help", "Logout")
 
             }
             C.FUNDSPOT -> {
-                menuList = arrayOf("Home", "My Profile", "Requests", "My Product", "My Members", "Save Cards", "Settings", "Invite Friends", "Help", "Logout")
+                menuList = arrayOf("Home", "My Profile", "Requests", "My Product", "My Members", "Settings", "Invite Friends", "Help", "Logout")
 
 
             }
@@ -117,9 +117,9 @@ class HomeActivity : AppCompatActivity() {
         //cartCount?.text = preference?.messageCount.toString()
         //actionTitle?.text = ""
         setSupportActionBar(toolbar)
-        Log.e("redemerId" , "-->" +  member.redeemer.toString())
+        Log.e("redemerId", "-->" + member.redeemer.toString())
 
-        if (preference?.userRoleID.equals(C.FUNDSPOT) || (preference?.userRoleID.equals(C.GENERAL_MEMBER)&& member.redeemer.equals("1"))) {
+        if (preference?.userRoleID.equals(C.FUNDSPOT) || (preference?.userRoleID.equals(C.GENERAL_MEMBER) && member.redeemer.equals("1"))) {
             img_qrscan?.visibility = View.VISIBLE
         } else {
             img_qrscan?.visibility = View.GONE
@@ -191,8 +191,7 @@ class HomeActivity : AppCompatActivity() {
             else -> fragment = Fragment()
         }
 
-        if (flag == true)
-        {
+        if (flag == true) {
             coupon()
 
         }
@@ -228,11 +227,9 @@ class HomeActivity : AppCompatActivity() {
         img_profilePic = headerView?.findViewById(R.id.img_profilePic) as CircleImageView
         list_navigation?.addHeaderView(headerView)
         val gson = Gson()
-        try{
+        try {
             user = gson.fromJson(preference?.userData, User::class.java)
-        }
-        catch(e: JSONException)
-        {
+        } catch (e: JSONException) {
             e.printStackTrace();
         }
 
@@ -326,30 +323,24 @@ class HomeActivity : AppCompatActivity() {
                 transaction?.replace(R.id.content, fragment)
                 transaction?.commit()
             }
-            if (preference?.userRoleID.equals(C.GENERAL_MEMBER)) {
+            if (preference?.userRoleID.equals(C.GENERAL_MEMBER) || preference?.userRoleID.equals(C.ORGANIZATION)) {
                 actionTitle?.text = "My Orders"
                 fragment = OrderHistoryFragment()
                 val transaction = fm?.beginTransaction()
                 transaction?.replace(R.id.content, fragment)
                 transaction?.commit()
             }
-            if (preference?.userRoleID.equals(C.ORGANIZATION)) {
-                actionTitle?.text = "My Members"
-                fragment = MyMemberFragment()
-                val transaction = fm?.beginTransaction()
-                transaction?.replace(R.id.content, fragment)
-                transaction?.commit()
-            }
+
         } else if (position == 5) {
             img_edit?.visibility = View.GONE
-            if (preference?.userRoleID.equals(C.FUNDSPOT)) {
+            if (preference?.userRoleID.equals(C.FUNDSPOT) || preference?.userRoleID.equals(C.ORGANIZATION)) {
                 actionTitle?.text = "My Members"
                 fragment = MyMemberFragment()
                 val transaction = fm?.beginTransaction()
                 transaction?.replace(R.id.content, fragment)
                 transaction?.commit()
             }
-            if (preference?.userRoleID.equals(C.GENERAL_MEMBER) || preference?.userRoleID.equals(C.ORGANIZATION)) {
+            if (preference?.userRoleID.equals(C.GENERAL_MEMBER)) {
                 actionTitle?.text = "Saved Cards"
                 fragment = MyCardsFragment()
                 val transaction = fm?.beginTransaction()
@@ -360,87 +351,35 @@ class HomeActivity : AppCompatActivity() {
 
         } else if (position == 6) {
             img_edit?.visibility = View.GONE
-            if (preference?.userRoleID.equals(C.GENERAL_MEMBER) || preference?.userRoleID.equals(C.ORGANIZATION)) {
-                actionTitle?.text = "Settings"
-                fragment = GeneralSettingFragment()
-                val transaction = fm?.beginTransaction()
-                transaction?.replace(R.id.content, fragment)
-                transaction?.commit()
-            } else {
-
-                actionTitle?.text = "Saved Cards"
-                fragment = MyCardsFragment()
-                val transaction = fm?.beginTransaction()
-                transaction?.replace(R.id.content, fragment)
-                transaction?.commit()
-            }
+            actionTitle?.text = "Settings"
+            fragment = GeneralSettingFragment()
+            val transaction = fm?.beginTransaction()
+            transaction?.replace(R.id.content, fragment)
+            transaction?.commit()
 
         } else if (position == 7) {
             img_edit?.visibility = View.GONE
-            if (preference?.userRoleID.equals(C.FUNDSPOT)) {
-                actionTitle?.text = "Settings"
-                fragment = GeneralSettingFragment()
-                val transaction = fm?.beginTransaction()
-                transaction?.replace(R.id.content, fragment)
-                transaction?.commit()
-            }
-            if(preference?.userRoleID.equals(C.GENERAL_MEMBER) || preference?.userRoleID.equals(C.ORGANIZATION))
-            {
-                val sharingIntent = Intent(android.content.Intent.ACTION_SEND)
-                sharingIntent.type = "text/plain"
-                //val shareBodyText = GlobalFile.share
-                sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Fundit")
-                sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT,"")
-                startActivity(Intent.createChooser(sharingIntent, "Share Via"))
 
-            }
+            val sharingIntent = Intent(android.content.Intent.ACTION_SEND)
+            sharingIntent.type = "text/plain"
+            //val shareBodyText = GlobalFile.share
+            sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Fundit")
+            sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, "")
+            startActivity(Intent.createChooser(sharingIntent, "Share Via"))
 
 
         } else if (position == 8) {
             img_edit?.visibility = View.GONE
+            actionTitle?.text = "Help"
+            fragment = HelpFragment()
+            val transaction = fm?.beginTransaction()
+            transaction?.replace(R.id.content, fragment)
+            transaction?.commit()
 
-            if(preference?.userRoleID.equals(C.FUNDSPOT))
-            {
-                val sharingIntent = Intent(android.content.Intent.ACTION_SEND)
-                sharingIntent.type = "text/plain"
-                //val shareBodyText = GlobalFile.share
-                sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Fundit")
-                sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT,"")
-                startActivity(Intent.createChooser(sharingIntent, "Share Via"))
-
-            }
-
-            if(preference?.userRoleID.equals(C.ORGANIZATION))
-            {
-                actionTitle?.text = "Help"
-                fragment = HelpFragment()
-                val transaction = fm?.beginTransaction()
-                transaction?.replace(R.id.content, fragment)
-                transaction?.commit()
-            }
-            if(preference?.userRoleID.equals(C.GENERAL_MEMBER))
-            {
-                actionTitle?.text = "Help"
-                fragment = HelpFragment()
-                val transaction = fm?.beginTransaction()
-                transaction?.replace(R.id.content, fragment)
-                transaction?.commit()
-            }
         } else if (position == 9) {
             img_edit?.visibility = View.GONE
-            if (preference?.userRoleID.equals(C.ORGANIZATION) || (preference?.userRoleID.equals(C.GENERAL_MEMBER)))
-            {
-                logout()
-            }
-            if(preference?.userRoleID.equals(C.FUNDSPOT))
-            {
-                actionTitle?.text = "Help"
-                fragment = HelpFragment()
-                val transaction = fm?.beginTransaction()
-                transaction?.replace(R.id.content, fragment)
-                transaction?.commit()
-            }
 
+            logout()
         } else if (position == 10) {
 
             if (preference?.userRoleID.equals(C.FUNDSPOT))
@@ -449,14 +388,13 @@ class HomeActivity : AppCompatActivity() {
         drawerLayout?.closeDrawer(Gravity.START)
     }
 
-    private  fun  coupon()
-    {
+    private fun coupon() {
         actionTitle?.text = "My Orders"
         fragment = OrderHistoryFragment()
         val transaction = fm?.beginTransaction()
         transaction?.replace(R.id.content, fragment)
         transaction?.commit()
-        flag =false
+        flag = false
 
     }
 
@@ -487,15 +425,13 @@ class HomeActivity : AppCompatActivity() {
             dialogInterface.dismiss()
 
         }
-        builder.setNegativeButton("Cancel"){ dialogInterface, i ->
+        builder.setNegativeButton("Cancel") { dialogInterface, i ->
 
             dialogInterface.dismiss()
 
         }
         val bDialog = builder.create()
         bDialog.show()
-
-
 
 
     }
@@ -515,12 +451,12 @@ class HomeActivity : AppCompatActivity() {
 
 
             val getTotalCount = preference?.totalCount
-            Log.e("getTotalCount" , "-->" + getTotalCount)
+            Log.e("getTotalCount", "-->" + getTotalCount)
 
             if (position == 2) {
-                if(getTotalCount==0){
+                if (getTotalCount == 0) {
                     txt_count.visibility = View.GONE
-                }else {
+                } else {
                     txt_count.visibility = View.VISIBLE
                     txt_count.text = getTotalCount.toString()
                 }
@@ -552,12 +488,10 @@ class HomeActivity : AppCompatActivity() {
             else -> System.exit(0)
         }*/
 
-        if(isDrawerOpen)
+        if (isDrawerOpen)
             drawerLayout?.closeDrawer(Gravity.START)
         else
-           System.exit(0)
-
-
+            System.exit(0)
 
 
     }

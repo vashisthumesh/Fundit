@@ -16,6 +16,7 @@ import com.fundit.model.GeneralMemberProfileResponse;
 import com.fundit.model.GetDataResponses;
 import com.fundit.model.GetSearchPeople;
 import com.fundit.model.InboxMessagesResponse;
+import com.fundit.model.JoinMemberModel;
 import com.fundit.model.MemberListResponse;
 import com.fundit.model.MemberResponse;
 import com.fundit.model.News_model;
@@ -292,7 +293,7 @@ public interface AdminAPI {
 
     @FormUrlEncoded
     @POST(W.GET_ALL_FUND)
-    Call<GetDataResponses> GET_ALL_FUNDSPOT (@Field(W.KEY_USERID) String userId , @Field("city_id") String cityId , @Field("zip_code") String zipCode);
+        Call<GetDataResponses> GET_ALL_FUNDSPOT (@Field(W.KEY_USERID) String userId , @Field("city_id") String cityId , @Field("zip_code") String zipCode);
 
 
     @FormUrlEncoded
@@ -311,7 +312,7 @@ public interface AdminAPI {
 
     @FormUrlEncoded
     @POST(W.CHECK_JOIN_MEMBER)
-    Call<AppModel> checkJoinMember(@Field("member_id") String memberId , @Field(W.KEY_ROLEID) String roleId , @Field(W.KEY_USERID) String userId);
+    Call<JoinMemberModel> checkJoinMember(@Field("member_id") String memberId , @Field(W.KEY_ROLEID) String roleId , @Field(W.KEY_USERID) String userId);
 
 
     @FormUrlEncoded

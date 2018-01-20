@@ -54,6 +54,7 @@ public class FundspotProductListActivity extends AppCompatActivity {
     ProductsListAdapter productListAdapter;
 
     CheckBox chk_items, chk_giftCard;
+    boolean isProfileMode = false ;
 
     CustomDialog dialog;
 
@@ -75,6 +76,8 @@ public class FundspotProductListActivity extends AppCompatActivity {
 
 
         selectedOrganizationID = intent.getStringExtra("organizationID");
+        isProfileMode = intent.getBooleanExtra("profileMode" , false);
+
 
         Log.e("GetName" , fundspotName);
         fetchIDs();
@@ -154,13 +157,33 @@ public class FundspotProductListActivity extends AppCompatActivity {
                         selectedProductsId.add(selectedProducts.get(i).getId());
                     }
 
-                    Intent intent = new Intent();
-                    intent.putStringArrayListExtra("ProductsId" , selectedProductsId);
-                    intent.putExtra("fundspotName", fundspotName);
-                    intent.putExtra("organizationID" , selectedOrganizationID);
-                    intent.putExtra("fundspotID", fundSpotID);
-                    setResult(RESULT_OK , intent);
-                    onBackPressed();
+                    if(isProfileMode){
+
+                        Intent intent = new Intent(getApplicationContext() , CreateCampaignActivity.class);
+                        intent.putStringArrayListExtra("ProductsId" , selectedProductsId);
+                        intent.putExtra("fundspotName", fundspotName);
+                        intent.putExtra("organizationID" , selectedOrganizationID);
+                        intent.putExtra("fundspotID", fundSpotID);
+                        intent.putExtra("isProfileMode" , true);
+                        setResult(RESULT_OK , intent);
+                        startActivity(intent);
+
+
+
+                    }else {
+
+                        Intent intent = new Intent();
+                        intent.putStringArrayListExtra("ProductsId" , selectedProductsId);
+                        intent.putExtra("fundspotName", fundspotName);
+                        intent.putExtra("organizationID" , selectedOrganizationID);
+                        intent.putExtra("fundspotID", fundSpotID);
+                        setResult(RESULT_OK , intent);
+                        onBackPressed();
+
+                    }
+
+
+
                 } else {
 
                     C.INSTANCE.showToast(getApplicationContext(), "Please Select Products");
@@ -319,6 +342,10 @@ public class FundspotProductListActivity extends AppCompatActivity {
             });
 
 
+
+
+
+
             checkedProducts.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -340,6 +367,8 @@ public class FundspotProductListActivity extends AppCompatActivity {
                 }
             });
 
+            checkedProducts.setChecked(true);
+            checkedProducts.setEnabled(false);
 
             return view;
         }

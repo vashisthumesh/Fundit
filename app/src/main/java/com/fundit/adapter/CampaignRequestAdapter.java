@@ -125,7 +125,7 @@ public class CampaignRequestAdapter extends BaseAdapter {
             //When Fundspot will create campaign , below logic will not be applied, it will be same as Fundspot review
             switch (campaignList.get(position).getCampaign().getAction_status()) {
                 case C.PENDING:
-                    message = "<b>" + campaignList.get(position).getUserOrganization().getFundspot().getTitle() + "</b> wants to start a campaign with you!" + campaignList.get(position).getCampaign().getTitle();
+                    message = "<b>" + campaignList.get(position).getUserOrganization().getFundspot().getTitle() + "</b> wants to start a campaign with you!" /*+ campaignList.get(position).getCampaign().getTitle()*/;
                     break;
                 case C.ORGANIZATION_APPROVED:
                     message = "<b>" + campaignList.get(position).getUserFundspot().getFundspot().getTitle() + "</b> is started by you.";

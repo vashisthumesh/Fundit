@@ -45,7 +45,7 @@ public class CreateCampaignTermsNextActivity extends AppCompatActivity {
 
     EditText edt_campaignName, edt_description, edt_startDate, edt_message , edt_amount , edt_msg_fundspot;
     CheckBox chk_startDateAsPossible, chk_allOrgMembers , chk_max_amount;
-    TextView txt_couponSellerLabel;
+    TextView txt_couponSellerLabel , txt_sendmessage;
     AutoCompleteTextView auto_searchMember;
     ListView listMembers;
     Button btn_request;
@@ -109,22 +109,42 @@ public class CreateCampaignTermsNextActivity extends AppCompatActivity {
         edt_amount = (EditText) findViewById(R.id.edt_amount);
         txt_dollar= (TextView) findViewById(R.id.txt_dollar);
         edt_msg_fundspot = (EditText) findViewById(R.id.edt_msg_fundspot);
-        edt_amount.setVisibility(View.GONE);
-        txt_dollar.setVisibility(View.GONE);
+      //  edt_amount.setVisibility(View.GONE);
+      //  txt_dollar.setVisibility(View.GONE);
         edt_msg_fundspot.setVisibility(View.GONE);
 
         txt_members = (TextView) findViewById(R.id.txt_members);
         txt_targetAmt = (TextView) findViewById(R.id.txt_targetAmt);
         txt_message = (TextView) findViewById(R.id.txt_message);
-        txt_targetAmt.setVisibility(View.GONE);
+        txt_sendmessage = (TextView) findViewById(R.id.txt_sendmessage);
+       // txt_targetAmt.setVisibility(View.GONE);
         txt_message.setVisibility(View.GONE);
 
         chk_max_amount = (CheckBox) findViewById(R.id.chk_max_amount);
-        chk_max_amount.setVisibility(View.GONE);
+       // chk_max_amount.setVisibility(View.GONE);
+
         if (preference.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)) {
-
+            String createdName = "" ;
             txt_members.setText("Members to redeemer");
-
+            txt_members.setVisibility(View.GONE);
+            edt_message.setVisibility(View.GONE);
+            txt_sendmessage.setVisibility(View.VISIBLE);
+            edt_amount.setText(campaignList.getCampaign().getMax_limit_of_coupons());
+            chk_max_amount.setEnabled(false);
+            if (campaignList.getCampaign().getReview_status().equalsIgnoreCase("1")) {
+                if (campaignList.getCampaign().getAction_status().equalsIgnoreCase("0")) {
+                    createdName = campaignList.getUserOrganization().getOrganization().getTitle();
+                } else {
+                    createdName = campaignList.getUserFundspot().getOrganization().getTitle();
+                }
+            } else {
+                if (campaignList.getCampaign().getAction_status().equalsIgnoreCase("1")) {
+                    createdName = campaignList.getUserFundspot().getOrganization().getTitle();
+                } else {
+                    createdName = campaignList.getUserOrganization().getOrganization().getTitle();
+                }
+            }
+            txt_sendmessage.setText(createdName + " will confirm your response before launching this campaign. ");
         }
         if (preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION)) {
 
@@ -162,7 +182,7 @@ public class CreateCampaignTermsNextActivity extends AppCompatActivity {
         auto_searchMember.setAdapter(memberArrayAdapter);
 
         btn_request = (Button) findViewById(R.id.btn_request);
-        btn_request.setText("Start Campaign");
+        btn_request.setText("Send Response");
 
         listMembers = (AdjustableListView) findViewById(R.id.listMembers);
         memberListAdapter = new MemberListAdapter(this);

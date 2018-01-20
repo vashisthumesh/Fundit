@@ -167,14 +167,14 @@ public class CreateCampaignNextActivity extends AppCompatActivity {
 
                 if(buttonView.isChecked()){
 
-                    edt_amount.setText("0");
+                    edt_amount.setText(maxLimitCoupon);
                     edt_amount.setEnabled(false);
-                }else{
+                }/*else{
 
                     edt_amount.setText("1");
                     edt_amount.setEnabled(true);
 
-                }
+                }*/
 
 
 

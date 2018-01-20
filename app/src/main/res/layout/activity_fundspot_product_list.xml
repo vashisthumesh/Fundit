@@ -27,6 +27,7 @@
             android:background="@color/colorPrimary" />
 
         <LinearLayout
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -55,6 +56,15 @@
 
         </LinearLayout>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/productTitle"
+        android:textSize="14sp"
+        android:gravity="center"
+        android:textColor="@color/black"
+        />
+
         <ListView
             android:id="@+id/list_products"
             android:layout_width="match_parent"
@@ -81,7 +91,7 @@
             android:layout_gravity="center"
             android:layout_margin="3dp"
             android:background="@color/colorButton"
-            android:text="Select Product"
+            android:text="Continue"
             android:textAllCaps="false"
             android:textColor="#FFF"
             android:textSize="14sp">

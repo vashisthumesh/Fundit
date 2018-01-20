@@ -22,9 +22,11 @@ import com.fundit.helper.CustomDialog;
 import com.fundit.model.AppModel;
 import com.fundit.model.Fundspot;
 import com.fundit.model.GetDataResponses;
+import com.fundit.model.JoinMemberModel;
 import com.fundit.model.Member;
 import com.fundit.model.Organization;
 import com.fundit.model.User;
+import com.fundit.organization.FundspotProductListActivity;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
@@ -49,10 +51,10 @@ public class AddMembersActivity extends AppCompatActivity {
 
     CircleImageView circleImageView;
 
-    TextView txt_name, txt_address, txt_emailID, txt_organizations, txt_fundspots, txt_currentCampaigns, txt_pastCampaigns, txt_contct, txt_con_info_email, txt_con_info_mobile;
+    TextView txt_name, txt_address, txt_emailID, txt_organizations, txt_fundspots, txt_currentCampaigns, txt_pastCampaigns, txt_contct, txt_con_info_email, txt_con_info_mobile, txt_fundtitle, txt_fundraiser_split;
     LinearLayout layout_contact_info_email, layout_contact_info_mobile;
 
-    Button btnAdd, btnJoin, btnFollow, btnMessage;
+    Button btnAdd, btnJoin, btnFollow, btnMessage, btnrequest;
 
     LinearLayout layout_contact, current, past, layout_buttons, layout_mail, layout_category, layout_fundraiser, layout_type, layout_description, layout_org, layout_fun;
 
@@ -69,6 +71,9 @@ public class AddMembersActivity extends AppCompatActivity {
     Fundspot fundspot = new Fundspot();
     Organization organization = new Organization();
     Member member = new Member();
+
+    int isMemberJoined = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,6 +143,10 @@ public class AddMembersActivity extends AppCompatActivity {
         txt_pastCampaigns = (TextView) findViewById(R.id.txt_pastCampaigns);
         txt_con_info_email = (TextView) findViewById(R.id.txt_con_info_email);
         txt_con_info_mobile = (TextView) findViewById(R.id.txt_con_info_mobile);
+        txt_fundtitle = (TextView) findViewById(R.id.txt_fundtitle);
+        txt_fundraiser_split = (TextView) findViewById(R.id.txt_fundraiser_split);
+
+
         layout_contact_info_email = (LinearLayout) findViewById(R.id.layout_contact_info_email);
         layout_contact_info_mobile = (LinearLayout) findViewById(R.id.layout_contact_info_mobile);
         layout_fundraiser = (LinearLayout) findViewById(R.id.layout_fundraiser);
@@ -179,6 +188,7 @@ public class AddMembersActivity extends AppCompatActivity {
         btnJoin = (Button) findViewById(R.id.button_join);
         btnFollow = (Button) findViewById(R.id.button_follow);
         btnMessage = (Button) findViewById(R.id.btnmessage);
+        btnrequest = (Button) findViewById(R.id.btnrequest);
         btnAdd.setVisibility(View.VISIBLE);
 
 
@@ -202,17 +212,36 @@ public class AddMembersActivity extends AppCompatActivity {
 
         if (profileMode) {
 
+            String getCityName = "";
+
+
             layout_buttons.setVisibility(View.VISIBLE);
             btnMessage.setVisibility(View.VISIBLE);
             txt_emailID.setVisibility(View.GONE);
             layout_mail.setVisibility(View.GONE);
             btnAdd.setVisibility(View.GONE);
+
             setupToolbar();
+
 
             if (status) {
 
+                if (getResponse.getFundspot().getCity_name() != null) {
+                    getCityName = getResponse.getFundspot().getCity_name();
+                }
+
+
+                layout_fundraiser.setVisibility(View.VISIBLE);
+
+                if (preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION)) {
+                    btnrequest.setVisibility(View.VISIBLE);
+                }
                 String imagePath = W.FILE_URL + getResponse.getFundspot().getImage();
                 Log.e("path", imagePath);
+
+                txt_fundtitle.setText("% Split ( Fundspot/Organization ): ");
+                txt_fundraiser_split.setText(getResponse.getFundspot().getFundspot_percent() + " / " + getResponse.getFundspot().getOrganization_percent());
+
 
                 Picasso.with(getApplicationContext())
                         .load(imagePath)
@@ -221,19 +250,10 @@ public class AddMembersActivity extends AppCompatActivity {
                 txt_name.setText(getResponse.getFundspot().getTitle());
 
 
-                txt_address.setText(getResponse.getFundspot().getLocation()+"\n"+getResponse.getCity().getName()+","+getResponse.getState().getState_code()+" "+getResponse.getFundspot().getZip_code());
-
-
-                Log.e("location",getResponse.getFundspot().getLocation());
-                Log.e("location","---->"+getResponse.getFundspot().getState().getState_code());
-                Log.e("location",getResponse.getFundspot().getZip_code());
-
-
-
+                txt_address.setText(getResponse.getFundspot().getLocation() + "\n" + getCityName + "," + getResponse.getState().getState_code() + " " + getResponse.getFundspot().getZip_code());
 
 
                 txt_contct.setText(getResponse.getFundspot().getDescription());
-                Log.e("email", "--->" + getResponse.getFundspot().getContact_info_email());
                 if ((getResponse.getFundspot().getContact_info_email()) == null || getResponse.getFundspot().getContact_info_email().equalsIgnoreCase("")) {
                     layout_contact_info_email.setVisibility(View.GONE);
 
@@ -255,6 +275,17 @@ public class AddMembersActivity extends AppCompatActivity {
 
 
             } else {
+
+
+                if (getResponse.getOrganization().getCity_name() != null) {
+                    getCityName = getResponse.getOrganization().getCity_name();
+                }
+
+                if (preference.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)) {
+                    btnrequest.setVisibility(View.VISIBLE);
+                }
+
+
                 String imagePath = W.FILE_URL + getResponse.getOrganization().getImage();
                 Log.e("path", imagePath);
 
@@ -263,11 +294,11 @@ public class AddMembersActivity extends AppCompatActivity {
                         .into(circleImageView);
 
                 txt_name.setText(getResponse.getOrganization().getTitle());
-                txt_address.setText(getResponse.getOrganization().getLocation()+"\n"+getResponse.getCity().getName()+","+getResponse.getState().getState_code()+" "+getResponse.getOrganization().getZip_code());
+                txt_address.setText(getResponse.getOrganization().getLocation() + "\n" + getCityName + "," + getResponse.getState().getState_code() + " " + getResponse.getOrganization().getZip_code());
 
-                Log.e("location",getResponse.getOrganization().getLocation());
-                Log.e("location","--->"+getResponse.getOrganization().getState().getState_code());
-                Log.e("location",getResponse.getOrganization().getZip_code());
+                Log.e("location", getResponse.getOrganization().getLocation());
+                Log.e("location", "--->" + getResponse.getOrganization().getState().getState_code());
+                Log.e("location", getResponse.getOrganization().getZip_code());
 
                 txt_contct.setText(getResponse.getOrganization().getDescription());
                 Log.e("email", "--->" + getResponse.getOrganization().getContact_info_email());
@@ -296,11 +327,37 @@ public class AddMembersActivity extends AppCompatActivity {
             }
 
 
+            btnrequest.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(getApplicationContext(), FundspotProductListActivity.class);
+                    /*intent.putExtra("fundspotName", fundSpotList.get(i).getFundspot().getTitle());
+                    intent.putExtra("fundspotID", fundSpotList.get(i).getFundspot().getUser_id());
+*/
+                    if (preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION)) {
+                        intent.putExtra("fundspotName", getResponse.getFundspot().getTitle());
+                        intent.putExtra("fundspotID", getResponse.getFundspot().getUser_id());
+                        intent.putExtra("profileMode", true);
+                        startActivity(intent);
+                    } else {
+                        intent.putExtra("fundspotName", fundspot.getTitle());
+                        intent.putExtra("fundspotID", fundspot.getUser_id());
+                        intent.putExtra("profileMode", true);
+                        startActivity(intent);
+                    }
+
+
+                }
+            });
+
+
             btnJoin.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     String selectedUsersId = "";
                     String membersssIdss = "";
+
+                    Log.e("checking", "-->");
                     if (status) {
                         selectedUsersId = getResponse.getFundspot().getUser_id();
                     } else {
@@ -319,8 +376,11 @@ public class AddMembersActivity extends AppCompatActivity {
                     }
 
 
-                    new JoinMember(membersssIdss, selectedUsersId).execute();
-
+                    if (isMemberJoined == 0) {
+                        new JoinMember(membersssIdss, selectedUsersId).execute();
+                    } else {
+                        new LeaveMember(preference.getUserID(), preference.getUserRoleID(), membersssIdss).execute();
+                    }
 
                 }
             });
@@ -351,7 +411,9 @@ public class AddMembersActivity extends AppCompatActivity {
             }
 
 
-            CheckMemberIsjoined(checkMemberId);
+            if (preference.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER)) {
+                CheckMemberIsjoined(checkMemberId);
+            }
         }
 
 
@@ -363,20 +425,23 @@ public class AddMembersActivity extends AppCompatActivity {
     }
 
 
-
     private void CheckMemberIsjoined(String checkMemberId) {
 
         dialog.show();
-        Call<AppModel> appModelCall = adminAPI.checkJoinMember(checkMemberId, preference.getUserRoleID(), preference.getUserID());
-        appModelCall.enqueue(new Callback<AppModel>() {
+        Call<JoinMemberModel> appModelCall = adminAPI.checkJoinMember(checkMemberId, preference.getUserRoleID(), preference.getUserID());
+        Log.e("parameters" , "-->" + checkMemberId + "-->" + preference.getUserRoleID() + "--->" + preference.getUserID());
+        appModelCall.enqueue(new Callback<JoinMemberModel>() {
             @Override
-            public void onResponse(Call<AppModel> call, Response<AppModel> response) {
+            public void onResponse(Call<JoinMemberModel> call, Response<JoinMemberModel> response) {
                 dialog.dismiss();
-                AppModel appModel = response.body();
+                JoinMemberModel appModel = response.body();
                 if (appModel != null) {
-                    C.INSTANCE.showToast(getApplicationContext(), appModel.getMessage());
+                    //   C.INSTANCE.showToast(getApplicationContext(), appModel.getMessage());
                     if (appModel.isStatus()) {
-                        btnJoin.setEnabled(false);
+                        if (appModel.getData() == 1) {
+                            btnJoin.setText("Leave Us");
+                            isMemberJoined = 1;
+                        }
                     }
 
 
@@ -386,7 +451,7 @@ public class AddMembersActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<AppModel> call, Throwable t) {
+            public void onFailure(Call<JoinMemberModel> call, Throwable t) {
                 dialog.dismiss();
                 C.INSTANCE.errorToast(getApplicationContext(), t);
             }
@@ -714,6 +779,8 @@ public class AddMembersActivity extends AppCompatActivity {
                     C.INSTANCE.showToast(getApplicationContext(), message);
                     if (status) {
 
+
+
                         Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
@@ -729,7 +796,69 @@ public class AddMembersActivity extends AppCompatActivity {
         }
     }
 
+    public class LeaveMember extends AsyncTask<Void, Void, String> {
+
+        String userId = "";
+        String roleId = "";
+        String memberId = "";
+
+        public LeaveMember(String userId, String roleId, String memberId) {
+            this.userId = userId;
+            this.roleId = roleId;
+            this.memberId = memberId;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            try {
+                dialog.setCancelable(false);
+                dialog.show();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        protected String doInBackground(Void... voids) {
+
+            List<NameValuePair> valuePairs = new ArrayList<>();
+
+            valuePairs.add(new BasicNameValuePair("user_id", userId));
+            valuePairs.add(new BasicNameValuePair("role_id", roleId));
+            valuePairs.add(new BasicNameValuePair("member_id", memberId));
+
+            String json = new ServiceHandler().makeServiceCall(W.BASE_URL + W.LEAVE_MEMBER, ServiceHandler.POST, valuePairs);
+
+            Log.e("parameters", "-->" + valuePairs.toString());
+            Log.e("response", "--->" + json);
 
 
+            return json;
+        }
 
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            dialog.dismiss();
+            try {
+                if (s.isEmpty()) {
+                    C.INSTANCE.defaultError(getApplicationContext());
+                } else {
+                    JSONObject mainObject = new JSONObject(s);
+                    boolean status = false;
+                    String message = "";
+                    status = mainObject.getBoolean("status");
+                    message = mainObject.getString("message");
+                    C.INSTANCE.showToast(getApplicationContext(), message);
+                    if (status) {
+                        btnJoin.setText("Join Us");
+                        isMemberJoined = 0;
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

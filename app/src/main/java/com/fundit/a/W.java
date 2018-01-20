@@ -108,6 +108,7 @@ public class W {
     public static final String CHECK_JOIN_MEMBER = "Member/App_Check_Join_request";
 
     public static final String COUPON_REQUEST = "Order/app_accept_coupon_request";
+    public static final String LEAVE_MEMBER = "Member/app_delete_member_for_account";
 
 
 

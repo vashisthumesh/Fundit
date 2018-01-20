@@ -86,7 +86,7 @@ public class NewsFeedFragment extends Fragment {
                             listResponse.addAll(campaignList.getData());
                         } else {
 
-                            C.INSTANCE.showToast(getActivity(), campaignList.getMessage());
+                             C.INSTANCE.showToast(getActivity(), campaignList.getMessage());
                             // FOR_NOW_ITS_NOTHING
                         }
 
