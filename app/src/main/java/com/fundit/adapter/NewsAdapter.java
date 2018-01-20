@@ -19,7 +19,10 @@ import com.fundit.a.AppPreference;
 import com.fundit.a.C;
 import com.fundit.model.News_model;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -29,6 +32,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
 
     List<News_model.NewsData> newsDataList = new ArrayList<>();
     Context context;
+
+    Date today_date,todaydate2,end_date1;
 
     public NewsAdapter(List<News_model.NewsData> newsDataList, Context context) {
         this.newsDataList = newsDataList;
@@ -71,10 +76,16 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
         if (newsDataList.get(position).getNewsFeed().getType().equalsIgnoreCase("1")) {
             String main_title="<b>"+newsDataList.get(position).getNewsFeed().getTitle()+"</b>"+" "+newsDataList.get(position).getNewsFeed().getMsg();
             holder.txt_mainTitle.setText(Html.fromHtml(main_title));
+
+
+            holder.btnPlaceOrder.setVisibility(View.GONE);
+            holder.raised_layout.setVisibility(View.GONE);
         }  if (newsDataList.get(position).getNewsFeed().getType().equalsIgnoreCase("2")) {
             String main_title="<b>"+newsDataList.get(position).getNewsFeed().getTitle()+"</b>"+" "+newsDataList.get(position).getNewsFeed().getMsg();
             holder.txt_mainTitle.setText(Html.fromHtml(main_title));
 
+            holder.btnPlaceOrder.setVisibility(View.GONE);
+            holder.raised_layout.setVisibility(View.GONE);
         }  if ((newsDataList.get(position).getNewsFeed().getType().equalsIgnoreCase("3"))) {
 
             holder.raised_layout.setVisibility(View.VISIBLE);
@@ -138,6 +149,52 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
 
             initialno = Double.parseDouble(newsDataList.get(position).getCampaignDetails().getNews_Campaign().getTotal_earning());
             finalno = Double.parseDouble(newsDataList.get(position).getCampaignDetails().getNews_Campaign().getTarget_amount());
+
+
+            String end_date=newsDataList.get(position).getCampaignDetails().getNews_Campaign().getEnd_date();
+            Log.e("end_date", "---->" + end_date);
+            today_date = new Date();
+            SimpleDateFormat df1 = new SimpleDateFormat("yyyy-MM-dd");
+            String todaydate1 = df1.format(today_date);
+
+            try {
+                final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+                todaydate2 = sdf.parse(todaydate1);
+            } catch (final ParseException e) {
+                e.printStackTrace();
+            }
+
+            try {
+                final SimpleDateFormat sdf1 = new SimpleDateFormat("dd-MM-yyyy");
+
+                end_date1 = sdf1.parse(end_date);
+            } catch (final ParseException e) {
+                e.printStackTrace();
+            }
+            Log.e("end_date1", "--->" + end_date1);
+            Log.e("todaydate2", "--->" + todaydate2);
+
+            if(preference.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER))
+            {
+
+                if(finalno >= initialno)
+                {
+                    if(end_date1.before(todaydate2) || end_date1.equals(todaydate2))
+                    {
+                        holder.btnPlaceOrder.setVisibility(View.VISIBLE);
+                    }else {
+                        holder.btnPlaceOrder.setVisibility(View.GONE);
+                    }
+
+                }
+
+
+            }
+
+
+
+
             if (finalno == 0) {
 
                 toadd = initiallength;

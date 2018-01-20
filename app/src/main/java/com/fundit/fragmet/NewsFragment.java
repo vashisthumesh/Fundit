@@ -43,6 +43,8 @@ public class NewsFragment extends Fragment {
     int totalPageCount = 0;
     int page = 1;
 
+    boolean isPaginationTimes = false ;
+
     public NewsFragment() {
         // Required empty public constructor
     }
@@ -92,6 +94,7 @@ public class NewsFragment extends Fragment {
                 if (lastVisiblePosition == (totalListItems - 1)) {
                     if (page < totalPageCount) {
                         page += 1;
+                        isPaginationTimes = true ;
                         GetNewsDatas();
 
                     }
@@ -124,6 +127,9 @@ public class NewsFragment extends Fragment {
             @Override
             public void onResponse(Call<News_model> call, Response<News_model> response) {
                 dialog.dismiss();
+                if(isPaginationTimes==false){
+                    newsDataList.clear();
+                }
                 News_model news_modelList = response.body();
                 if (news_modelList != null) {
                     if (news_modelList.isStatus()) {
