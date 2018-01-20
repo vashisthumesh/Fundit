@@ -178,6 +178,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
             if(preference.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER))
             {
 
+
                 if(finalno >= initialno)
                 {
                     if(end_date1.before(todaydate2) || end_date1.equals(todaydate2))
