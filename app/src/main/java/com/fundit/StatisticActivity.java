@@ -32,7 +32,7 @@ public class StatisticActivity extends AppCompatActivity {
 
     String campaignId = "";
 
-    TextView txt_raised, txt_targetAmt, txt_itemSold, txt_couponLeft, txt_netMoney, txt_couponRedeemed;
+    TextView txt_raised, txt_targetAmt, txt_itemSold, txt_couponLeft, txt_netMoney, txt_couponRedeemed , txt_netMoneyfun;
 
     LinearLayout layout_left ;
 
@@ -41,6 +41,7 @@ public class StatisticActivity extends AppCompatActivity {
     String itemSold = "";
     String couponLeft = "";
     String netMoney = "";
+    String netMoneyOther = "";
     String redeem = "";
     String fundspotPercent = "";
     String organizationPercent = "";
@@ -72,6 +73,7 @@ public class StatisticActivity extends AppCompatActivity {
         txt_couponLeft = (TextView) findViewById(R.id.txt_couponLeft);
         txt_netMoney = (TextView) findViewById(R.id.txt_netMoney);
         txt_couponRedeemed = (TextView) findViewById(R.id.txt_couponRedeemed);
+        txt_netMoneyfun = (TextView) findViewById(R.id.txt_netMoneyfun);
 
         layout_left = (LinearLayout) findViewById(R.id.layout_left);
         layout_left.setVisibility(View.GONE);
@@ -227,16 +229,19 @@ public class StatisticActivity extends AppCompatActivity {
 
                         if (preference.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)) {
 
-                            Double targetAmount = 0.0, fundspots = 0.0, earningAmount = 0.0;
+                            Double targetAmount = 0.0, fundspots = 0.0, earningAmount = 0.0 , organizationAmount = 0.0;
                             targetAmount = Double.parseDouble(raised);
                             fundspots = Double.parseDouble(fundspotPercent);
 
 
                             earningAmount = (targetAmount * fundspots) / 100;
+                            organizationAmount = targetAmount - earningAmount ;
 
                             netMoney = String.valueOf(earningAmount);
+                            netMoneyOther = String.valueOf(organizationAmount);
 
-                            txt_netMoney.setText("$" + netMoney);
+                            txt_netMoney.setText("$" + String.format("%.2f" , Double.parseDouble(netMoney)));
+                            txt_netMoneyfun.setText("$" + String.format("%.2f" , Double.parseDouble(netMoneyOther)));
 
 
                         }
@@ -244,17 +249,19 @@ public class StatisticActivity extends AppCompatActivity {
                         if (preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION)) {
 
 
-                            Double targetAmount = 0.0, organizations = 0.0, earningAmount = 0.0;
+                            Double targetAmount = 0.0, organizations = 0.0, earningAmount = 0.0 , fundspotAmount = 0.0;
                             targetAmount = Double.parseDouble(raised);
                             organizations = Double.parseDouble(organizationPercent);
 
 
                             earningAmount = (targetAmount * organizations) / 100;
+                            fundspotAmount = targetAmount - earningAmount ;
 
                             netMoney = String.valueOf(earningAmount);
+                            netMoneyOther = String.valueOf(fundspotAmount);
 
-                            txt_netMoney.setText("$" + netMoney);
-
+                            txt_netMoney.setText("$" + String.format("%.2f" , Double.parseDouble(netMoney)));
+                            txt_netMoneyfun.setText("$" + String.format("%.2f" , Double.parseDouble(netMoneyOther)));
 
                         }
 

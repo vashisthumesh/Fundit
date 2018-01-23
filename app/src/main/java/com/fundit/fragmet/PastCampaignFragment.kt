@@ -88,8 +88,6 @@ class PastCampaignFragment : Fragment() {
                     if (campaignList.isStatus) {
                         campaignArrayList.addAll(campaignList.data)
                     } else {
-
-                        Log.e("VCSTesting" , "Test")
                         // FOR_NOW_ITS_NOTHING
                     }
 

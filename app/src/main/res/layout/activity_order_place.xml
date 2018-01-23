@@ -10,7 +10,6 @@
     <include layout="@layout/toolbar_center_text_inside" />
 
 
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -20,54 +19,223 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-
-            <TextView
-                android:id="@+id/txt_campaignName"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:gravity="center"
-                android:textStyle="bold"
-                android:textColor="@color/colorText"
-                android:textSize="18sp" />
-
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <LinearLayout
-                    android:id="@+id/place_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:orientation="vertical">
 
-                    <Button
-                        android:id="@+id/btn_placeOrder1"
-                        android:layout_width="130dp"
-                        android:layout_height="45dp"
-                        android:layout_gravity="center"
-                        android:background="@color/colorButton"
-                        android:text="Place Order"
-                        android:textAllCaps="false"
-                        android:textSize="18sp" />
-                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/txt_campaignName"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:gravity="center"
+                    android:textColor="@color/colorText"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
                 <LinearLayout
-                    android:id="@+id/share_layout"
+                    android:id="@+id/layout_both"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-                    <Button
-                        android:id="@+id/btn_placeOrder"
-                        android:layout_width="130dp"
-                        android:layout_height="45dp"
-                        android:layout_gravity="center"
-                        android:background="@color/colorButton"
-                        android:text="Share"
-                        android:textAllCaps="false"
-                        android:textSize="18sp" />
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:id="@+id/place_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <Button
+                            android:id="@+id/btn_placeOrder1"
+                            android:layout_width="130dp"
+                            android:layout_height="45dp"
+                            android:layout_gravity="center"
+                            android:background="@color/colorButton"
+                            android:text="Place Order"
+                            android:textAllCaps="false"
+                            android:textSize="18sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/share_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <Button
+                            android:id="@+id/btn_placeOrder"
+                            android:layout_width="130dp"
+                            android:layout_height="45dp"
+                            android:layout_gravity="center"
+                            android:background="@color/colorButton"
+                            android:text="Share"
+                            android:textAllCaps="false"
+                            android:textSize="18sp" />
+                    </LinearLayout>
+
+
                 </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="vertical">
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_margin="5dp"
+                            android:text="Description :"
+                            android:textColor="@color/colorText"
+                            android:textSize="14sp" />
+
+
+                        <TextView
+                            android:id="@+id/txt_description"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="5dp"
+                            android:gravity="start|center"
+                            android:textColor="@color/colorText"
+                            android:textSize="14sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/txt_partnerLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="Fundspot Partner :"
+                            android:textColor="@color/colorText"
+                            android:textSize="14sp" />
+
+
+                        <TextView
+                            android:id="@+id/txt_partnerName"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:dividerHeight="1dp" />
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/txt_organizationLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="Organization Partner :"
+                            android:textColor="@color/colorText"
+                            android:textSize="14sp" />
+
+
+                        <TextView
+                            android:id="@+id/txt_organizationName"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:dividerHeight="1dp" />
+                    </LinearLayout>
+
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="Product :"
+                            android:textColor="@color/colorText"
+                            android:textSize="14sp" />
+
+
+                        <!--<TextView-->
+                        <!--android:id="@+id/txt_item"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="match_parent"-->
+                        <!--android:layout_marginLeft="5dp"-->
+                        <!--android:textColor="@color/colorText"-->
+                        <!--android:textSize="14sp" />-->
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ListView
+                            android:id="@+id/listproduct"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@color/color_gray"
+                            android:dividerHeight="1dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="Goal :"
+                            android:textColor="@color/colorText"
+                            android:textSize="14sp" />
+
+
+                        <TextView
+                            android:id="@+id/txt_goal"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="5dp"
+                            android:textColor="@color/colorText"
+                            android:textSize="14sp" />
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+                <include layout="@layout/layout_raised_price" />
+
+                <TextView
+                    android:id="@+id/txt_statistic"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:gravity="end"
+                    android:text="Statistics"
+                    android:textColor="@color/colorBackgroundRaisedPrice"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
 
             </LinearLayout>
@@ -85,17 +253,18 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
+
                     <TextView
-                        android:layout_margin="5dp"
+                        android:id="@+id/txt_labelsplit"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="Description :"
+                        android:layout_height="wrap_content"
+                        android:text="% Split :"
                         android:textColor="@color/colorText"
                         android:textSize="14sp" />
 
 
                     <TextView
-                        android:id="@+id/txt_description"
+                        android:id="@+id/txt_split"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="5dp"
@@ -106,79 +275,23 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_margin="5dp"
+                    android:id="@+id/layot_date"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/txt_partnerLabel"
+                        android:id="@+id/txt_labeldate"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="Fundspot Partner :"
+                        android:layout_height="wrap_content"
+                        android:text="Date :"
                         android:textColor="@color/colorText"
                         android:textSize="14sp" />
 
 
                     <TextView
-                        android:id="@+id/txt_partnerName"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@color/color_gray"
-                        android:dividerHeight="1dp"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_margin="5dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="Product :"
-                        android:textColor="@color/colorText"
-                        android:textSize="14sp" />
-
-
-                    <!--<TextView-->
-                    <!--android:id="@+id/txt_item"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="match_parent"-->
-                    <!--android:layout_marginLeft="5dp"-->
-                    <!--android:textColor="@color/colorText"-->
-                    <!--android:textSize="14sp" />-->
-
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <ListView
-                        android:id="@+id/listproduct"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@color/color_gray"
-                        android:dividerHeight="1dp"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_margin="5dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="Goal :"
-                        android:textColor="@color/colorText"
-                        android:textSize="14sp" />
-
-
-                    <TextView
-                        android:id="@+id/txt_goal"
+                        android:id="@+id/txt_date"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="5dp"
@@ -187,179 +300,88 @@
 
                 </LinearLayout>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Members :"
+                        android:textColor="@color/colorText"
+                        android:textSize="14sp"
+                        android:visibility="gone" />
 
 
-
+                    <TextView
+                        android:id="@+id/txt_members"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:textColor="@color/colorText"
+                        android:textSize="14sp"
+                        android:visibility="gone" />
 
                 </LinearLayout>
-
-            <include layout="@layout/layout_raised_price" />
-
-            <TextView
-                android:id="@+id/txt_statistic"
-                android:layout_margin="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Statistics"
-                android:gravity="end"
-                android:textStyle="bold"
-                android:textSize="18sp"
-                android:textColor="@color/colorBackgroundRaisedPrice"/>
-
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:orientation="vertical">
 
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
                     android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/txt_msgtype"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:text="% Split :"
-                    android:textColor="@color/colorText"
-                    android:textSize="14sp" />
+                    <TextView
+                        android:id="@+id/txt_msgtype"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:textColor="@color/colorText"
+                        android:textSize="14sp" />
 
 
-                <TextView
-                    android:id="@+id/txt_split"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="5dp"
-                    android:gravity="start|center"
-                    android:textColor="@color/colorText"
-                    android:textSize="14sp" />
+                    <TextView
+                        android:id="@+id/txt_message"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:textColor="@color/colorText"
+                        android:textSize="14sp" />
 
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/layot_date"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:orientation="horizontal">
+                </LinearLayout>
 
                 <TextView
-                    android:id="@+id/txt_labeldate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Date :"
-                    android:textColor="@color/colorText"
-                    android:textSize="14sp" />
-
-
-                <TextView
-                    android:id="@+id/txt_date"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="5dp"
-                    android:textColor="@color/colorText"
-                    android:textSize="14sp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:visibility="gone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:visibility="gone"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Members :"
-                    android:textColor="@color/colorText"
-                    android:textSize="14sp" />
-
-
-                <TextView
-                    android:visibility="gone"
-                    android:id="@+id/txt_members"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:textColor="@color/colorText"
-                    android:textSize="14sp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/layot_date"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:visibility="gone"
                     android:id="@+id/txt_addMember"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Add / Remove members"
                     android:textColor="@color/colorBackgroundRaisedPrice"
                     android:textSize="18sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:visibility="gone" />
 
 
             </LinearLayout>
 
-            <LinearLayout
-                android:visibility="gone"
+
+            <TextView
+                android:id="@+id/txt_back"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/txt_msgtype"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/colorText"
-                    android:textSize="14sp" />
-
-
-                <TextView
-                    android:id="@+id/txt_message"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:textColor="@color/colorText"
-                    android:textSize="14sp" />
-
-            </LinearLayout>
+                android:layout_margin="10dp"
+                android:drawableLeft="@drawable/backarrow"
+                android:drawablePadding="5dp"
+                android:gravity="start|center"
+                android:text="Back"
+                android:textColor="@color/colorBackgroundRaisedPrice"
+                android:textSize="18sp"
+                android:visibility="gone" />
 
 
         </LinearLayout>
-
-
-        <TextView
-            android:visibility="gone"
-            android:id="@+id/txt_back"
-            android:text="Back"
-            android:drawableLeft="@drawable/backarrow"
-            android:textSize="18sp"
-            android:gravity="start|center"
-            android:drawablePadding="5dp"
-            android:layout_margin="10dp"
-            android:textColor="@color/colorBackgroundRaisedPrice"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-
-
 
     </ScrollView>
 

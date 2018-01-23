@@ -22,9 +22,11 @@
         />
 
     <LinearLayout
+
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:layout_margin="5dp"
         android:paddingTop="5dp"
         android:paddingBottom="5dp">
 
@@ -58,6 +60,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:visibility="gone"
         android:id="@+id/layout_left"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -92,7 +95,7 @@
             android:layout_height="wrap_content"
             android:padding="5dp"
             android:textSize="16sp"
-            android:text="Net money made:"
+            android:text="Net money made by Organization:"
             android:textColor="@color/colorText"/>
 
         <TextView
@@ -116,7 +119,30 @@
             android:layout_height="wrap_content"
             android:padding="5dp"
             android:textSize="16sp"
-            android:text="Coupons redeemed:"
+            android:text="Net money made by Fundspot:"
+            android:textColor="@color/colorText"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:id="@+id/txt_netMoneyfun"
+            android:textSize="16sp"
+            tools:text="$1641.60"
+            android:textColor="@color/colorText"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:textSize="16sp"
+            android:text="Coupons Redeems :"
             android:textColor="@color/colorText"/>
 
         <TextView
@@ -131,6 +157,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"

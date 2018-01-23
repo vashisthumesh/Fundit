@@ -55,10 +55,7 @@ public class PresentCampaignFragment extends Fragment {
         adminAPI = ServiceGenerator.getAPIClass();
         dialog = new CustomDialog(getActivity());
         try {
-
             member = new Gson().fromJson(preference.getMemberData() , Member.class);
-
-
         } catch (Exception e) {
             Log.e("Exception", e.toString());
         }
@@ -86,6 +83,8 @@ public class PresentCampaignFragment extends Fragment {
         else {
             campaignResponse = adminAPI.ApprovedCampaign(preference.getUserID(), preference.getTokenHash(), preference.getUserRoleID(), C.PRESENT);
         }
+
+        Log.e("parameters" , "-->" + preference.getUserID() + "-->" + preference.getTokenHash() + "-->" + preference.getUserRoleID() + "-->" + C.PRESENT);
         campaignResponse.enqueue(new Callback<CampaignListResponse>() {
             @Override
             public void onResponse(Call<CampaignListResponse> call, Response<CampaignListResponse> response) {
