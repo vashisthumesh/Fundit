@@ -89,6 +89,7 @@ class PastCampaignFragment : Fragment() {
                         campaignArrayList.addAll(campaignList.data)
                     } else {
 
+                        Log.e("VCSTesting" , "Test")
                         // FOR_NOW_ITS_NOTHING
                     }
 
