@@ -1,6 +1,7 @@
 package com.fundit.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.support.annotation.ArrayRes;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +15,12 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.fundit.AddMemberActivity;
+import com.fundit.FinalOrderPlace;
+import com.fundit.FinalOrderPlacenewActivity;
+import com.fundit.NewsDetailActivity;
+import com.fundit.NewsadapterclickActivity;
+import com.fundit.OrderPlaceActivity;
 import com.fundit.R;
 import com.fundit.a.AppPreference;
 import com.fundit.a.C;
@@ -22,6 +29,7 @@ import com.fundit.model.News_model;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -29,6 +37,7 @@ import java.util.List;
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> {
 
     AppPreference preference;
+
 
     List<News_model.NewsData> newsDataList = new ArrayList<>();
     Context context;
@@ -51,7 +60,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, final int position) {
+    public void onBindViewHolder(final MyViewHolder holder, final int position) {
 
         ArrayList<String> products = new ArrayList<>();
         preference = new AppPreference(context);
@@ -73,6 +82,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
         double initialno = 0, finalno = 0;
         double ibyf = 0.0, multiply = 0.0, toadd = 0.0;
 
+
         if (newsDataList.get(position).getNewsFeed().getType().equalsIgnoreCase("1")) {
             String main_title="<b>"+newsDataList.get(position).getNewsFeed().getTitle()+"</b>"+" "+newsDataList.get(position).getNewsFeed().getMsg();
             holder.txt_mainTitle.setText(Html.fromHtml(main_title));
@@ -80,6 +90,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
 
             holder.btnPlaceOrder.setVisibility(View.GONE);
             holder.raised_layout.setVisibility(View.GONE);
+
+
         }  if (newsDataList.get(position).getNewsFeed().getType().equalsIgnoreCase("2")) {
             String main_title="<b>"+newsDataList.get(position).getNewsFeed().getTitle()+"</b>"+" "+newsDataList.get(position).getNewsFeed().getMsg();
             holder.txt_mainTitle.setText(Html.fromHtml(main_title));
@@ -90,9 +102,59 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
 
             holder.raised_layout.setVisibility(View.VISIBLE);
 
-
             initialno = Double.parseDouble(newsDataList.get(position).getCampaignDetails().getNews_Campaign().getTotal_earning());
             finalno = Double.parseDouble(newsDataList.get(position).getCampaignDetails().getNews_Campaign().getTarget_amount());
+
+            String end_date=newsDataList.get(position).getCampaignDetails().getNews_Campaign().getEnd_date();
+            String end_date2=end_date.substring(0, 10);
+            Log.e("end_date", "---->" + end_date);
+
+            try {
+                final SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+
+                end_date1 = sdf1.parse(end_date2);
+            } catch (final ParseException e) {
+                e.printStackTrace();
+            }
+
+            Calendar c = Calendar.getInstance();
+
+            // set the calendar to start of today
+            c.set(Calendar.HOUR_OF_DAY, 0);
+            c.set(Calendar.MINUTE, 0);
+            c.set(Calendar.SECOND, 0);
+            c.set(Calendar.MILLISECOND, 0);
+            Date today = c.getTime();
+            Log.e("today_date",today.toString());
+            Log.e("end_date1", "--->" + end_date1);
+
+
+            if(preference.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER))
+            {
+
+
+                if(finalno > initialno)
+                {
+                    if(end_date1.after(today) || end_date1.equals(today))
+                    {
+                        holder.btnPlaceOrder.setVisibility(View.VISIBLE);
+                    }else {
+                        holder.btnPlaceOrder.setVisibility(View.GONE);
+                    }
+
+                }
+                else {
+                    holder.btnPlaceOrder.setVisibility(View.GONE);
+                }
+
+
+            }
+
+
+
+
+
+
             if (finalno == 0) {
 
                 toadd = initiallength;
@@ -144,50 +206,54 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
 
         }  if (newsDataList.get(position).getNewsFeed().getType().equalsIgnoreCase("4")) {
 
-            holder.btnPlaceOrder.setVisibility(View.VISIBLE);
+
             holder.raised_layout.setVisibility(View.VISIBLE);
+
 
             initialno = Double.parseDouble(newsDataList.get(position).getCampaignDetails().getNews_Campaign().getTotal_earning());
             finalno = Double.parseDouble(newsDataList.get(position).getCampaignDetails().getNews_Campaign().getTarget_amount());
 
-
             String end_date=newsDataList.get(position).getCampaignDetails().getNews_Campaign().getEnd_date();
+            String end_date2=end_date.substring(0, 10);
             Log.e("end_date", "---->" + end_date);
-            today_date = new Date();
-            SimpleDateFormat df1 = new SimpleDateFormat("yyyy-MM-dd");
-            String todaydate1 = df1.format(today_date);
 
             try {
-                final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                final SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
 
-                todaydate2 = sdf.parse(todaydate1);
+                end_date1 = sdf1.parse(end_date2);
             } catch (final ParseException e) {
                 e.printStackTrace();
             }
 
-            try {
-                final SimpleDateFormat sdf1 = new SimpleDateFormat("dd-MM-yyyy");
+            Calendar c = Calendar.getInstance();
 
-                end_date1 = sdf1.parse(end_date);
-            } catch (final ParseException e) {
-                e.printStackTrace();
-            }
+            // set the calendar to start of today
+            c.set(Calendar.HOUR_OF_DAY, 0);
+            c.set(Calendar.MINUTE, 0);
+            c.set(Calendar.SECOND, 0);
+            c.set(Calendar.MILLISECOND, 0);
+            Date today = c.getTime();
+            Log.e("today_date",today.toString());
             Log.e("end_date1", "--->" + end_date1);
-            Log.e("todaydate2", "--->" + todaydate2);
+
 
             if(preference.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER))
             {
 
 
-                if(finalno >= initialno)
+                if(finalno > initialno)
                 {
-                    if(end_date1.before(todaydate2) || end_date1.equals(todaydate2))
+                    if(end_date1.after(today) || end_date1.equals(today))
                     {
                         holder.btnPlaceOrder.setVisibility(View.VISIBLE);
                     }else {
                         holder.btnPlaceOrder.setVisibility(View.GONE);
                     }
 
+                }
+                else
+                {
+                    holder.btnPlaceOrder.setVisibility(View.GONE);
                 }
 
 
@@ -241,8 +307,22 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
             String replaceString = mainString.replace("[" , "");
             String finalString = replaceString.replace("]" , "");
 
-            String main_titlestring = "<b>" +newsDataList.get(position).getCampaignDetails().getNews_Campaign().getTitle() + "</b> "
-            + "<br/>" + "Fundspot Partner:" +"<b>"+ newsDataList.get(position).getCampaignDetails().getReceiveUser().getTitle() +"</b>"+ "<br/>"  +"Products:"+ finalString;
+            if(newsDataList.get(position).getCampaignDetails().getNews_Campaign().getRole_id().equalsIgnoreCase("2"))
+            {
+                String main_titlestring = "<b>" +newsDataList.get(position).getCampaignDetails().getNews_Campaign().getTitle() + "</b> "
+                        + "<br/>" + "Fundspot Partner:" +"<b>"+ newsDataList.get(position).getCampaignDetails().getReceiveUser().getTitle() +"</b>"+ "<br/>"  +"Products:"+ finalString;
+                holder.txt_mainTitle.setText(Html.fromHtml(main_titlestring));
+
+            }
+            else if(newsDataList.get(position).getCampaignDetails().getNews_Campaign().getRole_id().equalsIgnoreCase("3"))
+            {
+                String main_titlestring = "<b>" +newsDataList.get(position).getCampaignDetails().getNews_Campaign().getTitle() + "</b> "
+                        + "<br/>" + "Fundspot Partner:" +"<b>"+ newsDataList.get(position).getCampaignDetails().getCreateUser().getTitle() +"</b>"+ "<br/>"  +"Products:"+ finalString;
+
+                holder.txt_mainTitle.setText(Html.fromHtml(main_titlestring));
+            }
+
+
            // String main_titlestring1="Fundspot Partner:" +"<b>"+ newsDataList.get(position).getCampaignDetails().getReceiveUser().getTitle() +"</b>";
           //  String main_titlestring2="Products:"+ finalString;
 
@@ -253,27 +333,91 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
 
           //  holder.txt_mainTitle.setText(newsDataList.get(position).getCampaignDetails().getNews_Campaign().getTitle() + "\n" + "Fundspot Partner:" + newsDataList.get(position).getCampaignDetails().getReceiveUser().getTitle() + "\n" + "Products:" + finalString);
 
-            holder.txt_mainTitle.setText(Html.fromHtml(main_titlestring));
+
            // holder.txt_raised.setText(newsDataList.get(position).getCampaignDetails().getNews_Campaign().getTotal_earning());
           //  holder.txt_targetAmt.setText(newsDataList.get(position).getCampaignDetails().getNews_Campaign().getTarget_amount());
 
-            if(preference.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER))
-            {
 
-            }
-            else {
-                holder.btnPlaceOrder.setVisibility(View.GONE);
-            }
+
 
 
         }
 
-        holder.txt_mainTitle.setOnClickListener(new View.OnClickListener() {
+
+
+        holder.main_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e("position" , "--->" + position);
+                if(newsDataList.get(position).getNewsFeed().getType().equalsIgnoreCase("1"))
+                {
+                    Intent intent = new Intent(context , AddMemberActivity.class);
+                    intent.putExtra("memberId", newsDataList.get(position).getNewsFeed().getUser_id());
+                    context.startActivity(intent);
+                }
+                else if(newsDataList.get(position).getNewsFeed().getType().equalsIgnoreCase("2"))
+                {
+                    Intent intent = new Intent(context , AddMemberActivity.class);
+                    intent.putExtra("memberId", newsDataList.get(position).getNewsFeed().getUser_id());
+                    context.startActivity(intent);
+                }
+                else if (newsDataList.get(position).getNewsFeed().getType().equalsIgnoreCase("3"))
+                {
+
+                    if (preference.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER)) {
+
+                            Intent intent = new Intent(context, NewsadapterclickActivity.class);
+                            intent.putExtra("details", newsDataList.get(position));
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(intent);
+
+                    } else {
+
+                        Intent intent = new Intent(context, OrderPlaceActivity.class);
+                        intent.putExtra("Details", newsDataList.get(position));
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(intent);
+
+                    }
+
+                }
+                else if (newsDataList.get(position).getNewsFeed().getType().equalsIgnoreCase("4"))
+                {
+                    if (preference.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER)) {
+
+                            Intent intent = new Intent(context, NewsadapterclickActivity.class);
+                            intent.putExtra("details", newsDataList.get(position));
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(intent);
+
+                    } else {
+
+                        Intent intent = new Intent(context, OrderPlaceActivity.class);
+                        intent.putExtra("Details", newsDataList.get(position));
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(intent);
+
+                    }
+                }
+
             }
         });
+
+
+
+
+
+        holder.btnPlaceOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(context, FinalOrderPlacenewActivity.class);
+                intent.putExtra("details", newsDataList.get(position));
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+
+            }
+        });
+
 
 
     }

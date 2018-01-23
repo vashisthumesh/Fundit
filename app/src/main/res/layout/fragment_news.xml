@@ -11,20 +11,21 @@
         <LinearLayout
             android:layout_margin="10dp"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="wrap_content"
+            android:padding="-10dp"
             android:orientation="horizontal"
             android:background="@drawable/background_txt_border">
             <TextView
                 android:layout_marginLeft="5dp"
                 android:layout_width="wrap_content"
-                android:layout_height="30dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:text="Location:"/>
             <EditText
                 android:id="@+id/location"
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="wrap_content"
                 android:backgroundTint="@android:color/transparent"/>
         </LinearLayout>
         <Button

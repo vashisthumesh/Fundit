@@ -3,6 +3,7 @@ package com.fundit.apis;
 import android.provider.ContactsContract;
 
 import com.fundit.a.W;
+import com.fundit.model.Address;
 import com.fundit.model.AppModel;
 import com.fundit.model.AreaResponse;
 import com.fundit.model.BankCardResponse;
@@ -223,6 +224,11 @@ public interface AdminAPI {
     @FormUrlEncoded
     @POST(W.GET_ALL_NEWS)
     Call<News_model> NEWS_MODEL(@Field(W.KEY_USERID) String userId,@Field("page") String page);
+
+
+    @FormUrlEncoded
+    @POST(W.GET_ADDRESS)
+    Call<Address> GetAddress(@Field("fundspot_id") String fundspot_id);
 
 
 

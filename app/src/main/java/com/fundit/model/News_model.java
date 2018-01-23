@@ -80,6 +80,9 @@ public class News_model extends AppModel {
         String type_id="";
         String created="";
         String modified="";
+        int qty = 0;
+        String total_price="";
+        boolean isChecked = false;
 
         public String getId() {
             return id;
@@ -124,7 +127,32 @@ public class News_model extends AppModel {
         public String getModified() {
             return modified;
         }
+
+        public int getQty() {
+            return qty;
+        }
+
+        public void setQty(int qty) {
+            this.qty = qty;
+        }
+
+        public String getTotal_price() {
+            return total_price;
+        }
+
+        public void setTotal_price(String total_price) {
+            this.total_price = total_price;
+        }
+
+        public boolean isChecked() {
+            return isChecked;
+        }
+
+        public void setChecked(boolean checked) {
+            isChecked = checked;
+        }
     }
+
 
 
 

@@ -212,7 +212,9 @@
         <activity android:name=".Thankyou" />
         <activity android:name=".ProductActivity" />
         <activity android:name=".NotificationDetailActivity" />
-        <activity android:name=".Search_fundituserActivity"></activity>
+        <activity android:name=".Search_fundituserActivity" />
+        <activity android:name=".NewsadapterclickActivity" />
+        <activity android:name=".FinalOrderPlacenewActivity"></activity>
     </application>
 
 </manifest>
