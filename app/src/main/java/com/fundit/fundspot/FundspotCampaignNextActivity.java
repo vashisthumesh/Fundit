@@ -55,7 +55,7 @@ public class FundspotCampaignNextActivity extends AppCompatActivity {
 
     AdjustableListView listMembers;
     EditText edt_campaignName, edt_description, edt_startDate, edt_message , edt_amount , edt_msgFundspot;
-    TextView txt_dollar;
+    TextView txt_dollar , txt_sendmessage;
     CheckBox chk_startDateAsPossible, chk_allOrgMembers , chk_maxAmount;
     AutoCompleteTextView auto_searchMember;
     Button btn_request;
@@ -116,6 +116,7 @@ public class FundspotCampaignNextActivity extends AppCompatActivity {
         txt_title = (TextView) findViewById(R.id.txt_title);
         txt_fundraisertitle = (TextView) findViewById(R.id.txt_fundraisertitle);
         txt_targetAmt = (TextView) findViewById(R.id.txt_targetAmt);
+
         txt_members.setText("Members to redeemer");
 
         txt_title.setVisibility(View.GONE);
@@ -125,6 +126,8 @@ public class FundspotCampaignNextActivity extends AppCompatActivity {
         edt_description.setVisibility(View.GONE);
         edt_amount.setVisibility(View.GONE);
         txt_dollar.setVisibility(View.GONE);
+        txt_members.setVisibility(View.GONE);
+        edt_message.setVisibility(View.GONE);
 
 
 
@@ -145,6 +148,13 @@ public class FundspotCampaignNextActivity extends AppCompatActivity {
         listMembers.setAdapter(memberListAdapter);
 
         auto_searchMember.setThreshold(1);
+
+
+
+
+
+
+
 
         edt_startDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -225,9 +235,9 @@ public class FundspotCampaignNextActivity extends AppCompatActivity {
                 List<Member> selectedMemberList = memberListAdapter.getMemberList();
 
 
-                 if (message.isEmpty()) {
+                 /*if (message.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter message");
-                }else if(fundspotMessage.isEmpty()){
+                }else*/ if(fundspotMessage.isEmpty()){
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter message for fundspot");
                 }
 

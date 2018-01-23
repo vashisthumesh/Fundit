@@ -378,8 +378,10 @@ public class AddMembersActivity extends AppCompatActivity {
 
                     if (isMemberJoined == 0) {
                         new JoinMember(membersssIdss, selectedUsersId).execute();
-                    } else {
+                    } else if(isMemberJoined==1) {
                         new LeaveMember(preference.getUserID(), preference.getUserRoleID(), membersssIdss).execute();
+                    }else if(isMemberJoined==2){
+                        C.INSTANCE.showToast(getApplicationContext() , "You request are to join is pending!");
                     }
 
                 }
@@ -399,20 +401,25 @@ public class AddMembersActivity extends AppCompatActivity {
 
 
             String checkMemberId = "";
+            String userRoleId = "";
 
             if (preference.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)) {
                 checkMemberId = fundspot.getId();
+
             }
             if (preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION)) {
                 checkMemberId = organization.getId();
+
             }
             if (preference.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER)) {
                 checkMemberId = member.getId();
+
             }
 
 
             if (preference.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER)) {
-                CheckMemberIsjoined(checkMemberId);
+                userRoleId = getResponse.getUser().getRole_id();
+                CheckMemberIsjoined(checkMemberId , userRoleId);
             }
         }
 
@@ -424,23 +431,25 @@ public class AddMembersActivity extends AppCompatActivity {
 
     }
 
-
-    private void CheckMemberIsjoined(String checkMemberId) {
+    private void CheckMemberIsjoined(String checkMemberId , String userRoleId) {
 
         dialog.show();
-        Call<JoinMemberModel> appModelCall = adminAPI.checkJoinMember(checkMemberId, preference.getUserRoleID(), preference.getUserID());
-        Log.e("parameters" , "-->" + checkMemberId + "-->" + preference.getUserRoleID() + "--->" + preference.getUserID());
+        Call<JoinMemberModel> appModelCall = adminAPI.checkJoinMember(checkMemberId, /*preference.getUserRoleID()*/ userRoleId, /*preference.getUserID()*/  getResponse.getUser().getId());
+        Log.e("parameters" , "-->" + checkMemberId + "-->" + userRoleId + "--->" + getResponse.getUser().getId());
         appModelCall.enqueue(new Callback<JoinMemberModel>() {
             @Override
             public void onResponse(Call<JoinMemberModel> call, Response<JoinMemberModel> response) {
                 dialog.dismiss();
                 JoinMemberModel appModel = response.body();
                 if (appModel != null) {
-                    //   C.INSTANCE.showToast(getApplicationContext(), appModel.getMessage());
+                       C.INSTANCE.showToast(getApplicationContext(), appModel.getMessage());
                     if (appModel.isStatus()) {
                         if (appModel.getData() == 1) {
                             btnJoin.setText("Leave Us");
                             isMemberJoined = 1;
+                        }if(appModel.getData()==2){
+                            btnJoin.setText("Pending");
+                            isMemberJoined=2;
                         }
                     }
 

@@ -47,7 +47,7 @@ public class OrganizationListActivity extends AppCompatActivity {
     FundspotListAdapter fundspotListAdapter;
     CustomDialog dialog;
 
-    TextView text_selection;
+    TextView text_selection ;
     User user = new User();
 
     @Override
@@ -98,7 +98,11 @@ public class OrganizationListActivity extends AppCompatActivity {
         fundspotListAdapter = new FundspotListAdapter(fundSpotList,this);
         list_fundspots.setAdapter(fundspotListAdapter);
         text_selection = (TextView) findViewById(R.id.text_selection);
+
         text_selection.setText("Select Organization");
+
+
+
 
         list_fundspots.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

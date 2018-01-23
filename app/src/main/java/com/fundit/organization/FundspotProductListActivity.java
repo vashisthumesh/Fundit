@@ -42,7 +42,7 @@ import retrofit2.Response;
 public class FundspotProductListActivity extends AppCompatActivity {
 
     ListView list_products;
-    TextView txt_fundspotName;
+    TextView txt_fundspotName, txt_productTitle;
 
     String fundSpotID = null;
     String fundspotName = "";
@@ -54,7 +54,7 @@ public class FundspotProductListActivity extends AppCompatActivity {
     ProductsListAdapter productListAdapter;
 
     CheckBox chk_items, chk_giftCard;
-    boolean isProfileMode = false ;
+    boolean isProfileMode = false;
 
     CustomDialog dialog;
 
@@ -76,10 +76,10 @@ public class FundspotProductListActivity extends AppCompatActivity {
 
 
         selectedOrganizationID = intent.getStringExtra("organizationID");
-        isProfileMode = intent.getBooleanExtra("profileMode" , false);
+        isProfileMode = intent.getBooleanExtra("profileMode", false);
 
 
-        Log.e("GetName" , fundspotName);
+        Log.e("GetName", fundspotName);
         fetchIDs();
         setupToolbar();
     }
@@ -109,11 +109,17 @@ public class FundspotProductListActivity extends AppCompatActivity {
         chk_items = (CheckBox) findViewById(R.id.chk_items);
         chk_giftCard = (CheckBox) findViewById(R.id.chk_giftCard);
         txt_fundspotName.setText(fundspotName);
+        txt_productTitle = (TextView) findViewById(R.id.txt_productTitle);
 
         btn_select = (Button) findViewById(R.id.btn_select);
 
 
         listOutProducts(null);
+
+        if (preference.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)) {
+            txt_productTitle.setText("Select the products that are available for sale in this campaign.");
+        }
+
 
         chk_items.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -157,31 +163,29 @@ public class FundspotProductListActivity extends AppCompatActivity {
                         selectedProductsId.add(selectedProducts.get(i).getId());
                     }
 
-                    if(isProfileMode){
+                    if (isProfileMode) {
 
-                        Intent intent = new Intent(getApplicationContext() , CreateCampaignActivity.class);
-                        intent.putStringArrayListExtra("ProductsId" , selectedProductsId);
+                        Intent intent = new Intent(getApplicationContext(), CreateCampaignActivity.class);
+                        intent.putStringArrayListExtra("ProductsId", selectedProductsId);
                         intent.putExtra("fundspotName", fundspotName);
-                        intent.putExtra("organizationID" , selectedOrganizationID);
+                        intent.putExtra("organizationID", selectedOrganizationID);
                         intent.putExtra("fundspotID", fundSpotID);
-                        intent.putExtra("isProfileMode" , true);
-                        setResult(RESULT_OK , intent);
+                        intent.putExtra("isProfileMode", true);
+                        setResult(RESULT_OK, intent);
                         startActivity(intent);
 
 
-
-                    }else {
+                    } else {
 
                         Intent intent = new Intent();
-                        intent.putStringArrayListExtra("ProductsId" , selectedProductsId);
+                        intent.putStringArrayListExtra("ProductsId", selectedProductsId);
                         intent.putExtra("fundspotName", fundspotName);
-                        intent.putExtra("organizationID" , selectedOrganizationID);
+                        intent.putExtra("organizationID", selectedOrganizationID);
                         intent.putExtra("fundspotID", fundSpotID);
-                        setResult(RESULT_OK , intent);
+                        setResult(RESULT_OK, intent);
                         onBackPressed();
 
                     }
-
 
 
                 } else {
@@ -342,10 +346,6 @@ public class FundspotProductListActivity extends AppCompatActivity {
             });
 
 
-
-
-
-
             checkedProducts.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -368,7 +368,10 @@ public class FundspotProductListActivity extends AppCompatActivity {
             });
 
             checkedProducts.setChecked(true);
-            checkedProducts.setEnabled(false);
+
+            if (preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION)) {
+                checkedProducts.setEnabled(false);
+            }
 
             return view;
         }

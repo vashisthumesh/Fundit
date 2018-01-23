@@ -224,6 +224,8 @@ public class AddProductActivity extends AppCompatActivity {
                         addProductCall = adminAPI.addMyProduct(preference.getUserID(), preference.getTokenHash(), typeID, name, description, price, fine_print, ServiceGenerator.prepareFilePart("image", imagePath));
                     }
 
+                    Log.e("parameters" , "--->" + preference.getUserID() + "-->" + preference.getTokenHash() + "-->" + typeID + "-->" + name + "-->" + description + "=-->" + price + "--->" + fine_print + "-->" + imagePath);
+
                     addProductCall.enqueue(new Callback<AppModel>() {
                         @Override
                         public void onResponse(Call<AppModel> call, Response<AppModel> response) {

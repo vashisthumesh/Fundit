@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -28,6 +29,7 @@ import com.fundit.model.AppModel;
 import com.fundit.model.CampaignListResponse;
 import com.fundit.model.Member;
 import com.fundit.model.MemberListResponse;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -66,7 +68,7 @@ public class CreateCampaignTermsNextActivity extends AppCompatActivity {
 
     TextView txt_members , txt_targetAmt , txt_message;
     CampaignListResponse.CampaignList campaignList;
-
+    String createdName = "" ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,6 +80,8 @@ public class CreateCampaignTermsNextActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         campaignList = (CampaignListResponse.CampaignList) intent.getSerializableExtra("campaignList");
+
+        Log.e("listResponse" ,"-->" + new Gson().toJson(campaignList));
 
         fetchIDs();
         setupToolbar();
@@ -124,7 +128,7 @@ public class CreateCampaignTermsNextActivity extends AppCompatActivity {
        // chk_max_amount.setVisibility(View.GONE);
 
         if (preference.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)) {
-            String createdName = "" ;
+
             txt_members.setText("Members to redeemer");
             txt_members.setVisibility(View.GONE);
             edt_message.setVisibility(View.GONE);
@@ -147,9 +151,44 @@ public class CreateCampaignTermsNextActivity extends AppCompatActivity {
             txt_sendmessage.setText(createdName + " will confirm your response before launching this campaign. ");
         }
         if (preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION)) {
-
-
             txt_members.setText("Members to sellers");
+            txt_sendmessage.setVisibility(View.VISIBLE);
+
+            if (campaignList.getCampaign().getReview_status().equalsIgnoreCase("1")) {
+                if (campaignList.getCampaign().getAction_status().equalsIgnoreCase("0")) {
+                    createdName = campaignList.getUserOrganization().getFundspot().getTitle();
+                } else {
+                    createdName = campaignList.getUserFundspot().getFundspot().getTitle();
+                }
+            } else {
+                if (campaignList.getCampaign().getAction_status().equalsIgnoreCase("1")) {
+                    createdName = campaignList.getUserFundspot().getFundspot().getTitle();
+                } else {
+                    createdName = campaignList.getUserOrganization().getFundspot().getTitle();
+                }
+            }
+
+            txt_sendmessage.setText(createdName + " will confirm your response before launching this campaign. ");
+
+            chk_max_amount.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+
+                    if(b){
+
+                        edt_amount.setText(campaignList.getCampaign().getMax_limit_of_coupons());
+                        edt_amount.setEnabled(false);
+                    }else {
+                        edt_amount.setText(campaignList.getCampaign().getMax_limit_of_coupons());
+                        edt_amount.setEnabled(true);
+                    }
+
+
+
+
+
+                }
+            });
 
         }
 
