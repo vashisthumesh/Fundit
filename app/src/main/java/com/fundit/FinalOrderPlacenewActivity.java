@@ -362,142 +362,142 @@ public class FinalOrderPlacenewActivity extends AppCompatActivity implements Ord
         btn_placeOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int allPrice = 0;
-
-                if(tabLayout.getSelectedTabPosition()==2){
-
-                    firstName = edt_name.getText().toString().trim();
-                    lastName = "";
-                    emailId = edt_email.getText().toString().trim();
-                    isotherTimes = true;
-
-
-
-                }
-
-
-
-                int checkedPaymentType = radioGroup_paymentType.getCheckedRadioButtonId();
-
-                if (checkedPaymentType == R.id.radio_cardPayment) {
-
-                    checkedPaymentType = 2;
-                }
-
-
-
-                final List<News_model.Product> getSelectedProducts = productAdapter.getProducts();
-
-                for (int i = 0; i < getSelectedProducts.size(); i++) {
-                    String name = getSelectedProducts.get(i).getName();
-                    String price = getSelectedProducts.get(i).getPrice();
-                    String totalPrice = getSelectedProducts.get(i).getTotal_price();
-                    String quantity = String.valueOf(getSelectedProducts.get(i).getQty());
-                    String id = getSelectedProducts.get(i).getProduct_id();
-                    String type_id=getSelectedProducts.get(i).getType_id();
-
-
-                    float totalProductsPrice = Float.parseFloat(totalPrice);
-
-                    allPrice += totalProductsPrice;
-
-                    Log.e("totalPrice", "" + allPrice);
-
-
-                    try {
-                        mainObject.put("product_id", id);
-                        mainObject.put("name", name);
-                        mainObject.put("quantity", quantity);
-                        mainObject.put("selling_price", price);
-                        mainObject.put("type_id",type_id);
-                        mainObject.put("item_total", totalPrice);
-
-                        selectedProductArray.put(mainObject);
-
-
-                        Log.e("selectedProducts", "---->" + selectedProductArray);
-
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-
-                }
-
-                if (getSelectedProducts.isEmpty()) {
-                    C.INSTANCE.showToast(getApplicationContext(), "Please Select Product");
-
-                } else {
-                    if (checkedPaymentType == 1) {
-                        if(newslist.getCampaignDetails().getNews_Campaign().getRole_id().equalsIgnoreCase(C.ORGANIZATION)){
-                            organizationId = newslist.getCampaignDetails().getCreateUser().getId();
-                            fundspotId = newslist.getCampaignDetails().getReceiveUser().getId();
-                        }
-
-                        if(newslist.getCampaignDetails().getNews_Campaign().getRole_id().equalsIgnoreCase(C.FUNDSPOT)){
-                            fundspotId = newslist.getCampaignDetails().getReceiveUser().getId();
-                            organizationId = newslist.getCampaignDetails().getCreateUser().getId();
-                        }
-                        dialog.show();
-                        final Call<AppModel> addOrder = adminAPI.AddOrder(newslist.getCampaignDetails().getNews_Campaign().getId(),selectedFundsUserId,preference.getTokenHash(), "4",  firstName, lastName, emailId, member.getContact_info(), member.getLocation(), /*member.getCity().getName()*/ member.getCity_name(), member.getZip_code(), member.getState().getName(), String.valueOf(checkedPaymentType), String.valueOf(allPrice), preference.getUserID(), "0.0", "0.0", organizationId, fundspotId, selectedProductArray.toString(),"","","","","","","" , "0" , "1" , "0");
-
-
-
-                        Log.e("param",preference.getUserID());
-                        Log.e("param",preference.getUserRoleID());
-                        Log.e("param",preference.getTokenHash());
-                        Log.e("id",newslist.getCampaignDetails().getNews_Campaign().getId());
-                        Log.e("firstname",user.getFirst_name());
-                        Log.e("lastname",user.getLast_name());
-                        Log.e("email",user.getEmail_id());
-                        Log.e("contact",member.getContact_info());
-                        Log.e("member", member.getLocation());
-                        Log.e("zip",member.getZip_code());
-                        Log.e("state",member.getState().getName());
-                        Log.e("paymenttype",String.valueOf(checkedPaymentType));
-                        Log.e("price",String.valueOf(allPrice));
-                        Log.e("orgid",organizationId);
-                        Log.e("fundid",fundspotId);
-                        Log.e("array",selectedProductArray.toString());
-
-
-
-                        addOrder.enqueue(new Callback<AppModel>() {
-                            @Override
-                            public void onResponse(Call<AppModel> call, Response<AppModel> response) {
-
-                                dialog.dismiss();
-                                AppModel appModel = response.body();
-                                if (addOrder != null) {
-                                    if (appModel.isStatus()) {
-                                        C.INSTANCE.showToast(getApplicationContext(), appModel.getMessage());
-
-                                        Intent intent = new Intent(getApplicationContext(), Thankyou.class);
-                                        intent.putExtra("org",newslist.getCampaignDetails().getCreateUser().getTitle());
-                                        intent.putExtra("fundspot",newslist.getCampaignDetails().getReceiveUser().getTitle());
-                                        startActivity(intent);
-
-                                    }
-
-                                } else {
-
-                                    C.INSTANCE.defaultError(getApplicationContext());
-                                }
-
-                            }
-
-                            @Override
-                            public void onFailure(Call<AppModel> call, Throwable t) {
-
-                                C.INSTANCE.errorToast(getApplicationContext(), t);
-
-                            }
-                        });
-
-                    }
-
-                }
+//                int allPrice = 0;
+//
+//                if(tabLayout.getSelectedTabPosition()==2){
+//
+//                    firstName = edt_name.getText().toString().trim();
+//                    lastName = "";
+//                    emailId = edt_email.getText().toString().trim();
+//                    isotherTimes = true;
+//
+//
+//
+//                }
+//
+//
+//
+//                int checkedPaymentType = radioGroup_paymentType.getCheckedRadioButtonId();
+//
+//                if (checkedPaymentType == R.id.radio_cardPayment) {
+//
+//                    checkedPaymentType = 2;
+//                }
+//
+//
+//
+//                final List<News_model.Product> getSelectedProducts = productAdapter.getProducts();
+//
+//                for (int i = 0; i < getSelectedProducts.size(); i++) {
+//                    String name = getSelectedProducts.get(i).getName();
+//                    String price = getSelectedProducts.get(i).getPrice();
+//                    String totalPrice = getSelectedProducts.get(i).getTotal_price();
+//                    String quantity = String.valueOf(getSelectedProducts.get(i).getQty());
+//                    String id = getSelectedProducts.get(i).getProduct_id();
+//                    String type_id=getSelectedProducts.get(i).getType_id();
+//
+//
+//                    float totalProductsPrice = Float.parseFloat(totalPrice);
+//
+//                    allPrice += totalProductsPrice;
+//
+//                    Log.e("totalPrice", "" + allPrice);
+//
+//
+//                    try {
+//                        mainObject.put("product_id", id);
+//                        mainObject.put("name", name);
+//                        mainObject.put("quantity", quantity);
+//                        mainObject.put("selling_price", price);
+//                        mainObject.put("type_id",type_id);
+//                        mainObject.put("item_total", totalPrice);
+//
+//                        selectedProductArray.put(mainObject);
+//
+//
+//                        Log.e("selectedProducts", "---->" + selectedProductArray);
+//
+//
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
+//
+//
+//                }
+//
+//                if (getSelectedProducts.isEmpty()) {
+//                    C.INSTANCE.showToast(getApplicationContext(), "Please Select Product");
+//
+//                } else {
+//                    if (checkedPaymentType == 1) {
+//                        if(newslist.getCampaignDetails().getNews_Campaign().getRole_id().equalsIgnoreCase(C.ORGANIZATION)){
+//                            organizationId = newslist.getCampaignDetails().getCreateUser().getId();
+//                            fundspotId = newslist.getCampaignDetails().getReceiveUser().getId();
+//                        }
+//
+//                        if(newslist.getCampaignDetails().getNews_Campaign().getRole_id().equalsIgnoreCase(C.FUNDSPOT)){
+//                            fundspotId = newslist.getCampaignDetails().getReceiveUser().getId();
+//                            organizationId = newslist.getCampaignDetails().getCreateUser().getId();
+//                        }
+//                        dialog.show();
+//                        final Call<AppModel> addOrder = adminAPI.AddOrder(newslist.getCampaignDetails().getNews_Campaign().getId(),selectedFundsUserId,preference.getTokenHash(), "4",  firstName, lastName, emailId, member.getContact_info(), member.getLocation(), /*member.getCity().getName()*/ member.getCity_name(), member.getZip_code(), member.getState().getName(), String.valueOf(checkedPaymentType), String.valueOf(allPrice), preference.getUserID(), "0.0", "0.0", organizationId, fundspotId, selectedProductArray.toString(),"","","","","","","" , "0" , "1" , "0");
+//
+//
+//
+//                        Log.e("param",preference.getUserID());
+//                        Log.e("param",preference.getUserRoleID());
+//                        Log.e("param",preference.getTokenHash());
+//                        Log.e("id",newslist.getCampaignDetails().getNews_Campaign().getId());
+//                        Log.e("firstname",user.getFirst_name());
+//                        Log.e("lastname",user.getLast_name());
+//                        Log.e("email",user.getEmail_id());
+//                        Log.e("contact",member.getContact_info());
+//                        Log.e("member", member.getLocation());
+//                        Log.e("zip",member.getZip_code());
+//                        Log.e("state",member.getState().getName());
+//                        Log.e("paymenttype",String.valueOf(checkedPaymentType));
+//                        Log.e("price",String.valueOf(allPrice));
+//                        Log.e("orgid",organizationId);
+//                        Log.e("fundid",fundspotId);
+//                        Log.e("array",selectedProductArray.toString());
+//
+//
+//
+//                        addOrder.enqueue(new Callback<AppModel>() {
+//                            @Override
+//                            public void onResponse(Call<AppModel> call, Response<AppModel> response) {
+//
+//                                dialog.dismiss();
+//                                AppModel appModel = response.body();
+//                                if (addOrder != null) {
+//                                    if (appModel.isStatus()) {
+//                                        C.INSTANCE.showToast(getApplicationContext(), appModel.getMessage());
+//
+//                                        Intent intent = new Intent(getApplicationContext(), Thankyou.class);
+//                                        intent.putExtra("org",newslist.getCampaignDetails().getCreateUser().getTitle());
+//                                        intent.putExtra("fundspot",newslist.getCampaignDetails().getReceiveUser().getTitle());
+//                                        startActivity(intent);
+//
+//                                    }
+//
+//                                } else {
+//
+//                                    C.INSTANCE.defaultError(getApplicationContext());
+//                                }
+//
+//                            }
+//
+//                            @Override
+//                            public void onFailure(Call<AppModel> call, Throwable t) {
+//
+//                                C.INSTANCE.errorToast(getApplicationContext(), t);
+//
+//                            }
+//                        });
+//
+//                    }
+//
+//                }
 
 
             }

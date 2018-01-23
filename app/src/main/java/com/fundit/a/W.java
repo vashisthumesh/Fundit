@@ -78,6 +78,10 @@ public class W {
 
     public static final String GET_ADDRESS="Fundspot/app_get_fundspot_address";
 
+    public static final String GET_ALLFUNDSPOT="Fundspot/app_get_single_fundspot";
+
+    public static final String GET_ALLORGANIZATION="Organization/app_get_single_organization";
+
     public static final String GET_SELLER_CAMPAIGN = "Campaign/app_get_seller_campaign";
 
     public static final String GET_MEMBER_FOR_CAMPAIGN = "Campaign/app_get_member_for_campaign";

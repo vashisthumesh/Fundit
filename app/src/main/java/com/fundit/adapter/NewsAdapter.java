@@ -3,24 +3,19 @@ package com.fundit.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.support.annotation.ArrayRes;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.fundit.AddMemberActivity;
-import com.fundit.FinalOrderPlace;
 import com.fundit.FinalOrderPlacenewActivity;
-import com.fundit.NewsDetailActivity;
 import com.fundit.NewsadapterclickActivity;
-import com.fundit.OrderPlaceActivity;
 import com.fundit.R;
 import com.fundit.a.AppPreference;
 import com.fundit.a.C;
@@ -363,40 +358,26 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
                 else if (newsDataList.get(position).getNewsFeed().getType().equalsIgnoreCase("3"))
                 {
 
-                    if (preference.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER)) {
+
 
                             Intent intent = new Intent(context, NewsadapterclickActivity.class);
                             intent.putExtra("details", newsDataList.get(position));
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             context.startActivity(intent);
 
-                    } else {
 
-                        Intent intent = new Intent(context, OrderPlaceActivity.class);
-                        intent.putExtra("Details", newsDataList.get(position));
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        context.startActivity(intent);
-
-                    }
 
                 }
                 else if (newsDataList.get(position).getNewsFeed().getType().equalsIgnoreCase("4"))
                 {
-                    if (preference.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER)) {
+
 
                             Intent intent = new Intent(context, NewsadapterclickActivity.class);
                             intent.putExtra("details", newsDataList.get(position));
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             context.startActivity(intent);
 
-                    } else {
 
-                        Intent intent = new Intent(context, OrderPlaceActivity.class);
-                        intent.putExtra("Details", newsDataList.get(position));
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        context.startActivity(intent);
-
-                    }
                 }
 
             }

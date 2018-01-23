@@ -13,6 +13,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.fundit.a.AppPreference;
+import com.fundit.a.C;
 import com.fundit.adapter.NewsDetailAdapter;
 import com.fundit.adapter.Newsadapterclick;
 import com.fundit.apis.AdminAPI;
@@ -54,6 +55,7 @@ public class NewsadapterclickActivity extends AppCompatActivity {
         Intent intent = getIntent();
 
         newslist = (News_model.NewsData) intent.getSerializableExtra("details");
+
 
         setupToolbar();
         fetchIds();
@@ -231,9 +233,11 @@ public class NewsadapterclickActivity extends AppCompatActivity {
         Date today = c.getTime();
         Log.e("today_date",today.toString());
         Log.e("end_date1", "--->" + end_date1);
-
-        if(finalno > initialno)
+        if(preference.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER))
         {
+
+           if(finalno > initialno)
+           {
             if(end_date1.after(today) || end_date1.equals(today))
             {
                 btn_place_order.setVisibility(View.VISIBLE);
@@ -243,9 +247,14 @@ public class NewsadapterclickActivity extends AppCompatActivity {
                 btn_share.setVisibility(View.GONE);
             }
 
+           }
+           else
+             {
+            btn_place_order.setVisibility(View.GONE);
+            btn_share.setVisibility(View.GONE);
+             }
         }
-        else
-        {
+        else {
             btn_place_order.setVisibility(View.GONE);
             btn_share.setVisibility(View.GONE);
         }
@@ -308,6 +317,46 @@ public class NewsadapterclickActivity extends AppCompatActivity {
             }
         });
 
+
+//        fund_partner.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(NewsadapterclickActivity.this , AddMemberFudActivity.class);
+//                if(newslist.getCampaignDetails().getNews_Campaign().getRole_id().equalsIgnoreCase("2"))
+//                {
+//                    intent.putExtra("memberId",newslist.getCampaignDetails().getReceiveUser().getId());
+//                }
+//                else if(newslist.getCampaignDetails().getNews_Campaign().getRole_id().equalsIgnoreCase("3"))
+//                {
+//                    intent.putExtra("memberId",newslist.getCampaignDetails().getCreateUser().getId());
+//                }
+//                intent.putExtra("Flag","fund");
+//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                startActivity(intent);
+//
+//
+//            }
+//        });
+
+
+//        org_partner.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(NewsadapterclickActivity.this , AddMemberFudActivity.class);
+//                if(newslist.getCampaignDetails().getNews_Campaign().getRole_id().equalsIgnoreCase("2"))
+//                {
+//                    intent.putExtra("memberId",newslist.getCampaignDetails().getCreateUser().getId());
+//                }
+//                else if(newslist.getCampaignDetails().getNews_Campaign().getRole_id().equalsIgnoreCase("3"))
+//                {
+//                    intent.putExtra("memberId",newslist.getCampaignDetails().getReceiveUser().getId());
+//                }
+//                intent.putExtra("Flag","org");
+//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                startActivity(intent);
+//
+//            }
+//        });
 
     }
     public static int getScreenWidth() {

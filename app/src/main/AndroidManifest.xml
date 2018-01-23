@@ -214,7 +214,8 @@
         <activity android:name=".NotificationDetailActivity" />
         <activity android:name=".Search_fundituserActivity" />
         <activity android:name=".NewsadapterclickActivity" />
-        <activity android:name=".FinalOrderPlacenewActivity"></activity>
+        <activity android:name=".FinalOrderPlacenewActivity" />
+        <activity android:name=".AddMemberFudActivity"></activity>
     </application>
 
 </manifest>

@@ -5,6 +5,8 @@ import android.provider.ContactsContract;
 import com.fundit.a.W;
 import com.fundit.model.Address;
 import com.fundit.model.AppModel;
+import com.fundit.model.App_Single_Fundspot;
+import com.fundit.model.App_Single_Organization;
 import com.fundit.model.AreaResponse;
 import com.fundit.model.BankCardResponse;
 import com.fundit.model.CampaignListResponse;
@@ -229,6 +231,14 @@ public interface AdminAPI {
     @FormUrlEncoded
     @POST(W.GET_ADDRESS)
     Call<Address> GetAddress(@Field("fundspot_id") String fundspot_id);
+
+    @FormUrlEncoded
+    @POST(W.GET_ALLFUNDSPOT)
+    Call<App_Single_Fundspot> GetAllFundspot(@Field("user_id") String user_id);
+
+    @FormUrlEncoded
+    @POST(W.GET_ALLORGANIZATION)
+    Call<App_Single_Organization> GetAllOrganization(@Field("user_id") String user_id);
 
 
 
