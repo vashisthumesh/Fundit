@@ -1,7 +1,9 @@
 package com.fundit;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -73,6 +75,7 @@ public class AddMembersActivity extends AppCompatActivity {
     Member member = new Member();
 
     int isMemberJoined = 0;
+    int isDialogOpen = 0;
 
 
     @Override
@@ -378,10 +381,14 @@ public class AddMembersActivity extends AppCompatActivity {
 
                     if (isMemberJoined == 0) {
                         new JoinMember(membersssIdss, selectedUsersId).execute();
-                    } else if(isMemberJoined==1) {
+                    } else if (isMemberJoined == 1) {
                         new LeaveMember(preference.getUserID(), preference.getUserRoleID(), membersssIdss).execute();
-                    }else if(isMemberJoined==2){
-                        C.INSTANCE.showToast(getApplicationContext() , "You request are to join is pending!");
+                    } else if (isMemberJoined == 2) {
+                        if (isDialogOpen == 1) {
+                            RespondForMemberRequest("" , "" , "");
+                        } else {
+                            C.INSTANCE.showToast(getApplicationContext(), "You request are to join is pending!");
+                        }
                     }
 
                 }
@@ -418,9 +425,12 @@ public class AddMembersActivity extends AppCompatActivity {
 
 
             if (preference.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER)) {
+                Log.e("path", "check");
                 userRoleId = getResponse.getUser().getRole_id();
-                CheckMemberIsjoined(checkMemberId , userRoleId);
+                CheckMemberIsjoined(checkMemberId, userRoleId);
             }
+
+            Log.e("lastCheck", "-->");
         }
 
 
@@ -431,25 +441,72 @@ public class AddMembersActivity extends AppCompatActivity {
 
     }
 
-    private void CheckMemberIsjoined(String checkMemberId , String userRoleId) {
+    private void RespondForMemberRequest(final String userID, String message, String title) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(title.isEmpty() ? "Account verification Pending!" : title);
+        builder.setMessage(message);
+        builder.setCancelable(false);
+        builder.setPositiveButton("Accept", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+
+            }
+        });
+
+        builder.setNegativeButton("Decline", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+
+
+        AlertDialog bDialog = builder.create();
+        bDialog.show();
+
+
+    }
+
+    private void CheckMemberIsjoined(String checkMemberId, String userRoleId) {
 
         dialog.show();
         Call<JoinMemberModel> appModelCall = adminAPI.checkJoinMember(checkMemberId, /*preference.getUserRoleID()*/ userRoleId, /*preference.getUserID()*/  getResponse.getUser().getId());
-        Log.e("parameters" , "-->" + checkMemberId + "-->" + userRoleId + "--->" + getResponse.getUser().getId());
+        Log.e("parameterscheck", "-->" + checkMemberId + "-->" + userRoleId + "--->" + getResponse.getUser().getId());
         appModelCall.enqueue(new Callback<JoinMemberModel>() {
             @Override
             public void onResponse(Call<JoinMemberModel> call, Response<JoinMemberModel> response) {
                 dialog.dismiss();
                 JoinMemberModel appModel = response.body();
                 if (appModel != null) {
-                       C.INSTANCE.showToast(getApplicationContext(), appModel.getMessage());
+                    C.INSTANCE.showToast(getApplicationContext(), appModel.getMessage());
                     if (appModel.isStatus()) {
                         if (appModel.getData() == 1) {
                             btnJoin.setText("Leave Us");
                             isMemberJoined = 1;
-                        }if(appModel.getData()==2){
-                            btnJoin.setText("Pending");
-                            isMemberJoined=2;
+                        }
+                        if (appModel.getData() == 2) {
+
+                            if (preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION) || preference.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)) {
+
+                                if (appModel.getOwner_role_id() == 1) {
+
+                                    btnJoin.setText("Respond To Request");
+                                    isDialogOpen = 1;
+                                    isMemberJoined = 2;
+
+                                } else {
+                                    btnJoin.setText("Pending");
+                                    isMemberJoined = 2;
+                                }
+
+                            } else {
+                                btnJoin.setText("Pending");
+                                isMemberJoined = 2;
+                            }
+
+
                         }
                     }
 
@@ -624,9 +681,27 @@ public class AddMembersActivity extends AppCompatActivity {
                     C.INSTANCE.showToast(getApplicationContext(), message);
                     if (status) {
 
-                        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(intent);
+                        String checkMemberId = "";
+                        String userRoleId = "";
+
+                        if (preference.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)) {
+                            checkMemberId = fundspot.getId();
+
+                        }
+                        if (preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION)) {
+                            checkMemberId = organization.getId();
+
+                        }
+                        if (preference.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER)) {
+                            checkMemberId = member.getId();
+
+                        }
+
+
+                        Log.e("path", "check");
+                        userRoleId = getResponse.getUser().getRole_id();
+                        CheckMemberIsjoined(checkMemberId, userRoleId);
+
 
                     }
 
@@ -787,7 +862,6 @@ public class AddMembersActivity extends AppCompatActivity {
 
                     C.INSTANCE.showToast(getApplicationContext(), message);
                     if (status) {
-
 
 
                         Intent intent = new Intent(getApplicationContext(), HomeActivity.class);

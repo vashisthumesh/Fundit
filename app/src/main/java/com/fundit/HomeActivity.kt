@@ -256,7 +256,7 @@ class HomeActivity : AppCompatActivity() {
                 Picasso.with(this)
                         .load(W.FILE_URL + member.image)
                         .into(img_profilePic)
-                txt_userName?.text = member.title
+                txt_userName?.text = member.first_name + " " + member.last_name
             }
         }
 

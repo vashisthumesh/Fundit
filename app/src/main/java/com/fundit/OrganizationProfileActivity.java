@@ -373,6 +373,7 @@ public class OrganizationProfileActivity extends AppCompatActivity {
 
                     }
 
+                    Log.e("cityName" , "-->" + cityName);
 
                     profileResponse.enqueue(new Callback<VerifyResponse>() {
                         @Override

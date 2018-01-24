@@ -21,6 +21,7 @@ import com.fundit.helper.CustomDialog;
 import com.fundit.model.Fundspot;
 import com.fundit.model.GetDataResponses;
 import com.fundit.model.GetSearchPeople;
+import com.fundit.model.JoinMemberModel;
 import com.fundit.model.Member;
 import com.fundit.model.Organization;
 import com.google.gson.Gson;
@@ -35,6 +36,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SerchPeopleActivity extends AppCompatActivity {
 
@@ -64,6 +68,7 @@ public class SerchPeopleActivity extends AppCompatActivity {
     Fundspot fundspot = new Fundspot();
     Organization organization = new Organization();
     Member member = new Member();
+    int isMemberJoined = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +84,17 @@ public class SerchPeopleActivity extends AppCompatActivity {
         Id = intent.getStringExtra("id");
         flag=intent.getBooleanExtra("flag",false);
         getResponse = (GetSearchPeople.People) intent.getSerializableExtra("details");
+
+
+        try {
+            fundspot = new Gson().fromJson(preference.getMemberData(), Fundspot.class);
+            organization = new Gson().fromJson(preference.getMemberData(), Organization.class);
+            member = new Gson().fromJson(preference.getMemberData(), Member.class);
+            Log.e("userData", preference.getUserData());
+        } catch (Exception e) {
+            Log.e("Exception", e.getMessage());
+        }
+
 
         setupToolbar();
         fetchIds();
@@ -127,7 +143,7 @@ public class SerchPeopleActivity extends AppCompatActivity {
         btnAdd = (Button) findViewById(R.id.btnAdd);
 
         btnMessage = (Button) findViewById(R.id.btnmessage);
-        new GetAllDetails().execute();
+
 
 
         if(preference.getUserRoleID().equalsIgnoreCase("4"))
@@ -172,8 +188,23 @@ public class SerchPeopleActivity extends AppCompatActivity {
             });
 
 
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (isMemberJoined == 0) {
+                    new AddMember().execute();
+                } else if(isMemberJoined==2){
+                    C.INSTANCE.showToast(getApplicationContext() , "You request are to join is pending!");
+                }
 
 
+
+            }
+        });
+
+
+        new GetAllDetails().execute();
 
 
 
@@ -181,6 +212,44 @@ public class SerchPeopleActivity extends AppCompatActivity {
 
 
 
+    private void CheckMemberIsjoined(String checkMemberId , String userRoleId) {
+        Log.e("parameters" , "-->" + checkMemberId + "-->" + userRoleId + "--->" + getResponse.getUser_id());
+        dialog.show();
+        Call<JoinMemberModel> appModelCall = adminAPI.checkJoinMember(checkMemberId, /*preference.getUserRoleID()*/ userRoleId, /*preference.getUserID()*/  getResponse.getUser_id());
+        appModelCall.enqueue(new Callback<JoinMemberModel>() {
+            @Override
+            public void onResponse(Call<JoinMemberModel> call, Response<JoinMemberModel> response) {
+                dialog.dismiss();
+                JoinMemberModel appModel = response.body();
+                if (appModel != null) {
+                    C.INSTANCE.showToast(getApplicationContext(), appModel.getMessage());
+                    if (appModel.isStatus()) {
+                        if (appModel.getData() == 1) {
+                            btnAdd.setText("Leave Us");
+                            isMemberJoined = 1;
+                        }if(appModel.getData()==2){
+                            btnAdd.setText("Pending");
+                            isMemberJoined=2;
+                        }if(appModel.getData()==3){
+                            btnAdd.setVisibility(View.GONE);
+                        }
+                    }
+
+
+                } else {
+                    C.INSTANCE.defaultError(getApplicationContext());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JoinMemberModel> call, Throwable t) {
+                dialog.dismiss();
+                C.INSTANCE.errorToast(getApplicationContext(), t);
+            }
+        });
+
+
+    }
 
     public class GetAllDetails extends AsyncTask<Void, Void, String> {
 
@@ -261,7 +330,7 @@ public class SerchPeopleActivity extends AppCompatActivity {
                         txt_emailID.setText(userObject.getString("email_id"));
 
 
-                        txt_address.setText(memberObject.getString("location")+"\n"+cityObject.getString("name") + stateObject.getString("state_code") + " , " + memberObject.getString("zip_code"));
+                        txt_address.setText(memberObject.getString("location")+"\n"+memberObject.getString("city_name")+ " , " + stateObject.getString("state_code") + " , " + memberObject.getString("zip_code"));
                         txt_organizations.setText(memberObject.getString("organization_names"));
 
 
@@ -293,6 +362,27 @@ public class SerchPeopleActivity extends AppCompatActivity {
                                 .load(getURL)
                                 .into(circleImageView);
 
+                        String checkMemberId = "";
+
+
+                        if (preference.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)) {
+                            checkMemberId = fundspot.getId();
+
+                        }
+                        if (preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION)) {
+                            checkMemberId = organization.getId();
+
+                        }
+                        if (preference.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER)) {
+                            checkMemberId = member.getId();
+
+                        }
+
+
+                        CheckMemberIsjoined(checkMemberId , "4");
+
+
+
 
                     }
                 } catch (JSONException e) {
@@ -306,7 +396,87 @@ public class SerchPeopleActivity extends AppCompatActivity {
         }
     }
 
+    public class AddMember extends AsyncTask<Void, Void, String> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            try {
+                dialog.setCancelable(false);
+                dialog.show();
 
+
+            } catch (Exception e) {
+
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+
+            List<NameValuePair> pairs = new ArrayList<>();
+
+            pairs.add(new BasicNameValuePair(W.KEY_USERID, preference.getUserID()));
+            pairs.add(new BasicNameValuePair(W.KEY_TOKEN, preference.getTokenHash()));
+            pairs.add(new BasicNameValuePair("member_id", Id));
+
+            if (preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION)) {
+
+
+                pairs.add(new BasicNameValuePair("organization_id", preference.getUserID()));
+            }
+
+            if (preference.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)) {
+
+                pairs.add(new BasicNameValuePair("fundspot_id", preference.getUserID()));
+
+            }
+
+            String json = new ServiceHandler().makeServiceCall(W.BASE_URL + "Member/app_add_member", ServiceHandler.POST, pairs);
+
+            Log.e("parameters", "-->" + pairs);
+            Log.e("json", json);
+            return json;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            dialog.dismiss();
+
+
+            if (s.isEmpty()) {
+
+                C.INSTANCE.defaultError(getApplicationContext());
+            } else {
+
+                try {
+                    JSONObject mainObject = new JSONObject(s);
+
+                    boolean status = false;
+                    String message = "";
+
+
+                    status = mainObject.getBoolean("status");
+                    message = mainObject.getString("message");
+
+                    C.INSTANCE.showToast(getApplicationContext(), message);
+                    if (status) {
+
+                        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+    }
 
 
 

@@ -2,6 +2,8 @@ package com.fundit.fragmet;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -201,10 +203,10 @@ public class MyBrowseCampaign extends Fragment {
                     C.INSTANCE.showToast(getActivity() , "Please enter name");
                 /*else if(getSearchTermed.length() <3)
                     C.INSTANCE.showToast(getActivity() , "Please enter mininum 3 keuwords");*/
-                else if(getCityName.isEmpty())
+                /*else if(getCityName.isEmpty())
                     C.INSTANCE.showToast(getActivity() , "Please enter city");
                 else if(getZipCode.isEmpty())
-                    C.INSTANCE.showToast(getActivity() , "Please enter zipcode");
+                    C.INSTANCE.showToast(getActivity() , "Please enter zipcode");*/
                 else if(getSelectedId==0)
                     C.INSTANCE.showToast(getActivity() , "Please select organization or fundspot");
                 else {
@@ -241,6 +243,74 @@ public class MyBrowseCampaign extends Fragment {
                 }
             }
         });
+
+        auto_searchUser.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String getSearchTermed = auto_searchUser.getText().toString();
+                String getCityName = txt_city.getText().toString().trim();
+                String getZipCode = txt_zip.getText().toString().trim();
+
+                int getSelectedId = 0;
+
+                if(rg_type.getCheckedRadioButtonId()==R.id.rb_fundspot)
+                    getSelectedId = R.id.rb_fundspot;
+                if(rg_type.getCheckedRadioButtonId()==R.id.rb_organization)
+                    getSelectedId = R.id.rb_organization;
+                if(rg_type.getCheckedRadioButtonId() == R.id.rb_people)
+                    getSelectedId=R.id.rb_people;
+
+                if(getSelectedId== R.id.rb_fundspot) {
+                    fundspotSelected = true;
+                    searchFundspot(getSearchTermed,getCityName,getZipCode);
+                    Log.e("id:",preferences.getUserID());
+                    Log.e("hash:",preferences.getTokenHash());
+                    Log.e("search",getSearchTermed);
+                    Log.e("city",getCityName);
+                    Log.e("Zip:",getZipCode);
+
+                }
+                else if(getSelectedId == R.id.rb_organization)
+                {
+                    fundspotSelected = false;
+                    searchOrganization(getSearchTermed,getCityName,getZipCode);
+                    Log.e("id:",preferences.getUserID());
+                    Log.e("rollid",preferences.getUserRoleID());
+                    Log.e("hash:",preferences.getTokenHash());
+                    Log.e("search",getSearchTermed);
+                    Log.e("city",getCityName);
+                    Log.e("Zip:",getZipCode);
+                }
+                else if(getSelectedId == R.id.rb_people)
+                {
+                    list.setVisibility(View.VISIBLE);
+                    fundspotSelected = false;
+                    SEARCH_PEOPLE(getSearchTermed);
+                    Log.e("id:",preferences.getUserID());
+                    Log.e("rollid",preferences.getUserRoleID());
+
+                }
+
+
+
+
+
+            }
+        });
+
+
+
+
     }
 
     private void getAllFundspot() {
