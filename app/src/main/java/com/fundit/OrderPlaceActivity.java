@@ -61,7 +61,7 @@ public class OrderPlaceActivity extends AppCompatActivity {
 
     private void setUpToolbar() {
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarCenterText);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         TextView actionTitle = (TextView) findViewById(R.id.actionTitle);
 
         setSupportActionBar(toolbar);

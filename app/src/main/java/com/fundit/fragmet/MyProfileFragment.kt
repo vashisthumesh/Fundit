@@ -112,6 +112,7 @@ class MyProfileFragment : Fragment() {
                 val memberData = Gson().fromJson(preference?.memberData, Organization::class.java)
                 layout_category?.visibility=View.GONE
                 layout_fundraiser?.visibility=View.GONE
+                layout_type?.visibility=View.GONE
 
 
 

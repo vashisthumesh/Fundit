@@ -7,8 +7,10 @@
     android:orientation="vertical"
     tools:context="com.fundit.OrderPlaceActivity">
 
-    <include layout="@layout/toolbar_center_text_inside" />
-
+    <!--<include layout="@layout/toolbar_center_text_inside" />-->
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar_center_text" />
 
     <ScrollView
         android:layout_width="match_parent"

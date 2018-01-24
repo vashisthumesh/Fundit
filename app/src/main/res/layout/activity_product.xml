@@ -6,7 +6,9 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.fundit.ProductActivity">
-    <include layout="@layout/toolbar_center_text_inside" />
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar_center_text" />
     <LinearLayout
         android:id="@+id/layout_click"
         android:layout_width="match_parent"

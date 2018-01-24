@@ -318,45 +318,45 @@ public class NewsadapterclickActivity extends AppCompatActivity {
         });
 
 
-//        fund_partner.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(NewsadapterclickActivity.this , AddMemberFudActivity.class);
-//                if(newslist.getCampaignDetails().getNews_Campaign().getRole_id().equalsIgnoreCase("2"))
-//                {
-//                    intent.putExtra("memberId",newslist.getCampaignDetails().getReceiveUser().getId());
-//                }
-//                else if(newslist.getCampaignDetails().getNews_Campaign().getRole_id().equalsIgnoreCase("3"))
-//                {
-//                    intent.putExtra("memberId",newslist.getCampaignDetails().getCreateUser().getId());
-//                }
-//                intent.putExtra("Flag","fund");
-//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                startActivity(intent);
-//
-//
-//            }
-//        });
+        fund_partner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(NewsadapterclickActivity.this , AddMemberFudActivity.class);
+                if(newslist.getCampaignDetails().getNews_Campaign().getRole_id().equalsIgnoreCase("2"))
+                {
+                    intent.putExtra("memberId",newslist.getCampaignDetails().getReceiveUser().getId());
+                }
+                else if(newslist.getCampaignDetails().getNews_Campaign().getRole_id().equalsIgnoreCase("3"))
+                {
+                    intent.putExtra("memberId",newslist.getCampaignDetails().getCreateUser().getId());
+                }
+                intent.putExtra("Flag","fund");
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
 
 
-//        org_partner.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(NewsadapterclickActivity.this , AddMemberFudActivity.class);
-//                if(newslist.getCampaignDetails().getNews_Campaign().getRole_id().equalsIgnoreCase("2"))
-//                {
-//                    intent.putExtra("memberId",newslist.getCampaignDetails().getCreateUser().getId());
-//                }
-//                else if(newslist.getCampaignDetails().getNews_Campaign().getRole_id().equalsIgnoreCase("3"))
-//                {
-//                    intent.putExtra("memberId",newslist.getCampaignDetails().getReceiveUser().getId());
-//                }
-//                intent.putExtra("Flag","org");
-//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                startActivity(intent);
-//
-//            }
-//        });
+            }
+        });
+
+
+        org_partner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(NewsadapterclickActivity.this , AddMemberFudActivity.class);
+                if(newslist.getCampaignDetails().getNews_Campaign().getRole_id().equalsIgnoreCase("2"))
+                {
+                    intent.putExtra("memberId",newslist.getCampaignDetails().getCreateUser().getId());
+                }
+                else if(newslist.getCampaignDetails().getNews_Campaign().getRole_id().equalsIgnoreCase("3"))
+                {
+                    intent.putExtra("memberId",newslist.getCampaignDetails().getReceiveUser().getId());
+                }
+                intent.putExtra("Flag","org");
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+
+            }
+        });
 
     }
     public static int getScreenWidth() {

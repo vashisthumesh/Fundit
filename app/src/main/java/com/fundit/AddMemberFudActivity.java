@@ -1,6 +1,7 @@
 package com.fundit;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -15,12 +16,27 @@ import com.fundit.a.C;
 import com.fundit.a.W;
 import com.fundit.apis.AdminAPI;
 import com.fundit.apis.ServiceGenerator;
+import com.fundit.apis.ServiceHandler;
 import com.fundit.helper.CustomDialog;
 import com.fundit.model.Address;
 import com.fundit.model.App_Single_Fundspot;
 import com.fundit.model.App_Single_Organization;
+import com.fundit.model.Fundspot;
+import com.fundit.model.JoinMemberModel;
+import com.fundit.model.Member;
 import com.fundit.model.News_model;
+import com.fundit.model.Organization;
+import com.fundit.organization.FundspotProductListActivity;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
@@ -29,11 +45,12 @@ import retrofit2.Response;
 
 
 public class AddMemberFudActivity extends AppCompatActivity {
-
+    App_Single_Fundspot app_fund_list;
+    App_Single_Organization app_single_org_list;
     AppPreference preference;
     CustomDialog dialog;
     AdminAPI adminAPI;
-
+    Member member = new Member();
     CircleImageView circleImageView;
 
     TextView txt_name, txt_address, txt_emailID, txt_organizations, txt_fundspots, txt_currentCampaigns, txt_pastCampaigns, txt_contct, txt_con_info_email, txt_con_info_mobile, txt_fundtitle, txt_fundraiser_split;
@@ -50,8 +67,9 @@ public class AddMemberFudActivity extends AppCompatActivity {
     String city_name="";
     String state_code="";
     String Zipcode="";
-
-
+    String checkMemberId = "";
+    String userRoleId = "";
+    String userID="";
 
 
     int isMemberJoined = 0;
@@ -71,6 +89,13 @@ public class AddMemberFudActivity extends AppCompatActivity {
         memberId = intent.getStringExtra("memberId");
         Flag=intent.getStringExtra("Flag");
 
+        try {
+
+            member = new Gson().fromJson(preference.getMemberData(), Member.class);
+            Log.e("userData", preference.getUserData());
+        } catch (Exception e) {
+            Log.e("Exception", e.getMessage());
+        }
 
 
 
@@ -175,6 +200,80 @@ public class AddMemberFudActivity extends AppCompatActivity {
 
 
 
+        btnJoin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String selectedUsersId = "";
+                String membersssIdss = "";
+                Log.e("checking", "-->");
+                if (preference.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER)) {
+                    membersssIdss = member.getId();
+                }
+
+                if (isMemberJoined == 0) {
+                    new  JoinMember(membersssIdss, memberId).execute();
+                } else if(isMemberJoined==1) {
+                    new  LeaveMember(preference.getUserID(), preference.getUserRoleID(), membersssIdss).execute();
+                }else if(isMemberJoined==2){
+                    C.INSTANCE.showToast(getApplicationContext() , "You request are to join is pending!");
+                }
+            }
+        });
+
+
+
+        btnMessage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                if(Flag.equalsIgnoreCase("fund"))
+                {
+                    Intent intent = new Intent(getApplicationContext(), FinalSendMessage.class);
+                    intent.putExtra("name", app_fund_list.getData().getUser().getTitle());
+                    intent.putExtra("id", app_fund_list.getData().getUser().getId());
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                }
+                else if(Flag.equalsIgnoreCase("org"))
+                {
+                    Intent intent = new Intent(getApplicationContext(), FinalSendMessage.class);
+                    intent.putExtra("name", app_single_org_list.getData().getUser().getTitle());
+                    intent.putExtra("id", app_single_org_list.getData().getUser().getId());
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                }
+
+
+            }
+        });
+
+
+
+
+        btnrequest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), FundspotProductListActivity.class);
+                    /*intent.putExtra("fundspotName", fundSpotList.get(i).getFundspot().getTitle());
+                    intent.putExtra("fundspotID", fundSpotList.get(i).getFundspot().getUser_id());
+*/
+                if (preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION)) {
+                    intent.putExtra("fundspotName", app_fund_list.getData().getFundspot().getTitle());
+                    intent.putExtra("fundspotID", app_fund_list.getData().getFundspot().getUser_id());
+                    intent.putExtra("profileMode", true);
+                    startActivity(intent);
+                } else {
+                    intent.putExtra("fundspotName", app_single_org_list.getData().getOrganization().getTitle());
+                    intent.putExtra("fundspotID", app_single_org_list.getData().getOrganization().getUser_id());
+                    intent.putExtra("profileMode", true);
+                    startActivity(intent);
+                }
+
+
+            }
+        });
+
 
 
     }
@@ -194,7 +293,7 @@ public class AddMemberFudActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<App_Single_Fundspot> call, Response<App_Single_Fundspot> response) {
                 dialog.dismiss();
-                App_Single_Fundspot app_fund_list=response.body();
+                 app_fund_list=response.body();
                 if(app_fund_list != null)
                 {
                     if(app_fund_list.isStatus())
@@ -225,10 +324,16 @@ public class AddMemberFudActivity extends AppCompatActivity {
                         else if(preference.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER))
                         {
                             layout_buttons.setVisibility(View.VISIBLE);
-                            btnrequest.setVisibility(View.VISIBLE);
+                            btnrequest.setVisibility(View.GONE);
                             btnFollow.setVisibility(View.VISIBLE);
-                            btnJoin.setVisibility(View.GONE);
+                            btnJoin.setVisibility(View.VISIBLE);
                             btnMessage.setVisibility(View.VISIBLE);
+
+                            checkMemberId = member.getId();
+
+                            userRoleId = app_fund_list.getData().getUser().getRole_id();
+                            userID=app_fund_list.getData().getUser().getId();
+                            CheckMemberIsjoined(checkMemberId , userRoleId,userID);
                         }
 
 
@@ -335,7 +440,7 @@ public class AddMemberFudActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<App_Single_Organization> call, Response<App_Single_Organization> response) {
                 dialog.dismiss();
-                App_Single_Organization app_single_org_list=response.body();
+                 app_single_org_list=response.body();
                 if(app_single_org_list != null)
                 {
                     if(app_single_org_list.isStatus())
@@ -369,10 +474,16 @@ public class AddMemberFudActivity extends AppCompatActivity {
                         else if(preference.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER))
                         {
                             layout_buttons.setVisibility(View.VISIBLE);
-                            btnrequest.setVisibility(View.VISIBLE);
+                            btnrequest.setVisibility(View.GONE);
                             btnFollow.setVisibility(View.VISIBLE);
-                            btnJoin.setVisibility(View.GONE);
+                            btnJoin.setVisibility(View.VISIBLE);
                             btnMessage.setVisibility(View.VISIBLE);
+
+                            checkMemberId = member.getId();
+
+                            userRoleId = app_single_org_list.getData().getUser().getRole_id();
+                            userID=app_single_org_list.getData().getUser().getId();
+                            CheckMemberIsjoined(checkMemberId , userRoleId,userID);
                         }
 
 
@@ -463,7 +574,203 @@ public class AddMemberFudActivity extends AppCompatActivity {
         });
     }
 
+    private void CheckMemberIsjoined(String checkMemberId , String userRoleId,String userID) {
+
+        dialog.show();
+        Call<JoinMemberModel> appModelCall = adminAPI.checkJoinMember(checkMemberId, /*preference.getUserRoleID()*/ userRoleId, /*preference.getUserID()*/  userID);
+        Log.e("parameters" , "-->" + checkMemberId + "-->" + userRoleId + "--->" + userID);
+        appModelCall.enqueue(new Callback<JoinMemberModel>() {
+            @Override
+            public void onResponse(Call<JoinMemberModel> call, Response<JoinMemberModel> response) {
+                dialog.dismiss();
+                JoinMemberModel appModel = response.body();
+                if (appModel != null) {
+                    C.INSTANCE.showToast(getApplicationContext(), appModel.getMessage());
+                    if (appModel.isStatus()) {
+                        if (appModel.getData() == 1) {
+                            btnJoin.setText("Leave Us");
+                            isMemberJoined = 1;
+                        }if(appModel.getData()==2){
+                            btnJoin.setText("Pending");
+                            isMemberJoined=2;
+                        }
+                    }
 
 
+                } else {
+                    C.INSTANCE.defaultError(getApplicationContext());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JoinMemberModel> call, Throwable t) {
+                dialog.dismiss();
+                C.INSTANCE.errorToast(getApplicationContext(), t);
+            }
+        });
+
+
+    }
+
+
+    public class JoinMember extends AsyncTask<Void, Void, String> {
+
+        String member = "";
+        String selectedUserIdss = "";
+
+
+        public JoinMember(String member, String selectedUserIdss) {
+            this.member = member;
+            this.selectedUserIdss = selectedUserIdss;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            try {
+                dialog.setCancelable(false);
+                dialog.show();
+
+
+            } catch (Exception e) {
+
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+
+            List<NameValuePair> pairs = new ArrayList<>();
+
+            pairs.add(new BasicNameValuePair(W.KEY_USERID, preference.getUserID()));
+            pairs.add(new BasicNameValuePair("member_id", member));
+            pairs.add(new BasicNameValuePair(W.KEY_ROLEID, preference.getUserRoleID()));
+            pairs.add(new BasicNameValuePair(W.KEY_TOKEN, preference.getTokenHash()));
+
+
+            if(Flag.equalsIgnoreCase("fund"))
+            {
+                pairs.add(new BasicNameValuePair("fundspot_id", selectedUserIdss));
+            }
+            else if(Flag.equalsIgnoreCase("org"))
+            {
+                pairs.add(new BasicNameValuePair("organization_id", selectedUserIdss));
+            }
+
+
+            String json = new ServiceHandler().makeServiceCall(W.BASE_URL + "Member/app_request_join_member", ServiceHandler.POST, pairs);
+
+            Log.e("parameters", "-->" + pairs);
+            Log.e("json", json);
+            return json;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            dialog.dismiss();
+
+
+            if (s.isEmpty()) {
+
+                C.INSTANCE.defaultError(getApplicationContext());
+            } else {
+
+                try {
+                    JSONObject mainObject = new JSONObject(s);
+
+                    boolean status = false;
+                    String message = "";
+
+
+                    status = mainObject.getBoolean("status");
+                    message = mainObject.getString("message");
+
+                    C.INSTANCE.showToast(getApplicationContext(), message);
+                    if (status) {
+
+
+
+                        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+    }
+
+    public class LeaveMember extends AsyncTask<Void, Void, String> {
+
+        String userId = "";
+        String roleId = "";
+        String memberId = "";
+
+        public LeaveMember(String userId, String roleId, String memberId) {
+            this.userId = userId;
+            this.roleId = roleId;
+            this.memberId = memberId;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            try {
+                dialog.setCancelable(false);
+                dialog.show();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        protected String doInBackground(Void... voids) {
+
+            List<NameValuePair> valuePairs = new ArrayList<>();
+
+            valuePairs.add(new BasicNameValuePair("user_id", userId));
+            valuePairs.add(new BasicNameValuePair("role_id", roleId));
+            valuePairs.add(new BasicNameValuePair("member_id", memberId));
+
+            String json = new ServiceHandler().makeServiceCall(W.BASE_URL + W.LEAVE_MEMBER, ServiceHandler.POST, valuePairs);
+
+            Log.e("parameters", "-->" + valuePairs.toString());
+            Log.e("response", "--->" + json);
+
+
+            return json;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            dialog.dismiss();
+            try {
+                if (s.isEmpty()) {
+                    C.INSTANCE.defaultError(getApplicationContext());
+                } else {
+                    JSONObject mainObject = new JSONObject(s);
+                    boolean status = false;
+                    String message = "";
+                    status = mainObject.getBoolean("status");
+                    message = mainObject.getString("message");
+                    C.INSTANCE.showToast(getApplicationContext(), message);
+                    if (status) {
+                        btnJoin.setText("Join Us");
+                        isMemberJoined = 0;
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
 }

@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.fundit.AddMemberActivity;
+import com.fundit.AddMemberFudActivity;
 import com.fundit.FinalOrderPlacenewActivity;
 import com.fundit.NewsadapterclickActivity;
 import com.fundit.R;
@@ -345,13 +346,15 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
             public void onClick(View v) {
                 if(newsDataList.get(position).getNewsFeed().getType().equalsIgnoreCase("1"))
                 {
-                    Intent intent = new Intent(context , AddMemberActivity.class);
+                    Intent intent = new Intent(context , AddMemberFudActivity.class);
+                    intent.putExtra("Flag","fund");
                     intent.putExtra("memberId", newsDataList.get(position).getNewsFeed().getUser_id());
                     context.startActivity(intent);
                 }
                 else if(newsDataList.get(position).getNewsFeed().getType().equalsIgnoreCase("2"))
                 {
-                    Intent intent = new Intent(context , AddMemberActivity.class);
+                    Intent intent = new Intent(context , AddMemberFudActivity.class);
+                    intent.putExtra("Flag","org");
                     intent.putExtra("memberId", newsDataList.get(position).getNewsFeed().getUser_id());
                     context.startActivity(intent);
                 }
