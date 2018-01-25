@@ -315,7 +315,7 @@ public class FundspotProductListActivity extends AppCompatActivity {
 
             txt_productName.setText(productList.get(position).getName());
             txt_productDescription.setText(productList.get(position).getDescription());
-            txt_price.setText("$" + productList.get(position).getPrice());
+            txt_price.setText("$" + String.format("%.2f",Double.parseDouble(productList.get(position).getPrice())));
 
             if (productList.get(position).getType_id().equals(C.TYPE_PRODUCT)) {
                 txt_type.setText("Product Item");
@@ -347,7 +347,7 @@ public class FundspotProductListActivity extends AppCompatActivity {
 
 
             checkedProducts.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
+
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
                     if (isChecked) {

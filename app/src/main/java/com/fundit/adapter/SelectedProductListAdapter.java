@@ -80,7 +80,7 @@ public class SelectedProductListAdapter extends BaseAdapter {
 
 
         txt_productName.setText(productsFundspotBeen.get(position).getName());
-        txt_price.setText(productsFundspotBeen.get(position).getPrice());
+        txt_price.setText("$"+String.format("%.2f",Double.parseDouble(productsFundspotBeen.get(position).getPrice())));
         txt_productDescription.setText(productsFundspotBeen.get(position).getProductDescription());
 
 

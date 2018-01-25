@@ -8,7 +8,7 @@
     android:gravity="center"
     android:id="@+id/toolbarCenterText"
     app:contentInsetStart="0dp"
-    android:background="@color/colorBackground">
+    android:background="@color/toolbar_back">
 
     <LinearLayout
         android:orientation="horizontal"

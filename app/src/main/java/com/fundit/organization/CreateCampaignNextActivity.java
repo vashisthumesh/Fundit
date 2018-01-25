@@ -221,10 +221,10 @@ public class CreateCampaignNextActivity extends AppCompatActivity {
                 String maxAmount1 = edt_amount.getText().toString().trim();
 
 
-                int amount = 0;
+                Double amount = 0.0;
                 if(!maxAmount1.isEmpty())
                 {
-                    amount = Integer.parseInt(maxAmount1.trim());
+                    amount = Double.parseDouble(maxAmount1.trim());
 
                     Log.e("amount" , "-->" + amount);
                 }

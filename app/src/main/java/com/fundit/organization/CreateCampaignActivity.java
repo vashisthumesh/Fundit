@@ -248,7 +248,7 @@ public class CreateCampaignActivity extends AppCompatActivity {
 
                 float orgSplit = Float.parseFloat(organizationSplit.isEmpty() ? "0" : organizationSplit);
                 int campDurationNum = Integer.parseInt(campaignDuration.isEmpty() ? "0" : campaignDuration);
-                int maxLimitCouponNum = Integer.parseInt(maxLimitCoupon.trim().isEmpty() ? "0" : maxLimitCoupon.trim());
+                Double maxLimitCouponNum = Double.parseDouble(maxLimitCoupon.trim().isEmpty() ? "0" : maxLimitCoupon.trim());
                 int couponExpiryNum = Integer.parseInt(couponExpiry.isEmpty() ? "0" : couponExpiry);
 
                 if (selectedFundSpotName == null) {
@@ -502,7 +502,7 @@ public class CreateCampaignActivity extends AppCompatActivity {
                         edt_organizationSplit.setText(fundspotObject.getString("organization_percent"));
                         edt_couponExpireDay.setText(fundspotObject.getString("coupon_expire_day"));
                         edt_campaignDuration.setText(fundspotObject.getString("campaign_duration"));
-                        edt_maxLimitCoupon.setText("$" + fundspotObject.getString("max_limit_of_coupon_price"));
+                        edt_maxLimitCoupon.setText("$" + String.format("%.2f",Double.parseDouble(fundspotObject.getString("max_limit_of_coupon_price"))));
                         if (edt_campaignDuration.getText().toString().trim().equalsIgnoreCase("0")) {
                             chk_indefinite.setChecked(true);
                         }

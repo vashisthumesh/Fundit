@@ -82,7 +82,7 @@
 
             <LinearLayout
                 android:id="@+id/layout_review"
-                android:visibility="gone"
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -95,8 +95,8 @@
                     android:layout_margin="5dp"
                     android:layout_weight="1"
                     android:background="@color/colorPrimary"
-                    android:padding="5dp"
-                    android:text="Accept"
+                    android:padding="3dp"
+                    android:text="Launch Campaign"
                     android:textAllCaps="false" />
 
 
@@ -109,7 +109,7 @@
                     android:layout_weight="1"
                     android:background="@color/colorPrimary"
                     android:padding="5dp"
-                    android:text="Decline"
+                    android:text="Cancel"
                     android:textAllCaps="false" />
 
 
