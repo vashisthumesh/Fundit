@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.fundit.CampaignSetting;
 import com.fundit.ChangePasswordActivity;
+import com.fundit.NotificationSettingsActivity;
 import com.fundit.R;
 import com.fundit.SendFeedbackActivity;
 import com.fundit.a.AppPreference;
@@ -96,6 +97,14 @@ public class GeneralSettingFragment extends Fragment {
             }
         });
 
+        txtNotification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), NotificationSettingsActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            }
+        });
 
 
     }

@@ -12,9 +12,11 @@
             android:id="@+id/txt_setting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20dp"
+            android:textSize="14dp"
             android:padding="10dp"
             android:layout_weight="1"
+            android:gravity="start|center"
+            android:textColor="@color/black"
             android:text="abc"/>
 
         <Switch
@@ -22,6 +24,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="10dp"
+            android:gravity="center"
+            android:layout_gravity="center"
             android:thumb="@drawable/customswitchselector"
             android:track="@drawable/custom_track"
             android:textOn="ON"

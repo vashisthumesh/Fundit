@@ -50,27 +50,21 @@ public class NotificationSettingsAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
 
-        /*View rootView = inflater.inflate(R.layout.news_detail, viewGroup, false);*/
-/*
-*/
+        View rootView = inflater.inflate(R.layout.settinglayout, viewGroup, false);
 
-        /*TextView textNotificationName = (TextView) rootView.findViewById();*/
-        /*Switch switchOnOff = (Switch) rootView.findViewById();*/
-/*
-*/
+        TextView textNotificationName = (TextView) rootView.findViewById(R.id.txt_setting);
+        Switch switchOnOff = (Switch) rootView.findViewById(R.id.switch_setting);
 
-        /**/
-        /*textNotificationName.setText(notificationData.get(i).getName());*/
-        /**/
-        /*if(notificationData.get(i).getStatus().equalsIgnoreCase("1")){*/
-        /*    switchOnOff.setChecked(true);*/
-        /*}else {*/
-        /*    switchOnOff.setChecked(false);*/
-        /*}*/
-/*
-*/
 
-        /*return rootView;*/
-        return null ;
+        textNotificationName.setText(notificationData.get(i).getName());
+
+        if(notificationData.get(i).getStatus().equalsIgnoreCase("1")){
+            switchOnOff.setChecked(true);
+        }else {
+            switchOnOff.setChecked(false);
+        }
+
+        return rootView;
+
     }
 }

@@ -56,6 +56,7 @@ public class NotificationSettingsActivity extends AppCompatActivity {
 
         listSettings = (ListView) findViewById(R.id.list_settings);
         settingsAdapter = new NotificationSettingsAdapter(notificationData, getApplicationContext());
+        listSettings.setAdapter(settingsAdapter);
 
         GetAllSettingsList();
     }
