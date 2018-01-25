@@ -510,6 +510,8 @@ class HomeActivity : AppCompatActivity() {
 
             val json = ServiceHandler().makeServiceCall(W.BASE_URL + W.GetNotificationCount, ServiceHandler.POST, parameters)
 
+
+
             return json
         }
 

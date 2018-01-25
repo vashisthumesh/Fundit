@@ -217,6 +217,8 @@ public class SerchPeopleActivity extends AppCompatActivity {
 
                 if (isMemberJoined == 0) {
                     new AddMember().execute();
+                }else if(isMemberJoined==1){
+                    new RespondMemberRequest("2" , checkMemberId).execute();
                 } else if(isMemberJoined==2){
 
                     if (isDialogOpen == 1) {

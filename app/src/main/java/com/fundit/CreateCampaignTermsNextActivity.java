@@ -47,9 +47,9 @@ import retrofit2.Response;
 
 public class CreateCampaignTermsNextActivity extends AppCompatActivity {
 
-    EditText edt_campaignName, edt_description, edt_startDate, edt_message , edt_amount , edt_msg_fundspot;
-    CheckBox chk_startDateAsPossible, chk_allOrgMembers , chk_max_amount;
-    TextView txt_couponSellerLabel , txt_sendmessage;
+    EditText edt_campaignName, edt_description, edt_startDate, edt_message, edt_amount, edt_msg_fundspot;
+    CheckBox chk_startDateAsPossible, chk_allOrgMembers, chk_max_amount;
+    TextView txt_couponSellerLabel, txt_sendmessage;
     AutoCompleteTextView auto_searchMember;
     ListView listMembers;
     Button btn_request;
@@ -67,10 +67,10 @@ public class CreateCampaignTermsNextActivity extends AppCompatActivity {
     CustomDialog dialog;
 
 
-
-    TextView txt_members , txt_targetAmt , txt_message;
+    TextView txt_members, txt_targetAmt, txt_message;
     CampaignListResponse.CampaignList campaignList;
-    String createdName = "" ;
+    String createdName = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,7 +83,7 @@ public class CreateCampaignTermsNextActivity extends AppCompatActivity {
         Intent intent = getIntent();
         campaignList = (CampaignListResponse.CampaignList) intent.getSerializableExtra("campaignList");
 
-        Log.e("listResponse" ,"-->" + new Gson().toJson(campaignList));
+        Log.e("listResponse", "-->" + new Gson().toJson(campaignList));
 
         fetchIDs();
         setupToolbar();
@@ -113,21 +113,21 @@ public class CreateCampaignTermsNextActivity extends AppCompatActivity {
         edt_startDate = (EditText) findViewById(R.id.edt_startDate);
         edt_message = (EditText) findViewById(R.id.edt_message);
         edt_amount = (EditText) findViewById(R.id.edt_amount);
-        txt_dollar= (TextView) findViewById(R.id.txt_dollar);
+        txt_dollar = (TextView) findViewById(R.id.txt_dollar);
         edt_msg_fundspot = (EditText) findViewById(R.id.edt_msg_fundspot);
-      //  edt_amount.setVisibility(View.GONE);
-      //  txt_dollar.setVisibility(View.GONE);
+        //  edt_amount.setVisibility(View.GONE);
+        //  txt_dollar.setVisibility(View.GONE);
         edt_msg_fundspot.setVisibility(View.GONE);
 
         txt_members = (TextView) findViewById(R.id.txt_members);
         txt_targetAmt = (TextView) findViewById(R.id.txt_targetAmt);
         txt_message = (TextView) findViewById(R.id.txt_message);
         txt_sendmessage = (TextView) findViewById(R.id.txt_sendmessage);
-       // txt_targetAmt.setVisibility(View.GONE);
+        // txt_targetAmt.setVisibility(View.GONE);
         txt_message.setVisibility(View.GONE);
 
         chk_max_amount = (CheckBox) findViewById(R.id.chk_max_amount);
-       // chk_max_amount.setVisibility(View.GONE);
+        // chk_max_amount.setVisibility(View.GONE);
 
         if (preference.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)) {
 
@@ -151,6 +151,12 @@ public class CreateCampaignTermsNextActivity extends AppCompatActivity {
                 }
             }
             txt_sendmessage.setText(createdName + " will confirm your response before launching this campaign. ");
+
+            edt_amount.setEnabled(false);
+            edt_campaignName.setEnabled(false);
+            edt_description.setEnabled(false);
+
+
         }
         if (preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION)) {
             txt_members.setText("Members to sellers");
@@ -173,7 +179,6 @@ public class CreateCampaignTermsNextActivity extends AppCompatActivity {
             txt_sendmessage.setText(createdName + " will confirm your response before launching this campaign. ");
 
 
-
             edt_amount.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -189,14 +194,13 @@ public class CreateCampaignTermsNextActivity extends AppCompatActivity {
                 public void afterTextChanged(Editable editable) {
                     String amount = edt_amount.getText().toString().trim();
 
-                    String maxLimitCoupon_final=campaignList.getCampaign().getMax_limit_of_coupons().replace("$","");
-                    Log.e("amount",amount);
-                    if(!amount.trim().isEmpty()) {
+                    String maxLimitCoupon_final = campaignList.getCampaign().getMax_limit_of_coupons().replace("$", "");
+                    Log.e("amount", amount);
+                    if (!amount.trim().isEmpty()) {
                         if (Double.parseDouble(amount.trim()) > Double.parseDouble(maxLimitCoupon_final.trim())) {
                             edt_amount.setText(maxLimitCoupon_final);
                         }
-                        if(Double.parseDouble(amount.trim()) == 0)
-                        {
+                        if (Double.parseDouble(amount.trim()) == 0) {
                             edt_amount.setText("1");
                         }
                     }
@@ -208,17 +212,14 @@ public class CreateCampaignTermsNextActivity extends AppCompatActivity {
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
 
-                    if(b){
+                    if (b) {
 
                         edt_amount.setText(campaignList.getCampaign().getMax_limit_of_coupons());
                         edt_amount.setEnabled(false);
-                    }else {
+                    } else {
                         edt_amount.setText(campaignList.getCampaign().getMax_limit_of_coupons());
                         edt_amount.setEnabled(true);
                     }
-
-
-
 
 
                 }
@@ -227,7 +228,7 @@ public class CreateCampaignTermsNextActivity extends AppCompatActivity {
         }
 
         //edt_campaignName.setEnabled(false);
-       // edt_description.setEnabled(false);
+        // edt_description.setEnabled(false);
 
         txt_couponSellerLabel = (TextView) findViewById(R.id.txt_couponSellerLabel);
         txt_couponSellerLabel.setText("Coupon redeemers");
@@ -337,21 +338,24 @@ public class CreateCampaignTermsNextActivity extends AppCompatActivity {
                 String campaignTitle = edt_campaignName.getText().toString().trim();
                 String description = edt_description.getText().toString().trim();
                 String maxAmount1 = edt_amount.getText().toString().trim();
+                String coupon_expire_day = "";
+                String receiver_id = "";
+                String fundspot_percent = "";
+                String organization_percent = "";
+                String campaign_duration = "";
+                String max_limit_of_coupons = "";
 
                 int amount = 0;
-                if(!maxAmount1.isEmpty())
-                {
+                if (!maxAmount1.isEmpty()) {
                     amount = Integer.parseInt(maxAmount1.trim());
 
-                    Log.e("amount" , "-->" + amount);
+                    Log.e("amount", "-->" + amount);
                 }
                 if (campaignTitle.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter campaign title");
                 } else if (description.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter description");
-                }
-
-                else if (message.isEmpty()) {
+                } else if (edt_message.getVisibility() == View.VISIBLE && message.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter message");
                 }
 
@@ -363,11 +367,11 @@ public class CreateCampaignTermsNextActivity extends AppCompatActivity {
 //                    C.INSTANCE.showToast(getApplicationContext(), "Please select fundspot member ");
 //
 //                }
- //              else
+                //              else
 //                   if (message.isEmpty()) {
 //                   C.INSTANCE.showToast(getApplicationContext(), "Please enter message to sellers");
 //             }
-               else {
+                else {
                     JSONArray campaignDetailArray = new JSONArray();
                     JSONObject detailObject = new JSONObject();
                     JSONArray memberIDArray = new JSONArray();
@@ -376,34 +380,29 @@ public class CreateCampaignTermsNextActivity extends AppCompatActivity {
 
                         detailObject.put("start_date", "");
                         detailObject.put("all_member", "1");
-
-//                        if (chk_allOrgMembers.isChecked()) {
-//                            detailObject.put("all_member", "1");
-//                        } else {
-//                            detailObject.put("all_member", "0");
-//                        }
                         detailObject.put("msg_seller", message);
+                        detailObject.put("coupon_expire_day", campaignList.getCampaign().getCoupon_expire_day());
+                        detailObject.put("receiver_id", preference.getUserID());
+                        detailObject.put("description", description);
+                        detailObject.put("title", campaignTitle);
+                        detailObject.put("user_id", campaignList.getUserOrganization().getId());
+                        detailObject.put("fundspot_percent", campaignList.getCampaign().getFundspot_percent());
+                        detailObject.put("organization_percent", campaignList.getCampaign().getOrganization_percent());
+                        detailObject.put("campaign_duration", campaignList.getCampaign().getCampaign_duration());
+                        detailObject.put("max_limit_of_coupons", campaignList.getCampaign().getMax_limit_of_coupons());
+
 
                         campaignDetailArray.put(detailObject);
 
 
-//                        if (!chk_allOrgMembers.isChecked()) {
-//                            for (int i = 0; i < checkedmemberList.size(); i++) {
-//                                JSONObject object = new JSONObject();
-//                                object.put("member_id", checkedmemberList.get(i).getUser_id());
-//                                memberIDArray.put(object);
-//                            }
-//                        }
-
-                    }
-                    catch (JSONException e) {
+                    } catch (JSONException e) {
                         e.printStackTrace();
                     }
                     dialog.show();
                     Call<AppModel> addCampCall = adminAPI.appEditcampaign(preference.getUserID(), preference.getTokenHash(), campaignList.getCampaign().getId(), campaignDetailArray.toString(), memberIDArray.toString());
 
 
-                    Log.e("parameters", "-->" + preference.getUserID() + "-->" + preference.getTokenHash() + "--->" + campaignList.getCampaign().getId() + "-->" + campaignDetailArray.toString() + "--->" + memberIDArray.toString());
+                    Log.e("parametersReviewCamp", "-->" + preference.getUserID() + "-->" + preference.getTokenHash() + "--->" + campaignList.getCampaign().getId() + "-->" + campaignDetailArray.toString() + "--->" + memberIDArray.toString());
 
                     addCampCall.enqueue(new Callback<AppModel>() {
                         @Override
@@ -429,7 +428,7 @@ public class CreateCampaignTermsNextActivity extends AppCompatActivity {
                             C.INSTANCE.errorToast(getApplicationContext(), t);
                         }
                     });
-            }
+                }
 
             }
         });
