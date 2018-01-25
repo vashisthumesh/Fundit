@@ -347,4 +347,8 @@ public interface AdminAPI {
     Call<NotificationSettingsModel> GetAllSettings (@Field(W.KEY_USERID) String userId , @Field(W.KEY_ROLEID) String roleId);
 
 
+    @FormUrlEncoded
+    @POST(W.UPDATESETTINGS)
+    Call<AppModel> UpdateSettings (@Field("id") String id , @Field("status") String status);
+
 }
