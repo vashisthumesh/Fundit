@@ -23,6 +23,7 @@ import com.fundit.model.JoinMemberModel;
 import com.fundit.model.MemberListResponse;
 import com.fundit.model.MemberResponse;
 import com.fundit.model.News_model;
+import com.fundit.model.NotificationSettingsModel;
 import com.fundit.model.OrderHistoryResponse;
 import com.fundit.model.OrganizationResponse;
 import com.fundit.model.ProductListResponse;
@@ -340,6 +341,10 @@ public interface AdminAPI {
     @POST(W.COUPON_REQUEST)
     Call<AppModel> AcceptCoupon(@Field("order_id") String orderId , @Field(W.KEY_USERID) String userId , @Field("request_status") String status , @Field("bcard_id") String cardId , @Field("card_number") String cardNumber , @Field("card_type") String cardType , @Field("cvv") String cvv , @Field("month") String month , @Field("year") String year , @Field("save_card") String saveCard);
 
+
+    @FormUrlEncoded
+    @POST(W.GETALLSETTINGSLIST)
+    Call<NotificationSettingsModel> GetAllSettings (@Field(W.KEY_USERID) String userId , @Field(W.KEY_ROLEID) String roleId);
 
 
 }
