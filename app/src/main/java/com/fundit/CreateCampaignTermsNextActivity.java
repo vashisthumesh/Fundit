@@ -346,10 +346,8 @@ public class CreateCampaignTermsNextActivity extends AppCompatActivity {
                 String max_limit_of_coupons = "";
 
                 int amount = 0;
-                if (!maxAmount1.isEmpty()) {
-                    amount = Integer.parseInt(maxAmount1.trim());
-
-                    Log.e("amount", "-->" + amount);
+                if (maxAmount1.isEmpty() && edt_amount.getVisibility() == View.VISIBLE) {
+                  C.INSTANCE.showToast(getApplicationContext(),"Please enter amount");
                 }
                 if (campaignTitle.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter campaign title");
@@ -358,6 +356,7 @@ public class CreateCampaignTermsNextActivity extends AppCompatActivity {
                 } else if (edt_message.getVisibility() == View.VISIBLE && message.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter message");
                 }
+
 
                 /*if(dateSelected==null){
                     C.INSTANCE.showToast(getApplicationContext(), "Please select start date ");

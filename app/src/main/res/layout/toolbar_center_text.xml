@@ -17,7 +17,7 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:layout_weight="1"
-        android:paddingRight="32dp"
+        android:paddingLeft="-80dp"
         android:text="Fundit"/>
 
 
