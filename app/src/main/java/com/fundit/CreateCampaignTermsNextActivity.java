@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -170,6 +172,38 @@ public class CreateCampaignTermsNextActivity extends AppCompatActivity {
 
             txt_sendmessage.setText(createdName + " will confirm your response before launching this campaign. ");
 
+
+
+            edt_amount.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    String amount = edt_amount.getText().toString().trim();
+
+                    String maxLimitCoupon_final=campaignList.getCampaign().getMax_limit_of_coupons().replace("$","");
+                    Log.e("amount",amount);
+                    if(!amount.trim().isEmpty()) {
+                        if (Double.parseDouble(amount.trim()) > Double.parseDouble(maxLimitCoupon_final.trim())) {
+                            edt_amount.setText(maxLimitCoupon_final);
+                        }
+                        if(Double.parseDouble(amount.trim()) == 0)
+                        {
+                            edt_amount.setText("1");
+                        }
+                    }
+
+                }
+            });
+
             chk_max_amount.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -300,6 +334,27 @@ public class CreateCampaignTermsNextActivity extends AppCompatActivity {
                 List<Member> checkedmemberList = memberListAdapter.getMemberList();
                 String message = edt_message.getText().toString().trim();
 
+                String campaignTitle = edt_campaignName.getText().toString().trim();
+                String description = edt_description.getText().toString().trim();
+                String maxAmount1 = edt_amount.getText().toString().trim();
+
+                int amount = 0;
+                if(!maxAmount1.isEmpty())
+                {
+                    amount = Integer.parseInt(maxAmount1.trim());
+
+                    Log.e("amount" , "-->" + amount);
+                }
+                if (campaignTitle.isEmpty()) {
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter campaign title");
+                } else if (description.isEmpty()) {
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter description");
+                }
+
+                else if (message.isEmpty()) {
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter message");
+                }
+
                 /*if(dateSelected==null){
                     C.INSTANCE.showToast(getApplicationContext(), "Please select start date ");
 
@@ -308,11 +363,11 @@ public class CreateCampaignTermsNextActivity extends AppCompatActivity {
 //                    C.INSTANCE.showToast(getApplicationContext(), "Please select fundspot member ");
 //
 //                }
-//                else if (message.isEmpty()) {
-//                    C.INSTANCE.showToast(getApplicationContext(), "Please enter message to sellers");
-//
-//                }
-              //  else {
+ //              else
+//                   if (message.isEmpty()) {
+//                   C.INSTANCE.showToast(getApplicationContext(), "Please enter message to sellers");
+//             }
+               else {
                     JSONArray campaignDetailArray = new JSONArray();
                     JSONObject detailObject = new JSONObject();
                     JSONArray memberIDArray = new JSONArray();
@@ -374,7 +429,7 @@ public class CreateCampaignTermsNextActivity extends AppCompatActivity {
                             C.INSTANCE.errorToast(getApplicationContext(), t);
                         }
                     });
-            //}
+            }
 
             }
         });

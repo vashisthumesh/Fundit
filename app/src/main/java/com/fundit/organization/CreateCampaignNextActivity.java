@@ -156,8 +156,11 @@ public class CreateCampaignNextActivity extends AppCompatActivity {
                     if (Double.parseDouble(amount.trim()) > Double.parseDouble(maxLimitCoupon_final.trim())) {
                         edt_amount.setText(maxLimitCoupon_final);
                     }
+                    if(Double.parseDouble(amount.trim()) == 0)
+                    {
+                        edt_amount.setText("1");
+                    }
                 }
-
 
             }
         });
