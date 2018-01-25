@@ -70,8 +70,10 @@ public class NotificationSettingsAdapter extends BaseAdapter {
 
         if (notificationData.get(i).getStatus().equalsIgnoreCase("1")) {
             switchOnOff.setChecked(true);
+            switchOnOff.setTrackDrawable(context.getResources().getDrawable(R.drawable.custom_track));
         } else {
             switchOnOff.setChecked(false);
+            switchOnOff.setTrackDrawable(context.getResources().getDrawable(R.drawable.white_track));
         }
 
         switchOnOff.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -84,10 +86,12 @@ public class NotificationSettingsAdapter extends BaseAdapter {
 
                 if (b == true) {
                     status = "1";
+                    switchOnOff.setTrackDrawable(context.getResources().getDrawable(R.drawable.custom_track));
                     ChangeNotificationSettings(id, status, i);
 
                 } else {
                     status = "0";
+                    switchOnOff.setTrackDrawable(context.getResources().getDrawable(R.drawable.white_track));
                     ChangeNotificationSettings(id, status, i);
 
                 }

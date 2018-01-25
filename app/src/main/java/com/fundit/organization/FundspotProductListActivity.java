@@ -27,6 +27,7 @@ import com.fundit.adapter.ProductListAdapter;
 import com.fundit.apis.AdminAPI;
 import com.fundit.apis.ServiceGenerator;
 import com.fundit.apis.StringConverterFactory;
+import com.fundit.fundspot.FundspotCampaignActivity;
 import com.fundit.helper.CustomDialog;
 import com.fundit.model.ProductListResponse;
 import com.squareup.picasso.Picasso;
@@ -165,7 +166,15 @@ public class FundspotProductListActivity extends AppCompatActivity {
 
                     if (isProfileMode) {
 
-                        Intent intent = new Intent(getApplicationContext(), CreateCampaignActivity.class);
+                        Intent intent ;
+
+                        if(preference.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)){
+                            intent = new Intent(getApplicationContext(), FundspotCampaignActivity.class);
+                        }else {
+                            intent = new Intent(getApplicationContext(), CreateCampaignActivity.class);
+                        }
+
+
                         intent.putStringArrayListExtra("ProductsId", selectedProductsId);
                         intent.putExtra("fundspotName", fundspotName);
                         intent.putExtra("organizationID", selectedOrganizationID);

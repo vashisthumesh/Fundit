@@ -34,6 +34,7 @@ import com.fundit.model.FundspotListResponse;
 import com.fundit.model.ProductListResponse;
 import com.fundit.model.VerifyResponse;
 
+import com.fundit.organization.CreateCampaignActivity;
 import com.fundit.organization.CreateCampaignNextActivity;
 import com.fundit.organization.FundspotListActivity;
 import com.fundit.organization.FundspotProductListActivity;
@@ -93,11 +94,16 @@ public class FundspotCampaignActivity extends AppCompatActivity {
     String selectedOrganizationID = "";
 
     Fundspot fundspot = new Fundspot();
+    boolean isProfileMode = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_campaign_fundspot);
+
+        Intent intent = getIntent();
+        isProfileMode = intent.getBooleanExtra("isProfileMode", false);
+
 
         adminAPI = ServiceGenerator.getAPIClass();
         preference = new AppPreference(this);
@@ -298,6 +304,46 @@ public class FundspotCampaignActivity extends AppCompatActivity {
                 }
             }
         });
+
+        if(isProfileMode){
+            Intent data = getIntent();
+
+
+            productListAdapter = new SelectedProductListAdapter(fundspotBeen, getApplicationContext());
+            listSelectedProducts.setAdapter(productListAdapter);
+
+            selectedProducts = data.getStringArrayListExtra("ProductsId");
+            selectedFundSpotName = data.getStringExtra("fundspotName");
+            selectedOrganizationID = data.getStringExtra("organizationID");
+
+
+
+            selectedFundSpotID = data.getStringExtra("fundspotID");
+
+            for (int i = 0; i < selectedProducts.size(); i++) {
+
+                try {
+                    JSONObject mainObject = new JSONObject();
+
+                    mainObject.put("id", selectedProducts.get(i));
+
+                    jsonArrayProductId.put(mainObject);
+
+                    Log.e("check", "ckeck12345");
+
+                } catch (Exception e) {
+
+                    e.printStackTrace();
+                }
+
+
+            }
+            Log.e("selectedProducts", "-->" + selectedProducts);
+            new GetAllDatas().execute();
+//             auto_searchFundspot.setText("");
+
+
+    }
 
     }
 
