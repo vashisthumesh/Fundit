@@ -77,6 +77,7 @@ public class AddMembersActivity extends AppCompatActivity {
     int isMemberJoined = 0;
     int isDialogOpen = 0;
 
+    String json = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -385,7 +386,7 @@ public class AddMembersActivity extends AppCompatActivity {
                         new LeaveMember(preference.getUserID(), preference.getUserRoleID(), membersssIdss).execute();
                     } else if (isMemberJoined == 2) {
                         if (isDialogOpen == 1) {
-                            RespondForMemberRequest("" , "" , "");
+                            RespondForMemberRequest("" , "Respond to Request" , "");
                         } else {
                             C.INSTANCE.showToast(getApplicationContext(), "You request are to join is pending!");
                         }
@@ -444,13 +445,34 @@ public class AddMembersActivity extends AppCompatActivity {
     private void RespondForMemberRequest(final String userID, String message, String title) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(title.isEmpty() ? "Account verification Pending!" : title);
+        builder.setTitle(title.isEmpty() ? "Member Request Pending" : title);
         builder.setMessage(message);
         builder.setCancelable(false);
+        String checkMemberId = "";
+        String userRoleId = "";
+
+        if (preference.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)) {
+            checkMemberId = fundspot.getId();
+
+        }
+        if (preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION)) {
+            checkMemberId = organization.getId();
+
+        }
+        if (preference.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER)) {
+            checkMemberId = member.getId();
+
+        }
+        userRoleId = getResponse.getUser().getRole_id();
+        final String finalUserRoleId = userRoleId;
+        final String finalCheckMemberId = checkMemberId;
         builder.setPositiveButton("Accept", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
+
+                new RespondMemberRequest(getResponse.getUser().getId() , finalUserRoleId, "1" , finalCheckMemberId).execute();
+
 
             }
         });
@@ -459,6 +481,7 @@ public class AddMembersActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
+                new RespondMemberRequest(getResponse.getUser().getId() , finalUserRoleId, "2" , finalCheckMemberId).execute();
             }
         });
 
@@ -942,6 +965,90 @@ public class AddMembersActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    public class RespondMemberRequest extends AsyncTask<Void , Void , String>{
+
+        String getStatus = "";
+        String getMemberId = "";
+        String roleId = "";
+        String userId = "";
+
+        public RespondMemberRequest(String userId , String roleId , String getStatus , String getMemberId) {
+            this.userId = userId;
+            this.roleId = roleId ;
+            this.getStatus = getStatus;
+            this.getMemberId = getMemberId;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            try{
+
+                dialog = new CustomDialog(AddMembersActivity.this);
+                dialog.show();
+                dialog.setCancelable(false);
+
+
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+
+
+            List<NameValuePair> pairs = new ArrayList<>();
+            pairs.add(new BasicNameValuePair("user_id" , userId));
+            pairs.add(new BasicNameValuePair("role_id" , roleId));
+            pairs.add(new BasicNameValuePair("member_id" , getMemberId));
+            pairs.add(new BasicNameValuePair("status" , getStatus));
+
+            json = new ServiceHandler().makeServiceCall(W.BASE_URL + "Member/app_respond_other_request" , ServiceHandler.POST , pairs);
+
+            Log.e("parameters" , "" + pairs);
+
+
+            return json;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            dialog.dismiss();
+
+            try{
+
+                if(s.equalsIgnoreCase("") || s.isEmpty()){
+
+                    C.INSTANCE.noInternet(getApplicationContext());
+                }else {
+
+                    JSONObject mainObject = new JSONObject(s);
+
+                    boolean status = false;
+                    String message = "";
+
+                    status = mainObject.getBoolean("status");
+                    message = mainObject.getString("message");
+
+                    C.INSTANCE.showToast(getApplicationContext() , message);
+                    if(status==true){
+                        Intent intent = new Intent(getApplicationContext() , HomeActivity.class);
+                        startActivity(intent);
+                    }
+                }
+
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
         }
     }
 }

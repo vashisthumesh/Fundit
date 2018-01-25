@@ -1,8 +1,10 @@
 package com.fundit;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -69,6 +71,8 @@ public class SerchPeopleActivity extends AppCompatActivity {
     Organization organization = new Organization();
     Member member = new Member();
     int isMemberJoined = 0;
+    int isDialogOpen = 0;
+    String json = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -192,10 +196,36 @@ public class SerchPeopleActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+
+                String checkMemberId = "";
+
+
+                if (preference.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)) {
+                    checkMemberId = getResponse.getId();
+
+                }
+                if (preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION)) {
+                    checkMemberId = getResponse.getId();
+
+                }
+                if (preference.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER)) {
+                    checkMemberId = getResponse.getId();
+
+                }
+
+
+
                 if (isMemberJoined == 0) {
                     new AddMember().execute();
                 } else if(isMemberJoined==2){
-                    C.INSTANCE.showToast(getApplicationContext() , "You request are to join is pending!");
+
+                    if (isDialogOpen == 1) {
+                        RespondForMemberRequest("" , "Respond to Request" , "");
+                    } else {
+                        C.INSTANCE.showToast(getApplicationContext(), "You request are to join is pending!");
+                    }
+
+
                 }
 
 
@@ -210,12 +240,61 @@ public class SerchPeopleActivity extends AppCompatActivity {
 
         }
 
+    private void RespondForMemberRequest(final String userID, String message, String title) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(title.isEmpty() ? "Member Request Pending" : title);
+        builder.setMessage(message);
+        builder.setCancelable(false);
+
+        String checkMemberId = "";
+
+
+        if (preference.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)) {
+            checkMemberId = getResponse.getId();
+
+        }
+        if (preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION)) {
+            checkMemberId = getResponse.getId();
+
+        }
+        if (preference.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER)) {
+            checkMemberId = getResponse.getId();
+
+        }
+
+
+        final String finalCheckMemberId = checkMemberId;
+        builder.setPositiveButton("Accept", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+
+                new RespondMemberRequest("1" , finalCheckMemberId).execute();
+            }
+        });
+
+        builder.setNegativeButton("Decline", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+                new RespondMemberRequest("2" , finalCheckMemberId).execute();
+            }
+        });
+
+
+        AlertDialog bDialog = builder.create();
+        bDialog.show();
+
+
+    }
+
 
 
     private void CheckMemberIsjoined(String checkMemberId , String userRoleId) {
-        Log.e("parameters" , "-->" + checkMemberId + "-->" + userRoleId + "--->" + getResponse.getUser_id());
+        Log.e("parameters" , "-->" + checkMemberId + "-->" + userRoleId + "--->" + preference.getUserID());
         dialog.show();
-        Call<JoinMemberModel> appModelCall = adminAPI.checkJoinMember(checkMemberId, /*preference.getUserRoleID()*/ userRoleId, /*preference.getUserID()*/  getResponse.getUser_id());
+        Call<JoinMemberModel> appModelCall = adminAPI.checkJoinMember(checkMemberId, /*preference.getUserRoleID()*/ userRoleId, /*preference.getUserID()*/  preference.getUserID());
         appModelCall.enqueue(new Callback<JoinMemberModel>() {
             @Override
             public void onResponse(Call<JoinMemberModel> call, Response<JoinMemberModel> response) {
@@ -228,8 +307,22 @@ public class SerchPeopleActivity extends AppCompatActivity {
                             btnAdd.setText("Leave Us");
                             isMemberJoined = 1;
                         }if(appModel.getData()==2){
-                            btnAdd.setText("Pending");
-                            isMemberJoined=2;
+
+                            if (appModel.getOwner_role_id() == 1) {
+
+                                btnAdd.setText("Respond To Request");
+                                isDialogOpen = 1;
+                                isMemberJoined = 2;
+
+                            } else {
+                                btnAdd.setText("Pending");
+                                isMemberJoined = 2;
+                            }
+
+
+
+                           /* btnAdd.setText("Pending");
+                            isMemberJoined=2;*/
                         }if(appModel.getData()==3){
                             btnAdd.setVisibility(View.GONE);
                         }
@@ -366,20 +459,20 @@ public class SerchPeopleActivity extends AppCompatActivity {
 
 
                         if (preference.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)) {
-                            checkMemberId = fundspot.getId();
+                            checkMemberId = getResponse.getId();
 
                         }
                         if (preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION)) {
-                            checkMemberId = organization.getId();
+                            checkMemberId = getResponse.getId();
 
                         }
                         if (preference.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER)) {
-                            checkMemberId = member.getId();
+                            checkMemberId = getResponse.getId();
 
                         }
 
 
-                        CheckMemberIsjoined(checkMemberId , "4");
+                        CheckMemberIsjoined(checkMemberId , preference.getUserRoleID());
 
 
 
@@ -474,6 +567,86 @@ public class SerchPeopleActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
+
+        }
+    }
+
+    public class RespondMemberRequest extends AsyncTask<Void , Void , String>{
+
+        String getStatus = "";
+        String getMemberId = "";
+
+        public RespondMemberRequest(String getStatus , String getMemberId) {
+            this.getStatus = getStatus;
+            this.getMemberId = getMemberId;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            try{
+
+                dialog = new CustomDialog(SerchPeopleActivity.this);
+                dialog.show();
+                dialog.setCancelable(false);
+
+
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+
+
+            List<NameValuePair> pairs = new ArrayList<>();
+            pairs.add(new BasicNameValuePair("user_id" , preference.getUserID()));
+            pairs.add(new BasicNameValuePair("tokenhash" , preference.getTokenHash()));
+            pairs.add(new BasicNameValuePair("member_id" , getMemberId));
+            pairs.add(new BasicNameValuePair("status" , getStatus));
+
+            json = new ServiceHandler().makeServiceCall(W.BASE_URL + "Member/app_respond_member_request" , ServiceHandler.POST , pairs);
+
+            Log.e("parameters" , "" + pairs);
+
+
+            return json;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            dialog.dismiss();
+
+            try{
+
+                if(s.equalsIgnoreCase("") || s.isEmpty()){
+
+                    C.INSTANCE.noInternet(getApplicationContext());
+                }else {
+
+                    JSONObject mainObject = new JSONObject(s);
+
+                    boolean status = false;
+                    String message = "";
+
+                    status = mainObject.getBoolean("status");
+                    message = mainObject.getString("message");
+
+                    C.INSTANCE.showToast(getApplicationContext() , message);
+                    if(status==true){
+                        Intent intent = new Intent(getApplicationContext() , HomeActivity.class);
+                        startActivity(intent);
+                    }
+                }
+
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
 
         }
     }
