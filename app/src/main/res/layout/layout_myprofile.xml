@@ -8,7 +8,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginBottom="20dp">
 
 
         <de.hdodenhof.circleimageview.CircleImageView
@@ -35,7 +36,7 @@
                 android:gravity="center"
                 android:padding="5dp"
                 android:textColor="@color/colorText"
-                android:textSize="19sp"
+                android:textSize="18sp"
                 android:textStyle="bold"
                 tools:text="Aliya Nayeem" />
 
@@ -46,7 +47,7 @@
                 android:gravity="center"
                 android:padding="5dp"
                 android:textColor="@color/colorText"
-                android:textSize="19sp"
+                android:textSize="18sp"
                 tools:text="Falls Church, VA" />
 
             <LinearLayout
@@ -54,7 +55,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:visibility="gone">
+              android:layout_marginTop="-5dp"
+                 >
 
 
                 <Button

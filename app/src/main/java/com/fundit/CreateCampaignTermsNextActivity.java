@@ -349,7 +349,7 @@ public class CreateCampaignTermsNextActivity extends AppCompatActivity {
                 if (maxAmount1.isEmpty() && edt_amount.getVisibility() == View.VISIBLE) {
                   C.INSTANCE.showToast(getApplicationContext(),"Please enter amount");
                 }
-                if (campaignTitle.isEmpty()) {
+               else if (campaignTitle.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter campaign title");
                 } else if (description.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter description");
