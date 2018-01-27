@@ -24,15 +24,19 @@ public class BankCardResponse extends AppModel {
             return cardData;
         }*/
 
-        String id = "";
+       String id = "";
         String user_id = "";
         String bcard_type = "";
         String bcard_number = "";
         String bexp_month = "";
-        String bexp_year = "";
-        String cvv_no = "";
+       String bexp_year = "";
+       String cvv_no = "";
         String zip_code = "";
-        String created = "";
+      String created = "";
+        String card_id="";
+        String customerProfileId="";
+        String auth_cust_paymnet_profile_id="";
+
 
 
         public String getId() {
@@ -51,7 +55,19 @@ public class BankCardResponse extends AppModel {
             return bcard_number;
         }
 
-        public String getBexp_month() {
+        public String getCard_id() {
+            return card_id;
+        }
+
+        public String getCustomerProfileId() {
+            return customerProfileId;
+        }
+
+        public String getAuth_cust_paymnet_profile_id() {
+            return auth_cust_paymnet_profile_id;
+        }
+
+                public String getBexp_month() {
             return bexp_month;
         }
 

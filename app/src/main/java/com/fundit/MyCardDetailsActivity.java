@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -24,11 +25,15 @@ import com.alihafizji.library.CreditCardPatterns;
 import com.fundit.a.AppPreference;
 import com.fundit.a.C;
 import com.fundit.a.W;
+import com.fundit.apis.AdminAPI;
+import com.fundit.apis.ServiceGenerator;
 import com.fundit.apis.ServiceHandler;
 import com.fundit.fragmet.MyCardsFragment;
 import com.fundit.helper.CreditCardPattern;
 import com.fundit.helper.CustomDialog;
 import com.fundit.helper.DatePickerDialogWithTitle;
+import com.fundit.model.AreaItem;
+import com.fundit.model.AreaResponse;
 import com.fundit.model.Member;
 import com.google.gson.Gson;
 
@@ -46,19 +51,28 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class MyCardDetailsActivity extends AppCompatActivity {
 
     CreditCardEditText textview_credit_card;
     Button btn_continue;
+    EditText edt_firstname,edt_lastname,edt_address,edt_city;
+
+    Spinner spn_state;
 
     EditText edtZip;
-
+    ArrayList<String> stateNames = new ArrayList<>();
+    ArrayList<AreaItem> stateItems = new ArrayList<>();
     CreditCardPattern creditCardPattern;
 
     Spinner spn_month , spn_year;
 
     ArrayList<String> months = new ArrayList<>();
     ArrayList<String> year = new ArrayList<>();
+    ArrayAdapter<String> stateAdapter;
 
     AppPreference preference;
     CustomDialog dialog;
@@ -74,7 +88,7 @@ public class MyCardDetailsActivity extends AppCompatActivity {
     String editedyear = "";
     String editedZipcode = "";
     String editedId = "";
-
+    AdminAPI adminAPI;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +103,7 @@ public class MyCardDetailsActivity extends AppCompatActivity {
         editedyear = intent.getStringExtra("cardExpiryYear");
         editedZipcode = intent.getStringExtra("zipcode");
         editedId = intent.getStringExtra("id");
-
+        adminAPI = ServiceGenerator.getAPIClass();
 
         preference = new AppPreference(getApplicationContext());
         dialog = new CustomDialog(getApplicationContext());
@@ -133,7 +147,14 @@ public class MyCardDetailsActivity extends AppCompatActivity {
 
         spn_month = (Spinner) findViewById(R.id.spn_month);
         spn_year = (Spinner) findViewById(R.id.spn_year);
+        spn_state= (Spinner) findViewById(R.id.sp_state);
+        edt_firstname= (EditText) findViewById(R.id.edt_firstname);
+        edt_lastname= (EditText) findViewById(R.id.edt_lastname);
+        edt_city= (EditText) findViewById(R.id.edt_city);
+        edt_address= (EditText) findViewById(R.id.edt_address);
 
+        stateAdapter = new ArrayAdapter<String>(this, R.layout.spinner_textview, stateNames);
+        spn_state.setAdapter(stateAdapter);
          monthAdapter = new ArrayAdapter<String>(getApplicationContext(),R.layout.spinner_textview , months);
         spn_month.setAdapter(monthAdapter);
 
@@ -150,10 +171,55 @@ public class MyCardDetailsActivity extends AppCompatActivity {
             edtZip.setText(editedZipcode);
         }
 
+        spn_state.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                if (position == 0) {
+                    // clearCities();
+                } else {
+                    // loadCities(stateItems.get(position).getId());
+                }
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+
+      //  dialog.show();
+        Call<AreaResponse> stateCall = adminAPI.getStateList("1");
+        stateCall.enqueue(new Callback<AreaResponse>() {
+            @Override
+            public void onResponse(Call<AreaResponse> call, Response<AreaResponse> response) {
+              //  dialog.dismiss();
+                clearStates();
+
+                AreaResponse areaResponse = response.body();
+                if (areaResponse != null) {
+                    if (areaResponse.isStatus()) {
+                        stateItems.addAll(areaResponse.getData());
+                        stateNames.addAll(areaResponse.getNameList());
+                    } else {
+                        C.INSTANCE.showToast(getApplicationContext(), areaResponse.getMessage());
+                    }
+                }
+
+                stateAdapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onFailure(Call<AreaResponse> call, Throwable t) {
+                dialog.dismiss();
+                clearStates();
+            }
+        });
         btn_continue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
 
                 String cardType = textview_credit_card.getTypeOfSelectedCreditCard().toString();
                 String cardNumber = textview_credit_card.getText().toString();
@@ -484,6 +550,17 @@ public class MyCardDetailsActivity extends AppCompatActivity {
 
 
         spn_year.setSelection(pos);
+    }
+
+
+    private void clearStates() {
+        stateNames.clear();
+        stateItems.clear();
+
+        stateItems.add(new AreaItem("Select State"));
+        stateNames.add("Select State");
+
+        stateAdapter.notifyDataSetChanged();
     }
 
     @Override

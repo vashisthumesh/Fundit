@@ -75,24 +75,24 @@ public class MemberCardDetailsAdapter extends BaseAdapter {
         }
 
         txtCardName.setText(getCardType + " " + temp);
-        img_edit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent intent = new Intent(activity, MyCardDetailsActivity.class);
-                intent.putExtra("cardNumber" , bankCardResponseDatas.get(position).getBcard_number());
-                intent.putExtra("cardExpirymonth" , bankCardResponseDatas.get(position).getBexp_month());
-                intent.putExtra("cardExpiryYear" , bankCardResponseDatas.get(position).getBexp_year());
-                intent.putExtra("zipcode" , bankCardResponseDatas.get(position).getZip_code());
-                intent.putExtra("id" , bankCardResponseDatas.get(position).getId());
-                intent.putExtra("ediMode" , true);
-
-                Log.e("isitAvalaible" , "--->" );
-
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                activity.startActivity(intent);
-            }
-        });
+//        img_edit.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                Intent intent = new Intent(activity, MyCardDetailsActivity.class);
+//                intent.putExtra("cardNumber" , bankCardResponseDatas.get(position).getBcard_number());
+//                intent.putExtra("cardExpirymonth" , bankCardResponseDatas.get(position).getBexp_month());
+//                intent.putExtra("cardExpiryYear" , bankCardResponseDatas.get(position).getBexp_year());
+//                intent.putExtra("zipcode" , bankCardResponseDatas.get(position).getZip_code());
+//                intent.putExtra("id" , bankCardResponseDatas.get(position).getId());
+//                intent.putExtra("ediMode" , true);
+//
+//                Log.e("isitAvalaible" , "--->" );
+//
+//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                activity.startActivity(intent);
+//            }
+//        });
 
         return view;
     }
