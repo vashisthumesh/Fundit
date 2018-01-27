@@ -291,6 +291,11 @@ public interface AdminAPI {
 
 
     @FormUrlEncoded
+    @POST(W.DELETE_CARDDETAIL)
+    Call<AppModel> Delete_Carddetail(@Field(W.KEY_USERID) String userId,@Field("card_id") String card_id,@Field("auth_cust_paymnet_profile_id") String auth_cust_paymnet_profile_id,@Field("customerProfileId") String customerProfileId);
+
+
+    @FormUrlEncoded
     @POST(W.GET_ALL_INBOX)
     Call<InboxMessagesResponse> GetInboxMessage(@Field("receiver_id") String recieverId , @Field(W.KEY_TOKEN) String tokenHash);
 

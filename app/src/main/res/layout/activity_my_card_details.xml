@@ -124,18 +124,16 @@
         <com.alihafizji.library.CreditCardEditText
             android:id="@+id/textview_credit_card"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="45dp"
             android:layout_marginBottom="5dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/background_txt_border"
-            android:hint="Card Number"
+            android:layout_marginTop="5dp"
+            android:background="@color/colorPrimaryDark"
+            android:hint="@string/enter_card_number"
             android:inputType="textNoSuggestions"
-            android:paddingRight="10dp"
-            android:paddingLeft="10dp"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
+            android:padding="10dp"
             android:textCursorDrawable="@drawable/cursor"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
             android:textSize="16sp" />
 
 
@@ -156,7 +154,7 @@
             <Spinner
                 android:id="@+id/spn_month"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="30dp"
                 android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:background="@drawable/cardspinner"></Spinner>
@@ -175,7 +173,7 @@
             <Spinner
                 android:id="@+id/spn_year"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="30dp"
                 android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:background="@drawable/cardspinner"></Spinner>
@@ -277,9 +275,7 @@
                 <Spinner
                     android:id="@+id/sp_state"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_margin="5dp"
-                    android:layout_weight="1"
+                    android:layout_height="30dp"
                     android:background="@drawable/cardspinner"></Spinner>
             </LinearLayout>
 
@@ -316,7 +312,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="15dp"
-            android:background="@color/black"
+            android:background="@color/colorPrimary"
             android:text="Add"
             android:textAllCaps="false"
             android:textColor="@color/black" />

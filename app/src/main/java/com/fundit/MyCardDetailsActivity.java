@@ -222,7 +222,11 @@ public class MyCardDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-
+                String firstname=edt_firstname.getText().toString().trim();
+                String lastname=edt_lastname.getText().toString().trim();
+                String address=edt_address.getText().toString().trim();
+                String city=edt_city.getText().toString().trim();
+                String state=spn_state.getSelectedItem().toString();
                 String cardType = textview_credit_card.getTypeOfSelectedCreditCard().toString();
                 String cardNumber = textview_credit_card.getText().toString();
                 String getSpinnerMonth = spn_month.getSelectedItem().toString();
@@ -232,7 +236,29 @@ public class MyCardDetailsActivity extends AppCompatActivity {
                 Log.e("cardNumber" , "--->" + cardNumber);
                 Log.e("Month" , "--->" + getSpinnerMonth);
                 Log.e("Year" , "--->" + getSpinnerYear);
-                if(cardType.isEmpty()){
+
+                int statePosition = spn_state.getSelectedItemPosition();
+                if(firstname.isEmpty())
+                {
+                    C.INSTANCE.showToast(getApplicationContext() , "Please enter firstname");
+                }
+                else if(lastname.isEmpty())
+                {
+                    C.INSTANCE.showToast(getApplicationContext() , "Please enter lastname");
+                }
+                else if (address.isEmpty())
+                {
+                    C.INSTANCE.showToast(getApplicationContext() , "Please enter address");
+                }
+                else if (city.isEmpty())
+                {
+                    C.INSTANCE.showToast(getApplicationContext() , "Please enter city");
+                }
+                else if(state.isEmpty() || statePosition == 0)
+                {
+                    C.INSTANCE.showToast(getApplicationContext() , "Please Select state");
+                }
+              else  if(cardType.isEmpty()){
                     C.INSTANCE.showToast(getApplicationContext() , "Please enter proper card number");
                 }else if(getSpinnerMonth.isEmpty()){
                     C.INSTANCE.showToast(getApplicationContext() , "Please select month");
@@ -246,7 +272,7 @@ public class MyCardDetailsActivity extends AppCompatActivity {
                     }
                     else {
 
-                        new AddCard(cardType , cardNumber , getSpinnerMonth , getSpinnerYear , getZipCode).execute();
+                        new AddCard(firstname,lastname,address,city,state,cardType , cardNumber , getSpinnerMonth , getSpinnerYear , getZipCode).execute();
                     }
 
 
@@ -356,8 +382,18 @@ public class MyCardDetailsActivity extends AppCompatActivity {
         String exMonth = "";
         String exYear = "";
         String zipCode = "";
+        String firstname="";
+        String lastname="";
+        String address="";
+        String city="";
+        String state="";
 
-        public AddCard(String type, String number, String exMonth, String exYear , String zipCode) {
+        public AddCard(String firstname,String lastname,String address,String city,String state,String type, String number, String exMonth, String exYear , String zipCode) {
+            this.firstname=firstname;
+            this.lastname=lastname;
+            this.address=address;
+            this.city=city;
+            this.state=state;
             this.type = type;
             this.number = number;
             this.exMonth = exMonth;
@@ -382,6 +418,14 @@ public class MyCardDetailsActivity extends AppCompatActivity {
 
 
             List<NameValuePair> pairs = new ArrayList<>();
+            pairs.add(new BasicNameValuePair("first_name",firstname));
+            pairs.add(new BasicNameValuePair("last_name",lastname));
+            pairs.add(new BasicNameValuePair("address",address));
+            pairs.add(new BasicNameValuePair("city",city));
+            pairs.add(new BasicNameValuePair("state",state));
+            pairs.add(new BasicNameValuePair("country",""));
+            pairs.add(new BasicNameValuePair("phone",""));
+            pairs.add(new BasicNameValuePair("is_card_save","1"));
             pairs.add(new BasicNameValuePair(W.KEY_USERID , preference.getUserID()));
             pairs.add(new BasicNameValuePair(W.KEY_TOKEN , preference.getTokenHash()));
             pairs.add(new BasicNameValuePair("bcard_type" , type));
