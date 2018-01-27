@@ -317,6 +317,7 @@ public class FundspotCampaignActivity extends AppCompatActivity {
             selectedOrganizationID = data.getStringExtra("organizationID");
 
 
+            Log.e("selected" , "-->" + selectedOrganizationID);
 
             selectedFundSpotID = data.getStringExtra("fundspotID");
 
@@ -338,10 +339,13 @@ public class FundspotCampaignActivity extends AppCompatActivity {
 
 
             }
+
+
             Log.e("selectedProducts", "-->" + selectedProducts);
             new GetAllDatas().execute();
 //             auto_searchFundspot.setText("");
 
+            auto_searchFundspot.setText(selectedFundSpotName);
 
     }
 

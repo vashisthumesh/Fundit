@@ -178,6 +178,7 @@ public class FundspotProductListActivity extends AppCompatActivity {
                         intent.putStringArrayListExtra("ProductsId", selectedProductsId);
                         intent.putExtra("fundspotName", fundspotName);
                         intent.putExtra("organizationID", selectedOrganizationID);
+                        Log.e("selected" , "-->" + selectedOrganizationID);
                         intent.putExtra("fundspotID", fundSpotID);
                         intent.putExtra("isProfileMode", true);
                         setResult(RESULT_OK, intent);

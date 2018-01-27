@@ -29,6 +29,7 @@ import com.fundit.model.AppModel;
 import com.fundit.model.Member;
 import com.fundit.model.MemberListResponse;
 import com.fundit.model.ProductListResponse;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -315,7 +316,7 @@ public class FundspotCampaignNextActivity extends AppCompatActivity {
                     dialog.show();
                     Call<AppModel> addCampCall = adminAPI.addCampaign(preference.getUserID(), preference.getTokenHash(), campaignDetailArray.toString(), memberIDArray.toString() , selectedProductArray.toString());
 
-                    Log.e("Parameter", preference.getUserID() + " - " + preference.getTokenHash() + " - " + "-" + campaignDetailArray.toString() + "-" + memberIDArray.toString() + "-" + selectedProductArray.toString());
+                    Log.e("Parametereseses", preference.getUserID() + " - " + preference.getTokenHash() + " - " + "-" + campaignDetailArray.toString() + "-" + memberIDArray.toString() + "-" + selectedProductArray.toString());
 
 
                     addCampCall.enqueue(new Callback<AppModel>() {
@@ -323,6 +324,7 @@ public class FundspotCampaignNextActivity extends AppCompatActivity {
                         public void onResponse(Call<AppModel> call, Response<AppModel> response) {
                             dialog.dismiss();
                             AppModel model = response.body();
+                            Log.e("responseeseses" , "-->" + new Gson().toJson(response));
                             if (model != null) {
                                 if (model.isStatus()) {
                                     C.INSTANCE.showToast(getApplicationContext(), model.getMessage());

@@ -347,9 +347,8 @@ public class CreateCampaignTermsNextActivity extends AppCompatActivity {
 
                 int amount = 0;
                 if (maxAmount1.isEmpty() && edt_amount.getVisibility() == View.VISIBLE) {
-                  C.INSTANCE.showToast(getApplicationContext(),"Please enter amount");
-                }
-               else if (campaignTitle.isEmpty()) {
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter amount");
+                } else if (campaignTitle.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter campaign title");
                 } else if (description.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter description");
@@ -410,15 +409,53 @@ public class CreateCampaignTermsNextActivity extends AppCompatActivity {
                             AppModel model = response.body();
                             if (model != null) {
                                 if (model.isStatus()) {
-                                    C.INSTANCE.showToast(getApplicationContext(), model.getMessage());
+                               /*     C.INSTANCE.showToast(getApplicationContext(), model.getMessage());
                                     setResult(RESULT_OK);
                                     onBackPressed();
+*/
+                                    AcceptCampaign();
                                 } else {
                                     C.INSTANCE.showToast(getApplicationContext(), model.getMessage());
                                 }
                             } else {
                                 C.INSTANCE.defaultError(getApplicationContext());
                             }
+                        }
+
+                        private void AcceptCampaign() {
+
+                            dialog.show();
+                            Call<AppModel> cancelCampaign = adminAPI.cancelCampaign(preference.getUserID(), preference.getTokenHash(), campaignList.getCampaign().getId(), preference.getUserRoleID(), "1");
+
+
+                            Log.e("Parameters", "" + preference.getUserID() + "--" + preference.getTokenHash() + "--" + preference.getUserRoleID() + "--" + campaignList.getCampaign().getId());
+
+                            cancelCampaign.enqueue(new Callback<AppModel>() {
+                                @Override
+                                public void onResponse(Call<AppModel> call, Response<AppModel> response) {
+                                    dialog.dismiss();
+                                    AppModel appModel = response.body();
+                                    if (appModel != null) {
+                                        if (appModel.isStatus()) {
+                                            C.INSTANCE.showToast(getApplicationContext(), appModel.getMessage());
+                                            setResult(RESULT_OK);
+                                            onBackPressed();
+                                        } else {
+                                            C.INSTANCE.showToast(getApplicationContext(), appModel.getMessage());
+                                        }
+                                    } else {
+                                        C.INSTANCE.defaultError(getApplicationContext());
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<AppModel> call, Throwable t) {
+                                    dialog.dismiss();
+                                    C.INSTANCE.errorToast(getApplicationContext(), t);
+                                }
+                            });
+
+
                         }
 
                         @Override

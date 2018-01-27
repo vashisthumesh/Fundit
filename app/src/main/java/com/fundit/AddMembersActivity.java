@@ -346,6 +346,7 @@ public class AddMembersActivity extends AppCompatActivity {
                     } else {
                         intent.putExtra("fundspotName", fundspot.getTitle());
                         intent.putExtra("fundspotID", fundspot.getUser_id());
+                        intent.putExtra("organizationID" , getResponse.getOrganization().getUser_id());
                         intent.putExtra("profileMode", true);
                         startActivity(intent);
                     }
