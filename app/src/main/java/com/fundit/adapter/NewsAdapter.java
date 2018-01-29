@@ -396,6 +396,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
 
                 Intent intent = new Intent(context, FinalOrderPlacenewActivity.class);
                 intent.putExtra("details", newsDataList.get(position));
+                intent.putExtra("flag","true");
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
 

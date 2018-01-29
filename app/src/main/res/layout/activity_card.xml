@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.fundit.MyCardDetailsActivity">
+
+    <include layout="@layout/toolbar_center_text"></include>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:gravity="start|center"
+            android:text="Place Order"
+            android:textColor="@color/colorText"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/colorPrimary" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/txt_titleSavedCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="left"
+                android:gravity="left"
+                android:padding="5dp"
+                android:text="Select a card"
+                android:textSize="16sp" />
+            <TextView
+                android:id="@+id/txt_othercard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="right"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"
+                android:gravity="right"
+                android:padding="5dp"
+                android:text="Use Other Card"
+                android:textSize="16sp" />
+
+
+
+        </LinearLayout>
+
+
+        <Spinner
+            android:id="@+id/spn_savedcard"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/cardspinner"></Spinner>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="Card Number"
+            android:textSize="16sp" />
+
+
+        <com.alihafizji.library.CreditCardEditText
+            android:id="@+id/textview_credit_card"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_margin="5dp"
+            android:background="@color/colorPrimaryDark"
+            android:hint="@string/enter_card_number"
+            android:inputType="textNoSuggestions"
+            android:padding="10dp"
+            android:textCursorDrawable="@drawable/cursor"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:textSize="16sp" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:drawableRight="@drawable/star"
+            android:text="CVV"
+            android:textSize="16sp" />
+
+
+        <EditText
+            android:id="@+id/edt_cvv"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/background_txt_border"
+            android:hint="CVV Number"
+            android:inputType="number"
+            android:padding="10dp"
+            android:textCursorDrawable="@drawable/cursor"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white" />
+
+
+        <Button
+            android:id="@+id/btn_continue"
+            android:layout_width="150dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:background="@color/colorPrimary"
+            android:text="Place Order"
+            android:textAllCaps="false"
+            android:textColor="@color/black" />
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

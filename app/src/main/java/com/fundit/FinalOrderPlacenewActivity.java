@@ -25,6 +25,7 @@ import com.fundit.apis.ServiceGenerator;
 import com.fundit.helper.CustomDialog;
 import com.fundit.model.Address;
 import com.fundit.model.AppModel;
+import com.fundit.model.BankCardResponse;
 import com.fundit.model.CampaignListResponse;
 import com.fundit.model.GetSearchPeople;
 import com.fundit.model.Member;
@@ -52,6 +53,7 @@ public class FinalOrderPlacenewActivity extends AppCompatActivity implements Ord
     LinearLayout tab_layout,confirm_layout,fundraiser;
     ImageView serch_user;
     String Id = "";
+    String flag="false";
 
     GetSearchPeople.People people;
 
@@ -103,6 +105,7 @@ public class FinalOrderPlacenewActivity extends AppCompatActivity implements Ord
 
 
         Intent intent = getIntent();
+        flag=intent.getStringExtra("flag");
 
         newslist = (News_model.NewsData) intent.getSerializableExtra("details");
         preference = new AppPreference(getApplicationContext());
@@ -196,6 +199,16 @@ public class FinalOrderPlacenewActivity extends AppCompatActivity implements Ord
         edt_confirm_email.setEnabled(false);
         txt_targetAmt.setEnabled(false);
 
+        if(flag.equalsIgnoreCase("true"))
+        {
+            btn_placeOrder.setText("Continue");
+            tabLayout.setVisibility(View.GONE);
+            confirm_layout.setVisibility(View.GONE);
+        }
+        else {
+            tabLayout.setVisibility(View.VISIBLE);
+            confirm_layout.setVisibility(View.VISIBLE);
+        }
 
         if(newslist.getCampaignDetails().getNews_Campaign().getTitle().equalsIgnoreCase("") || newslist.getCampaignDetails().getNews_Campaign().getTitle() == null) {
             fundraiser.setVisibility(View.GONE);
@@ -243,7 +256,7 @@ public class FinalOrderPlacenewActivity extends AppCompatActivity implements Ord
             if(member.getSeller().equalsIgnoreCase("1"))
             {
                 tab_layout.setVisibility(View.VISIBLE);
-                confirm_layout.setVisibility(View.VISIBLE);
+             //   confirm_layout.setVisibility(View.VISIBLE);
 
 
                 me_data();
@@ -362,6 +375,49 @@ public class FinalOrderPlacenewActivity extends AppCompatActivity implements Ord
         btn_placeOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
+
+                dialog.show();
+                final Call<BankCardResponse> bankCardResponse = adminAPI.BankCard(preference.getUserID(), preference.getTokenHash());
+                Log.e("parameters", "-->" + preference.getUserID() + "-->" + preference.getTokenHash());
+                bankCardResponse.enqueue(new Callback<BankCardResponse>() {
+                    @Override
+                    public void onResponse(Call<BankCardResponse> call, Response<BankCardResponse> response) {
+                        dialog.dismiss();
+                        BankCardResponse cardResponse = response.body();
+
+                        Log.e("getData", "-->" + new Gson().toJson(cardResponse));
+
+                        if (cardResponse != null) {
+                            if (cardResponse.isStatus()) {
+                             Intent i=new Intent(getApplicationContext(),CardActivity.class);
+                             startActivity(i);
+                            } else {
+                                C.INSTANCE.showToast(getApplicationContext(), "No card Available");
+                            }
+                        } else {
+                            C.INSTANCE.defaultError(getApplicationContext());
+                        }
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<BankCardResponse> call, Throwable t) {
+
+                        dialog.dismiss();
+                        C.INSTANCE.errorToast(getApplicationContext(), t);
+                    }
+                });
+
+
+
+
+
+
+
+
+
 //                int allPrice = 0;
 //
 //                if(tabLayout.getSelectedTabPosition()==2){
