@@ -227,7 +227,7 @@ public class MyCardDetailsActivity extends AppCompatActivity {
                 String state = spn_state.getSelectedItem().toString();
                 String cardType = "";
 
-                String cardNumber = textview_credit_card.getText().toString();
+                String cardNumber = textview_credit_card.getText().toString().replace("-", "");
                 String getSpinnerMonth = spn_month.getSelectedItem().toString();
                 String getSpinnerYear = spn_year.getSelectedItem().toString();
                 String getZipCode = edtZip.getText().toString();
@@ -235,6 +235,7 @@ public class MyCardDetailsActivity extends AppCompatActivity {
 
                 try {
                     cardType = textview_credit_card.getTypeOfSelectedCreditCard().toString();
+
                 } catch (Exception e) {
                     cardType = "";
                 }
@@ -250,14 +251,14 @@ public class MyCardDetailsActivity extends AppCompatActivity {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter firstname");
                 } else if (lastname.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter lastname");
+                } else if (cardType.isEmpty()) {
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter proper card number");
                 } else if (address.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter address");
                 } else if (city.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter city");
                 } else if (state.isEmpty() || statePosition == 0) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please Select state");
-                } else if (cardType.isEmpty()) {
-                    C.INSTANCE.showToast(getApplicationContext(), "Please enter proper card number");
                 } else if (getSpinnerMonth.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please select month");
                 } else if (getSpinnerYear.isEmpty()) {
@@ -403,7 +404,7 @@ public class MyCardDetailsActivity extends AppCompatActivity {
             super.onPreExecute();
             try {
 
-                dialog = new CustomDialog(getApplicationContext(), "");
+                dialog = new CustomDialog(MyCardDetailsActivity.this, "");
                 dialog.show();
                 dialog.setCancelable(false);
 
