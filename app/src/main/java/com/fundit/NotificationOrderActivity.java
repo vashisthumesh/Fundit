@@ -14,14 +14,12 @@ import android.widget.TextView;
 
 import com.fundit.a.AppPreference;
 import com.fundit.a.C;
-import com.fundit.adapter.NewsDetailAdapter;
 import com.fundit.adapter.Newsadapterclick;
 import com.fundit.apis.AdminAPI;
 import com.fundit.apis.ServiceGenerator;
 import com.fundit.helper.CustomDialog;
-import com.fundit.model.CampaignListResponse;
-import com.fundit.model.MultipleProductResponse;
 import com.fundit.model.News_model;
+import com.fundit.model.NotificationCampaignModel;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -30,14 +28,14 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class NewsadapterclickActivity extends AppCompatActivity {
+public class NotificationOrderActivity extends AppCompatActivity {
     LinearLayout linear_layout,layout_raisedPrice,fund_partner,org_partner;
     AppPreference preference;
     AdminAPI adminAPI;
     CustomDialog dialog;
     ListView list_products;
     TextView txt_description,txt_partnerName,txt_goal,txt_date,txt_campaignName,txt_organizationname,date_label;
-    News_model.NewsData newslist;
+    NotificationCampaignModel.CampaignData newslist;
     List<News_model.Product> productList = new ArrayList<>();
     Newsadapterclick newsadapterclick;
     Date start_date,end_date;
@@ -55,7 +53,7 @@ public class NewsadapterclickActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
 
-        newslist = (News_model.NewsData) intent.getSerializableExtra("details");
+        newslist = (NotificationCampaignModel.CampaignData) intent.getSerializableExtra("details");
 
 
         setupToolbar();
@@ -100,9 +98,9 @@ public class NewsadapterclickActivity extends AppCompatActivity {
         org_partner= (LinearLayout) findViewById(R.id.org_partner);
         fund_partner= (LinearLayout) findViewById(R.id.fund_partner);
 
-        txt_campaignName.setText(newslist.getCampaignDetails().getNews_Campaign().getTitle());
+        txt_campaignName.setText(newslist.getNews_Campaign().getTitle());
 
-        txt_description.setText(newslist.getCampaignDetails().getNews_Campaign().getDescription());
+        txt_description.setText(newslist.getNews_Campaign().getDescription());
 
         double finallength=0;
         finallength=(int) (getScreenWidth()/3);
@@ -125,20 +123,20 @@ public class NewsadapterclickActivity extends AppCompatActivity {
         double ibyf=0.0,multiply=0.0,toadd=0.0;
 
 
-        String target_amount=newslist.getCampaignDetails().getNews_Campaign().getTarget_amount();
+        String target_amount=newslist.getNews_Campaign().getTarget_amount();
         if(target_amount.equalsIgnoreCase("0"))
         {
             txt_goal.setText("No Limit");
         }
         else
         {
-            txt_goal.setText(" $" +String.format("%.2f",  Double.parseDouble(newslist.getCampaignDetails().getNews_Campaign().getTarget_amount())));
+            txt_goal.setText(" $" +String.format("%.2f",  Double.parseDouble(newslist.getNews_Campaign().getTarget_amount())));
         }
 
 
 
 
-        String roleid=newslist.getCampaignDetails().getNews_Campaign().getRole_id();
+        String roleid=newslist.getNews_Campaign().getRole_id();
 
 
 
@@ -148,8 +146,8 @@ public class NewsadapterclickActivity extends AppCompatActivity {
             txt_partnerName.setText(campaignList.getUserFundspot().getTitle());
 */
 
-            txt_organizationname.setText(newslist.getCampaignDetails().getCreateUser().getTitle());
-            txt_partnerName.setText(newslist.getCampaignDetails().getReceiveUser().getTitle());
+            txt_organizationname.setText(newslist.getCreateUser().getTitle());
+            txt_partnerName.setText(newslist.getReceiveUser().getTitle());
         }
         if (roleid.equalsIgnoreCase("3")) {
 /*
@@ -159,8 +157,8 @@ public class NewsadapterclickActivity extends AppCompatActivity {
 */
 
 
-            txt_organizationname.setText(newslist.getCampaignDetails().getReceiveUser().getTitle());
-            txt_partnerName.setText(newslist.getCampaignDetails().getCreateUser().getTitle());
+            txt_organizationname.setText(newslist.getReceiveUser().getTitle());
+            txt_partnerName.setText(newslist.getCreateUser().getTitle());
         }
 
 
@@ -171,7 +169,7 @@ public class NewsadapterclickActivity extends AppCompatActivity {
 
 
 
-        String Campain_duration=newslist.getCampaignDetails().getNews_Campaign().getCampaign_duration();
+        String Campain_duration=newslist.getNews_Campaign().getCampaign_duration();
         if(Campain_duration.equalsIgnoreCase("0"))
         {
             txt_date.setVisibility(View.GONE);
@@ -181,8 +179,8 @@ public class NewsadapterclickActivity extends AppCompatActivity {
             txt_date.setVisibility(View.VISIBLE);
             date_label.setVisibility(View.VISIBLE);
 
-            String startdate=newslist.getCampaignDetails().getNews_Campaign().getStart_date();
-            String enddate=newslist.getCampaignDetails().getNews_Campaign().getEnd_date();
+            String startdate=newslist.getNews_Campaign().getStart_date();
+            String enddate=newslist.getNews_Campaign().getEnd_date();
             Log.e("start",startdate);
             Log.e("end",enddate);
 
@@ -208,11 +206,11 @@ public class NewsadapterclickActivity extends AppCompatActivity {
 
         }
 
-        initialno= Double.parseDouble(newslist.getCampaignDetails().getNews_Campaign().getTotal_earning());
-        finalno= Double.parseDouble(newslist.getCampaignDetails().getNews_Campaign().getTarget_amount());
+        initialno= Double.parseDouble(newslist.getNews_Campaign().getTotal_earning());
+        finalno= Double.parseDouble(newslist.getNews_Campaign().getTarget_amount());
 
 
-        String end_date=newslist.getCampaignDetails().getNews_Campaign().getEnd_date();
+        String end_date=newslist.getNews_Campaign().getEnd_date();
         String end_date2=end_date.substring(0, 10);
         Log.e("end_date", "---->" + end_date);
 
@@ -237,23 +235,23 @@ public class NewsadapterclickActivity extends AppCompatActivity {
         if(preference.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER))
         {
 
-           if(finalno > initialno)
-           {
-            if(end_date1.after(today) || end_date1.equals(today))
+            if(finalno > initialno)
             {
-                btn_place_order.setVisibility(View.VISIBLE);
-                btn_share.setVisibility(View.VISIBLE);
-            }else {
+                if(end_date1.after(today) || end_date1.equals(today))
+                {
+                    btn_place_order.setVisibility(View.VISIBLE);
+                    btn_share.setVisibility(View.VISIBLE);
+                }else {
+                    btn_place_order.setVisibility(View.GONE);
+                    btn_share.setVisibility(View.GONE);
+                }
+
+            }
+            else
+            {
                 btn_place_order.setVisibility(View.GONE);
                 btn_share.setVisibility(View.GONE);
             }
-
-           }
-           else
-             {
-            btn_place_order.setVisibility(View.GONE);
-            btn_share.setVisibility(View.GONE);
-             }
         }
         else {
             btn_place_order.setVisibility(View.GONE);
@@ -287,23 +285,23 @@ public class NewsadapterclickActivity extends AppCompatActivity {
 
 
 
-        txt_raised.setText("Raised"+"\t"+"$"+String.format("%.2f",Double.parseDouble(newslist.getCampaignDetails().getNews_Campaign().getTotal_earning())));
+        txt_raised.setText("Raised"+"\t"+"$"+String.format("%.2f",Double.parseDouble(newslist.getNews_Campaign().getTotal_earning())));
 
         if(target_amount.equalsIgnoreCase("0"))
         {
             txt_targetAmt.setText("No Limit");
         }
         else {
-            txt_targetAmt.setText("$" +String.format("%.2f", Double.parseDouble(newslist.getCampaignDetails().getNews_Campaign().getTarget_amount())));
+            txt_targetAmt.setText("$" +String.format("%.2f", Double.parseDouble(newslist.getNews_Campaign().getTarget_amount())));
         }
 
         newsadapterclick = new Newsadapterclick(productList, getApplicationContext());
         list_products.setAdapter(newsadapterclick);
 
 
-        for (int i = 0; i < newslist.getCampaignDetails().getCampaignProduct().size(); i++) {
+        for (int i = 0; i < newslist.getCampaignProduct().size(); i++) {
 
-            productList.add(newslist.getCampaignDetails().getCampaignProduct().get(i));
+            productList.add(newslist.getCampaignProduct().get(i));
             newsadapterclick.notifyDataSetChanged();
 
         }
@@ -322,14 +320,14 @@ public class NewsadapterclickActivity extends AppCompatActivity {
         fund_partner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(NewsadapterclickActivity.this , AddMemberFudActivity.class);
-                if(newslist.getCampaignDetails().getNews_Campaign().getRole_id().equalsIgnoreCase("2"))
+                Intent intent = new Intent(NotificationOrderActivity.this , AddMemberFudActivity.class);
+                if(newslist.getNews_Campaign().getRole_id().equalsIgnoreCase("2"))
                 {
-                    intent.putExtra("memberId",newslist.getCampaignDetails().getReceiveUser().getId());
+                    intent.putExtra("memberId",newslist.getReceiveUser().getId());
                 }
-                else if(newslist.getCampaignDetails().getNews_Campaign().getRole_id().equalsIgnoreCase("3"))
+                else if(newslist.getNews_Campaign().getRole_id().equalsIgnoreCase("3"))
                 {
-                    intent.putExtra("memberId",newslist.getCampaignDetails().getCreateUser().getId());
+                    intent.putExtra("memberId",newslist.getCreateUser().getId());
                 }
                 intent.putExtra("Flag","fund");
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -343,14 +341,14 @@ public class NewsadapterclickActivity extends AppCompatActivity {
         org_partner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(NewsadapterclickActivity.this , AddMemberFudActivity.class);
-                if(newslist.getCampaignDetails().getNews_Campaign().getRole_id().equalsIgnoreCase("2"))
+                Intent intent = new Intent(NotificationOrderActivity.this , AddMemberFudActivity.class);
+                if(newslist.getNews_Campaign().getRole_id().equalsIgnoreCase("2"))
                 {
-                    intent.putExtra("memberId",newslist.getCampaignDetails().getCreateUser().getId());
+                    intent.putExtra("memberId",newslist.getCreateUser().getId());
                 }
-                else if(newslist.getCampaignDetails().getNews_Campaign().getRole_id().equalsIgnoreCase("3"))
+                else if(newslist.getNews_Campaign().getRole_id().equalsIgnoreCase("3"))
                 {
-                    intent.putExtra("memberId",newslist.getCampaignDetails().getReceiveUser().getId());
+                    intent.putExtra("memberId",newslist.getReceiveUser().getId());
                 }
                 intent.putExtra("Flag","org");
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

@@ -7,13 +7,15 @@ package com.fundit.Bean;
 public class Bean_Notification_history {
 
 
-    String id;
-    String sent_user;
-    String receive_user;
-    String msg;
-    String read_status;
+    String id = "";
+    String sent_user = "";
+    String receive_user = "";
+    String msg = "";
+    String read_status = "";
+    String role_id = "";
+    String type_id = "";
+    String campaign_id = "";
 
-    String role_id;
     public String getId() {
         return id;
     }
@@ -21,6 +23,7 @@ public class Bean_Notification_history {
     public void setId(String id) {
         this.id = id;
     }
+
     public String getSent_user() {
         return sent_user;
     }
@@ -28,6 +31,7 @@ public class Bean_Notification_history {
     public void setSent_user(String sent_user) {
         this.sent_user = sent_user;
     }
+
     public String getReceive_user() {
         return receive_user;
     }
@@ -59,16 +63,34 @@ public class Bean_Notification_history {
     public void setRole_id(String role_id) {
         this.role_id = role_id;
     }
+
+    public String getType_id() {
+        return type_id;
+    }
+
+    public void setType_id(String type_id) {
+        this.type_id = type_id;
+    }
+
+    public String getCampaign_id() {
+        return campaign_id;
+    }
+
+    public void setCampaign_id(String campaign_id) {
+        this.campaign_id = campaign_id;
+    }
+
     public Bean_Notification_history() {
     }
-    public Bean_Notification_history(String id, String sent_user, String receive_user, String msg,String read_status,String role_id) {
+
+    public Bean_Notification_history(String id, String sent_user, String receive_user, String msg, String read_status, String role_id) {
 
         this.id = id;
         this.sent_user = sent_user;
         this.receive_user = receive_user;
         this.msg = msg;
         this.read_status = read_status;
-        this.role_id=role_id;
+        this.role_id = role_id;
     }
 
 }

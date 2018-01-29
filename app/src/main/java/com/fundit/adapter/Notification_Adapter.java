@@ -20,17 +20,25 @@ import com.android.volley.NetworkError;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.fundit.AddMembersActivity;
 import com.fundit.Bean.Bean_Notification_history;
 import com.fundit.Fundit;
+import com.fundit.HomeActivity;
+import com.fundit.NewsadapterclickActivity;
 import com.fundit.NotificationActivity;
 import com.fundit.NotificationDetailActivity;
+import com.fundit.NotificationOrderActivity;
 import com.fundit.R;
+import com.fundit.SerchPeopleActivity;
 import com.fundit.SignInActivity;
 import com.fundit.a.AppPreference;
 import com.fundit.a.C;
 import com.fundit.a.W;
+import com.fundit.apis.AdminAPI;
+import com.fundit.apis.ServiceGenerator;
 import com.fundit.helper.CustomDialog;
 import com.fundit.model.AppModel;
+import com.fundit.model.NotificationCampaignModel;
 
 
 import org.json.JSONException;
@@ -62,8 +70,9 @@ public class Notification_Adapter extends BaseAdapter {
     // List<ProductItem> result;
     int[] imageId;
     boolean checked = false;
-    String role_id="";
+    String role_id = "";
     private static LayoutInflater inflater = null;
+    AdminAPI adminAPI;
 
     public Notification_Adapter(NotificationActivity add_to_cartActivity, ArrayList<Bean_Notification_history> productItemList, NotificationActivity activity) {
         // TODO Auto-generated constructor stub
@@ -75,6 +84,7 @@ public class Notification_Adapter extends BaseAdapter {
         //  prefs=new AppPref(activity.getApplicationContext());
         inflater = (LayoutInflater) context.
                 getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        adminAPI = ServiceGenerator.getAPIClass();
     }
 
     @Override
@@ -111,23 +121,25 @@ public class Notification_Adapter extends BaseAdapter {
         View rowView;
         rowView = inflater.inflate(R.layout.list_notification_history, null);
 
-         final int pos=position+1;
-        holder.notification=(TextView)rowView.findViewById(R.id.notification);
-        holder.lv_notification_layer=(LinearLayout)rowView.findViewById(R.id.lv_notification_layer);
+        final int pos = position + 1;
+        holder.notification = (TextView) rowView.findViewById(R.id.notification);
+        holder.lv_notification_layer = (LinearLayout) rowView.findViewById(R.id.lv_notification_layer);
         holder.notification.setText(result.get(position).getMsg());
 
         holder.lv_notification_layer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                String user_id=result.get(position).getReceive_user();
-                String tokenhash=pref.getTokenHash();
-                String notificationId=result.get(position).getId();
-                int read= Integer.parseInt(result.get(position).getRead_status());
-                  role_id=result.get(position).getRole_id();
+                String user_id = result.get(position).getReceive_user();
+                String tokenhash = pref.getTokenHash();
+                String notificationId = result.get(position).getId();
+                String campaignId = result.get(position).getCampaign_id();
+                int read = Integer.parseInt(result.get(position).getRead_status());
+                role_id = result.get(position).getRole_id();
+                String typeId = result.get(position).getType_id();
 
 
-             if(pref.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER)) {
+             /*if(pref.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER)) {
                  if (read == 1) {
                      Intent i=new Intent(activity, NotificationDetailActivity.class);
                      i.putExtra("role_id",role_id);
@@ -147,16 +159,126 @@ public class Notification_Adapter extends BaseAdapter {
                      read_notification(user_id, tokenhash, notificationId, position);
 
                  }
-             }
+             }*/
+
+
+                if (read == 0) {
+                    read_notification(user_id, tokenhash, notificationId, position);
+                } else {
+
+                    if (typeId.equalsIgnoreCase("1")) {
+
+                        if (pref.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION) || pref.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)) {
+
+                            Intent intent = new Intent(context, HomeActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            intent.putExtra("notificationTimes", true);
+                            intent.putExtra("typeId", typeId);
+                            context.startActivity(intent);
+
+                        } else if (pref.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER)) {
+                            Intent i = new Intent(activity, NotificationDetailActivity.class);
+                            i.putExtra("role_id", role_id);
+                            i.putExtra("sent_user", result.get(position).getSent_user());
+                            i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            activity.startActivity(i);
+                        }
+
+
+                    } else if (typeId.equalsIgnoreCase("2")) {
+
+                        if (pref.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION) || pref.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)) {
+                            Intent intent = new Intent(context, AddMembersActivity.class);
+                            intent.putExtra("memberId", result.get(position).getSent_user());
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(intent);
+
+                        } else if (pref.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER)) {
+
+                            Intent intent = new Intent(activity, SerchPeopleActivity.class);
+                            intent.putExtra("id", result.get(position).getSent_user());
+                            intent.putExtra("flag", true);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(intent);
+                        }
+
+                    } else if (typeId.equalsIgnoreCase("3")) {
+                        Intent intent = new Intent(context, HomeActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.putExtra("notificationTimes", true);
+                        intent.putExtra("typeId", typeId);
+                        context.startActivity(intent);
+
+                    } else if (typeId.equalsIgnoreCase("4") || typeId.equalsIgnoreCase("6")) {
+
+                        GetCampaignDetails(campaignId);
+
+                    } else if (typeId.equalsIgnoreCase("12") || typeId.equalsIgnoreCase("13") || typeId.equalsIgnoreCase("14")) {
+                        Intent intent = new Intent(context, HomeActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.putExtra("notificationTimes", true);
+                        intent.putExtra("typeId", typeId);
+                        context.startActivity(intent);
+                    } else if (typeId.equalsIgnoreCase("16")) {
+                        Intent i = new Intent(activity, NotificationDetailActivity.class);
+                        i.putExtra("role_id", role_id);
+                        i.putExtra("sent_user", result.get(position).getSent_user());
+                        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        activity.startActivity(i);
+
+                    } else {
+                        showdialog(position);
+                    }
+
+                }
+
+
             }
         });
         return rowView;
     }
 
-    private void read_notification(final String user_id, final String tokenhash, final String notificationId,final int position ) {
-         final CustomDialog loadingView = new CustomDialog(context, "");
-         loadingView.setCancelable(false);
-         loadingView.show();
+    private void GetCampaignDetails(final String campaignId) {
+        final CustomDialog loadingView = new CustomDialog(activity, "");
+        loadingView.setCancelable(false);
+        loadingView.show();
+        Call<NotificationCampaignModel> notificationCampaignModelCall = adminAPI.NOTIFICATION_CAMPAIGN_MODEL_CALL(campaignId);
+        notificationCampaignModelCall.enqueue(new Callback<NotificationCampaignModel>() {
+            @Override
+            public void onResponse(Call<NotificationCampaignModel> call, retrofit2.Response<NotificationCampaignModel> response) {
+                loadingView.dismiss();
+                NotificationCampaignModel campaignModel = response.body();
+                if (campaignModel != null) {
+                    if (campaignModel.isStatus()) {
+                        Intent intent = new Intent(context, NotificationOrderActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.putExtra("details", campaignModel.getData());
+                        context.startActivity(intent);
+                    } else {
+                        C.INSTANCE.showToast(context, campaignModel.getMessage());
+                    }
+                } else {
+                    C.INSTANCE.defaultError(context);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<NotificationCampaignModel> call, Throwable t) {
+                loadingView.dismiss();
+                C.INSTANCE.errorToast(context, t);
+            }
+        });
+
+
+    }
+
+    private void read_notification(final String user_id, final String tokenhash, final String notificationId, final int position) {
+        final CustomDialog loadingView = new CustomDialog(context, "");
+        loadingView.setCancelable(false);
+        loadingView.show();
         final StringRequest request = new StringRequest(W.POST, W.BASE_URL + "Notification/app_read_notification",
                 new Response.Listener<String>() {
                     @Override
@@ -164,38 +286,114 @@ public class Notification_Adapter extends BaseAdapter {
                         Log.e("JSON", json);
                         try {
                             JSONObject object = new JSONObject(json);
-                            String  message=object.getString("message");
-                            Toast.makeText(context,""+message, Toast.LENGTH_SHORT).show();
+                            String message = object.getString("message");
+                            Toast.makeText(context, "" + message, Toast.LENGTH_SHORT).show();
                             loadingView.dismiss();
 
 
-                            if(pref.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER)) {
-                                Intent i=new Intent(activity, NotificationDetailActivity.class);
-                                i.putExtra("role_id",role_id);
-                                i.putExtra("sent_user",result.get(position).getSent_user());
+                            /*if (pref.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER)) {
+                                Intent i = new Intent(activity, NotificationDetailActivity.class);
+                                i.putExtra("role_id", role_id);
+                                i.putExtra("sent_user", result.get(position).getSent_user());
                                 i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 activity.startActivity(i);
-                            }
-                            else {
+                            } else {
                                 showdialog(position);
-                            }
+                            }*/
 
-                        }catch(JSONException j){
+
+
+                                if (result.get(position).getType_id().equalsIgnoreCase("1")) {
+
+                                    if (pref.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION) || pref.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)) {
+
+                                        Intent intent = new Intent(context, HomeActivity.class);
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        intent.putExtra("notificationTimes", true);
+                                        intent.putExtra("typeId", result.get(position).getType_id());
+                                        context.startActivity(intent);
+
+                                    } else if (pref.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER)) {
+                                        Intent i = new Intent(activity, NotificationDetailActivity.class);
+                                        i.putExtra("role_id", role_id);
+                                        i.putExtra("sent_user", result.get(position).getSent_user());
+                                        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                        activity.startActivity(i);
+                                    }
+
+
+                                } else if (result.get(position).getType_id().equalsIgnoreCase("2")) {
+
+                                    if (pref.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION) || pref.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)) {
+                                        Intent intent = new Intent(context, AddMembersActivity.class);
+                                        intent.putExtra("memberId", result.get(position).getReceive_user());
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        context.startActivity(intent);
+
+                                    } else if (pref.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER)) {
+
+                                        Intent intent = new Intent(activity, SerchPeopleActivity.class);
+                                        intent.putExtra("id", result.get(position).getReceive_user());
+                                        intent.putExtra("flag", true);
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        context.startActivity(intent);
+                                    }
+
+                                } else if (result.get(position).getType_id().equalsIgnoreCase("3")) {
+                                    Intent intent = new Intent(context, HomeActivity.class);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    intent.putExtra("notificationTimes", true);
+                                    intent.putExtra("typeId", result.get(position).getType_id());
+                                    context.startActivity(intent);
+
+                                } else if (result.get(position).getType_id().equalsIgnoreCase("4") || result.get(position).getType_id().equalsIgnoreCase("6")) {
+
+                                    GetCampaignDetails(result.get(position).getCampaign_id());
+
+                                } else if (result.get(position).getType_id().equalsIgnoreCase("12") || result.get(position).getType_id().equalsIgnoreCase("13") || result.get(position).getType_id().equalsIgnoreCase("14")) {
+                                    Intent intent = new Intent(context, HomeActivity.class);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    intent.putExtra("notificationTimes", true);
+                                    intent.putExtra("typeId", result.get(position).getType_id());
+                                    context.startActivity(intent);
+                                } else if (result.get(position).getType_id().equalsIgnoreCase("16")) {
+                                    Intent i = new Intent(activity, NotificationDetailActivity.class);
+                                    i.putExtra("role_id", role_id);
+                                    i.putExtra("sent_user", result.get(position).getSent_user());
+                                    i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    activity.startActivity(i);
+
+                                } else {
+                                    showdialog(position);
+                                }
+
+
+
+
+
+
+
+
+
+                        } catch (JSONException j) {
                             j.printStackTrace();
-                            Log.e("Exception",""+j.getMessage());
-                             loadingView.dismiss();
+                            Log.e("Exception", "" + j.getMessage());
+                            loadingView.dismiss();
                         }
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                         loadingView.dismiss();
-                        Log.e("ERROR",error.getMessage());
+                        loadingView.dismiss();
+                        Log.e("ERROR", error.getMessage());
                         if (error instanceof NetworkError) {
                             //noInternet(context);
                         } else {
-                           // serverError(context);
+                            // serverError(context);
                         }
                     }
                 }) {
@@ -203,8 +401,8 @@ public class Notification_Adapter extends BaseAdapter {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("user_id", user_id);
-                params.put("tokenhash",tokenhash);
-                params.put("notification_id",notificationId);
+                params.put("tokenhash", tokenhash);
+                params.put("notification_id", notificationId);
 
                 Log.e("params", params.toString());
                 return params;

@@ -23,6 +23,7 @@ import com.fundit.model.JoinMemberModel;
 import com.fundit.model.MemberListResponse;
 import com.fundit.model.MemberResponse;
 import com.fundit.model.News_model;
+import com.fundit.model.NotificationCampaignModel;
 import com.fundit.model.NotificationSettingsModel;
 import com.fundit.model.OrderHistoryResponse;
 import com.fundit.model.OrganizationResponse;
@@ -350,5 +351,10 @@ public interface AdminAPI {
     @FormUrlEncoded
     @POST(W.UPDATESETTINGS)
     Call<AppModel> UpdateSettings (@Field("id") String id , @Field("status") String status);
+
+
+    @FormUrlEncoded
+    @POST(W.GETINDIVIDUALCAMPAIGN)
+    Call<NotificationCampaignModel> NOTIFICATION_CAMPAIGN_MODEL_CALL (@Field("campaign_id") String campaignId);
 
 }

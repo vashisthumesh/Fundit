@@ -99,6 +99,8 @@ public class NotificationActivity extends AppCompatActivity {
                                 bean_category.setMsg(jobject.getString("msg"));
                                 bean_category.setRead_status(jobject.getString("read_status"));
                                 bean_category.setRole_id(jobject.getString("role_id"));
+                                bean_category.setType_id(jobject.getString("type_id"));
+                                bean_category.setCampaign_id(jobject.getString("campaign_id"));
 
                                 array_order_history_list.add(bean_category);
 

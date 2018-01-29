@@ -721,11 +721,11 @@ public class AddMembersActivity extends AppCompatActivity {
 
                         }
 
-
-                        Log.e("path", "check");
-                        userRoleId = getResponse.getUser().getRole_id();
-                        CheckMemberIsjoined(checkMemberId, userRoleId);
-
+                        if (preference.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER)) {
+                            Log.e("path", "check");
+                            userRoleId = getResponse.getUser().getRole_id();
+                            CheckMemberIsjoined(checkMemberId, userRoleId);
+                        }
 
                     }
 

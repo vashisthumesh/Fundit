@@ -59,17 +59,21 @@ class HomeActivity : AppCompatActivity() {
     var campaignRequestCount: Int = 0
     var totalRequest: Int = 0
     var flag = false
+    var isNotificationTimes = false
     internal var user = User()
 
     internal var member = Member()
+    lateinit var getintent: Intent
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
         preference = AppPreference(this)
-        var intent: Intent = getIntent()
-        flag = intent.getBooleanExtra("flag", false)
+        getintent = getIntent()
+        flag = getintent.getBooleanExtra("flag", false)
+        isNotificationTimes = getintent.getBooleanExtra("notificationTimes" , false)
+
 
 
         try {
@@ -192,10 +196,16 @@ class HomeActivity : AppCompatActivity() {
             else -> fragment = Fragment()
         }
 
+        if(isNotificationTimes){
+            GoToNextFragment()
+        }
+
         if (flag == true) {
             coupon()
 
         }
+
+
         drawerLayout = findViewById(R.id.drawerLayout) as DrawerLayout
         drawerToggle = object : ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close) {
             override fun onDrawerOpened(drawerView: View?) {
@@ -266,10 +276,35 @@ class HomeActivity : AppCompatActivity() {
 
 
 
+
         if (Internet.isConnectingToInternet(applicationContext))
             GetNotificationCount().execute()
         else
             Internet.noInternet(applicationContext)
+    }
+
+    private fun GoToNextFragment() {
+
+        var typeID : String = ""
+        typeID = getintent.getStringExtra("typeId")
+
+        if(typeID.equals("1") || typeID.equals("3")){
+            actionTitle?.text = "Requests"
+            fragment = FRequestFragment()
+            val transaction = fm?.beginTransaction()
+            transaction?.replace(R.id.content, fragment)
+            transaction?.commit()
+        }else if(typeID.equals("12") || typeID.equals("13") || typeID.equals("14") ){
+            actionTitle?.text = "My Coupons"
+            fragment = CouponFragment()
+            val transaction = fm?.beginTransaction()
+            transaction?.replace(R.id.content, fragment)
+            transaction?.commit()
+        }
+
+
+
+
     }
 
     private fun handleClicks(position: Int) {

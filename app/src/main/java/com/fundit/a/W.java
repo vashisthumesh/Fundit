@@ -117,6 +117,7 @@ public class W {
     public static final String LEAVE_MEMBER = "Member/app_delete_member_for_account";
     public static final String GETALLSETTINGSLIST = "NotificationSetting/app_get_notification_setting";
     public static final String UPDATESETTINGS = "NotificationSetting/app_update_notification_setting";
+    public static final String GETINDIVIDUALCAMPAIGN = "Campaign/app_get_individual_campaign";
 
 
 
