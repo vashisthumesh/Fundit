@@ -71,30 +71,10 @@
             android:layout_margin="5dp"
             android:background="@drawable/cardspinner"></Spinner>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:text="Card Number"
-            android:textSize="16sp" />
-
-
-        <com.alihafizji.library.CreditCardEditText
-            android:id="@+id/textview_credit_card"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:layout_margin="5dp"
-            android:background="@color/colorPrimaryDark"
-            android:hint="@string/enter_card_number"
-            android:inputType="textNoSuggestions"
-            android:padding="10dp"
-            android:textCursorDrawable="@drawable/cursor"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white"
-            android:textSize="16sp" />
 
 
         <TextView
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"
@@ -106,15 +86,17 @@
         <EditText
             android:id="@+id/edt_cvv"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:background="@drawable/background_txt_border"
             android:hint="CVV Number"
             android:inputType="number"
-            android:padding="10dp"
+            android:padding="5dp"
+            android:maxLength="4"
+            android:textSize="16sp"
             android:textCursorDrawable="@drawable/cursor"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white" />
+            android:textColor="@color/black"
+           />
 
 
         <Button

@@ -217,6 +217,8 @@
         <activity android:name=".FinalOrderPlacenewActivity" />
         <activity android:name=".AddMemberFudActivity" />
         <activity android:name=".NotificationSettingsActivity" />
+        <activity android:name=".CardActivity"/>
+        <activity android:name=".CreateCardActivity"></activity>
     </application>
 
 </manifest>

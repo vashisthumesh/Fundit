@@ -1,37 +1,30 @@
 package com.fundit;
 
-import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.alihafizji.library.CreditCardEditText;
-import com.alihafizji.library.CreditCardPatterns;
 import com.fundit.a.AppPreference;
 import com.fundit.a.C;
 import com.fundit.a.W;
 import com.fundit.apis.AdminAPI;
 import com.fundit.apis.ServiceGenerator;
 import com.fundit.apis.ServiceHandler;
-import com.fundit.fragmet.MyCardsFragment;
 import com.fundit.helper.CreditCardPattern;
 import com.fundit.helper.CustomDialog;
-import com.fundit.helper.DatePickerDialogWithTitle;
+import com.fundit.model.AppModel;
 import com.fundit.model.AreaItem;
 import com.fundit.model.AreaResponse;
 import com.fundit.model.Member;
@@ -42,20 +35,41 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MyCardDetailsActivity extends AppCompatActivity {
+public class CreateCardActivity extends AppCompatActivity {
+
+    String firstName = "";
+    String lastName = "";
+    String email = "";
+    String campaign_id = "";
+    String mobile = "";
+    String organization_id = "";
+    String fundspot_id = "";
+    String total = "";
+    String payment_city = "";
+    String payment_postcode = "";
+    String payment_state = "";
+    String payment_address_1 = "";
+    String selectedProductArray = "";
+    String auth_cust_paymnet_profile_id = "";
+    String customerProfileId = "";
+    String card_Id = "";
+    String cvv = "";
+    String save_card = "";
+    String on_behalf_of = "";
+    String order_request = "";
+    String other_user = "";
+    String is_card_save = "";
+    String payment_method = "";
+    String organization_name = "";
+
 
     CreditCardEditText textview_credit_card;
     Button btn_continue;
@@ -90,19 +104,38 @@ public class MyCardDetailsActivity extends AppCompatActivity {
     String editedId = "";
     AdminAPI adminAPI;
 
+
+    CheckBox chk_save;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_card_details);
+        setContentView(R.layout.activity_create_card);
 
-        Intent intent = getIntent();
+        Intent i = getIntent();
+        selectedProductArray = i.getStringExtra("selectedProductArray");
+        firstName = i.getStringExtra("firstname");
+        lastName = i.getStringExtra("lastname");
+        email = i.getStringExtra("email");
+        campaign_id = i.getStringExtra("campaign_id");
+        mobile = i.getStringExtra("mobile");
+        organization_id = i.getStringExtra("organization_id");
+        fundspot_id = i.getStringExtra("fundspot_id");
+        total = i.getStringExtra("total");
+        payment_city = i.getStringExtra("payment_city");
+        payment_postcode = i.getStringExtra("payment_postcode");
+        payment_state = i.getStringExtra("payment_state");
+        payment_address_1 = i.getStringExtra("payment_address_1");
+        payment_method = i.getStringExtra("payment_method");
+        save_card = i.getStringExtra("save_card");
+        on_behalf_of = i.getStringExtra("on_behalf_of");
+        order_request = i.getStringExtra("order_request");
+        other_user = i.getStringExtra("other_user");
+        is_card_save = i.getStringExtra("is_card_save");
+        organization_name = i.getStringExtra("organization_name");
 
-        editMode = intent.getBooleanExtra("ediMode", false);
-        editedNumber = intent.getStringExtra("cardNumber");
-        editedmonth = intent.getStringExtra("cardExpirymonth");
-        editedyear = intent.getStringExtra("cardExpiryYear");
-        editedZipcode = intent.getStringExtra("zipcode");
-        editedId = intent.getStringExtra("id");
+
         adminAPI = ServiceGenerator.getAPIClass();
 
         preference = new AppPreference(getApplicationContext());
@@ -116,8 +149,11 @@ public class MyCardDetailsActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+
         setUpToolBar();
         fetchIds();
+
+
     }
 
     private void setUpToolBar() {
@@ -141,28 +177,30 @@ public class MyCardDetailsActivity extends AppCompatActivity {
 
     private void fetchIds() {
 
-            textview_credit_card = (CreditCardEditText) findViewById(R.id.textview_credit_card);
-            textview_credit_card.setCreditCardEditTextListener(creditCardPattern);
-            btn_continue = (Button) findViewById(R.id.btn_continue);
+        textview_credit_card = (CreditCardEditText) findViewById(R.id.textview_credit_card);
+        textview_credit_card.setCreditCardEditTextListener(creditCardPattern);
+        btn_continue = (Button) findViewById(R.id.btn_continue);
 
-            spn_month = (Spinner) findViewById(R.id.spn_month);
-            spn_year = (Spinner) findViewById(R.id.spn_year);
-            spn_state = (Spinner) findViewById(R.id.sp_state);
-            edt_firstname = (EditText) findViewById(R.id.edt_firstname);
-            edt_lastname = (EditText) findViewById(R.id.edt_lastname);
-            edt_city = (EditText) findViewById(R.id.edt_city);
-            edt_address = (EditText) findViewById(R.id.edt_address);
+        spn_month = (Spinner) findViewById(R.id.spn_month);
+        spn_year = (Spinner) findViewById(R.id.spn_year);
+        spn_state = (Spinner) findViewById(R.id.sp_state);
+        edt_firstname = (EditText) findViewById(R.id.edt_firstname);
+        edt_lastname = (EditText) findViewById(R.id.edt_lastname);
+        edt_city = (EditText) findViewById(R.id.edt_city);
+        edt_address = (EditText) findViewById(R.id.edt_address);
 
-            stateAdapter = new ArrayAdapter<String>(this, R.layout.spinner_textview, stateNames);
-            spn_state.setAdapter(stateAdapter);
-            monthAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_textview, months);
-            spn_month.setAdapter(monthAdapter);
+        chk_save = (CheckBox) findViewById(R.id.chk_save);
 
-            yearAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_textview, year);
-            spn_year.setAdapter(yearAdapter);
+        stateAdapter = new ArrayAdapter<String>(this, R.layout.spinner_textview, stateNames);
+        spn_state.setAdapter(stateAdapter);
+        monthAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_textview, months);
+        spn_month.setAdapter(monthAdapter);
 
-            edtZip = (EditText) findViewById(R.id.edt_zip);
-            edtZip.setText(member.getZip_code());
+        yearAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_textview, year);
+        spn_year.setAdapter(yearAdapter);
+
+        edtZip = (EditText) findViewById(R.id.edt_zip);
+        edtZip.setText(member.getZip_code());
 
 
         if (editMode == true) {
@@ -194,7 +232,7 @@ public class MyCardDetailsActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<AreaResponse> call, Response<AreaResponse> response) {
                 //  dialog.dismiss();
-                clearStates();
+
 
                 AreaResponse areaResponse = response.body();
                 if (areaResponse != null) {
@@ -213,7 +251,7 @@ public class MyCardDetailsActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<AreaResponse> call, Throwable t) {
                 dialog.dismiss();
-                clearStates();
+
             }
         });
         btn_continue.setOnClickListener(new View.OnClickListener() {
@@ -231,6 +269,12 @@ public class MyCardDetailsActivity extends AppCompatActivity {
                 String getSpinnerMonth = spn_month.getSelectedItem().toString();
                 String getSpinnerYear = spn_year.getSelectedItem().toString();
                 String getZipCode = edtZip.getText().toString();
+
+                if (chk_save.isChecked() == true) {
+                    is_card_save = "1";
+                } else {
+                    is_card_save = "0";
+                }
 
 
                 try {
@@ -265,14 +309,7 @@ public class MyCardDetailsActivity extends AppCompatActivity {
                 } else if (getSpinnerYear.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please select year");
                 } else {
-
-                    if (editMode == true) {
-
-                        new EditCard(cardType, cardNumber, getSpinnerMonth, getSpinnerYear, getZipCode).execute();
-                    } else {
-
-                        new AddCard(firstname, lastname, address, city, state, cardType, cardNumber, getSpinnerMonth, getSpinnerYear, getZipCode).execute();
-                    }
+                    new AddCard(firstname, lastname, address, city, state, cardType, cardNumber, getSpinnerMonth, getSpinnerYear, getZipCode).execute();
 
 
                 }
@@ -359,12 +396,6 @@ public class MyCardDetailsActivity extends AppCompatActivity {
                         yearAdapter.notifyDataSetChanged();
 
 
-                        if (editMode == true) {
-                            checkForSelectedMonth();
-
-                        }
-
-
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -405,7 +436,7 @@ public class MyCardDetailsActivity extends AppCompatActivity {
             super.onPreExecute();
             try {
 
-                dialog = new CustomDialog(MyCardDetailsActivity.this, "");
+                dialog = new CustomDialog(CreateCardActivity.this, "");
                 dialog.show();
                 dialog.setCancelable(false);
 
@@ -426,7 +457,7 @@ public class MyCardDetailsActivity extends AppCompatActivity {
             pairs.add(new BasicNameValuePair("state", state));
             pairs.add(new BasicNameValuePair("country", ""));
             pairs.add(new BasicNameValuePair("phone", ""));
-            pairs.add(new BasicNameValuePair("is_card_save", "1"));
+            pairs.add(new BasicNameValuePair("is_card_save", is_card_save));
             pairs.add(new BasicNameValuePair(W.KEY_USERID, preference.getUserID()));
             pairs.add(new BasicNameValuePair(W.KEY_TOKEN, preference.getTokenHash()));
             pairs.add(new BasicNameValuePair("bcard_type", type));
@@ -464,8 +495,16 @@ public class MyCardDetailsActivity extends AppCompatActivity {
 
                     C.INSTANCE.showToast(getApplicationContext(), message);
                     if (status == true) {
-                        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-                        startActivity(intent);
+
+                        JSONObject object = mainObject.getJSONObject("data");
+
+                        auth_cust_paymnet_profile_id = object.getString("auth_cust_paymnet_profile_id");
+                        customerProfileId = object.getString("profile_id");
+                        card_Id = object.getString("card_id");
+
+                        AddOrder();
+                        /*Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                        startActivity(intent);*/
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -475,143 +514,71 @@ public class MyCardDetailsActivity extends AppCompatActivity {
             }
 
         }
-    }
 
-    public class EditCard extends AsyncTask<Void, Void, String> {
+        private void AddOrder() {
 
-        String type = "";
-        String number = "";
-        String exMonth = "";
-        String exYear = "";
-        String zipCode = "";
+            dialog.show();
+            Call<AppModel> addOrder = null;
 
-        public EditCard(String type, String number, String exMonth, String exYear, String zipCode) {
-            this.type = type;
-            this.number = number;
-            this.exMonth = exMonth;
-            this.exYear = exYear;
-            this.zipCode = zipCode;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            try {
-
-                dialog = new CustomDialog(getApplicationContext(), "");
-                dialog.show();
-                dialog.setCancelable(false);
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        @Override
-        protected String doInBackground(Void... params) {
+            addOrder = adminAPI.AddCard_Order(preference.getUserID(), preference.getUserRoleID(), preference.getTokenHash(), campaign_id, firstName, lastName, email, mobile, payment_address_1, payment_city, payment_postcode, payment_state, payment_method, total, preference.getUserID(), "", "", organization_id, fundspot_id, selectedProductArray, auth_cust_paymnet_profile_id, customerProfileId, cvv, card_Id, save_card, on_behalf_of, order_request, other_user, is_card_save);
 
 
-            List<NameValuePair> pairs = new ArrayList<>();
-            pairs.add(new BasicNameValuePair(W.KEY_USERID, preference.getUserID()));
-            pairs.add(new BasicNameValuePair(W.KEY_TOKEN, preference.getTokenHash()));
-            pairs.add(new BasicNameValuePair("bcard_type", type));
-            pairs.add(new BasicNameValuePair("bcard_number", number));
-            pairs.add(new BasicNameValuePair("bexp_month", exMonth));
-            pairs.add(new BasicNameValuePair("bexp_year", exYear));
-            pairs.add(new BasicNameValuePair("zip_code", zipCode));
-            pairs.add(new BasicNameValuePair("id", editedId));
+            Log.e("userid", "--->" + preference.getUserID());
+            Log.e("roleid", "--->" + preference.getUserRoleID());
+            Log.e("token", "--->" + preference.getTokenHash());
+            Log.e("campaign_id", "-->" + campaign_id);
+            Log.e("firstName", "--->" + firstName);
+            Log.e("lastName", "--->" + lastName);
+            Log.e("email", "--->" + email);
+            Log.e("mobile", "-->" + mobile);
+            Log.e("payment_address_1", "--->" + payment_address_1);
+            Log.e("payment_city", "--->" + payment_city);
+            Log.e("payment_postcode", "--->" + payment_postcode);
+            Log.e("payment_state", "-->" + payment_state);
+            Log.e("payment_method", "--->" + payment_method);
+            Log.e("total", "--->" + total);
+            Log.e("organization_id", "--->" + organization_id);
+            Log.e("fundspot_id", "-->" + fundspot_id);
+            Log.e("selectedProductArray", "-->" + selectedProductArray);
+            Log.e("auth_cust_paymnet", "-->" + auth_cust_paymnet_profile_id);
+            Log.e("is_card_saveEDEDEDEDE", "-->" + is_card_save);
 
 
-            String json = new ServiceHandler().makeServiceCall(W.BASE_URL + "BankCard/app_edit_card", ServiceHandler.POST, pairs);
-
-            Log.e("parameters", "-->" + pairs);
-            Log.e("json", json);
-
-            return json;
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            dialog.dismiss();
+            Log.e("customerProfileId", "-->" + customerProfileId);
 
 
-            if (s.isEmpty()) {
-                C.INSTANCE.defaultError(getApplicationContext());
+            addOrder.enqueue(new Callback<AppModel>() {
+                @Override
+                public void onResponse(Call<AppModel> call, Response<AppModel> response) {
+                    dialog.dismiss();
+                    AppModel appModel = response.body();
+                    if (appModel != null) {
+                        if (appModel.isStatus()) {
 
-            } else {
 
-                try {
-                    JSONObject mainObject = new JSONObject(s);
+                            Intent i = new Intent(getApplicationContext(), Thankyou.class);
+                            i.putExtra("org", organization_name);
+                            startActivity(i);
 
-                    boolean status = false;
-                    String message = "";
-                    status = mainObject.getBoolean("status");
-                    message = mainObject.getString("message");
+                        }
 
-                    C.INSTANCE.showToast(getApplicationContext(), message);
-                    if (status == true) {
-                        editMode = false;
-                        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-                        startActivity(intent);
+                    } else {
+
+                        C.INSTANCE.defaultError(getApplicationContext());
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+
                 }
 
+                @Override
+                public void onFailure(Call<AppModel> call, Throwable t) {
+                    dialog.dismiss();
+                    C.INSTANCE.errorToast(getApplicationContext(), t);
 
-            }
-
+                }
+            });
+            Log.e("fundspot_id", "-->" + fundspot_id);
         }
     }
 
 
-    private void checkForSelectedMonth() {
-        int pos = 0;
-
-        Log.e("getSelectedPductMonths", "-->" + editedmonth);
-        for (int i = 0; i < months.size(); i++) {
-            if (months.get(i).equals(editedmonth)) {
-                pos = i;
-                break;
-            }
-        }
-
-
-        //inEditModeFirstTime=false;
-
-        spn_month.setSelection(pos);
-        checkForSelectedYear();
-    }
-
-    private void checkForSelectedYear() {
-        int pos = 0;
-        Log.e("getSelectedPductyear", "-->" + editedyear);
-        for (int i = 0; i < year.size(); i++) {
-            if (year.get(i).equals(editedyear)) {
-                pos = i;
-                break;
-            }
-        }
-
-
-        spn_year.setSelection(pos);
-    }
-
-
-    private void clearStates() {
-        stateNames.clear();
-        stateItems.clear();
-
-        stateItems.add(new AreaItem("Select State"));
-        stateNames.add("Select State");
-
-        stateAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        editMode = false;
-    }
 }

@@ -54,7 +54,7 @@ public class FinalOrderPlacenewActivity extends AppCompatActivity implements Ord
     ImageView serch_user;
     String Id = "";
     String flag="false";
-
+    int allPrice = 0;
     GetSearchPeople.People people;
 
 
@@ -87,6 +87,7 @@ public class FinalOrderPlacenewActivity extends AppCompatActivity implements Ord
 
     String organizationId = "";
     String fundspotId = "";
+    String org_name="";
 
 
     String selectedFundsUserId = "";
@@ -237,13 +238,21 @@ public class FinalOrderPlacenewActivity extends AppCompatActivity implements Ord
             txt_partnerTitle.setText("Fundspot :");
             if(newslist.getCampaignDetails().getNews_Campaign().getRole_id().equalsIgnoreCase("2"))
             {
+
+                fundspotId=newslist.getCampaignDetails().getReceiveUser().getId();
+                organizationId=newslist.getCampaignDetails().getCreateUser().getId();
+                org_name=newslist.getCampaignDetails().getCreateUser().getTitle();
+
                 txt_partnerName.setText(newslist.getCampaignDetails().getReceiveUser().getTitle());
 
 
             }
             else if(newslist.getCampaignDetails().getNews_Campaign().getRole_id().equalsIgnoreCase("3"))
             {
+                fundspotId=newslist.getCampaignDetails().getCreateUser().getId();
+                organizationId=newslist.getCampaignDetails().getReceiveUser().getId();
                 txt_partnerName.setText(newslist.getCampaignDetails().getCreateUser().getTitle());
+                org_name=newslist.getCampaignDetails().getReceiveUser().getTitle();
 
             }
 
@@ -376,42 +385,133 @@ public class FinalOrderPlacenewActivity extends AppCompatActivity implements Ord
             @Override
             public void onClick(View v) {
 
+                final List<News_model.Product> getSelectedProducts = productAdapter.getProducts();
 
 
-                dialog.show();
-                final Call<BankCardResponse> bankCardResponse = adminAPI.BankCard(preference.getUserID(), preference.getTokenHash());
-                Log.e("parameters", "-->" + preference.getUserID() + "-->" + preference.getTokenHash());
-                bankCardResponse.enqueue(new Callback<BankCardResponse>() {
-                    @Override
-                    public void onResponse(Call<BankCardResponse> call, Response<BankCardResponse> response) {
-                        dialog.dismiss();
-                        BankCardResponse cardResponse = response.body();
 
-                        Log.e("getData", "-->" + new Gson().toJson(cardResponse));
+                for (int i = 0; i < getSelectedProducts.size(); i++) {
+                    String name = getSelectedProducts.get(i).getName();
+                    String price = getSelectedProducts.get(i).getPrice();
+                    String totalPrice = getSelectedProducts.get(i).getTotal_price();
+                    String quantity = String.valueOf(getSelectedProducts.get(i).getQty());
+                    String id = getSelectedProducts.get(i).getProduct_id();
+                    String type_id=getSelectedProducts.get(i).getType_id();
 
-                        if (cardResponse != null) {
-                            if (cardResponse.isStatus()) {
-                             Intent i=new Intent(getApplicationContext(),CardActivity.class);
-                             startActivity(i);
+
+                    float totalProductsPrice = Float.parseFloat(totalPrice);
+
+                    allPrice += totalProductsPrice;
+
+                    Log.e("totalPrice", "" + allPrice);
+
+
+                    try {
+                        mainObject.put("product_id", id);
+                        mainObject.put("name", name);
+                        mainObject.put("quantity", quantity);
+                        mainObject.put("selling_price", price);
+                        mainObject.put("type_id",type_id);
+                        mainObject.put("item_total", totalPrice);
+
+                        selectedProductArray.put(mainObject);
+
+
+                        Log.e("selectedProducts", "---->" + selectedProductArray);
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+
+                }
+
+
+                    if (getSelectedProducts.isEmpty()) {
+                    C.INSTANCE.showToast(getApplicationContext(), "Please Select Product");
+                }
+                else {
+
+
+
+
+                    dialog.show();
+                    final Call<BankCardResponse> bankCardResponse = adminAPI.BankCard(preference.getUserID(), preference.getTokenHash());
+                    Log.e("parameters", "-->" + preference.getUserID() + "-->" + preference.getTokenHash());
+                    bankCardResponse.enqueue(new Callback<BankCardResponse>() {
+                        @Override
+                        public void onResponse(Call<BankCardResponse> call, Response<BankCardResponse> response) {
+                            dialog.dismiss();
+                            BankCardResponse cardResponse = response.body();
+
+                            Log.e("getData", "-->" + new Gson().toJson(cardResponse));
+
+                            if (cardResponse != null) {
+                                if (cardResponse.isStatus()) {
+                                    Intent i = new Intent(getApplicationContext(), CardActivity.class);
+                                    i.putExtra("selectedProductArray",selectedProductArray.toString());
+                                    i.putExtra("firstname",user.getFirst_name());
+                                    i.putExtra("lastname",user.getLast_name());
+                                    i.putExtra("email",user.getEmail_id());
+                                    i.putExtra("campaign_id",newslist.getCampaignDetails().getNews_Campaign().getId());
+                                    i.putExtra("mobile",member.getContact_info());
+                                    i.putExtra("payment_address_1",member.getLocation());
+                                    i.putExtra("organization_id",organizationId);
+                                    i.putExtra("fundspot_id",fundspotId);
+                                    i.putExtra("total",String.valueOf(allPrice));
+                                    i.putExtra("payment_city",member.getCity_name());
+                                    i.putExtra("payment_postcode",member.getZip_code());
+                                    i.putExtra("payment_state",member.getState().getName());
+                                    i.putExtra("payment_method","1");
+                                    i.putExtra("save_card","0");
+                                    i.putExtra("on_behalf_of","0");
+                                    i.putExtra("order_request","0");
+                                    i.putExtra("other_user","0");
+                                    i.putExtra("is_card_save","1");
+                                    i.putExtra("organization_name",org_name);
+                                    startActivity(i);
+                                } else {
+
+                                    Intent i = new Intent(getApplicationContext(), CreateCardActivity.class);
+                                    i.putExtra("selectedProductArray",selectedProductArray.toString());
+                                    i.putExtra("firstname",user.getFirst_name());
+                                    i.putExtra("lastname",user.getLast_name());
+                                    i.putExtra("email",user.getEmail_id());
+                                    i.putExtra("campaign_id",newslist.getCampaignDetails().getNews_Campaign().getId());
+                                    i.putExtra("mobile",member.getContact_info());
+                                    i.putExtra("payment_address_1",member.getLocation());
+                                    i.putExtra("organization_id",organizationId);
+                                    i.putExtra("fundspot_id",fundspotId);
+                                    i.putExtra("total",String.valueOf(allPrice));
+                                    i.putExtra("payment_city",member.getCity_name());
+                                    i.putExtra("payment_postcode",member.getZip_code());
+                                    i.putExtra("payment_state",member.getState().getName());
+                                    i.putExtra("payment_method","1");
+                                    i.putExtra("save_card","0");
+                                    i.putExtra("on_behalf_of","0");
+                                    i.putExtra("order_request","0");
+                                    i.putExtra("other_user","0");
+                                    i.putExtra("is_card_save","1");
+                                    i.putExtra("organization_name",org_name);
+                                    startActivity(i);
+
+                                }
                             } else {
-                                C.INSTANCE.showToast(getApplicationContext(), "No card Available");
+                                C.INSTANCE.defaultError(getApplicationContext());
                             }
-                        } else {
-                            C.INSTANCE.defaultError(getApplicationContext());
+
                         }
 
-                    }
+                        @Override
+                        public void onFailure(Call<BankCardResponse> call, Throwable t) {
 
-                    @Override
-                    public void onFailure(Call<BankCardResponse> call, Throwable t) {
-
-                        dialog.dismiss();
-                        C.INSTANCE.errorToast(getApplicationContext(), t);
-                    }
-                });
+                            dialog.dismiss();
+                            C.INSTANCE.errorToast(getApplicationContext(), t);
+                        }
+                    });
 
 
-
+                }
 
 
 
@@ -496,7 +596,7 @@ public class FinalOrderPlacenewActivity extends AppCompatActivity implements Ord
 //                            organizationId = newslist.getCampaignDetails().getCreateUser().getId();
 //                        }
 //                        dialog.show();
-//                        final Call<AppModel> addOrder = adminAPI.AddOrder(newslist.getCampaignDetails().getNews_Campaign().getId(),selectedFundsUserId,preference.getTokenHash(), "4",  firstName, lastName, emailId, member.getContact_info(), member.getLocation(), /*member.getCity().getName()*/ member.getCity_name(), member.getZip_code(), member.getState().getName(), String.valueOf(checkedPaymentType), String.valueOf(allPrice), preference.getUserID(), "0.0", "0.0", organizationId, fundspotId, selectedProductArray.toString(),"","","","","","","" , "0" , "1" , "0");
+//                       final Call<AppModel> addOrder = adminAPI.AddOrder(newslist.getCampaignDetails().getNews_Campaign().getId(),selectedFundsUserId,preference.getTokenHash(), "4",  firstName, lastName, emailId, member.getContact_info(), member.getLocation(), /*member.getCity().getName()*/ member.getCity_name(), member.getZip_code(), member.getState().getName(), String.valueOf(checkedPaymentType), String.valueOf(allPrice), preference.getUserID(), "0.0", "0.0", organizationId, fundspotId, selectedProductArray.toString(),"","","","","","","" , "0" , "1" , "0");
 //
 //
 //

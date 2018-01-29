@@ -313,7 +313,7 @@ public class NewsadapterclickActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext() , FinalOrderPlacenewActivity.class);
                 intent.putExtra("details" , newslist);
-                intent.putExtra("flag","false");
+                intent.putExtra("flag","true");
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
             }
