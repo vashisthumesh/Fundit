@@ -128,6 +128,7 @@
             android:layout_marginBottom="5dp"
             android:layout_marginTop="5dp"
             android:background="@color/colorPrimaryDark"
+            app:background="@color/colorPrimaryDark"
             android:hint="@string/enter_card_number"
             android:inputType="textNoSuggestions"
             android:padding="10dp"
