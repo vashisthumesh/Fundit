@@ -96,6 +96,8 @@ public class W {
 
     public static final String GET_CARD_DATA = "BankCard/app_get_cards";
 
+    public static final String DELETE_CARDDETAIL="BankCard/app_delete_cards";
+
 
     public static final String GET_ALL_INBOX = "Inbox/App_Get_Inbox_Msg";
     public static final String READ_INBOX_MESSAGES = "Inbox/App_Read_Inbox_Notification";
