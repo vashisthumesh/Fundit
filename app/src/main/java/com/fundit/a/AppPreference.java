@@ -108,6 +108,14 @@ public class AppPreference {
         editor.putInt("totalCount" , totalCount).commit();
     }
 
+    public int getfundspot_product_count() {
+        return preferences.getInt("fundspot_product_count" , 0);
+    }
+
+    public void setfundspot_product_count(int fundspot_product_count) {
+        editor.putInt("fundspot_product_count" , fundspot_product_count).commit();
+    }
+
     public boolean isFirstTime() {
         return preferences.getBoolean("firstTime" , false);
     }

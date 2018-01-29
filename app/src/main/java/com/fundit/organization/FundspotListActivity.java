@@ -1,7 +1,9 @@
 package com.fundit.organization;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -11,6 +13,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.fundit.R;
+import com.fundit.VerificationActivity;
 import com.fundit.a.AppPreference;
 import com.fundit.a.C;
 import com.fundit.adapter.FundspotListAdapter;
@@ -77,10 +80,36 @@ public class FundspotListActivity extends AppCompatActivity {
         list_fundspots.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(getApplicationContext(), FundspotProductListActivity.class);
-                intent.putExtra("fundspotName", fundSpotList.get(i).getFundspot().getTitle());
-                intent.putExtra("fundspotID", fundSpotList.get(i).getFundspot().getUser_id());
-                startActivityForResult(intent,REQUEST_PRODUCT);
+
+                if(fundSpotList.get(i).getFundspot().getFundspot_percent().equalsIgnoreCase("0") && fundSpotList.get(i).getFundspot().getOrganization_percent().equalsIgnoreCase("0")){
+
+
+                    AlertDialog.Builder builder=new AlertDialog.Builder(FundspotListActivity.this);
+                    builder.setTitle("Sorry, Fundraiser settings not valid");
+                    builder.setMessage("You can't start campaign with this fundspot");
+                    builder.setCancelable(false);
+                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                        }
+                    });
+                    AlertDialog bDialog=builder.create();
+                    bDialog.show();
+
+
+
+
+
+                }else {
+                    Intent intent = new Intent(getApplicationContext(), FundspotProductListActivity.class);
+                    intent.putExtra("fundspotName", fundSpotList.get(i).getFundspot().getTitle());
+                    intent.putExtra("fundspotID", fundSpotList.get(i).getFundspot().getUser_id());
+                    startActivityForResult(intent,REQUEST_PRODUCT);
+                }
+
+
+
             }
         });
 

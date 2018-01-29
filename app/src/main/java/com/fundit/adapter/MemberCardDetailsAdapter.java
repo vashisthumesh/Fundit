@@ -104,6 +104,7 @@ public class MemberCardDetailsAdapter extends BaseAdapter {
                     AppModel appModel=response.body();
                     if (appModel != null) {
                         if (appModel.isStatus()) {
+                            bankCardResponseDatas.remove(position);
 
                         } else {
 
@@ -111,6 +112,8 @@ public class MemberCardDetailsAdapter extends BaseAdapter {
                     } else {
                         C.INSTANCE.defaultError(activity);
                     }
+
+                    notifyDataSetChanged();
                 }
 
                 @Override

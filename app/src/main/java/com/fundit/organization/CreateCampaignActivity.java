@@ -1,8 +1,10 @@
 package com.fundit.organization;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -226,12 +228,34 @@ public class CreateCampaignActivity extends AppCompatActivity {
         auto_searchFundspot.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                VerifyResponse.VerifyResponseData data = fundSpotList.get(i);
-                Intent intent = new Intent(getApplicationContext(), FundspotProductListActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.putExtra("fundspotName", data.getFundspot().getTitle());
-                intent.putExtra("fundspotID", data.getFundspot().getUser_id());
-                startActivityForResult(intent, REQUEST_PRODUCT);
+
+                if (fundSpotList.get(i).getFundspot().getFundspot_percent().equalsIgnoreCase("0") && fundSpotList.get(i).getFundspot().getOrganization_percent().equalsIgnoreCase("0")) {
+
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(CreateCampaignActivity.this);
+                    builder.setTitle("Sorry, Fundraiser settings not valid");
+                    builder.setMessage("You can't start campaign with this fundspot");
+                    builder.setCancelable(false);
+                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                        }
+                    });
+                    AlertDialog bDialog = builder.create();
+                    bDialog.show();
+
+
+                } else {
+
+
+                    VerifyResponse.VerifyResponseData data = fundSpotList.get(i);
+                    Intent intent = new Intent(getApplicationContext(), FundspotProductListActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.putExtra("fundspotName", data.getFundspot().getTitle());
+                    intent.putExtra("fundspotID", data.getFundspot().getUser_id());
+                    startActivityForResult(intent, REQUEST_PRODUCT);
+                }
             }
         });
 
@@ -285,7 +309,7 @@ public class CreateCampaignActivity extends AppCompatActivity {
             }
         });
 
-        if(isProfileMode){
+        if (isProfileMode) {
 
             Intent data = getIntent();
 
@@ -502,7 +526,7 @@ public class CreateCampaignActivity extends AppCompatActivity {
                         edt_organizationSplit.setText(fundspotObject.getString("organization_percent"));
                         edt_couponExpireDay.setText(fundspotObject.getString("coupon_expire_day"));
                         edt_campaignDuration.setText(fundspotObject.getString("campaign_duration"));
-                        edt_maxLimitCoupon.setText("$" + String.format("%.2f",Double.parseDouble(fundspotObject.getString("max_limit_of_coupon_price"))));
+                        edt_maxLimitCoupon.setText("$" + String.format("%.2f", Double.parseDouble(fundspotObject.getString("max_limit_of_coupon_price"))));
                         if (edt_campaignDuration.getText().toString().trim().equalsIgnoreCase("0")) {
                             chk_indefinite.setChecked(true);
                         }

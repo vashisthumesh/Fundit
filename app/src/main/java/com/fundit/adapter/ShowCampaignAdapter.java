@@ -259,6 +259,25 @@ public class ShowCampaignAdapter extends BaseAdapter {
                 }
             }
         });
+
+        main_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (preference.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER)) {
+                    Intent intent = new Intent(context, NewsDetailActivity.class);
+                    intent.putExtra("details", campaignLists.get(position));
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
+                } else {
+                    Intent intent = new Intent(context, OrderPlaceActivity.class);
+                    intent.putExtra("Details", campaignLists.get(position));
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
+                }
+            }
+        });
+
+
         return view;
     }
 

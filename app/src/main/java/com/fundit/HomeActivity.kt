@@ -577,10 +577,12 @@ class HomeActivity : AppCompatActivity() {
 
                     memberRequest = mainObject.getInt("total_member_request_count")
                     campaignRequestCount = mainObject.getInt("total_request_count")
+                    preference?.setfundspot_product_count(mainObject.getInt("fundspot_product_count"))
 
 
                     totalRequest = memberRequest + campaignRequestCount
                     Log.e("totalCount", "--->" + totalRequest)
+                    Log.e("totalproductCount", "--->" + preference?.getfundspot_product_count())
 
                     if (cartCount?.text.toString().equals("0")) {
                         cartCount?.visibility = View.GONE

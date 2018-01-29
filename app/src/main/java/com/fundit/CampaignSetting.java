@@ -246,15 +246,15 @@ public class CampaignSetting extends AppCompatActivity {
                 }
 
 
-                if (fundraiser.isEmpty()) {
+                if (fundraiser.isEmpty() || fundraiser.equalsIgnoreCase("0")) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter fundraiser percentage");
-                } else if (organization.isEmpty()) {
+                } else if (organization.isEmpty() || organization.equalsIgnoreCase("0")) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter organization percentage");
-                } else if (campaign_days.isEmpty()) {
+                } else if (campaign_days.isEmpty() || campaign_days.equalsIgnoreCase("0")) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter duration of campaign");
-                } else if (amount.isEmpty() && checkbox_nolimit.isChecked() == false) {
+                } else if (amount.isEmpty()|| amount.equalsIgnoreCase("0")) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter max selling limit");
-                } else if (totalDays.isEmpty()) {
+                } else if (totalDays.isEmpty() || totalDays.equalsIgnoreCase("0")) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter coupons expiration");
                 } else {
                     Call<VerifyResponse> fundspotResponse = null;
