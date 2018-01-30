@@ -308,6 +308,7 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun handleClicks(position: Int) {
+        img_edit?.visibility = View.GONE
         if (position == 0) {
 
         } else if (position == 1) {

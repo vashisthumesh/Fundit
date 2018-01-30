@@ -105,7 +105,6 @@ public class MemberCardDetailsAdapter extends BaseAdapter {
                     if (appModel != null) {
                         if (appModel.isStatus()) {
                             bankCardResponseDatas.remove(position);
-
                         } else {
 
                         }

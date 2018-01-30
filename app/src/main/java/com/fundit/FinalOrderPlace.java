@@ -324,13 +324,10 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
                         if(tab.getPosition() == 0)
                         {
                             fundit_user();
-
-
                         }
                         else if(tab.getPosition() == 1)
                         {
                             other_user();
-
                         }
 
                     }
