@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.fundit.OrderHistoryDetail;
@@ -62,6 +63,7 @@ public class OrderHistoryAdapter extends BaseAdapter{
 
         View view = inflater.inflate(R.layout.layout_order_list , parent , false);
 
+        LinearLayout main_orderlayout= (LinearLayout) view.findViewById(R.id.main_orderlayout);
         TextView txt_orderId= (TextView) view.findViewById(R.id.txt_orderId);
         TextView txt_totalAmt= (TextView) view.findViewById(R.id.txt_totalAmt);
         TextView txt_date= (TextView) view.findViewById(R.id.txt_date);
@@ -84,7 +86,20 @@ public class OrderHistoryAdapter extends BaseAdapter{
 
         txt_date.setText(new SimpleDateFormat("MM/dd/yy").format(date));
 
-        img_arrow.setOnClickListener(new View.OnClickListener() {
+//        img_arrow.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(context , OrderHistoryDetail.class);
+//                intent.putExtra("details" , orderLists.get(position));
+//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                context.startActivity(intent);
+//            }
+//        });
+
+
+
+
+        main_orderlayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context , OrderHistoryDetail.class);
@@ -93,7 +108,6 @@ public class OrderHistoryAdapter extends BaseAdapter{
                 context.startActivity(intent);
             }
         });
-
         return view;
     }
 

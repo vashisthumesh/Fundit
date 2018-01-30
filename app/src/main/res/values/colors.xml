@@ -30,6 +30,8 @@
     <color name="deleteColor">#ef5350</color>
     <color name="Red">#FF0000</color>
 
+    <color name="couponcolor">#FF8A80</color>
+
     <color name="splashColor">#CBFAE6</color>
     <color name="headerBack">#80000000</color>
 </resources>

@@ -254,7 +254,7 @@ public class OrderHistoryDetail extends AppCompatActivity {
             txt_payment_method.setVisibility(View.VISIBLE);
             linear_payment.setVisibility(View.VISIBLE);
             linear_resend.setVisibility(View.VISIBLE);
-            btnCoupon.setVisibility(View.VISIBLE);
+            btnCoupon.setVisibility(View.GONE);
             linear_expired.setVisibility(View.GONE);
             txt_expired.setVisibility(View.GONE);
             String payment_method=historyResponse.getOrder().getPayment_method();

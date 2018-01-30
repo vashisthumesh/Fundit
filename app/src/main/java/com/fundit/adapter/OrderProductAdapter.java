@@ -58,9 +58,16 @@ public class OrderProductAdapter extends BaseAdapter {
 
         View view = inflater.inflate(R.layout.layout_order_products , parent , false);
 
+
+        LinearLayout linear_remaining= (LinearLayout) view.findViewById(R.id.linear_remaining);
+        LinearLayout linear_sellingprice= (LinearLayout) view.findViewById(R.id.linear_sellingprice);
         TextView txtItem = (TextView) view.findViewById(R.id.txt_item);
+        TextView txt_total_qty= (TextView) view.findViewById(R.id.txt_total_qty);
+        TextView txt_totalprice= (TextView) view.findViewById(R.id.txt_totalprice);
+        TextView txt_remainig_qty= (TextView) view.findViewById(R.id.txt_remainig_qty);
         TextView txtQty = (TextView) view.findViewById(R.id.txt_qty);
-        TextView txtTotalAmt = (TextView) view.findViewById(R.id.txt_totalAmt);
+        TextView txtTotalAmt = (TextView) view.findViewById(R.id.txt_price);
+        TextView txt_sellingprice= (TextView) view.findViewById(R.id.txt_sellingprice);
 
         LinearLayout layout_coupon = (LinearLayout) view.findViewById(R.id.layout_coupon);
         LinearLayout layout_main = (LinearLayout) view.findViewById(R.id.layout_main);
@@ -71,9 +78,9 @@ public class OrderProductAdapter extends BaseAdapter {
       final String  productName = orderedProductses.get(position).getName() + " $ " + orderedProductses.get(position).getSelling_price();
 
 
-        txtItem.setText(orderedProductses.get(position).getName());
-        txtQty.setText(orderedProductses.get(position).getQuantity());
-        txtTotalAmt.setText("$" + orderedProductses.get(position).getSelling_price());
+
+     //   txtQty.setText(orderedProductses.get(position).getQuantity());
+//        txtTotalAmt.setText("$" + orderedProductses.get(position).getSelling_price());
 
 
         if(isCoupontimes){
@@ -96,6 +103,33 @@ public class OrderProductAdapter extends BaseAdapter {
 
 
 
+            linear_sellingprice.setVisibility(View.VISIBLE);
+            linear_remaining.setVisibility(View.VISIBLE);
+            txtItem.setText(orderedProductses.get(position).getName());
+
+            txt_sellingprice.setText("$" + String.format("%.2f", Double.parseDouble(orderedProductses.get(position).getSelling_price())));
+
+            txt_total_qty.setText(orderedProductses.get(position).getQuantity());
+            txt_totalprice.setText("$" + String.format("%.2f", Double.parseDouble(orderedProductses.get(position).getItem_total())));
+            txt_remainig_qty.setText(orderedProductses.get(position).getLeft_qty());
+
+
+
+        }
+        else {
+
+            linear_sellingprice.setVisibility(View.GONE);
+            linear_remaining.setVisibility(View.GONE);
+            txtQty.setText("QTY:");
+            txtTotalAmt.setText("Total Amount:");
+            txt_total_qty.setText(orderedProductses.get(position).getQuantity());
+            txtItem.setText(orderedProductses.get(position).getName()+" for "+ "$" + String.format("%.2f", Double.parseDouble(orderedProductses.get(position).getSelling_price())));
+
+
+
+
+            txt_totalprice.setText("$" + String.format("%.2f", Double.parseDouble(orderedProductses.get(position).getItem_total())));
+            txt_remainig_qty.setText(orderedProductses.get(position).getLeft_qty());
 
         }
 

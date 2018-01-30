@@ -117,31 +117,7 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:id="@+id/linear_address"
-            android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Address : "
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/txt_history_address"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:text=""
-                android:textColor="@color/colorTextSecondary"
-                android:textSize="16sp" />
-
-
-        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -399,12 +375,13 @@
 
 
             <Button
+                android:visibility="gone"
                 android:id="@+id/btn_coupon"
                 android:layout_width="120dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center|bottom"
                 android:background="@color/colorButton"
-                android:text="Resend Coupon"
+                android:text="Confirm"
                 android:textAllCaps="false"
                 android:textSize="14sp" />
 

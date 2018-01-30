@@ -85,13 +85,19 @@ public class ShowOrderDetailsAdapter extends BaseAdapter {
         final View view = inflater.inflate(R.layout.layout_order_coupan, parent, false);
         ArrayList<String> productsNames = new ArrayList<>();
 
+        LinearLayout layout_from= (LinearLayout) view.findViewById(R.id.layout_from);
+        LinearLayout layout_date= (LinearLayout) view.findViewById(R.id.layout_date);
+        LinearLayout layout_camp= (LinearLayout) view.findViewById(R.id.layout_camp);
+        LinearLayout layout_maincoupon= (LinearLayout) view.findViewById(R.id.layout_maincoupon);
+        TextView txt_organization= (TextView) view.findViewById(R.id.txt_organization);
         TextView txt_fundspot = (TextView) view.findViewById(R.id.txt_fundspot);
         TextView txt_campaign = (TextView) view.findViewById(R.id.txt_campaign);
         TextView txt_address = (TextView) view.findViewById(R.id.txt_address);
         TextView txt_exp_date = (TextView) view.findViewById(R.id.txt_expdate);
         TextView txt_item = (TextView) view.findViewById(R.id.txt_item);
         TextView txt_coupons = (TextView) view.findViewById(R.id.txt_coupons);
-
+        TextView txt_amt= (TextView) view.findViewById(R.id.txt_amt);
+        TextView txt_sendfrom= (TextView) view.findViewById(R.id.txt_sendfrom);
 
         ImageView img_arrow = (ImageView) view.findViewById(R.id.img_arrow);
 
@@ -104,9 +110,14 @@ public class ShowOrderDetailsAdapter extends BaseAdapter {
         Button btn_decline = (Button) view.findViewById(R.id.btn_decline);
 
 
+
+
+        txt_amt.setText("$" + String.format("%.2f",Double.parseDouble(orderLists.get(position).getOrder().getTotal())));
         txt_fundspot.setText(orderLists.get(position).getFundspot().getTitle());
         txt_campaign.setText(orderLists.get(position).getCampaign().getTitle());
         txt_address.setText(orderLists.get(position).getFundspot().getAddress());
+        txt_organization.setText(orderLists.get(position).getOrganization().getTitle());
+
 
         String getExpDate = orderLists.get(position).getOrder().getCoupon_expiry_date();
         Log.e("expdate",getExpDate);
@@ -124,9 +135,13 @@ public class ShowOrderDetailsAdapter extends BaseAdapter {
         txt_coupons.setText(orderLists.get(position).getOrder().getTotal_coupon_count());
 
         if (orderLists.get(position).getOrder().getOrder_request().equalsIgnoreCase("1")) {
-
+            layout_from.setVisibility(View.VISIBLE);
+            layout_date.setVisibility(View.GONE);
+            layout_camp.setVisibility(View.GONE);
+           txt_sendfrom.setText("Pending requet from "+orderLists.get(position).getOrder().getRequested_user_name());
             layout_request.setVisibility(View.VISIBLE);
-            layout_couponmain.setBackgroundColor(Color.parseColor("#FF8A80"));
+            layout_maincoupon.setBackground(activity.getResources().getDrawable(R.drawable.listviewbackcolor));
+
 
 
         }
@@ -139,7 +154,21 @@ public class ShowOrderDetailsAdapter extends BaseAdapter {
         String getProductName = productsNames.toString().trim();
         getProductName = getProductName.replaceAll("\\[", "").replaceAll("\\(", "").replaceAll("\\]", "").replaceAll("\\)", "");
         txt_item.setText(getProductName);
-        img_arrow.setOnClickListener(new View.OnClickListener() {
+//        img_arrow.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(context, OrderHistoryDetail.class);
+//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                intent.putExtra("details", orderLists.get(position));
+//                intent.putExtra("couponTimes", true);
+//
+//
+//                context.startActivity(intent);
+//            }
+//        });
+
+
+        layout_maincoupon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, OrderHistoryDetail.class);
