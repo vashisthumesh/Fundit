@@ -20,8 +20,10 @@ import com.android.volley.NetworkError;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.fundit.AddMemberFudActivity;
 import com.fundit.AddMembersActivity;
 import com.fundit.Bean.Bean_Notification_history;
+import com.fundit.FundOrganizationRequestActivity;
 import com.fundit.Fundit;
 import com.fundit.HomeActivity;
 import com.fundit.NewsadapterclickActivity;
@@ -186,9 +188,9 @@ public class Notification_Adapter extends BaseAdapter {
                             context.startActivity(intent);
 
                         } else if (pref.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER)) {
-                            Intent i = new Intent(activity, NotificationDetailActivity.class);
-                            i.putExtra("role_id", role_id);
-                            i.putExtra("sent_user", result.get(position).getSent_user());
+                            Intent i = new Intent(activity, FundOrganizationRequestActivity.class);
+                            /*i.putExtra("role_id", role_id);
+                            i.putExtra("sent_user", result.get(position).getSent_user());*/
                             i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             activity.startActivity(i);
                         }
@@ -197,18 +199,28 @@ public class Notification_Adapter extends BaseAdapter {
                     } else if (typeId.equalsIgnoreCase("2")) {
 
                         if (pref.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION) || pref.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)) {
-                            Intent intent = new Intent(context, AddMembersActivity.class);
-                            intent.putExtra("memberId", result.get(position).getSent_user());
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            context.startActivity(intent);
-
-                        } else if (pref.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER)) {
-
                             Intent intent = new Intent(activity, SerchPeopleActivity.class);
                             intent.putExtra("id", result.get(position).getSent_user());
                             intent.putExtra("flag", true);
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             context.startActivity(intent);
+
+                        } else if (pref.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER)) {
+                            Intent intent = new Intent(context, AddMemberFudActivity.class);
+
+
+
+                            if(result.get(position).getRole_id().equalsIgnoreCase(C.ORGANIZATION)){
+                                intent.putExtra("Flag","org");
+                            }else if (result.get(position).getRole_id().equalsIgnoreCase(C.FUNDSPOT)){
+                                intent.putExtra("Flag","fund");
+                            }
+                            intent.putExtra("memberId", result.get(position).getSent_user());
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(intent);
+
+
+
                         }
 
                     } else if (typeId.equalsIgnoreCase("3")) {

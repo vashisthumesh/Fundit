@@ -427,13 +427,14 @@ public class FinalOrderPlacenewActivity extends AppCompatActivity implements Ord
                                     i.putExtra("payment_city", member.getCity_name());
                                     i.putExtra("payment_postcode", member.getZip_code());
                                     i.putExtra("payment_state", member.getState().getName());
-                                    i.putExtra("payment_method", "1");
+                                    i.putExtra("payment_method", "2");
                                     i.putExtra("save_card", "0");
                                     i.putExtra("on_behalf_of", "0");
                                     i.putExtra("order_request", "0");
                                     i.putExtra("other_user", "0");
                                     i.putExtra("is_card_save", "1");
                                     i.putExtra("organization_name", org_name);
+                                    i.putExtra("newsFeedTimes" , true);
                                     startActivity(i);
                                 } else {
 
@@ -451,13 +452,14 @@ public class FinalOrderPlacenewActivity extends AppCompatActivity implements Ord
                                     i.putExtra("payment_city", member.getCity_name());
                                     i.putExtra("payment_postcode", member.getZip_code());
                                     i.putExtra("payment_state", member.getState().getName());
-                                    i.putExtra("payment_method", "1");
+                                    i.putExtra("payment_method", "2");
                                     i.putExtra("save_card", "0");
                                     i.putExtra("on_behalf_of", "0");
                                     i.putExtra("order_request", "0");
                                     i.putExtra("other_user", "0");
                                     i.putExtra("is_card_save", "1");
                                     i.putExtra("organization_name", org_name);
+                                    i.putExtra("newsFeedTimes" , true);
                                     startActivity(i);
 
                                 }

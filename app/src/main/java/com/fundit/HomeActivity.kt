@@ -60,6 +60,7 @@ class HomeActivity : AppCompatActivity() {
     var couponCount : Int = 0
     var totalRequest: Int = 0
     var flag = false
+    var couponTimes = false
     var isNotificationTimes = false
     internal var user = User()
 
@@ -73,6 +74,7 @@ class HomeActivity : AppCompatActivity() {
         preference = AppPreference(this)
         getintent = getIntent()
         flag = getintent.getBooleanExtra("flag", false)
+        couponTimes = getintent.getBooleanExtra("couponTimes", false)
         isNotificationTimes = getintent.getBooleanExtra("notificationTimes" , false)
 
 
@@ -427,12 +429,27 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun coupon() {
-        actionTitle?.text = "My Orders"
-        fragment = OrderHistoryFragment()
-        val transaction = fm?.beginTransaction()
-        transaction?.replace(R.id.content, fragment)
-        transaction?.commit()
-        flag = false
+
+        if(couponTimes){
+
+            actionTitle?.text = "My Coupons"
+            fragment = CouponFragment()
+            val transaction = fm?.beginTransaction()
+            transaction?.replace(R.id.content, fragment)
+            transaction?.commit()
+            flag = false
+        }else {
+            actionTitle?.text = "My Orders"
+            fragment = OrderHistoryFragment()
+            val transaction = fm?.beginTransaction()
+            transaction?.replace(R.id.content, fragment)
+            transaction?.commit()
+            flag = false
+
+        }
+
+
+
 
     }
 

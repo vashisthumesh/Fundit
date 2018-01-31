@@ -57,6 +57,9 @@ public class CardActivity extends AppCompatActivity {
     String is_card_save="";
     String payment_method="";
     String organization_name="";
+    String combineName = "";
+    boolean newsFeedTimes = false;
+    boolean isotherTimes = false;
 
     CustomDialog dialog;
 
@@ -95,8 +98,12 @@ public class CardActivity extends AppCompatActivity {
         order_request= i.getStringExtra("order_request");
         other_user=i.getStringExtra("other_user");
         is_card_save=i.getStringExtra("is_card_save");
+        combineName = i.getStringExtra("name");
         organization_name=i.getStringExtra("organization_name");
+        newsFeedTimes=i.getBooleanExtra("newsFeedTimes" , false);
+        isotherTimes=i.getBooleanExtra("isOtherTimes" , false);
 
+        Log.e("isother" ,"-->" +  isotherTimes);
         dialog = new CustomDialog(CardActivity.this);
 
         adminAPI = ServiceGenerator.getAPIClass();
@@ -209,6 +216,13 @@ public class CardActivity extends AppCompatActivity {
                 i.putExtra("other_user",other_user);
                 i.putExtra("is_card_save","0");
                 i.putExtra("organization_name",organization_name);
+                i.putExtra("newsFeedTimes" , newsFeedTimes);
+                i.putExtra("isOtherTimes" , isotherTimes);
+                i.putExtra("email",email);
+                i.putExtra("name" , combineName);
+
+                Log.e("isother" ,"-->" +  isotherTimes);
+
                 startActivity(i);
             }
         });
@@ -273,6 +287,13 @@ public class CardActivity extends AppCompatActivity {
                                     i.putExtra("fundspot" , appModel.getData().getFundspot_name());
                                     i.putExtra("org" , appModel.getData().getOrganization_name());
                                     i.putExtra("total" , appModel.getData().getTotal());
+                                    i.putExtra("newsFeedTimes" , newsFeedTimes);
+                                    i.putExtra("isOtherTimes" , isotherTimes);
+                                    i.putExtra("email",email);
+                                    i.putExtra("name" , combineName);
+
+                                    Log.e("isother" ,"-->" +  isotherTimes);
+
                                    // i.putExtra("org",organization_name);
                                     startActivity(i);
 

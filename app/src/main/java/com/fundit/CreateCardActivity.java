@@ -67,14 +67,18 @@ public class CreateCardActivity extends AppCompatActivity {
     String on_behalf_of = "";
     String order_request = "";
     String other_user = "";
-    String is_card_save = "";
+    String is_card_save = "0";
     String payment_method = "";
     String organization_name = "";
+    String combineName = "";
+    boolean SaveCard = false ;
+    boolean newsFeedTimes = false ;
+    boolean isotherTimes = false;
 
 
     CreditCardEditText textview_credit_card;
     Button btn_continue;
-    EditText edt_firstname, edt_lastname, edt_address, edt_city;
+    EditText edt_firstname, edt_lastname, edt_address, edt_city , edt_cvv_number;
 
     Spinner spn_state;
 
@@ -134,8 +138,13 @@ public class CreateCardActivity extends AppCompatActivity {
         order_request = i.getStringExtra("order_request");
         other_user = i.getStringExtra("other_user");
         is_card_save = i.getStringExtra("is_card_save");
+        combineName = i.getStringExtra("name");
         organization_name = i.getStringExtra("organization_name");
+        SaveCard = i.getBooleanExtra("isSaveCard" , false);
+        newsFeedTimes = i.getBooleanExtra("newsFeedTimes" , false);
+        isotherTimes=i.getBooleanExtra("isOtherTimes" , false);
 
+        Log.e("isother4" ,"-->" +  isotherTimes);
 
         adminAPI = ServiceGenerator.getAPIClass();
 
@@ -189,6 +198,7 @@ public class CreateCardActivity extends AppCompatActivity {
         edt_lastname = (EditText) findViewById(R.id.edt_lastname);
         edt_city = (EditText) findViewById(R.id.edt_city);
         edt_address = (EditText) findViewById(R.id.edt_address);
+        edt_cvv_number = (EditText) findViewById(R.id.edt_cvv_number);
 
         chk_save = (CheckBox) findViewById(R.id.chk_save);
 
@@ -202,6 +212,13 @@ public class CreateCardActivity extends AppCompatActivity {
 
         edtZip = (EditText) findViewById(R.id.edt_zip);
         edtZip.setText(member.getZip_code());
+
+
+
+        if(SaveCard==true){
+            chk_save.setVisibility(View.GONE);
+        }
+
 
 
         if (editMode == true) {
@@ -237,6 +254,9 @@ public class CreateCardActivity extends AppCompatActivity {
 
                 AreaResponse areaResponse = response.body();
                 if (areaResponse != null) {
+                    stateNames.clear();
+                    stateItems.clear();
+                    stateNames.add("Select State");
                     if (areaResponse.isStatus()) {
                         stateItems.addAll(areaResponse.getData());
                         stateNames.addAll(areaResponse.getNameList());
@@ -265,6 +285,7 @@ public class CreateCardActivity extends AppCompatActivity {
                 String city = edt_city.getText().toString().trim();
                 String state = spn_state.getSelectedItem().toString();
                 String cardType = "";
+                cvv = edt_cvv_number.getText().toString().trim();
 
                 String cardNumber = textview_credit_card.getText().toString().replace("-", "");
                 String getSpinnerMonth = spn_month.getSelectedItem().toString();
@@ -494,7 +515,7 @@ public class CreateCardActivity extends AppCompatActivity {
                     status = mainObject.getBoolean("status");
                     message = mainObject.getString("message");
 
-                    C.INSTANCE.showToast(getApplicationContext(), message);
+                  //  C.INSTANCE.showToast(getApplicationContext(), message);
                     if (status == true) {
 
                         JSONObject object = mainObject.getJSONObject("data");
@@ -553,6 +574,7 @@ public class CreateCardActivity extends AppCompatActivity {
                 public void onResponse(Call<CompleteOrderModel> call, Response<CompleteOrderModel> response) {
                     dialog.dismiss();
                     CompleteOrderModel appModel = response.body();
+                    Log.e("model" , "-->" + new Gson().toJson(appModel));
                     if (appModel != null) {
                         if (appModel.isStatus()) {
 
@@ -565,6 +587,13 @@ public class CreateCardActivity extends AppCompatActivity {
                             i.putExtra("fundspot" , appModel.getData().getFundspot_name());
                             i.putExtra("org" , appModel.getData().getOrganization_name());
                             i.putExtra("total" , appModel.getData().getTotal());
+                            i.putExtra("newsFeedTimes" , newsFeedTimes);
+                            i.putExtra("isOtherTimes" , isotherTimes);
+                            i.putExtra("email",email);
+                            i.putExtra("name" , combineName);
+
+                            Log.e("isother5" ,"-->" +  isotherTimes);
+
                             //i.putExtra("org", organization_name);
                             startActivity(i);
 
