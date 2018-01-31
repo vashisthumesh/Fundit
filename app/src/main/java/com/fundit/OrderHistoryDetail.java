@@ -48,12 +48,13 @@ public class OrderHistoryDetail extends AppCompatActivity {
     List<OrderHistoryResponse.OrderedProducts> products = new ArrayList<>();
 
     OrderProductAdapter productAdapter;
+    boolean pending=false;
 
     boolean isCouponTimes = false;
     boolean isExpired=false;
     boolean isaccept=false;
     boolean flag=false;
-    LinearLayout layout_coupon ,linear_payment,linear_address,linear_resend,linear_ref,linear_code,linear_expiration,linear_expiry,linear_expired,layout_camp;
+    LinearLayout layout_coupon ,linear_payment,linear_address,linear_resend,linear_ref,linear_code,linear_expiration,linear_expiry,linear_expired,layout_camp,date_sold;
     ImageView qrScan;
     String QRSCAN = "";
     String productName = "";
@@ -76,6 +77,7 @@ public class OrderHistoryDetail extends AppCompatActivity {
         isCouponTimes = intent.getBooleanExtra("couponTimes" , false);
         isaccept=intent.getBooleanExtra("accept",false);
         flag=intent.getBooleanExtra("flag",false);
+        pending=intent.getBooleanExtra("pending",false);
 
        setupToolBar();
         fetchIDs();
@@ -133,6 +135,7 @@ public class OrderHistoryDetail extends AppCompatActivity {
         txt_expired= (TextView) findViewById(R.id.text_expired);
         linear_expired= (LinearLayout) findViewById(R.id.linear_expired);
         layout_camp= (LinearLayout) findViewById(R.id.layout_camp);
+        date_sold= (LinearLayout) findViewById(R.id.datesold);
 
 
 
@@ -157,12 +160,37 @@ public class OrderHistoryDetail extends AppCompatActivity {
 
             txt_coupon_exp_date.setVisibility(View.VISIBLE);
 
+
+
+            if(pending == true)
+            {
+                date_sold.setVisibility(View.GONE);
+                layout_camp.setVisibility(View.GONE);
+                linear_expiry.setVisibility(View.GONE);
+                linear_expired.setVisibility(View.GONE);
+                linear_resend.setVisibility(View.VISIBLE);
+                btnCoupon.setVisibility(View.VISIBLE);
+                btnCoupon.setText("Confirm");
+
+            }
+            else {
+                linear_expiry.setVisibility(View.VISIBLE);
+                linear_expired.setVisibility(View.VISIBLE);
+                date_sold.setVisibility(View.VISIBLE);
+                layout_camp.setVisibility(View.VISIBLE);
+                linear_resend.setVisibility(View.GONE);
+                btnCoupon.setVisibility(View.GONE);
+
+
+            }
+
             if(flag == true)
             {
 
                 linear_expiration.setVisibility(View.GONE);
                 layout_camp.setVisibility(View.GONE);
                 linear_expired.setVisibility(View.GONE);
+
                 if(isaccept == true)
                 {
                     linear_resend.setVisibility(View.VISIBLE);

@@ -171,10 +171,19 @@ public class ShowOrderDetailsAdapter extends BaseAdapter {
         layout_maincoupon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
                 Intent intent = new Intent(context, OrderHistoryDetail.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra("details", orderLists.get(position));
                 intent.putExtra("couponTimes", true);
+                if (orderLists.get(position).getOrder().getOrder_request().equalsIgnoreCase("1")) {
+                    intent.putExtra("pending",true);
+                }
+                else {
+                    intent.putExtra("pending",false);
+                }
+
 
 
                 context.startActivity(intent);

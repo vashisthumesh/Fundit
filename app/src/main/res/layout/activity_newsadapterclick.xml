@@ -94,7 +94,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="Description :"
+                        android:text="Description:"
                         android:textColor="@color/colorText"
                         android:textSize="14sp" />
 
@@ -121,7 +121,7 @@
                         android:id="@+id/txt_partnerLabel"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="Fundspot Partner :"
+                        android:text="Fundspot Partner:"
                         android:textColor="@color/colorText"
                         android:textSize="14sp" />
 
@@ -146,7 +146,7 @@
                         android:id="@+id/txt_partnerLab"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="Organization Partner :"
+                        android:text="Organization Partner:"
                         android:textColor="@color/colorText"
                         android:textSize="14sp" />
 
@@ -170,7 +170,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="Product :"
+                        android:text="Product:"
                         android:textColor="@color/colorText"
                         android:textSize="14sp" />
 
@@ -212,7 +212,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="Goal :"
+                        android:text="Goal:"
                         android:textColor="@color/colorText"
                         android:textSize="14sp" />
 
@@ -221,7 +221,7 @@
                         android:id="@+id/txt_goal"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginLeft="2dp"
                         android:textColor="@color/colorText"
                         android:textSize="14sp" />
 
@@ -251,7 +251,7 @@
                         android:id="@+id/date_label"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Date :"
+                        android:text="Date:"
                         android:textColor="@color/colorText"
                         android:textSize="14sp" />
 
@@ -260,7 +260,7 @@
                         android:id="@+id/txt_date"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginLeft="2dp"
                         android:textColor="@color/colorText"
                         android:textSize="14sp" />
 

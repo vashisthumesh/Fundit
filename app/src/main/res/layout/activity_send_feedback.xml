@@ -35,7 +35,7 @@
                     android:layout_height="40dp"
                     android:gravity="center"
                     android:padding="5dp"
-                    android:text="Full Name* :"
+                    android:text="Full Name*:"
                     android:textColor="@color/colorText"
                     android:textSize="16sp" />
 
@@ -69,7 +69,7 @@
                     android:layout_height="40dp"
                     android:gravity="center"
                     android:padding="5dp"
-                    android:text="Email Id* :"
+                    android:text="Email Id*:"
                     android:textColor="@color/colorText"
                     android:textSize="16sp" />
 
@@ -103,7 +103,7 @@
                     android:layout_height="40dp"
                     android:gravity="center"
                     android:padding="5dp"
-                    android:text="Message* :"
+                    android:text="Message*:"
                     android:textColor="@color/colorText"
                     android:textSize="16sp" />
 

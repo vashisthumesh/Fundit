@@ -57,7 +57,7 @@
 
         <TextView
 
-            android:text="Organization : "
+            android:text="Organization:"
             android:textSize="16sp"
             android:textStyle="bold"
             android:textColor="@color/colorText"
@@ -68,7 +68,7 @@
             android:id="@+id/txt_organization"
             android:text=""
             android:textSize="16sp"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="2dp"
             android:textColor="@color/colorTextSecondary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -85,7 +85,7 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:text="Fundspot : "
+            android:text="Fundspot:"
             android:textSize="16sp"
             android:textStyle="bold"
             android:textColor="@color/colorText"
@@ -96,7 +96,7 @@
             android:id="@+id/txt_fundspot"
             android:text=""
             android:textSize="16sp"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="2dp"
             android:textColor="@color/colorTextSecondary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -116,7 +116,7 @@
 
         <TextView
 
-            android:text="Campaign : "
+            android:text="Campaign:"
             android:textSize="16sp"
             android:textStyle="bold"
             android:textColor="@color/colorText"
@@ -127,7 +127,7 @@
             android:id="@+id/txt_campaign"
             android:text=""
             android:textSize="16sp"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="2dp"
             android:textColor="@color/colorTextSecondary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -146,7 +146,7 @@
 
         <TextView
 
-            android:text="Address : "
+            android:text="Address:"
             android:textSize="16sp"
             android:textStyle="bold"
             android:textColor="@color/colorText"
@@ -157,7 +157,7 @@
             android:id="@+id/txt_address"
             android:text=""
             android:textSize="16sp"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="2dp"
             android:textColor="@color/colorTextSecondary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -177,7 +177,7 @@
 
         <TextView
 
-            android:text="Expiration Date : "
+            android:text="Expiration Date:"
             android:textSize="16sp"
             android:textStyle="bold"
             android:textColor="@color/colorText"
@@ -188,7 +188,7 @@
             android:id="@+id/txt_expdate"
             android:text=""
             android:textSize="16sp"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="2dp"
             android:textColor="@color/colorTextSecondary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -207,7 +207,7 @@
 
         <TextView
 
-            android:text="Item : "
+            android:text="Item:"
             android:textSize="16sp"
             android:textStyle="bold"
             android:textColor="@color/colorText"
@@ -218,7 +218,7 @@
             android:id="@+id/txt_item"
             android:text=""
             android:textSize="16sp"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="2dp"
             android:textColor="@color/colorTextSecondary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -242,7 +242,7 @@
 
         <TextView
 
-            android:text="Total Amount : "
+            android:text="Total Amount:"
             android:textSize="16sp"
             android:textStyle="bold"
             android:textColor="@color/colorText"
@@ -253,7 +253,7 @@
             android:id="@+id/txt_amt"
             android:text=""
             android:textSize="16sp"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="2dp"
             android:textColor="@color/colorTextSecondary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -271,7 +271,7 @@
 
         <TextView
 
-            android:text="Total Coupons : "
+            android:text="Total Coupons:"
             android:textSize="16sp"
             android:textStyle="bold"
             android:textColor="@color/colorText"
@@ -282,7 +282,7 @@
             android:id="@+id/txt_coupons"
             android:text=""
             android:textSize="16sp"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="2dp"
             android:textColor="@color/colorTextSecondary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />

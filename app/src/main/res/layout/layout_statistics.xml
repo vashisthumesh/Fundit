@@ -52,7 +52,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/txt_itemSold"
-            android:padding="5dp"
+            android:padding="2dp"
             android:textSize="16sp"
             tools:text="432"
             android:textColor="@color/colorText"/>
@@ -78,7 +78,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/txt_couponLeft"
-            android:padding="5dp"
+            android:padding="2dp"
             android:textSize="16sp"
             tools:text="68"
             android:textColor="@color/colorText"/>
@@ -101,7 +101,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="5dp"
+            android:padding="2dp"
             android:id="@+id/txt_netMoney"
             android:textSize="16sp"
             tools:text="$1641.60"
@@ -125,7 +125,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="5dp"
+            android:padding="2dp"
             android:id="@+id/txt_netMoneyfun"
             android:textSize="16sp"
             tools:text="$1641.60"
@@ -142,13 +142,13 @@
             android:layout_height="wrap_content"
             android:padding="5dp"
             android:textSize="16sp"
-            android:text="Coupons Redeems :"
+            android:text="Coupons Redeems:"
             android:textColor="@color/colorText"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="5dp"
+            android:padding="2dp"
             android:textSize="16sp"
             android:id="@+id/txt_couponRedeemed"
             tools:text="106"

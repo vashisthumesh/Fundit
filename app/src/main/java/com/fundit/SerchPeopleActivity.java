@@ -561,9 +561,27 @@ public class SerchPeopleActivity extends AppCompatActivity {
                     C.INSTANCE.showToast(getApplicationContext(), message);
                     if (status) {
 
-                        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(intent);
+                        String checkMemberId = "";
+
+
+                        if (preference.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)) {
+                            checkMemberId = getResponse.getId();
+
+                        }
+                        if (preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION)) {
+                            checkMemberId = getResponse.getId();
+
+                        }
+                        if (preference.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER)) {
+                            checkMemberId = getResponse.getId();
+
+                        }
+
+
+                        CheckMemberIsjoined(checkMemberId , preference.getUserRoleID());
+//                        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+//                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                        startActivity(intent);
 
                     }
 

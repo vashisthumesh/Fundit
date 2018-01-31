@@ -892,11 +892,12 @@ public class AddMembersActivity extends AppCompatActivity {
 
                     C.INSTANCE.showToast(getApplicationContext(), message);
                     if (status) {
+                        btnJoin.setText("Leave Us");
+                        isMemberJoined = 1;
 
-
-                        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(intent);
+//                        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+//                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                        startActivity(intent);
 
                     }
 

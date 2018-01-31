@@ -18,7 +18,7 @@
             android:layout_weight="1"
             android:textColor="@color/colorText"
             android:textSize="16sp"
-            android:text="Total Request :"
+            android:text="Total Request:"
             android:textStyle="bold"
             android:gravity="end|center"/>
 

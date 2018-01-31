@@ -23,7 +23,7 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:text="Order Id : "
+            android:text="Order Id: "
             android:textSize="16sp"
             android:textStyle="bold"
             android:textColor="@color/colorText"
@@ -34,7 +34,7 @@
             android:id="@+id/txt_orderId"
             android:text=""
             android:textSize="16sp"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="2dp"
             android:textColor="@color/colorTextSecondary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -53,7 +53,7 @@
 
         <TextView
 
-            android:text="Total Amount : "
+            android:text="Total Amount: "
             android:textSize="16sp"
             android:textStyle="bold"
             android:textColor="@color/colorText"
@@ -64,7 +64,7 @@
             android:id="@+id/txt_totalAmt"
             android:text=""
             android:textSize="16sp"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="2dp"
             android:textColor="@color/colorTextSecondary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -83,7 +83,7 @@
 
         <TextView
 
-            android:text="Date Sold : "
+            android:text="Date Sold:"
             android:textSize="16sp"
             android:textStyle="bold"
             android:textColor="@color/colorText"
@@ -94,7 +94,7 @@
             android:id="@+id/txt_date"
             android:text=""
             android:textSize="16sp"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="2dp"
             android:textColor="@color/colorTextSecondary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -114,7 +114,7 @@
 
         <TextView
 
-            android:text="Total Coupons : "
+            android:text="Total Coupons:"
             android:textSize="16sp"
             android:textStyle="bold"
             android:textColor="@color/colorText"
@@ -125,7 +125,7 @@
             android:id="@+id/txt_coupon"
             android:text=""
             android:textSize="16sp"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="2dp"
             android:textColor="@color/colorTextSecondary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />

@@ -60,9 +60,7 @@ public class FundOrganizationRequestActivity extends AppCompatActivity {
     public void fetchIds()
     {
         list_fundrequest= (ListView) findViewById(R.id.list_fundrequest);
-        fundorgrequestAdapter=new
-
-                FundorgrequestAdapter(fundRequestDataList,FundOrganizationRequestActivity.this);
+        fundorgrequestAdapter=new FundorgrequestAdapter(fundRequestDataList,FundOrganizationRequestActivity.this);
         list_fundrequest.setAdapter(fundorgrequestAdapter);
 
 

@@ -18,6 +18,6 @@
     </ScrollView>
 
     <include layout="@layout/toolbar_center_text"
-        android:visibility="gone"/>
+        />
 
 </LinearLayout>

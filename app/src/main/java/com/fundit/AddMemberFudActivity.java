@@ -100,7 +100,7 @@ public class AddMemberFudActivity extends AppCompatActivity {
 
 
 
-        //setupToolbar();
+        setupToolbar();
         fetchIds();
 
 
@@ -117,7 +117,7 @@ public class AddMemberFudActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-        actionTitle.setText("Profile");
+        actionTitle.setText("");
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

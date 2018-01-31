@@ -200,7 +200,7 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
         }
         else {
             fundraiser.setVisibility(View.VISIBLE);
-            txt_fundraiser.setText("Fundriser : " + campaignList.getCampaign().getTitle());
+            txt_fundraiser.setText("Fundriser: " + campaignList.getCampaign().getTitle());
         }
 
 

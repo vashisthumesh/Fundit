@@ -54,7 +54,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
-                    android:text="Name :"
+                    android:text="Name:"
                     android:textColor="@color/colorText"
                     android:textSize="10sp"
                     android:textStyle="bold" />
@@ -78,7 +78,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
-                    android:text="Selling Price :"
+                    android:text="Selling Price:"
                     android:textColor="@color/colorText"
                     android:textSize="10sp"
                     android:textStyle="bold" />
@@ -104,7 +104,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
-                    android:text="Type :"
+                    android:text="Type:"
                     android:textColor="@color/colorText"
                     android:textSize="10sp"
                     android:textStyle="bold" />
@@ -129,7 +129,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
-                    android:text="Description :"
+                    android:text="Description:"
                     android:textColor="@color/colorText"
                     android:textSize="10sp"
                     android:textStyle="bold" />

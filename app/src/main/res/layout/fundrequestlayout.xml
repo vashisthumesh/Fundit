@@ -34,7 +34,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
-                    android:text="Location :"
+                    android:text="Location:"
                     android:textColor="@color/colorText"
                     android:textSize="14sp"/>
 
@@ -42,7 +42,7 @@
                     android:id="@+id/txt_location"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="5dp"
+                    android:padding="2dp"
                     android:text=""
                     android:textColor="@color/colorText"
                     android:textSize="14sp"/>
