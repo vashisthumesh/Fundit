@@ -218,8 +218,9 @@
         <activity android:name=".AddMemberFudActivity" />
         <activity android:name=".NotificationSettingsActivity" />
         <activity android:name=".NotificationOrderActivity" />
-        <activity android:name=".CardActivity"/>
-        <activity android:name=".CreateCardActivity"></activity>
+        <activity android:name=".CardActivity" />
+        <activity android:name=".CreateCardActivity" />
+        <activity android:name=".FundOrganizationRequestActivity"></activity>
     </application>
 
 </manifest>

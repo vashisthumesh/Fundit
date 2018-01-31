@@ -12,6 +12,7 @@ import com.fundit.model.BankCardResponse;
 import com.fundit.model.CampaignListResponse;
 import com.fundit.model.CategoryResponse;
 import com.fundit.model.ForgotPasswordEmailResponse;
+import com.fundit.model.FundRequest;
 import com.fundit.model.Fundspot;
 import com.fundit.model.FundspotListResponse;
 import com.fundit.model.FundspotListResponseFundspot;
@@ -295,6 +296,18 @@ public interface AdminAPI {
     @FormUrlEncoded
     @POST(W.GET_CARD_DATA)
     Call<BankCardResponse> BankCard(@Field(W.KEY_USERID) String userId , @Field(W.KEY_TOKEN) String tokenHash);
+
+
+
+    @FormUrlEncoded
+    @POST(W.FUND_ORG_REQUEST)
+    Call<FundRequest> Fund_Org_Request(@Field("member_id") String member_id);
+
+
+
+    @FormUrlEncoded
+    @POST(W.ACCEPT_DECLINE_REQUEST)
+    Call<AppModel> Acc_Decline_Request(@Field(W.KEY_USERID) String user_id,@Field("member_id") String member_id,@Field("status") String status,@Field("role_id") String role_id);
 
 
     @FormUrlEncoded

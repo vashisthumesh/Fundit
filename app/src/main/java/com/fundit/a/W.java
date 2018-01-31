@@ -96,6 +96,12 @@ public class W {
 
     public static final String GET_CARD_DATA = "BankCard/app_get_cards";
 
+
+    public static final String FUND_ORG_REQUEST="Member/app_get_other_request";
+
+
+    public static final String ACCEPT_DECLINE_REQUEST="Member/app_respond_other_request";
+
     public static final String DELETE_CARDDETAIL="BankCard/app_delete_cards";
 
 
