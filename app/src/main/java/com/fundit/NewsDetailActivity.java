@@ -42,6 +42,7 @@ public class NewsDetailActivity extends AppCompatActivity {
     Button btn_place_order;
     Double width=60.0;
 
+    boolean isPastCampaign = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +50,7 @@ public class NewsDetailActivity extends AppCompatActivity {
         Intent intent = getIntent();
 
         campaignList = (CampaignListResponse.CampaignList) intent.getSerializableExtra("details");
+        isPastCampaign = intent.getBooleanExtra("pastCampaign" , false);
         preference = new AppPreference(getApplicationContext());
         adminAPI = ServiceGenerator.getAPIClass();
         dialog = new CustomDialog(NewsDetailActivity.this);
@@ -97,6 +99,13 @@ public class NewsDetailActivity extends AppCompatActivity {
 
         txt_description.setText(campaignList.getCampaign().getDescription());
 
+        if(isPastCampaign){
+            btn_place_order.setVisibility(View.GONE);
+        }
+
+
+
+
         double finallength=0;
         finallength=(int) (getScreenWidth()/3);
 
@@ -144,14 +153,6 @@ public class NewsDetailActivity extends AppCompatActivity {
             txt_partnerName.setText(campaignList.getUserOrganization().getTitle());
         }
 
-
-
-
-
-
-
-
-
         String Campain_duration=campaignList.getCampaign().getCampaign_duration();
         if(Campain_duration.equalsIgnoreCase("0"))
         {
@@ -162,10 +163,20 @@ public class NewsDetailActivity extends AppCompatActivity {
             txt_date.setVisibility(View.VISIBLE);
             date_label.setVisibility(View.VISIBLE);
 
-            String startdate=campaignList.getCampaign().getStart_date();
-            String enddate=campaignList.getCampaign().getEnd_date();
-            Log.e("start",startdate);
-            Log.e("end",enddate);
+            String startdate="";
+            String enddate="";
+
+            if(campaignList.getCampaign().getStart_date()==null || campaignList.getCampaign().getStart_date().equalsIgnoreCase("null")|| campaignList.getCampaign().getStart_date().equalsIgnoreCase(null) || campaignList.getCampaign().getStart_date().equalsIgnoreCase("") || campaignList.getCampaign().getStart_date().isEmpty()){
+                startdate = "1990-01-01";
+            }else {
+                startdate = campaignList.getCampaign().getStart_date();
+            }
+
+            if(campaignList.getCampaign().getEnd_date()==null || campaignList.getCampaign().getEnd_date().equalsIgnoreCase("null")|| campaignList.getCampaign().getEnd_date().equalsIgnoreCase(null) || campaignList.getCampaign().getEnd_date().equalsIgnoreCase("") || campaignList.getCampaign().getEnd_date().isEmpty()){
+                enddate = "2050-01-01";
+            }else {
+                enddate = campaignList.getCampaign().getEnd_date();
+            }
 
             final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
             try {
@@ -244,6 +255,46 @@ public class NewsDetailActivity extends AppCompatActivity {
                 intent.putExtra("details" , campaignList);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
+            }
+        });
+
+        fund_partner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(NewsDetailActivity.this , AddMemberFudActivity.class);
+                if(campaignList.getCampaign().getRole_id().equalsIgnoreCase("2"))
+                {
+                    intent.putExtra("memberId",campaignList.getUserFundspot().getId());
+                }
+                else if(campaignList.getCampaign().getRole_id().equalsIgnoreCase("3"))
+                {
+                    intent.putExtra("memberId",campaignList.getUserOrganization().getId());
+                }
+                intent.putExtra("Flag","fund");
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+
+
+            }
+        });
+
+
+        org_partner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(NewsDetailActivity.this , AddMemberFudActivity.class);
+                if(campaignList.getCampaign().getRole_id().equalsIgnoreCase("2"))
+                {
+                    intent.putExtra("memberId",campaignList.getUserOrganization().getId());
+                }
+                else if(campaignList.getCampaign().getRole_id().equalsIgnoreCase("3"))
+                {
+                    intent.putExtra("memberId",campaignList.getUserFundspot().getId());
+                }
+                intent.putExtra("Flag","org");
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+
             }
         });
 

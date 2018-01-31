@@ -57,6 +57,7 @@ class HomeActivity : AppCompatActivity() {
     var cartCount: TextView? = null
     var memberRequest: Int = 0
     var campaignRequestCount: Int = 0
+    var couponCount : Int = 0
     var totalRequest: Int = 0
     var flag = false
     var isNotificationTimes = false
@@ -488,7 +489,9 @@ class HomeActivity : AppCompatActivity() {
 
 
             val getTotalCount = preference?.totalCount
+            val getCouponCount = preference?.couponCount
             Log.e("getTotalCount", "-->" + getTotalCount)
+            Log.e("getCouponCount", "-->" + getCouponCount)
 
             if (position == 2) {
                 if (getTotalCount == 0) {
@@ -500,6 +503,24 @@ class HomeActivity : AppCompatActivity() {
             } else {
                 txt_count.visibility = View.GONE
             }
+
+
+
+            if(preference?.userRoleID.equals(C.GENERAL_MEMBER)){
+                if (position == 2) {
+                    if (getCouponCount == 0) {
+                        txt_count.visibility = View.GONE
+                    } else {
+                        txt_count.visibility = View.VISIBLE
+                        txt_count.text = getCouponCount.toString()
+                    }
+                } else {
+                    txt_count.visibility = View.GONE
+                }
+            }
+
+
+
 
 
             return view
@@ -578,6 +599,7 @@ class HomeActivity : AppCompatActivity() {
 
                     memberRequest = mainObject.getInt("total_member_request_count")
                     campaignRequestCount = mainObject.getInt("total_request_count")
+                    couponCount = mainObject.getInt("total_coupon_count")
                     preference?.setfundspot_product_count(mainObject.getInt("fundspot_product_count"))
 
 
@@ -594,6 +616,7 @@ class HomeActivity : AppCompatActivity() {
                     preference?.campaignCount = campaignRequestCount
                     preference?.memberCount = memberRequest
                     preference?.totalCount = totalRequest
+                    preference?.couponCount = couponCount
 
 
 

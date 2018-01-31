@@ -108,6 +108,17 @@ public class AppPreference {
         editor.putInt("totalCount" , totalCount).commit();
     }
 
+    public int getCouponCount() {
+        return preferences.getInt("CouponCount" , 0);
+    }
+
+    public void setCouponCount(int CouponCount) {
+        editor.putInt("CouponCount" , CouponCount).commit();
+    }
+
+
+
+
     public int getfundspot_product_count() {
         return preferences.getInt("fundspot_product_count" , 0);
     }
@@ -122,6 +133,14 @@ public class AppPreference {
 
     public void setFirstTime(boolean firstTime) {
         editor.putBoolean("firstTime" , firstTime).commit();
+    }
+
+    public boolean isMemberTimes() {
+        return preferences.getBoolean("MemberTimes" , false);
+    }
+
+    public void setMemberTimes(boolean MemberTimes) {
+        editor.putBoolean("MemberTimes" , MemberTimes).commit();
     }
 
     public void clearData(Context context){

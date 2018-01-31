@@ -49,12 +49,14 @@ public class ShowCampaignAdapter extends BaseAdapter {
     AppPreference preference;
     Context context;
     Date startdate, enddate;
+    boolean isPastCampaign = false ;
 
-    public ShowCampaignAdapter(List<CampaignListResponse.CampaignList> campaignLists, Activity activity) {
+    public ShowCampaignAdapter(List<CampaignListResponse.CampaignList> campaignLists, Activity activity , boolean isPastCampaign) {
         this.campaignLists = campaignLists;
         this.activity = activity;
         this.inflater = activity.getLayoutInflater();
         this.context = activity.getApplication();
+        this.isPastCampaign = isPastCampaign ;
 
     }
 
@@ -175,8 +177,25 @@ public class ShowCampaignAdapter extends BaseAdapter {
             txt_dates.setVisibility(View.VISIBLE);
             txt_dateLabel.setVisibility(View.VISIBLE);
 
-            String start_date = campaignLists.get(position).getCampaign().getStart_date();
-            String end_date = campaignLists.get(position).getCampaign().getEnd_date();
+            String start_date = "";
+            String end_date = "";
+
+
+            if(campaignLists.get(position).getCampaign().getStart_date()==null || campaignLists.get(position).getCampaign().getStart_date().equalsIgnoreCase("null")|| campaignLists.get(position).getCampaign().getStart_date().equalsIgnoreCase(null) || campaignLists.get(position).getCampaign().getStart_date().equalsIgnoreCase("") || campaignLists.get(position).getCampaign().getStart_date().isEmpty()){
+                start_date = "1990-01-01";
+            }else {
+                start_date = campaignLists.get(position).getCampaign().getStart_date();
+            }
+
+            if(campaignLists.get(position).getCampaign().getEnd_date()==null || campaignLists.get(position).getCampaign().getEnd_date().equalsIgnoreCase("null")|| campaignLists.get(position).getCampaign().getEnd_date().equalsIgnoreCase(null) || campaignLists.get(position).getCampaign().getEnd_date().equalsIgnoreCase("") || campaignLists.get(position).getCampaign().getEnd_date().isEmpty()){
+                end_date = "2050-01-01";
+            }else {
+                end_date = campaignLists.get(position).getCampaign().getEnd_date();
+            }
+
+
+
+
 
 
             final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -186,7 +205,6 @@ public class ShowCampaignAdapter extends BaseAdapter {
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-
             final SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat("yyyy-MM-dd");
             try {
                 enddate = simpleDateFormat1.parse(end_date);
@@ -249,6 +267,7 @@ public class ShowCampaignAdapter extends BaseAdapter {
                 if (preference.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER)) {
                     Intent intent = new Intent(context, NewsDetailActivity.class);
                     intent.putExtra("details", campaignLists.get(position));
+                    intent.putExtra("pastCampaign" , isPastCampaign);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);
                 } else {
@@ -266,6 +285,7 @@ public class ShowCampaignAdapter extends BaseAdapter {
                 if (preference.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER)) {
                     Intent intent = new Intent(context, NewsDetailActivity.class);
                     intent.putExtra("details", campaignLists.get(position));
+                    intent.putExtra("pastCampaign" , isPastCampaign);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);
                 } else {

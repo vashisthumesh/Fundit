@@ -34,7 +34,7 @@ public class OrderPlaceActivity extends AppCompatActivity {
     TextView txt_campaignName, txt_description, txt_partnerLabel, txt_partnerName, txt_item, txt_goal, txt_split, txt_date, txt_members, txt_addMember, txt_message, txt_back, txt_raised, txt_targetAmt, txt_statistic, txt_labeldate, txt_msgtype, txt_organizationName;
 
     Button btn_placeOrder, btn_placeOrder1;
-    LinearLayout layot_date, place_layout, share_layout, layout_both;
+    LinearLayout layot_date, place_layout, share_layout, layout_both ,fund_partner,org_partner;
 
     AppPreference preference;
     AdminAPI adminAPI;
@@ -108,6 +108,9 @@ public class OrderPlaceActivity extends AppCompatActivity {
         place_layout = (LinearLayout) findViewById(R.id.place_layout);
         share_layout = (LinearLayout) findViewById(R.id.share_layout);
         layout_both = (LinearLayout) findViewById(R.id.layout_both);
+        org_partner= (LinearLayout) findViewById(R.id.org_partner);
+        fund_partner= (LinearLayout) findViewById(R.id.fund_partner);
+
 
         /*if (preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION)) {
             btn_placeOrder.setText("Share");
@@ -309,6 +312,47 @@ public class OrderPlaceActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        fund_partner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(OrderPlaceActivity.this , AddMemberFudActivity.class);
+                if(campaignList.getCampaign().getRole_id().equalsIgnoreCase("2"))
+                {
+                    intent.putExtra("memberId",campaignList.getUserFundspot().getId());
+                }
+                else if(campaignList.getCampaign().getRole_id().equalsIgnoreCase("3"))
+                {
+                    intent.putExtra("memberId",campaignList.getUserOrganization().getId());
+                }
+                intent.putExtra("Flag","fund");
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+
+
+            }
+        });
+
+
+        org_partner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(OrderPlaceActivity.this , AddMemberFudActivity.class);
+                if(campaignList.getCampaign().getRole_id().equalsIgnoreCase("2"))
+                {
+                    intent.putExtra("memberId",campaignList.getUserOrganization().getId());
+                }
+                else if(campaignList.getCampaign().getRole_id().equalsIgnoreCase("3"))
+                {
+                    intent.putExtra("memberId",campaignList.getUserFundspot().getId());
+                }
+                intent.putExtra("Flag","org");
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+
+            }
+        });
+
 
 
     }

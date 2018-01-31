@@ -195,6 +195,7 @@ public class FundSpotProfile extends AppCompatActivity {
             ed_fund_description.setText(fundspot.getDescription());
             ed_fund_contact_info.setText(member.getContact_info_mobile());
             edt_contactInfo_email.setText(member.getContact_info_email());
+            tv_city.setText(member.getCity_name());
 
             Log.e("categeory", "" + fundspot.getCategory_id());
         }

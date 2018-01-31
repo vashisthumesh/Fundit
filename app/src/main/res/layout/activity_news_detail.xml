@@ -60,7 +60,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="Description :"
+                        android:text="Description:"
                         android:textColor="@color/colorText"
                         android:textSize="14sp" />
 
@@ -69,7 +69,7 @@
                         android:id="@+id/txt_description"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginLeft="2dp"
                         android:gravity="start|center"
                         android:textColor="@color/colorText"
                         android:textSize="14sp" />
@@ -87,7 +87,7 @@
                         android:id="@+id/txt_partnerLabel"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="Fundspot Partner :"
+                        android:text="Fundspot Partner:"
                         android:textColor="@color/colorText"
                         android:textSize="14sp" />
 
@@ -96,7 +96,7 @@
                         android:id="@+id/txt_partnerName"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginLeft="2dp"
                         android:textColor="@color/colorText"
                         android:textSize="14sp" />
 
@@ -112,7 +112,7 @@
                         android:id="@+id/txt_partnerLab"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="Organization Partner :"
+                        android:text="Organization Partner:"
                         android:textColor="@color/colorText"
                         android:textSize="14sp" />
 
@@ -121,7 +121,7 @@
                         android:id="@+id/txt_organizationname"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginLeft="2dp"
                         android:textColor="@color/colorText"
                         android:textSize="14sp" />
 
@@ -136,7 +136,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="Product :"
+                        android:text="Product:"
                         android:textColor="@color/colorText"
                         android:textSize="14sp" />
 

@@ -200,6 +200,7 @@ public class OrganizationProfileActivity extends AppCompatActivity {
             edt_contactInfo_email.setText(member.getContact_info_email());
             edt_description.setText(organization.getDescription());
             edt_zipCode.setText(member.getZip_code());
+            tv_city.setText(member.getCity_name());
         }
 
 

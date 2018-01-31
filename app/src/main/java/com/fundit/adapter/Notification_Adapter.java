@@ -126,6 +126,14 @@ public class Notification_Adapter extends BaseAdapter {
         holder.lv_notification_layer = (LinearLayout) rowView.findViewById(R.id.lv_notification_layer);
         holder.notification.setText(result.get(position).getMsg());
 
+
+        if(result.get(position).getRead_status().equalsIgnoreCase("0")){
+            holder.lv_notification_layer.setBackgroundColor(context.getResources().getColor(R.color.color_gray));
+        }else {
+            holder.lv_notification_layer.setBackgroundColor(context.getResources().getColor(R.color.white));
+        }
+
+
         holder.lv_notification_layer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

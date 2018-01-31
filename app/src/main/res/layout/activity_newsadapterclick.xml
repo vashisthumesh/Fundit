@@ -103,7 +103,7 @@
                         android:id="@+id/txt_description"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginLeft="2dp"
                         android:gravity="start|center"
                         android:textColor="@color/colorText"
                         android:textSize="14sp" />
@@ -130,7 +130,7 @@
                         android:id="@+id/txt_partnerName"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginLeft="2dp"
                         android:textColor="@color/colorText"
                         android:textSize="14sp" />
 
@@ -155,7 +155,7 @@
                         android:id="@+id/txt_organizationname"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginLeft="2dp"
                         android:textColor="@color/colorText"
                         android:textSize="14sp" />
 

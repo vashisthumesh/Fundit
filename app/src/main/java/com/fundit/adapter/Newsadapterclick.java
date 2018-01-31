@@ -63,7 +63,10 @@ public class Newsadapterclick extends BaseAdapter {
         LinearLayout news_layout= (LinearLayout) view.findViewById(R.id.news_layout);
 
         txt_name.setText(productList.get(position).getName());
-        selling_price.setText("Selling Price:"+productList.get(position).getPrice());
+
+
+
+        selling_price.setText("Selling Price: $ "+ String.format("%.2f" , Double.parseDouble(productList.get(position).getPrice())));
         txt_comment.setText(productList.get(position).getDescription());
 
 

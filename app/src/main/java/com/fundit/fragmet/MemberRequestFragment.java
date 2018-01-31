@@ -65,13 +65,13 @@ public class MemberRequestFragment extends Fragment {
 
 
 
+
     public MemberRequestFragment() {
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, @Nullable Bundle savedInstanceState) {
-
         view = inflater.inflate(R.layout.fragment_member_request, container, false);
         preference = new AppPreference(getActivity());
         adminAPI = ServiceGenerator.getAPIClass();
@@ -233,7 +233,7 @@ public class MemberRequestFragment extends Fragment {
                         memberRequestAdapter.notifyDataSetChanged();
                     }else {
 
-                        C.INSTANCE.showToast(getActivity() , message);
+                        C.INSTANCE.showToast(getContext() , message);
 
                     }
                 }

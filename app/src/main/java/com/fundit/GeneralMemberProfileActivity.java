@@ -169,6 +169,7 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
             tv_login_email.setVisibility(View.GONE);
             edt_firstName.setText(member.getFirst_name());
             edt_lastName.setText(member.getLast_name());
+            tv_city.setText(member.getCity_name());
 
             edt_firstName.setEnabled(false);
 

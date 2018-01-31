@@ -224,7 +224,7 @@ public class SerchPeopleActivity extends AppCompatActivity {
                     if (isDialogOpen == 1) {
                         RespondForMemberRequest("" , "Respond to Request" , "");
                     } else {
-                        C.INSTANCE.showToast(getApplicationContext(), "You request are to join is pending!");
+                        C.INSTANCE.showToast(getApplicationContext(), "Your request to add " + txt_name.getText().toString().trim() +" is pending.");
                     }
 
 
@@ -317,6 +317,9 @@ public class SerchPeopleActivity extends AppCompatActivity {
                                 isMemberJoined = 2;
 
                             } else {
+
+                                C.INSTANCE.showToast(getApplicationContext(), "Your request to add " + txt_name.getText().toString().trim() +" is pending.");
+
                                 btnAdd.setText("Pending");
                                 isMemberJoined = 2;
                             }

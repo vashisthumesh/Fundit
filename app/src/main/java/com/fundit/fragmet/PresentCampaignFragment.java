@@ -69,7 +69,7 @@ public class PresentCampaignFragment extends Fragment {
     private void fetchIDs() {
 
         listCampaign = (ListView) view.findViewById(R.id.listCampaigns);
-        campaignAdapter = new ShowCampaignAdapter(campaignArrayList , getActivity());
+        campaignAdapter = new ShowCampaignAdapter(campaignArrayList , getActivity() , false);
         listCampaign.setAdapter(campaignAdapter);
 
 

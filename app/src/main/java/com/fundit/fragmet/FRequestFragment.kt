@@ -12,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.fundit.R
+import com.fundit.a.AppPreference
 
 /**
  * Created by Nivida new on 25-Jul-17.
@@ -22,6 +23,7 @@ class   FRequestFragment : Fragment() {
     var requestCampaignFragment: FundspotRequestFragment? = null
     var requestMemberFragment: Fragment? = null
     internal var SUCCESS_CODE = 475
+    var preference: AppPreference? = null
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
@@ -55,6 +57,7 @@ class   FRequestFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         fView = inflater?.inflate(R.layout.fragment_reuest_home, container, false)
+        preference = AppPreference(activity)
 
         fetchIDs()
 

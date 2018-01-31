@@ -53,8 +53,8 @@ public class CreateCampaignNextActivity extends AppCompatActivity {
     String dateSelected = null;
 
     AdjustableListView listMembers;
-    EditText edt_campaignName, edt_description, edt_startDate, edt_message , edt_amount , edt_msgFundspot;
-    CheckBox chk_startDateAsPossible, chk_allOrgMembers , chk_maxAmount;
+    EditText edt_campaignName, edt_description, edt_startDate, edt_message, edt_amount, edt_msgFundspot;
+    CheckBox chk_startDateAsPossible, chk_allOrgMembers, chk_maxAmount;
     AutoCompleteTextView auto_searchMember;
     Button btn_request;
     TextView txt_message;
@@ -88,7 +88,7 @@ public class CreateCampaignNextActivity extends AppCompatActivity {
         selectedProducts = intent.getStringArrayListExtra("products");
 
         //couponFinePrint = intent.getStringExtra("couponFinePrint");
-       // product = (ProductListResponse.Product) intent.getSerializableExtra("product");
+        // product = (ProductListResponse.Product) intent.getSerializableExtra("product");
 
         fetchIDs();
         setupToolbar();
@@ -101,7 +101,7 @@ public class CreateCampaignNextActivity extends AppCompatActivity {
         edt_message = (EditText) findViewById(R.id.edt_message);
         edt_amount = (EditText) findViewById(R.id.edt_amount);
         edt_msgFundspot = (EditText) findViewById(R.id.edt_msg_fundspot);
-        txt_message= (TextView) findViewById(R.id.txt_message);
+        txt_message = (TextView) findViewById(R.id.txt_message);
         txt_message.setText("Message to Fundspot");
 
         chk_startDateAsPossible = (CheckBox) findViewById(R.id.chk_startDateAsPossible);
@@ -150,14 +150,13 @@ public class CreateCampaignNextActivity extends AppCompatActivity {
             public void afterTextChanged(Editable editable) {
                 String amount = edt_amount.getText().toString().trim();
 
-                String maxLimitCoupon_final=maxLimitCoupon.replace("$","");
-                Log.e("amount",amount);
-                if(!amount.trim().isEmpty()) {
+                String maxLimitCoupon_final = maxLimitCoupon.replace("$", "");
+                Log.e("amount", amount);
+                if (!amount.trim().isEmpty()) {
                     if (Double.parseDouble(amount.trim()) > Double.parseDouble(maxLimitCoupon_final.trim())) {
                         edt_amount.setText(maxLimitCoupon_final);
                     }
-                    if(Double.parseDouble(amount.trim()) == 0)
-                    {
+                    if (Double.parseDouble(amount.trim()) == 0) {
                         edt_amount.setText("1");
                     }
                 }
@@ -168,16 +167,15 @@ public class CreateCampaignNextActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-                if(buttonView.isChecked()){
+                if (buttonView.isChecked()) {
 
                     edt_amount.setText(maxLimitCoupon);
                     edt_amount.setEnabled(false);
-                }else{
+                } else {
 
                     edt_amount.setEnabled(true);
 
                 }
-
 
 
             }
@@ -222,13 +220,11 @@ public class CreateCampaignNextActivity extends AppCompatActivity {
 
 
                 Double amount = 0.0;
-                if(!maxAmount1.isEmpty())
-                {
+                if (!maxAmount1.isEmpty()) {
                     amount = Double.parseDouble(maxAmount1.trim());
 
-                    Log.e("amount" , "-->" + amount);
+                    Log.e("amount", "-->" + amount);
                 }
-
 
 
                 List<Member> selectedMemberList = memberListAdapter.getMemberList();
@@ -237,23 +233,21 @@ public class CreateCampaignNextActivity extends AppCompatActivity {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter campaign title");
                 } else if (description.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter description");
-                    }
-
-                else if (message.isEmpty()) {
+                } else if (maxAmount1.isEmpty()) {
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter target amount");
+                } else if (message.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter message");
-                }else if(fundspotMessage.isEmpty()){
+                } else if (fundspotMessage.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter message for fundspot");
-                }
-
-                else {
+                } else {
 
                     JSONArray campaignDetailArray = new JSONArray();
                     JSONObject detailObject = new JSONObject();
                     JSONArray memberIDArray = new JSONArray();
-                    JSONArray   selectedProductArray = new JSONArray();
+                    JSONArray selectedProductArray = new JSONArray();
                     try {
                         detailObject.put("user_id", preference.getUserID());
-                        detailObject.put("role_id" , preference.getUserRoleID());
+                        detailObject.put("role_id", preference.getUserRoleID());
                         detailObject.put("title", campaignTitle);
                         detailObject.put("description", description);
                         detailObject.put("receiver_id", selectedFundspotID);
@@ -267,7 +261,7 @@ public class CreateCampaignNextActivity extends AppCompatActivity {
                         detailObject.put("max_limit_of_coupons", maxLimitCoupon);
                         detailObject.put("coupon_expire_day", couponExpiry);
                         detailObject.put("msg_seller", message);
-                        detailObject.put("msg" , fundspotMessage);
+                        detailObject.put("msg", fundspotMessage);
                         detailObject.put("all_member", "1");
                         if (chk_startDateAsPossible.isChecked()) {
                             detailObject.put("campaign_asap", "1");
@@ -281,12 +275,12 @@ public class CreateCampaignNextActivity extends AppCompatActivity {
 //                        }else {
 //                            detailObject.put("all_member", "0");
 //                        }
-                        if(chk_maxAmount.isChecked()){
+                        if (chk_maxAmount.isChecked()) {
 
-                            detailObject.put("target_amount" , 0);
-                        }else{
+                            detailObject.put("target_amount", 0);
+                        } else {
 
-                            detailObject.put("target_amount" , maxAmount1);
+                            detailObject.put("target_amount", maxAmount1);
                         }
                         campaignDetailArray.put(detailObject);
 
@@ -299,25 +293,24 @@ public class CreateCampaignNextActivity extends AppCompatActivity {
 //                            }
 //                        }
 
-                        for (int i=0 ; i <selectedProducts.size();i++){
+                        for (int i = 0; i < selectedProducts.size(); i++) {
 
                             JSONObject mainObject = new JSONObject();
 
                             mainObject.put("id", selectedProducts.get(i));
 
-                            Log.e("selectedProducts" , "---->" + selectedProducts);
+                            Log.e("selectedProducts", "---->" + selectedProducts);
 
                             selectedProductArray.put(mainObject);
 
                         }
 
 
-
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                     dialog.show();
-                    Call<AppModel> addCampCall = adminAPI.addCampaign(preference.getUserID(), preference.getTokenHash(), campaignDetailArray.toString(), memberIDArray.toString() , selectedProductArray.toString());
+                    Call<AppModel> addCampCall = adminAPI.addCampaign(preference.getUserID(), preference.getTokenHash(), campaignDetailArray.toString(), memberIDArray.toString(), selectedProductArray.toString());
 
                     Log.e("Parameter", preference.getUserID() + " - " + preference.getTokenHash() + " - " + "-" + campaignDetailArray.toString() + "-" + memberIDArray.toString() + "-" + selectedProductArray.toString());
 
@@ -350,6 +343,7 @@ public class CreateCampaignNextActivity extends AppCompatActivity {
             }
         });
     }
+
     private void setupToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarCenterText);
         TextView actionTitle = (TextView) findViewById(R.id.actionTitle);

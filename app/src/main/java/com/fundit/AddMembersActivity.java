@@ -234,6 +234,10 @@ public class AddMembersActivity extends AppCompatActivity {
                     getCityName = getResponse.getFundspot().getCity_name();
                 }
 
+                if(getResponse.getFundspot().getSplit_visibility().equalsIgnoreCase("0")){
+                    txt_fundtitle.setVisibility(View.GONE);
+                    txt_fundraiser_split.setVisibility(View.GONE);
+                }
 
                 layout_fundraiser.setVisibility(View.VISIBLE);
 
@@ -389,7 +393,7 @@ public class AddMembersActivity extends AppCompatActivity {
                         if (isDialogOpen == 1) {
                             RespondForMemberRequest("" , "Respond to Request" , "");
                         } else {
-                            C.INSTANCE.showToast(getApplicationContext(), "You request are to join is pending!");
+                            C.INSTANCE.showToast(getApplicationContext(), "Your request to add " + txt_name.getText().toString().trim() +" is pending.");
                         }
                     }
 
@@ -504,7 +508,7 @@ public class AddMembersActivity extends AppCompatActivity {
                 dialog.dismiss();
                 JoinMemberModel appModel = response.body();
                 if (appModel != null) {
-                    C.INSTANCE.showToast(getApplicationContext(), appModel.getMessage());
+
                     if (appModel.isStatus()) {
                         if (appModel.getData() == 1) {
                             btnJoin.setText("Leave Us");
@@ -521,11 +525,13 @@ public class AddMembersActivity extends AppCompatActivity {
                                     isMemberJoined = 2;
 
                                 } else {
+                                    C.INSTANCE.showToast(getApplicationContext(), "Your request to add " + txt_name.getText().toString().trim() +" is pending.");
                                     btnJoin.setText("Pending");
                                     isMemberJoined = 2;
                                 }
 
                             } else {
+                                C.INSTANCE.showToast(getApplicationContext(), "Your request to add " + txt_name.getText().toString().trim() +" is pending.");
                                 btnJoin.setText("Pending");
                                 isMemberJoined = 2;
                             }

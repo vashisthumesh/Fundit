@@ -54,6 +54,7 @@ class MyProfileFragment : Fragment() {
     var layout_description:LinearLayout?=null
     var layout_contact_info_mobile:LinearLayout?=null
     var layout_contact_info_email:LinearLayout?=null
+    var layout_buttons:LinearLayout?=null
     var dialog: CustomDialog? = null
     var adminAPI: AdminAPI? = null
     internal var member = Member()
@@ -93,6 +94,8 @@ class MyProfileFragment : Fragment() {
         layout_description= view.findViewById(R.id.layout_description) as LinearLayout
         layout_fundraiser= view.findViewById(R.id.layout_fundraiser) as LinearLayout
         layout_category= view.findViewById(R.id.layout_category) as LinearLayout
+        layout_buttons= view.findViewById(R.id.layout_buttons) as LinearLayout
+        layout_buttons?.visibility=View.GONE
 
 
         layout_contact_info_mobile=view.findViewById(R.id.layout_contact_info_mobile) as LinearLayout
@@ -322,7 +325,7 @@ class MyProfileFragment : Fragment() {
 
                             txt_name?.text = first_name + last_name
                             txt_emailID?.text = campaignList.data.user.email_id
-                            txt_address?.text = campaignList.data.member.location + "\n" + campaignList.data.city.name + " , " + campaignList.data.state.state_code+ "  " + campaignList.data.member.zip_code
+                            txt_address?.text = campaignList.data.member.location + "\n" + campaignList.data.member.city_name + " , " + campaignList.data.state.state_code+ "  " + campaignList.data.member.zip_code
 
                             if(campaignList.data.member.contact_info_email.isEmpty())
                             {
@@ -345,12 +348,18 @@ class MyProfileFragment : Fragment() {
 
 
 
-                            if(!campaignList.data.member.fundspot_names.isEmpty()){
+                            if(campaignList.data.member.fundspot_names.isEmpty()){
+                                layout_fun?.visibility = View.GONE
+
+                            }else {
                                 layout_fun?.visibility = View.VISIBLE
                                 txt_fundspots?.text = campaignList.data.member.fundspot_names
                             }
 
-                            if(!campaignList.data.member.organization_names.isEmpty()){
+                            if(campaignList.data.member.organization_names.isEmpty()){
+                                layout_org?.visibility = View.GONE
+
+                            }else {
                                 layout_org?.visibility = View.VISIBLE
                                 txt_organizations?.text = campaignList.data.member.organization_names
                             }

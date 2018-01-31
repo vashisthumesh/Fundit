@@ -65,7 +65,7 @@ class PastCampaignFragment : Fragment() {
     private fun fetchIDs() {
 
         listCampaign = view.findViewById(R.id.list_pastCampaigns) as ListView
-        campaignAdapter = ShowCampaignAdapter(campaignArrayList, activity)
+        campaignAdapter = ShowCampaignAdapter(campaignArrayList, activity , true)
         listCampaign.adapter = campaignAdapter
 
 
@@ -78,6 +78,8 @@ class PastCampaignFragment : Fragment() {
         else{
             campaignResponse = adminAPI.ApprovedCampaign(preference.userID, preference.tokenHash, preference.userRoleID, C.PAST)
         }
+
+        Log.e("parameterrrr0" , "--->" + member.id + "--->" + C.PAST)
 
         campaignResponse!!.enqueue(object : Callback<CampaignListResponse> {
             override fun onResponse(call: Call<CampaignListResponse>, response: Response<CampaignListResponse>) {
