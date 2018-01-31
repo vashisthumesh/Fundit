@@ -83,7 +83,8 @@ public class OrderProductTimeAdapter  extends BaseAdapter {
 
 
         txt_productName.setText(productList.get(position).getName());
-        txt_price.setText(productList.get(position).getPrice());
+        txt_price.setText("$" +String.format("%.2f",Double.parseDouble(productList.get(position).getPrice())));
+
         txt_productDescription.setText(productList.get(position).getDescription());
 
         imagePath = W.FILE_URL + productList.get(position).getImage();

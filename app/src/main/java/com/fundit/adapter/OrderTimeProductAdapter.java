@@ -80,13 +80,15 @@ public class OrderTimeProductAdapter extends BaseAdapter {
         CheckBox check_product = (CheckBox) view.findViewById(R.id.check_product);
         txt_type.setVisibility(View.GONE);
         txt_typ.setVisibility(View.GONE);
+        edt_qty.setEnabled(false);
         TextView txt_productDescription = (TextView) view.findViewById(R.id.txt_productDescription);
 
         CircleImageView img_productImage = (CircleImageView) view.findViewById(R.id.img_productImage);
 
 
         txt_productName.setText(productResponses.get(position).getName());
-        txt_price.setText(productResponses.get(position).getPrice());
+        txt_price.setText("$" +String.format("%.2f",Double.parseDouble(productResponses.get(position).getPrice())));
+
         txt_productDescription.setText(productResponses.get(position).getDescription());
 
         imagePath = W.FILE_URL + productResponses.get(position).getImage();

@@ -196,8 +196,10 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:background="@drawable/background_txt_border"
-                android:inputType="textPostalAddress"
+                android:inputType="numberPassword"
                 android:padding="3dp"
+                android:maxLength="4"
+                android:fontFamily="sans-serif"
                 android:hint="CVV Number"
                 android:textColor="@color/black"
                 />

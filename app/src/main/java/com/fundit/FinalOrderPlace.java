@@ -31,6 +31,7 @@ import com.fundit.apis.ServiceHandler;
 import com.fundit.apis.StringConverterFactory;
 import com.fundit.helper.CustomDialog;
 import com.fundit.model.AppModel;
+import com.fundit.model.BankCardResponse;
 import com.fundit.model.CampaignListResponse;
 import com.fundit.model.GetSearchPeople;
 import com.fundit.model.Member;
@@ -110,6 +111,9 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
         Intent intent = getIntent();
 
         campaignList = (CampaignListResponse.CampaignList) intent.getSerializableExtra("details");
+
+        Log.e("CampaignDetails" , "-->" + new Gson().toJson(campaignList));
+
         preference = new AppPreference(getApplicationContext());
         adminAPI = ServiceGenerator.getAPIClass();
         dialog = new CustomDialog(FinalOrderPlace.this);
@@ -432,7 +436,16 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
 
                 if (getSelectedProducts.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please Select Product");
-
+                }else if(txt_targetAmt.getText().toString().trim().equalsIgnoreCase("$0.00")){
+                    C.INSTANCE.showToast(getApplicationContext(), "Please Select minimum 1 quantity");
+                }else if(edt_name.getText().toString().trim().isEmpty()){
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter name");
+                }else if(edt_email.getText().toString().trim().isEmpty()){
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter email");
+                }else if(edt_confirm_email.getText().toString().trim().isEmpty()){
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter confirm email");
+                } else if(!edt_email.getText().toString().trim().matches(edt_confirm_email.getText().toString().trim())){
+                    C.INSTANCE.showToast(getApplicationContext(), "Confirm email id does not matches");
                 } else {
                     if (checkedPaymentType == 1) {
                         if(campaignList.getCampaign().getRole_id().equalsIgnoreCase(C.ORGANIZATION)){
@@ -503,18 +516,204 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
                     }
                     if (checkedPaymentType == 2) {
 
-                        Intent intent = new Intent(getApplicationContext() , CardPaymentActivity.class);
-                        intent.putExtra("details" , campaignList);
-                        intent.putExtra("productArray" , selectedProductArray.toString());
-                        intent.putExtra("allPrice" , String.valueOf(allPrice));
-                        intent.putExtra("selectedFundUserId" , selectedFundsUserId);
-                        intent.putExtra("otherUser" , isotherTimes);
-                        intent.putExtra("firstName" ,firstName);
-                        intent.putExtra("lastName" ,lastName);
-                        intent.putExtra("emailId" ,emailId);
-                        Log.e("productArray" , selectedProductArray.toString());
+                        if(campaignList.getCampaign().getRole_id().equalsIgnoreCase(C.ORGANIZATION)){
+                            organizationId = campaignList.getUserOrganization().getId();
+                            fundspotId = campaignList.getUserFundspot().getId();
+                        }
 
-                        startActivity(intent);
+                        if(campaignList.getCampaign().getRole_id().equalsIgnoreCase(C.FUNDSPOT)){
+                            fundspotId = campaignList.getUserOrganization().getId();
+                            organizationId = campaignList.getUserFundspot().getId();
+                        }
+
+
+                        if(tabLayout.getSelectedTabPosition()==0){
+                            dialog.show();
+                            final Call<BankCardResponse> bankCardResponse = adminAPI.BankCard(preference.getUserID(), preference.getTokenHash());
+                            Log.e("parameters", "-->" + preference.getUserID() + "-->" + preference.getTokenHash());
+                            final int finalAllPrice = allPrice;
+                            bankCardResponse.enqueue(new Callback<BankCardResponse>() {
+                                @Override
+                                public void onResponse(Call<BankCardResponse> call, Response<BankCardResponse> response) {
+                                    dialog.dismiss();
+                                    BankCardResponse cardResponse = response.body();
+
+                                    Log.e("getData", "-->" + new Gson().toJson(cardResponse));
+
+                                    if (cardResponse != null) {
+                                        if (cardResponse.isStatus()) {
+                                            Intent i = new Intent(getApplicationContext(), CardActivity.class);
+                                            i.putExtra("selectedProductArray",selectedProductArray.toString());
+                                            i.putExtra("firstname",user.getFirst_name());
+                                            i.putExtra("lastname",user.getLast_name());
+                                            i.putExtra("email",user.getEmail_id());
+                                            i.putExtra("campaign_id",campaignList.getCampaign().getId());
+                                            i.putExtra("mobile",member.getContact_info());
+                                            i.putExtra("payment_address_1",member.getLocation());
+                                            i.putExtra("organization_id",organizationId);
+                                            i.putExtra("fundspot_id",fundspotId);
+                                            i.putExtra("total",String.valueOf(finalAllPrice));
+                                            i.putExtra("payment_city",member.getCity_name());
+                                            i.putExtra("payment_postcode",member.getZip_code());
+                                            i.putExtra("payment_state",member.getState().getName());
+                                            i.putExtra("payment_method","1");
+                                            i.putExtra("save_card","0");
+                                            i.putExtra("on_behalf_of","0");
+                                            i.putExtra("order_request","0");
+                                            i.putExtra("other_user","0");
+                                            i.putExtra("is_card_save","1");
+                                            i.putExtra("organization_name","");
+
+
+                                            Log.e("id",campaignList.getCampaign().getId());
+                                            Log.e("firstname",user.getFirst_name());
+                                            Log.e("lastname",user.getLast_name());
+                                            Log.e("email",user.getEmail_id());
+                                            Log.e("contact",member.getContact_info());
+                                            Log.e("member", member.getLocation());
+                                            Log.e("zip",member.getZip_code());
+                                            Log.e("state",member.getState().getName());
+                                            Log.e("price",String.valueOf(finalAllPrice));
+                                            Log.e("orgid",organizationId);
+                                            Log.e("fundid",fundspotId);
+                                            Log.e("array",selectedProductArray.toString());
+
+
+
+
+
+
+
+
+                                            startActivity(i);
+                                        } else {
+
+                                            Intent i = new Intent(getApplicationContext(), CreateCardActivity.class);
+                                            i.putExtra("selectedProductArray",selectedProductArray.toString());
+                                            i.putExtra("firstname",user.getFirst_name());
+                                            i.putExtra("lastname",user.getLast_name());
+                                            i.putExtra("email",user.getEmail_id());
+                                            i.putExtra("campaign_id",campaignList.getCampaign().getId());
+                                            i.putExtra("mobile",member.getContact_info());
+                                            i.putExtra("payment_address_1",member.getLocation());
+                                            i.putExtra("organization_id",organizationId);
+                                            i.putExtra("fundspot_id",fundspotId);
+                                            i.putExtra("total",String.valueOf(finalAllPrice));
+                                            i.putExtra("payment_city",member.getCity_name());
+                                            i.putExtra("payment_postcode",member.getZip_code());
+                                            i.putExtra("payment_state",member.getState().getName());
+                                            i.putExtra("payment_method","1");
+                                            i.putExtra("save_card","0");
+                                            i.putExtra("on_behalf_of","0");
+                                            i.putExtra("order_request","0");
+                                            i.putExtra("other_user","0");
+                                            i.putExtra("is_card_save","1");
+                                            i.putExtra("organization_name","");
+
+
+
+                                            Log.e("id",campaignList.getCampaign().getId());
+                                            Log.e("firstname",user.getFirst_name());
+                                            Log.e("lastname",user.getLast_name());
+                                            Log.e("email",user.getEmail_id());
+                                            Log.e("contact",member.getContact_info());
+                                            Log.e("member", member.getLocation());
+                                            Log.e("zip",member.getZip_code());
+                                            Log.e("state",member.getState().getName());
+                                            Log.e("price",String.valueOf(finalAllPrice));
+                                            Log.e("orgid",organizationId);
+                                            Log.e("fundid",fundspotId);
+                                            Log.e("array",selectedProductArray.toString());
+
+                                            startActivity(i);
+
+                                        }
+                                    } else {
+                                        C.INSTANCE.defaultError(getApplicationContext());
+                                    }
+
+                                }
+
+                                @Override
+                                public void onFailure(Call<BankCardResponse> call, Throwable t) {
+
+                                    dialog.dismiss();
+                                    C.INSTANCE.errorToast(getApplicationContext(), t);
+                                }
+                            });
+
+                        }else {
+
+                            if(campaignList.getCampaign().getRole_id().equalsIgnoreCase(C.ORGANIZATION)){
+                                organizationId = campaignList.getUserOrganization().getId();
+                                fundspotId = campaignList.getUserFundspot().getId();
+                            }
+
+                            if(campaignList.getCampaign().getRole_id().equalsIgnoreCase(C.FUNDSPOT)){
+                                fundspotId = campaignList.getUserOrganization().getId();
+                                organizationId = campaignList.getUserFundspot().getId();
+                            }
+
+
+
+
+
+                            Intent i = new Intent(getApplicationContext(), CreateCardActivity.class);
+                            i.putExtra("selectedProductArray",selectedProductArray.toString());
+                            i.putExtra("firstname",user.getFirst_name());
+                            i.putExtra("lastname",user.getLast_name());
+                            i.putExtra("email",user.getEmail_id());
+                            i.putExtra("campaign_id",campaignList.getCampaign().getId());
+                            i.putExtra("mobile",member.getContact_info());
+                            i.putExtra("payment_address_1",member.getLocation());
+                            i.putExtra("organization_id",organizationId);
+                            i.putExtra("fundspot_id",fundspotId);
+                            i.putExtra("total",String.valueOf(allPrice));
+                            i.putExtra("payment_city",member.getCity_name());
+                            i.putExtra("payment_postcode",member.getZip_code());
+                            i.putExtra("payment_state",member.getState().getName());
+                            i.putExtra("payment_method","1");
+                            i.putExtra("save_card","0");
+                            i.putExtra("on_behalf_of","0");
+                            i.putExtra("order_request","0");
+                            i.putExtra("other_user","0");
+                            i.putExtra("is_card_save","1");
+                            i.putExtra("organization_name","");
+
+
+                            Log.e("id",campaignList.getCampaign().getId());
+                            Log.e("firstname",user.getFirst_name());
+                            Log.e("lastname",user.getLast_name());
+                            Log.e("email",user.getEmail_id());
+                            Log.e("contact",member.getContact_info());
+                            Log.e("member", member.getLocation());
+                            Log.e("zip",member.getZip_code());
+                            Log.e("state",member.getState().getName());
+                            Log.e("price",String.valueOf(allPrice));
+                            Log.e("orgid",organizationId);
+                            Log.e("fundid",fundspotId);
+                            Log.e("array",selectedProductArray.toString());
+
+
+
+
+
+
+
+
+                            startActivity(i);
+
+
+
+
+
+
+
+
+
+                        }
+
+
                     }
                 }
 
@@ -599,6 +798,11 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
 
     public  void other_user()
     {
+
+        edt_name.setText("");
+        edt_email.setText("");
+        edt_confirm_email.setText("");
+
         edt_name.setEnabled(true);
         edt_email.setEnabled(true);
         edt_confirm_email.setEnabled(true);
@@ -611,6 +815,6 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
     @Override
     public void UpdateTotalPrice(float totalPrice) {
         Log.e("price" , "-->" + totalPrice);
-        txt_targetAmt.setText("$" + String.valueOf(totalPrice));
+        txt_targetAmt.setText("$" + String.format("%.2f" , totalPrice));
     }
 }

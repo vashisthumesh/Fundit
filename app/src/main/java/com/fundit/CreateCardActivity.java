@@ -27,6 +27,7 @@ import com.fundit.helper.CustomDialog;
 import com.fundit.model.AppModel;
 import com.fundit.model.AreaItem;
 import com.fundit.model.AreaResponse;
+import com.fundit.model.CompleteOrderModel;
 import com.fundit.model.Member;
 import com.google.gson.Gson;
 
@@ -518,9 +519,9 @@ public class CreateCardActivity extends AppCompatActivity {
         private void AddOrder() {
 
             dialog.show();
-            Call<AppModel> addOrder = null;
+            Call<CompleteOrderModel> addOrder = null;
 
-            addOrder = adminAPI.AddCard_Order(preference.getUserID(), preference.getUserRoleID(), preference.getTokenHash(), campaign_id, firstName, lastName, email, mobile, payment_address_1, payment_city, payment_postcode, payment_state, payment_method, total, preference.getUserID(), "", "", organization_id, fundspot_id, selectedProductArray, auth_cust_paymnet_profile_id, customerProfileId, cvv, card_Id, save_card, on_behalf_of, order_request, other_user, is_card_save);
+            addOrder = adminAPI.CompleteOrder(preference.getUserID(), preference.getUserRoleID(), preference.getTokenHash(), campaign_id, firstName, lastName, email, mobile, payment_address_1, payment_city, payment_postcode, payment_state, payment_method, total, preference.getUserID(), "", "", organization_id, fundspot_id, selectedProductArray, auth_cust_paymnet_profile_id, customerProfileId, cvv, card_Id, save_card, on_behalf_of, order_request, other_user, is_card_save);
 
 
             Log.e("userid", "--->" + preference.getUserID());
@@ -547,17 +548,24 @@ public class CreateCardActivity extends AppCompatActivity {
             Log.e("customerProfileId", "-->" + customerProfileId);
 
 
-            addOrder.enqueue(new Callback<AppModel>() {
+            addOrder.enqueue(new Callback<CompleteOrderModel>() {
                 @Override
-                public void onResponse(Call<AppModel> call, Response<AppModel> response) {
+                public void onResponse(Call<CompleteOrderModel> call, Response<CompleteOrderModel> response) {
                     dialog.dismiss();
-                    AppModel appModel = response.body();
+                    CompleteOrderModel appModel = response.body();
                     if (appModel != null) {
                         if (appModel.isStatus()) {
 
 
                             Intent i = new Intent(getApplicationContext(), Thankyou.class);
-                            i.putExtra("org", organization_name);
+                            i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            i.putExtra("campaignName" , appModel.getData().getCampaign_name());
+                            i.putExtra("name" , appModel.getData().getCustomer_name());
+                            i.putExtra("expiryDate" , appModel.getData().getExpiry_date());
+                            i.putExtra("fundspot" , appModel.getData().getFundspot_name());
+                            i.putExtra("org" , appModel.getData().getOrganization_name());
+                            i.putExtra("total" , appModel.getData().getTotal());
+                            //i.putExtra("org", organization_name);
                             startActivity(i);
 
                         }
@@ -570,7 +578,7 @@ public class CreateCardActivity extends AppCompatActivity {
                 }
 
                 @Override
-                public void onFailure(Call<AppModel> call, Throwable t) {
+                public void onFailure(Call<CompleteOrderModel> call, Throwable t) {
                     dialog.dismiss();
                     C.INSTANCE.errorToast(getApplicationContext(), t);
 

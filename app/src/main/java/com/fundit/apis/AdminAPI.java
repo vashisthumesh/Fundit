@@ -11,6 +11,7 @@ import com.fundit.model.AreaResponse;
 import com.fundit.model.BankCardResponse;
 import com.fundit.model.CampaignListResponse;
 import com.fundit.model.CategoryResponse;
+import com.fundit.model.CompleteOrderModel;
 import com.fundit.model.ForgotPasswordEmailResponse;
 import com.fundit.model.FundRequest;
 import com.fundit.model.Fundspot;
@@ -380,5 +381,11 @@ public interface AdminAPI {
     @FormUrlEncoded
     @POST(W.GETINDIVIDUALCAMPAIGN)
     Call<NotificationCampaignModel> NOTIFICATION_CAMPAIGN_MODEL_CALL (@Field("campaign_id") String campaignId);
+
+
+    @FormUrlEncoded
+    @POST(W.ADDORDER)
+    Call<CompleteOrderModel> CompleteOrder(@Field(W.KEY_USERID) String userId , @Field(W.KEY_ROLEID) String roleId , @Field(W.KEY_TOKEN) String tokenhash , @Field("campaign_id") String capmpaignId , @Field("firstname") String firstName , @Field("lastname") String lastName , @Field("email") String emailId , @Field("mobile") String mobileNo , @Field("payment_address_1") String address , @Field("payment_city") String city , @Field("payment_postcode") String zipCode , @Field("payment_state") String state , @Field("payment_method") String method , @Field("total") String totalPrice , @Field("owner_id") String ownerId , @Field("latitude") String lattitude , @Field("longitude") String longitude , @Field("organization_id") String orgenizationId , @Field("fundspot_id") String fundspotId , @Field("product_id") String productIdArray ,@Field("auth_cust_paymnet_profile_id") String auth_cust_paymnet_profile_id,@Field("customerProfileId") String customerProfileId, @Field("cvv") String cvv , @Field("card_id") String cardId , @Field("save_card") String savedCard , @Field("on_behalf_of") String onBehalfOf , @Field("order_request") String orderRequest , @Field("Other_user") String otherUser,@Field("is_card_save") String is_card_save);
+
 
 }
