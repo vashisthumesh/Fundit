@@ -285,13 +285,13 @@ public class OrderPlaceActivity extends AppCompatActivity {
         btn_placeOrder1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*Intent intent = new Intent(getApplicationContext(), FinalOrderPlace.class);
+                Intent intent = new Intent(getApplicationContext(), FinalOrderPlace.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.putExtra("details", campaignList);
                 startActivity(intent);
-*/
 
-                C.INSTANCE.showToast(getApplicationContext() , "We are working on it");
+
+               // C.INSTANCE.showToast(getApplicationContext() , "We are working on it");
 
             }
         });
