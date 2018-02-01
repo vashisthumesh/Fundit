@@ -381,7 +381,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:padding="3dp"
-                    android:text="Cash"
+                    android:text="Send Request To"
                     android:textColor="@color/black"
                     android:textSize="14sp" />
 

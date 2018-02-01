@@ -359,6 +359,17 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
         //edt_email.setText(user.getEmail_id());
 
 
+
+
+        serch_user.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(FinalOrderPlace.this, Search_fundituserActivity.class);
+                startActivityForResult(i, 1);
+            }
+        });
+
+
         btn_placeOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -810,17 +821,17 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
         edt_confirm_email.setText("");
         txt_targetAmt.setText("$0.00");
 
-
-        serch_user.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(FinalOrderPlace.this, Search_fundituserActivity.class);
-                startActivityForResult(i, 1);
-            }
-        });
+//        serch_user.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent i = new Intent(FinalOrderPlace.this, Search_fundituserActivity.class);
+//                startActivityForResult(i, 1);
+//            }
+//        });
 
 
     }
+
 
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

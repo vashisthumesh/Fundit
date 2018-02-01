@@ -3,6 +3,7 @@ package com.fundit;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -11,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.fundit.a.AppPreference;
 import com.fundit.a.C;
@@ -48,7 +50,7 @@ public class Search_fundituserActivity extends AppCompatActivity implements Peop
         adminAPI = ServiceGenerator.getAPIClass();
         preferences = new AppPreference(getApplicationContext());
         dialog = new CustomDialog(getApplicationContext());
-
+        setupToolbar();
         FetchIds();
 
     }
@@ -132,7 +134,28 @@ public class Search_fundituserActivity extends AppCompatActivity implements Peop
             }
         });
     }
+    private void setupToolbar() {
 
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarCenterText);
+        toolbar.setVisibility(View.VISIBLE);
+        TextView actionTitle = (TextView) findViewById(R.id.actionTitle);
+
+
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        actionTitle.setText("");
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+
+
+    }
 
 
     @Override
