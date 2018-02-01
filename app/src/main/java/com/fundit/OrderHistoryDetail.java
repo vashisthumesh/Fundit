@@ -13,14 +13,17 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.fundit.a.AppPreference;
+import com.fundit.a.C;
 import com.fundit.a.W;
 import com.fundit.adapter.OrderProductAdapter;
 import com.fundit.apis.AdminAPI;
 import com.fundit.apis.ServiceGenerator;
 import com.fundit.helper.CustomDialog;
+import com.fundit.model.BankCardResponse;
 import com.fundit.model.Member;
 import com.fundit.model.OrderHistoryResponse;
 import com.fundit.model.User;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
@@ -29,6 +32,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class OrderHistoryDetail extends AppCompatActivity {
 
@@ -69,7 +76,7 @@ public class OrderHistoryDetail extends AppCompatActivity {
 
         preference = new AppPreference(getApplicationContext());
         adminAPI = ServiceGenerator.getAPIClass();
-        dialog = new CustomDialog(getApplicationContext());
+        dialog = new CustomDialog(OrderHistoryDetail.this);
 
         Intent intent = getIntent();
 
@@ -162,28 +169,6 @@ public class OrderHistoryDetail extends AppCompatActivity {
 
 
 
-            if(pending == true)
-            {
-                date_sold.setVisibility(View.GONE);
-                layout_camp.setVisibility(View.GONE);
-                linear_expiry.setVisibility(View.GONE);
-                linear_expired.setVisibility(View.GONE);
-                linear_resend.setVisibility(View.VISIBLE);
-                btnCoupon.setVisibility(View.VISIBLE);
-                btnCoupon.setText("Confirm");
-
-            }
-            else {
-                linear_expiry.setVisibility(View.VISIBLE);
-                linear_expired.setVisibility(View.VISIBLE);
-                date_sold.setVisibility(View.VISIBLE);
-                layout_camp.setVisibility(View.VISIBLE);
-                linear_resend.setVisibility(View.GONE);
-                btnCoupon.setVisibility(View.GONE);
-
-
-            }
-
             if(flag == true)
             {
 
@@ -199,11 +184,16 @@ public class OrderHistoryDetail extends AppCompatActivity {
                     btnCoupon.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            Intent intent = new Intent(getApplicationContext() , CardPaymentActivity.class);
+                           /* Intent intent = new Intent(getApplicationContext() , CardPaymentActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             intent.putExtra("isCouponTimes" , true);
                             intent.putExtra("orderId" , historyResponse.getOrder().getId());
                             startActivity(intent);
+*/
+
+                            GoForNext();
+
+
                         }
                     });
 
@@ -378,6 +368,57 @@ public class OrderHistoryDetail extends AppCompatActivity {
 
 
         }*/
+    }
+
+    private void GoForNext() {
+
+        dialog.show();
+        final Call<BankCardResponse> bankCardResponse = adminAPI.BankCard(preference.getUserID(), preference.getTokenHash());
+        Log.e("parameters", "-->" + preference.getUserID() + "-->" + preference.getTokenHash());
+        bankCardResponse.enqueue(new Callback<BankCardResponse>() {
+            @Override
+            public void onResponse(Call<BankCardResponse> call, Response<BankCardResponse> response) {
+                dialog.dismiss();
+                BankCardResponse cardResponse = response.body();
+
+                Log.e("getData", "-->" + new Gson().toJson(cardResponse));
+
+                if (cardResponse != null) {
+                    if (cardResponse.isStatus()) {
+                        Intent i = new Intent(getApplicationContext(), CardActivity.class);
+                        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        i.putExtra("isCouponTimes" , true);
+                        i.putExtra("orderId" , historyResponse.getOrder().getId());
+                        startActivity(i);
+                    } else {
+                        Intent i = new Intent(getApplicationContext(), CreateCardActivity.class);
+                        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        i.putExtra("isCouponTimes" , true);
+                        i.putExtra("orderId" , historyResponse.getOrder().getId());
+                        startActivity(i);
+
+                    }
+                } else {
+                    C.INSTANCE.defaultError(getApplicationContext());
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<BankCardResponse> call, Throwable t) {
+
+                dialog.dismiss();
+                C.INSTANCE.errorToast(getApplicationContext(), t);
+            }
+        });
+
+
+
+
+
+
+
+
     }
 
     private void showFullImageView(String qrscan , String productName) {

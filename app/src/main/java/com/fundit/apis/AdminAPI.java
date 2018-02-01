@@ -369,6 +369,12 @@ public interface AdminAPI {
 
 
     @FormUrlEncoded
+    @POST(W.COUPON_REQUEST)
+    Call<CompleteOrderModel> CouponAccpet(@Field("order_id") String orderId , @Field(W.KEY_USERID) String userId , @Field("request_status") String status , @Field("card_id") String cardId , @Field("cvv") String cvv , @Field("auth_cust_paymnet_profile_id") String paymentProfileId , @Field("customerProfileId") String customerProfileId , @Field("save_card") String saveCard , @Field("is_card_save") String isCardSave);
+
+
+
+    @FormUrlEncoded
     @POST(W.GETALLSETTINGSLIST)
     Call<NotificationSettingsModel> GetAllSettings (@Field(W.KEY_USERID) String userId , @Field(W.KEY_ROLEID) String roleId);
 

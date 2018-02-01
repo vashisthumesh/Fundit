@@ -73,10 +73,12 @@ public class Thankyou extends AppCompatActivity {
             txt4.setVisibility(View.GONE);
             txt_coupon.setVisibility(View.GONE);
         }else if(isCouponTimes) {
-            Log.e("test3" , "test3");
-            txt1.setVisibility(View.GONE);
             txt2.setText("Your order has been completed");
+            txt3.setVisibility(View.VISIBLE);
+            txt3.setText("You can use your coupon @ "+fundspot+"!");
+            txt4.setText("View your coupon in");
             txt4.setVisibility(View.VISIBLE);
+            txt_coupon.setText("My Coupons");
         }else if(newsFeedTimes){
             Log.e("test4" , "test4");
             txt2.setText("Your order has been completed");

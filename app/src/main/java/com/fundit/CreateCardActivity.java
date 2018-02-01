@@ -71,9 +71,11 @@ public class CreateCardActivity extends AppCompatActivity {
     String payment_method = "";
     String organization_name = "";
     String combineName = "";
+    String orderId = "";
     boolean SaveCard = false ;
     boolean newsFeedTimes = false ;
     boolean isotherTimes = false;
+    boolean isCouponTimes = false ;
 
 
     CreditCardEditText textview_credit_card;
@@ -119,33 +121,40 @@ public class CreateCardActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_card);
 
         Intent i = getIntent();
-        selectedProductArray = i.getStringExtra("selectedProductArray");
-        firstName = i.getStringExtra("firstname");
-        lastName = i.getStringExtra("lastname");
-        email = i.getStringExtra("email");
-        campaign_id = i.getStringExtra("campaign_id");
-        mobile = i.getStringExtra("mobile");
-        organization_id = i.getStringExtra("organization_id");
-        fundspot_id = i.getStringExtra("fundspot_id");
-        total = i.getStringExtra("total");
-        payment_city = i.getStringExtra("payment_city");
-        payment_postcode = i.getStringExtra("payment_postcode");
-        payment_state = i.getStringExtra("payment_state");
-        payment_address_1 = i.getStringExtra("payment_address_1");
-        payment_method = i.getStringExtra("payment_method");
-        save_card = i.getStringExtra("save_card");
-        on_behalf_of = i.getStringExtra("on_behalf_of");
-        order_request = i.getStringExtra("order_request");
-        other_user = i.getStringExtra("other_user");
-        is_card_save = i.getStringExtra("is_card_save");
-        combineName = i.getStringExtra("name");
-        organization_name = i.getStringExtra("organization_name");
-        SaveCard = i.getBooleanExtra("isSaveCard" , false);
-        newsFeedTimes = i.getBooleanExtra("newsFeedTimes" , false);
-        isotherTimes=i.getBooleanExtra("isOtherTimes" , false);
 
-        Log.e("isother4" ,"-->" +  isotherTimes);
+        isCouponTimes = i.getBooleanExtra("isCouponTimes" , false);
 
+        if(isCouponTimes){
+            orderId = i.getStringExtra("orderId");
+        }else {
+
+            selectedProductArray = i.getStringExtra("selectedProductArray");
+            firstName = i.getStringExtra("firstname");
+            lastName = i.getStringExtra("lastname");
+            email = i.getStringExtra("email");
+            campaign_id = i.getStringExtra("campaign_id");
+            mobile = i.getStringExtra("mobile");
+            organization_id = i.getStringExtra("organization_id");
+            fundspot_id = i.getStringExtra("fundspot_id");
+            total = i.getStringExtra("total");
+            payment_city = i.getStringExtra("payment_city");
+            payment_postcode = i.getStringExtra("payment_postcode");
+            payment_state = i.getStringExtra("payment_state");
+            payment_address_1 = i.getStringExtra("payment_address_1");
+            payment_method = i.getStringExtra("payment_method");
+            save_card = i.getStringExtra("save_card");
+            on_behalf_of = i.getStringExtra("on_behalf_of");
+            order_request = i.getStringExtra("order_request");
+            other_user = i.getStringExtra("other_user");
+            is_card_save = i.getStringExtra("is_card_save");
+            combineName = i.getStringExtra("name");
+            organization_name = i.getStringExtra("organization_name");
+            SaveCard = i.getBooleanExtra("isSaveCard", false);
+            newsFeedTimes = i.getBooleanExtra("newsFeedTimes", false);
+            isotherTimes = i.getBooleanExtra("isOtherTimes", false);
+
+            Log.e("isother4", "-->" + isotherTimes);
+        }
         adminAPI = ServiceGenerator.getAPIClass();
 
         preference = new AppPreference(getApplicationContext());
@@ -540,80 +549,122 @@ public class CreateCardActivity extends AppCompatActivity {
         private void AddOrder() {
 
             dialog.show();
-            Call<CompleteOrderModel> addOrder = null;
 
-            addOrder = adminAPI.CompleteOrder(preference.getUserID(), preference.getUserRoleID(), preference.getTokenHash(), campaign_id, firstName, lastName, email, mobile, payment_address_1, payment_city, payment_postcode, payment_state, payment_method, total, preference.getUserID(), "", "", organization_id, fundspot_id, selectedProductArray, auth_cust_paymnet_profile_id, customerProfileId, cvv, card_Id, save_card, on_behalf_of, order_request, other_user, is_card_save);
+            if (isCouponTimes) {
 
+                Call<CompleteOrderModel> couponRequest = adminAPI.CouponAccpet(orderId, preference.getUserID(), "1", card_Id, cvv, auth_cust_paymnet_profile_id, customerProfileId, is_card_save, is_card_save);
+                couponRequest.enqueue(new Callback<CompleteOrderModel>() {
+                    @Override
+                    public void onResponse(Call<CompleteOrderModel> call, Response<CompleteOrderModel> response) {
 
-            Log.e("userid", "--->" + preference.getUserID());
-            Log.e("roleid", "--->" + preference.getUserRoleID());
-            Log.e("token", "--->" + preference.getTokenHash());
-            Log.e("campaign_id", "-->" + campaign_id);
-            Log.e("firstName", "--->" + firstName);
-            Log.e("lastName", "--->" + lastName);
-            Log.e("email", "--->" + email);
-            Log.e("mobile", "-->" + mobile);
-            Log.e("payment_address_1", "--->" + payment_address_1);
-            Log.e("payment_city", "--->" + payment_city);
-            Log.e("payment_postcode", "--->" + payment_postcode);
-            Log.e("payment_state", "-->" + payment_state);
-            Log.e("payment_method", "--->" + payment_method);
-            Log.e("total", "--->" + total);
-            Log.e("organization_id", "--->" + organization_id);
-            Log.e("fundspot_id", "-->" + fundspot_id);
-            Log.e("selectedProductArray", "-->" + selectedProductArray);
-            Log.e("auth_cust_paymnet", "-->" + auth_cust_paymnet_profile_id);
-            Log.e("is_card_saveEDEDEDEDE", "-->" + is_card_save);
+                        CompleteOrderModel appModel = response.body();
+                        if (appModel != null) {
+                            if (appModel.isStatus()) {
+                                Intent i = new Intent(getApplicationContext(), Thankyou.class);
+                                i.putExtra("isCouponTimes", isCouponTimes);
+                                i.putExtra("campaignName", appModel.getData().getCampaign_name());
+                                i.putExtra("name", appModel.getData().getCustomer_name());
+                                i.putExtra("expiryDate", appModel.getData().getExpiry_date());
+                                i.putExtra("fundspot", appModel.getData().getFundspot_name());
+                                i.putExtra("org", appModel.getData().getOrganization_name());
+                                i.putExtra("total", appModel.getData().getTotal());
+                                startActivity(i);
 
 
-            Log.e("customerProfileId", "-->" + customerProfileId);
-
-
-            addOrder.enqueue(new Callback<CompleteOrderModel>() {
-                @Override
-                public void onResponse(Call<CompleteOrderModel> call, Response<CompleteOrderModel> response) {
-                    dialog.dismiss();
-                    CompleteOrderModel appModel = response.body();
-                    Log.e("model" , "-->" + new Gson().toJson(appModel));
-                    if (appModel != null) {
-                        if (appModel.isStatus()) {
-
-
-                            Intent i = new Intent(getApplicationContext(), Thankyou.class);
-                            i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            i.putExtra("campaignName" , appModel.getData().getCampaign_name());
-                            i.putExtra("name" , appModel.getData().getCustomer_name());
-                            i.putExtra("expiryDate" , appModel.getData().getExpiry_date());
-                            i.putExtra("fundspot" , appModel.getData().getFundspot_name());
-                            i.putExtra("org" , appModel.getData().getOrganization_name());
-                            i.putExtra("total" , appModel.getData().getTotal());
-                            i.putExtra("newsFeedTimes" , newsFeedTimes);
-                            i.putExtra("isOtherTimes" , isotherTimes);
-                            i.putExtra("email",email);
-                            i.putExtra("name" , combineName);
-
-                            Log.e("isother5" ,"-->" +  isotherTimes);
-
-                            //i.putExtra("org", organization_name);
-                            startActivity(i);
-
+                            } else {
+                                C.INSTANCE.showToast(getApplicationContext(), appModel.getMessage());
+                            }
+                        } else {
+                            C.INSTANCE.defaultError(getApplicationContext());
                         }
 
-                    } else {
 
-                        C.INSTANCE.defaultError(getApplicationContext());
                     }
 
-                }
+                    @Override
+                    public void onFailure(Call<CompleteOrderModel> call, Throwable t) {
 
-                @Override
-                public void onFailure(Call<CompleteOrderModel> call, Throwable t) {
-                    dialog.dismiss();
-                    C.INSTANCE.errorToast(getApplicationContext(), t);
+                    }
+                });
 
-                }
-            });
-            Log.e("fundspot_id", "-->" + fundspot_id);
+
+            } else {
+
+
+                Call<CompleteOrderModel> addOrder = null;
+
+                addOrder = adminAPI.CompleteOrder(preference.getUserID(), preference.getUserRoleID(), preference.getTokenHash(), campaign_id, firstName, lastName, email, mobile, payment_address_1, payment_city, payment_postcode, payment_state, payment_method, total, preference.getUserID(), "", "", organization_id, fundspot_id, selectedProductArray, auth_cust_paymnet_profile_id, customerProfileId, cvv, card_Id, save_card, on_behalf_of, order_request, other_user, is_card_save);
+
+
+                Log.e("userid", "--->" + preference.getUserID());
+                Log.e("roleid", "--->" + preference.getUserRoleID());
+                Log.e("token", "--->" + preference.getTokenHash());
+                Log.e("campaign_id", "-->" + campaign_id);
+                Log.e("firstName", "--->" + firstName);
+                Log.e("lastName", "--->" + lastName);
+                Log.e("email", "--->" + email);
+                Log.e("mobile", "-->" + mobile);
+                Log.e("payment_address_1", "--->" + payment_address_1);
+                Log.e("payment_city", "--->" + payment_city);
+                Log.e("payment_postcode", "--->" + payment_postcode);
+                Log.e("payment_state", "-->" + payment_state);
+                Log.e("payment_method", "--->" + payment_method);
+                Log.e("total", "--->" + total);
+                Log.e("organization_id", "--->" + organization_id);
+                Log.e("fundspot_id", "-->" + fundspot_id);
+                Log.e("selectedProductArray", "-->" + selectedProductArray);
+                Log.e("auth_cust_paymnet", "-->" + auth_cust_paymnet_profile_id);
+                Log.e("is_card_saveEDEDEDEDE", "-->" + is_card_save);
+
+
+                Log.e("customerProfileId", "-->" + customerProfileId);
+
+
+                addOrder.enqueue(new Callback<CompleteOrderModel>() {
+                    @Override
+                    public void onResponse(Call<CompleteOrderModel> call, Response<CompleteOrderModel> response) {
+                        dialog.dismiss();
+                        CompleteOrderModel appModel = response.body();
+                        Log.e("model", "-->" + new Gson().toJson(appModel));
+                        if (appModel != null) {
+                            if (appModel.isStatus()) {
+
+
+                                Intent i = new Intent(getApplicationContext(), Thankyou.class);
+                                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                i.putExtra("campaignName", appModel.getData().getCampaign_name());
+                                i.putExtra("name", appModel.getData().getCustomer_name());
+                                i.putExtra("expiryDate", appModel.getData().getExpiry_date());
+                                i.putExtra("fundspot", appModel.getData().getFundspot_name());
+                                i.putExtra("org", appModel.getData().getOrganization_name());
+                                i.putExtra("total", appModel.getData().getTotal());
+                                i.putExtra("newsFeedTimes", newsFeedTimes);
+                                i.putExtra("isOtherTimes", isotherTimes);
+                                i.putExtra("email", email);
+                                i.putExtra("name", combineName);
+
+                                Log.e("isother5", "-->" + isotherTimes);
+
+                                //i.putExtra("org", organization_name);
+                                startActivity(i);
+
+                            }
+
+                        } else {
+
+                            C.INSTANCE.defaultError(getApplicationContext());
+                        }
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<CompleteOrderModel> call, Throwable t) {
+                        dialog.dismiss();
+                        C.INSTANCE.errorToast(getApplicationContext(), t);
+
+                    }
+                });
+            }
         }
     }
 

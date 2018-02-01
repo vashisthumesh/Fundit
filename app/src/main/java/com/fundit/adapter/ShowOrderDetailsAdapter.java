@@ -178,14 +178,12 @@ public class ShowOrderDetailsAdapter extends BaseAdapter {
                 intent.putExtra("details", orderLists.get(position));
                 intent.putExtra("couponTimes", true);
                 if (orderLists.get(position).getOrder().getOrder_request().equalsIgnoreCase("1")) {
-                    intent.putExtra("pending",true);
+                    intent.putExtra("accept",true);
+                    intent.putExtra("flag" , true);
                 }
                 else {
-                    intent.putExtra("pending",false);
+                    intent.putExtra("accept",true);
                 }
-
-
-
                 context.startActivity(intent);
             }
         });
@@ -198,6 +196,7 @@ public class ShowOrderDetailsAdapter extends BaseAdapter {
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra("details", orderLists.get(position));
                 intent.putExtra("accept",true);
+                intent.putExtra("flag" , true);
                 intent.putExtra("couponTimes", true);
                 context.startActivity(intent);
 
