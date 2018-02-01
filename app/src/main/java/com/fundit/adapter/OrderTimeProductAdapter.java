@@ -85,6 +85,9 @@ public class OrderTimeProductAdapter extends BaseAdapter {
 
         CircleImageView img_productImage = (CircleImageView) view.findViewById(R.id.img_productImage);
 
+        img_plus.setEnabled(false);
+        img_minus.setEnabled(false);
+
 
         txt_productName.setText(productResponses.get(position).getName());
         txt_price.setText("$" +String.format("%.2f",Double.parseDouble(productResponses.get(position).getPrice())));
@@ -166,6 +169,8 @@ public class OrderTimeProductAdapter extends BaseAdapter {
 
                         onClick.UpdateTotalPrice(totalPrice);
 
+
+
                     }
                     if(quantity==0){
                         float totalPrice = 0;
@@ -190,9 +195,10 @@ public class OrderTimeProductAdapter extends BaseAdapter {
                     img_minus.setEnabled(true);
                     edt_qty.setText("1");
                     productResponses.get(position).setQty(1);
-                    edt_qty.setEnabled(true);
+                    edt_qty.setEnabled(false);
                     img_plus.setClickable(true);
                     img_minus.setClickable(true);
+
 
 
                 } else {
@@ -204,6 +210,7 @@ public class OrderTimeProductAdapter extends BaseAdapter {
                     img_plus.setClickable(false);
                     img_minus.setClickable(false);
 
+                    onClick.UpdateTotalPrice(0);
 
                 }
 

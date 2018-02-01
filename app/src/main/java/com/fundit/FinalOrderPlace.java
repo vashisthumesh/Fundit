@@ -297,7 +297,7 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
                 edt_name.setText(user.getTitle());
                 edt_email.setText(user.getEmail_id());
                 edt_confirm_email.setText(user.getEmail_id());
-                txt_targetAmt.setText("$0.00");
+              //  txt_targetAmt.setText("$0.00");
             }
 
 
@@ -375,6 +375,9 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
             public void onClick(View v) {
                 int allPrice = 0;
                 final String combineName = edt_name.getText().toString().trim();
+                String finalAmounts = "";
+                finalAmounts = txt_targetAmt.getText().toString().trim();
+
 
                 if (preference.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT) || preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION)) {
 
@@ -455,7 +458,7 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
 
                 if (getSelectedProducts.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please Select Product");
-                } else if (txt_targetAmt.getText().toString().trim().equalsIgnoreCase("$0.00")) {
+                } else if (finalAmounts.equalsIgnoreCase("$0.00") || finalAmounts.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please Select minimum 1 quantity");
                 } else if (edt_name.getText().toString().trim().isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter name");
@@ -802,7 +805,7 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
         edt_name.setText(user.getTitle());
         edt_email.setText(user.getEmail_id());
         edt_confirm_email.setText(user.getEmail_id());
-        txt_targetAmt.setText("$0.00");
+      //  txt_targetAmt.setText("$0.00");
 
 
     }
@@ -819,7 +822,7 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
         edt_name.setText("");
         edt_email.setText("");
         edt_confirm_email.setText("");
-        txt_targetAmt.setText("$0.00");
+      //  txt_targetAmt.setText("$0.00");
 
 //        serch_user.setOnClickListener(new View.OnClickListener() {
 //            @Override
