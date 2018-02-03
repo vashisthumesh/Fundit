@@ -152,13 +152,14 @@ public class CampaignSetting extends AppCompatActivity {
             edt_fubdraiser.setText(member.getFundspot_percent());
             edt_organization.setText(member.getOrganization_percent());
             btn_skip.setVisibility(View.GONE);
-            if (getMaxCoupons.equalsIgnoreCase("10000") || getMaxCoupons.equalsIgnoreCase("0")) {
-                checkbox_nolimit.setChecked(true);
-                edt_price.setEnabled(false);
-            } else {
-                edt_price.setText(getMaxCoupons);
-                edt_price.setEnabled(true);
-            }
+//            if (getMaxCoupons.equalsIgnoreCase("10000") || getMaxCoupons.equalsIgnoreCase("0")) {
+//                checkbox_nolimit.setChecked(true);
+//                edt_price.setEnabled(false);
+//            } else {
+//                edt_price.setText(getMaxCoupons);
+//                edt_price.setEnabled(true);
+//            }
+            edt_price.setText(getMaxCoupons);
 
             if (getDuration.equalsIgnoreCase("10000") || getDuration.equalsIgnoreCase("0")) {
                 checkbox_indefinite.setChecked(true);
@@ -252,7 +253,7 @@ public class CampaignSetting extends AppCompatActivity {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter organization percentage");
                 } else if (campaign_days.isEmpty() || campaign_days.equalsIgnoreCase("0")) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter duration of campaign");
-                } else if (amount.isEmpty()|| amount.equalsIgnoreCase("0")) {
+                } else if (amount.isEmpty()||  Double.parseDouble(amount) == 0.0) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter max selling limit");
                 } else if (totalDays.isEmpty() || totalDays.equalsIgnoreCase("0")) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter coupons expiration");

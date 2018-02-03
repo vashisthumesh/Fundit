@@ -76,6 +76,13 @@ public class OrderProductAdapter extends BaseAdapter {
        final String QRSCAN = W.BASE_URL + orderedProductses.get(position).getQr_code_img();
 
       final String  productName = orderedProductses.get(position).getName() + " $ " + orderedProductses.get(position).getSelling_price();
+      final String Name=orderedProductses.get(position).getName();
+      final  String type_id=orderedProductses.get(position).getType_id();
+      final String Selling_price=orderedProductses.get(position).getSelling_price();
+      final String Total_qty=orderedProductses.get(position).getQuantity();
+      final String Item_total=orderedProductses.get(position).getItem_total();
+      final String Remaining_qty=orderedProductses.get(position).getLeft_qty();
+      final String Coupon_no=orderedProductses.get(position).getCoupon_number();
 
 
 
@@ -97,7 +104,7 @@ public class OrderProductAdapter extends BaseAdapter {
             layout_main.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    showFullImageView(QRSCAN , productName);
+                    showFullImageView(QRSCAN , Name,type_id,Selling_price,Total_qty,Item_total,Remaining_qty,Coupon_no);
                 }
             });
 
@@ -139,11 +146,17 @@ public class OrderProductAdapter extends BaseAdapter {
     }
 
 
-    private void showFullImageView(String qrscan , String productName) {
+    private void showFullImageView(String qrscan , String productName,String type_id,String Selling_price,String Total_qty,String item_total,String Remaining_qty,String Coupon_no) {
         Intent intent = new Intent(context, FullZoomViewActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra("type_id",type_id);
         intent.putExtra("imagePaths", qrscan);
         intent.putExtra("productName", productName);
+        intent.putExtra("price",Selling_price);
+        intent.putExtra("qty",Total_qty);
+        intent.putExtra("item_total",item_total);
+        intent.putExtra("remain_qty",Remaining_qty);
+        intent.putExtra("coupon_no",Coupon_no);
        context.startActivity(intent);
     }
 }

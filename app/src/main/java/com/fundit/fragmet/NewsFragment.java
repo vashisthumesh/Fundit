@@ -67,7 +67,8 @@ public class NewsFragment extends Fragment {
         return view;
     }
 
-    private void fetchIds() {
+    private void fetchIds()
+    {
 
         news_recycle = (RecyclerView) view.findViewById(R.id.news_recycler);
         news_adapter = new NewsAdapter(newsDataList, getActivity());

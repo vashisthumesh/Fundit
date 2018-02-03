@@ -4,7 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.fundit.FundOrganizationRequestActivity">
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar_center_text" />
     <ListView
         android:id="@+id/list_fundrequest"
         android:layout_width="match_parent"

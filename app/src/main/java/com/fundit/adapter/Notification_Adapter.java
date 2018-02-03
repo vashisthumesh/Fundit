@@ -206,6 +206,7 @@ public class Notification_Adapter extends BaseAdapter {
                             context.startActivity(intent);
 
                         } else if (pref.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER)) {
+
                             Intent intent = new Intent(context, AddMemberFudActivity.class);
 
 

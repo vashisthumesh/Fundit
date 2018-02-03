@@ -2,8 +2,11 @@ package com.fundit;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.fundit.a.AppPreference;
 import com.fundit.a.C;
@@ -52,8 +55,30 @@ public class FundOrganizationRequestActivity extends AppCompatActivity {
             Log.e("Exception", e.getMessage());
         }
 
-
+        setupToolbar();
         fetchIds();
+
+    }
+
+
+
+
+    private void setupToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        TextView actionTitle = (TextView) findViewById(R.id.actionTitle);
+
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+
 
     }
 

@@ -63,7 +63,12 @@ public class OrderHistoryResponse extends AppModel {
         String coupon_status="";
         String type_id="";
         String left_money="";
+        String coupon_number="";
 
+
+        public String getCoupon_number() {
+            return coupon_number;
+        }
 
         public String getId() {
             return id;
