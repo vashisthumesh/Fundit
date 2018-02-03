@@ -8,7 +8,7 @@
               tools:context="com.fundit.OrganizationAccountActivity">
 
     <include
-        layout="@layout/toolbar_center_text"/>
+        layout="@layout/toolbar_center_text_create"/>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -115,7 +115,7 @@
                 android:layout_marginBottom="5dp"
                 android:background="@drawable/background_txt_border"
                 android:fontFamily="sans-serif"
-                android:hint="Email "
+                android:hint="Email Address"
                 android:inputType="textEmailAddress"
                 android:padding="10dp"
                 android:textColor="#000"
@@ -136,7 +136,7 @@
                 android:layout_marginBottom="5dp"
                 android:background="@drawable/background_txt_border"
                 android:fontFamily="sans-serif"
-                android:hint="Enter Password of 6 charater"
+                android:hint="Password"
                 android:inputType="textPassword"
                 android:padding="10dp"
                 android:textColor="#000"
@@ -157,7 +157,7 @@
                 android:layout_marginBottom="5dp"
                 android:background="@drawable/background_txt_border"
                 android:fontFamily="sans-serif"
-                android:hint="Confirm your password"
+                android:hint="Confirm password"
                 android:inputType="textPassword"
                 android:padding="10dp"
                 android:textColor="#000"

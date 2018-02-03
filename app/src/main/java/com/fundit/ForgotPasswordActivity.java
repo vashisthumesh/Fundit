@@ -207,7 +207,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-            actionTitle.setText("Forget Password ");
+            actionTitle.setText("Forgot Password ");
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

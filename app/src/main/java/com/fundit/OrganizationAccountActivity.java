@@ -181,32 +181,32 @@ public class OrganizationAccountActivity extends AppCompatActivity {
                 }
 
                 if(email.isEmpty()){
-                    C.INSTANCE.showToast(getApplicationContext(), "Please enter email id");
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter email");
                     return;
                 }
 
                 if(!email.isEmpty() && !C.INSTANCE.validEmail(email)){
-                    C.INSTANCE.showToast(getApplicationContext(),"Please enter valid email id");
+                    C.INSTANCE.showToast(getApplicationContext(),"Please enter valid email");
                     return;
                 }
 
                 if(checkedForUniqueEmail && isRegisteredEmail){
-                    C.INSTANCE.showToast(getApplicationContext(),"Please enter unique email id");
+                    C.INSTANCE.showToast(getApplicationContext(),"Please enter unique email");
                     return;
                 }
 
                 if(password.isEmpty() || password.length()<6){
-                    C.INSTANCE.showToast(getApplicationContext(),"Please enter password min. 6 chars");
+                    C.INSTANCE.showToast(getApplicationContext(),"Please enter password.");
                     return;
                 }
 
                 if(confirmPassowrd.isEmpty()){
-                    C.INSTANCE.showToast(getApplicationContext(),"Please enter confirm password");
+                    C.INSTANCE.showToast(getApplicationContext(),"Please enter atleast 6 digit Confirm password");
                     return;
                 }
 
                 if(!confirmPassowrd.equals(password)){
-                    C.INSTANCE.showToast(getApplicationContext(),"Confirm password does not match with password");
+                    C.INSTANCE.showToast(getApplicationContext(),"Please enter valid password");
                     return;
                 }
 

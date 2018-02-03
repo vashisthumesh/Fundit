@@ -10,7 +10,7 @@
 
     tools:context="com.fundit.VerificationActivity">
 
-    <include layout="@layout/toolbar_center_text"></include>
+    <include layout="@layout/toolbar_center_text_create"></include>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -34,20 +34,37 @@
                     android:layout_margin="5dp"
                     android:gravity="center"
                     android:padding="3dp"
-                    android:text="Please enter default settings  of your fundraising campaigns. These settings can be edited with each fundraiser."
+                    android:text="Please enter default details of your fundraising campaigns. These setting can be edited with each fundraiser."
                     android:textColor="@color/colorTextSecondary"
                     android:textSize="16sp" />
 
 
             </LinearLayout>
 
-            <CheckBox
-                android:id="@+id/checkbox_visible"
-                android:layout_width="wrap_content"
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="2dp"
-                android:layout_gravity="end|center"
-                android:text="Make Visible" />
+                android:orientation="horizontal"
+                android:background="@color/white">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableRight="@drawable/star"
+                    android:text="% Split:(Fundspot/Organization)"
+                    android:layout_gravity="center"
+                    android:textSize="14sp" />
+                <CheckBox
+                    android:id="@+id/checkbox_visible"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dp"
+                    android:layout_gravity="center"
+                    android:text="Make Visible" />
+            </LinearLayout>
+
+
 
 
 
@@ -70,28 +87,31 @@
                     android:orientation="horizontal"
                     android:padding="5dp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="% Split:"
-                        android:textSize="16sp" />
-
                     <EditText
                         android:id="@+id/edt_fubdraiser"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@color/white"
-                        android:gravity="end"
-                        android:hint="Fundraiser"
+                        android:gravity="center"
+                        android:hint="Fundspot"
                         android:inputType="numberDecimal"
                         android:padding="5dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="/"
+                        android:textColor="@color/black"
+                        android:layout_gravity="center"
+                        android:textSize="20sp" />
 
                     <EditText
                         android:id="@+id/edt_organization"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:gravity="center"
                         android:background="@color/white"
                         android:hint="Organization"
                         android:inputType="numberDecimal"

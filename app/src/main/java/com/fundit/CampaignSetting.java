@@ -87,7 +87,7 @@ public class CampaignSetting extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarCenterText);
         TextView actionTitle = (TextView) findViewById(R.id.actionTitle);
 
-        actionTitle.setText("Campaign Setting");
+        actionTitle.setText("Campaign Terms");
         setSupportActionBar(toolbar);
 
         if (editMode) {
@@ -252,7 +252,7 @@ public class CampaignSetting extends AppCompatActivity {
                 } else if (organization.isEmpty() || organization.equalsIgnoreCase("0")) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter organization percentage");
                 } else if (campaign_days.isEmpty() || campaign_days.equalsIgnoreCase("0")) {
-                    C.INSTANCE.showToast(getApplicationContext(), "Please enter duration of campaign");
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter campaign duration");
                 } else if (amount.isEmpty()||  Double.parseDouble(amount) == 0.0) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter max selling limit");
                 } else if (totalDays.isEmpty() || totalDays.equalsIgnoreCase("0")) {

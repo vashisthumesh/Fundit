@@ -300,8 +300,8 @@ public class FundSpotProfile extends AppCompatActivity {
                 String zipcode = ed_fund_zipcode.getText().toString().trim();
              //   String funsplit = ed_fund_fundsplit.getText().toString().trim();
                 String description = ed_fund_description.getText().toString().trim();
-                String con="+";
-                String contactInfo = con+ed_fund_contact_info.getText().toString().trim();
+               // String con="+";
+                String contactInfo = ed_fund_contact_info.getText().toString().trim();
                 String contact_email=edt_contactInfo_email.getText().toString().trim();
                 String cityName = tv_city.getText().toString().trim() ;
 
@@ -330,6 +330,10 @@ public class FundSpotProfile extends AppCompatActivity {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter description");
                 }else if (contactInfo.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter contact information");
+                }
+                else if(contactInfo.length() != 10)
+                {
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter valid contact info mobile number");
                 }
                 else if(contact_email.isEmpty())
                 {

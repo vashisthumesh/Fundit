@@ -7,7 +7,7 @@
     android:orientation="vertical"
     tools:context="com.fundit.OrganizationProfileActivity">
 
-    <include layout="@layout/toolbar_center_text" />
+    <include layout="@layout/toolbar_center_text_create" />
 
     <ScrollView
         android:layout_width="match_parent"

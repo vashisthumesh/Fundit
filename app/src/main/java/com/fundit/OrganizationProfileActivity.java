@@ -335,21 +335,21 @@ public class OrganizationProfileActivity extends AppCompatActivity {
                 } else if (title.length() < 2) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter organization title more than 1 char");
                 } else if (address1.isEmpty()) {
-                    C.INSTANCE.showToast(getApplicationContext(), "Please enter location");
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter address");
                 } else if (statePosition == 0) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please select state");
                 } else if (cityName.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter city");
                 } else if (zipcode.isEmpty() || zipcode.length() < 5) {
-                    C.INSTANCE.showToast(getApplicationContext(), "Please enter 5 digit zip code");
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter zip code");
                 } /*else if (schoolPosition == 0) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please select school type");
                 } else if (subSchoolPosition == 0) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please select school");
                 }*/ else if (description.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter description");
-                }else if (contactInfo.isEmpty()) {
-                    C.INSTANCE.showToast(getApplicationContext(), "Please enter contact information");
+                }else if (!contactInfo.isEmpty() && contactInfo.length() != 10) {
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter valid contact information");
                 }
                 else if(contact_email.isEmpty())
                 {

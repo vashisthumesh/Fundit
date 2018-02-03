@@ -79,7 +79,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:gravity="right"
-                android:text="Forgot Password?"
+                android:text="Forgot Password"
                 android:textColor="#000"
                 android:textSize="16dp"
                 android:visibility="visible" />
@@ -128,7 +128,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="6"
                     android:gravity="center"
-                    android:text="or"
+                    android:text="OR"
                     android:textColor="@color/black"
                     android:textSize="14sp"
                     />

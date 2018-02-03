@@ -5,6 +5,6 @@
     android:minHeight="30dp"
     android:padding="5dp"
     android:textColor="@color/black"
-    android:textSize="12sp">
+    android:textSize="16sp">
 
 </TextView>

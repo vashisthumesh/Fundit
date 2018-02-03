@@ -7,7 +7,7 @@
     android:orientation="vertical"
     tools:context="com.fundit.AccountTypeActivity">
 
-    <include layout="@layout/toolbar_center_text" />
+    <include layout="@layout/toolbar_center_text_create" />
 
 
     <LinearLayout
@@ -59,7 +59,7 @@
             android:layout_marginBottom="5dp"
             android:layout_marginTop="3dp"
             android:gravity="center"
-            android:text="Student club , athletic teams , special interest gropu etc"
+            android:text="Student club , athletic teams , special interest grops etc"
             android:textColor="@color/colorTextSecondary"
             android:textSize="13sp"
             android:textStyle="bold" />
@@ -86,7 +86,7 @@
             android:layout_marginBottom="5dp"
             android:layout_marginTop="3dp"
             android:gravity="center"
-            android:text="Restaurants , t-shirts shops , car washes etc"
+            android:text="Restaurants , t-shirts shops , car wash etc"
             android:textColor="@color/colorTextSecondary"
             android:textSize="13sp"
             android:textStyle="bold" />
