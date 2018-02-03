@@ -8,9 +8,12 @@ import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,10 +21,13 @@ import com.dlazaro66.qrcodereaderview.QRCodeReaderView;
 import com.fundit.a.AppPreference;
 import com.fundit.a.C;
 import com.fundit.a.W;
+import com.fundit.apis.AdminAPI;
+import com.fundit.apis.ServiceGenerator;
 import com.fundit.apis.ServiceHandler;
 import com.fundit.helper.CustomDialog;
 import com.fundit.model.Fundspot;
 import com.fundit.model.Member;
+import com.fundit.model.QRScanModel;
 import com.google.gson.Gson;
 import com.google.zxing.qrcode.QRCodeReader;
 
@@ -31,8 +37,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class QRScannerActivity extends AppCompatActivity implements QRCodeReaderView.OnQRCodeReadListener {
 
@@ -55,11 +66,55 @@ public class QRScannerActivity extends AppCompatActivity implements QRCodeReader
 
     JSONArray dataArray = new JSONArray();
 
+    AdminAPI adminAPI ;
+    CustomDialog customDialog ;
+    boolean isEditTime = false ;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qrscanner);
+
+        adminAPI = ServiceGenerator.getAPIClass();
+        customDialog = new CustomDialog(QRScannerActivity.this);
+        customDialog.setCancelable(false);
+
+
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarCenterText);
+
+        ImageView img_edit = (ImageView) findViewById(R.id.img_edit);
+        img_edit.setImageResource((R.drawable.scanedit));
+        img_edit.setVisibility(View.VISIBLE);
+
+        ImageView img_notification = (ImageView) findViewById(R.id.img_notification);
+        img_notification.setVisibility(View.GONE);
+
+
+        img_edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+             //   C.INSTANCE.showToast(getApplicationContext() , "Coming Soon");
+
+
+                OpenPopupDialog();
+            }
+        });
+
+
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
 
 
 
@@ -111,6 +166,47 @@ public class QRScannerActivity extends AppCompatActivity implements QRCodeReader
         }
     }
 
+    private void OpenPopupDialog() {
+
+
+        final Dialog dialog = new Dialog(QRScannerActivity.this);
+        dialog.setContentView(R.layout.layout_popup);
+        dialog.setCancelable(true);
+
+
+
+        final EditText edt_couponnumber = (EditText) dialog.findViewById(R.id.edt_couponnumber);
+        Button btn_apply = (Button) dialog.findViewById(R.id.btn_apply);
+
+
+        btn_apply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String getCouponNumber = "";
+                getCouponNumber = edt_couponnumber.getText().toString().trim();
+
+                if(getCouponNumber.isEmpty()){
+                    C.INSTANCE.showToast(getApplicationContext() , "Please Enter Coupon Number");
+                }else {
+                    isEditTime = true ;
+                    CheckValidateCoupon(getCouponNumber);
+                }
+
+
+
+            }
+        });
+
+
+
+        dialog.setCancelable(true);
+
+
+        dialog.show();
+
+    }
+
+
     @Override
     public void onQRCodeRead(String text, PointF[] points) {
 
@@ -141,7 +237,7 @@ public class QRScannerActivity extends AppCompatActivity implements QRCodeReader
                 e.printStackTrace();
             }
 
-            Intent intent = new Intent(QRScannerActivity.this , RedeemActivity.class);
+            /*Intent intent = new Intent(QRScannerActivity.this , RedeemActivity.class);
             intent.putExtra("text" , text);
             intent.putExtra("userId" , user);
             intent.putExtra("roleId" , role);
@@ -150,6 +246,8 @@ public class QRScannerActivity extends AppCompatActivity implements QRCodeReader
             startActivity(intent);
 
 
+*/
+            CheckValidateCoupon(text);
 
         }
     }
@@ -171,72 +269,6 @@ public class QRScannerActivity extends AppCompatActivity implements QRCodeReader
 
     }
 
-    private void showQRData(String text, PointF[] points) {
-
-
-        final Dialog dialog = new Dialog(QRScannerActivity.this);
-        dialog.setContentView(R.layout.activity_qrresult);
-
-        txtProduct = (TextView) dialog.findViewById(R.id.productName);
-        txtCampign = (TextView) dialog.findViewById(R.id.campaignName);
-        txtPrice = (TextView) dialog.findViewById(R.id.productPrice);
-        customerName = (TextView) dialog.findViewById(R.id.customerName);
-        sellingPrice = (TextView) dialog.findViewById(R.id.sellingPrice);
-        date = (TextView) dialog.findViewById(R.id.date);
-
-
-        Button btn_cancel = (Button) dialog.findViewById(R.id.btn_cancel);
-
-
-        txtProduct.setVisibility(View.VISIBLE);
-        txtCampign.setVisibility(View.VISIBLE);
-        txtPrice.setVisibility(View.VISIBLE);
-        customerName.setVisibility(View.VISIBLE);
-        sellingPrice.setVisibility(View.VISIBLE);
-
-
-        try {
-            JSONObject mainObject = new JSONObject(text);
-
-            campaignName = mainObject.getString("campaign_name");
-            customer_name = mainObject.getString("customer_name");
-            organization_name = mainObject.getString("organization_name");
-            fundspot_name = mainObject.getString("fundspot_name");
-            name = mainObject.getString("name");
-            quantity = mainObject.getString("quantity");
-            selling_price = mainObject.getString("selling_price");
-            item_total = mainObject.getString("item_total");
-            expiry_date = mainObject.getString("expiry_date");
-
-
-            txtCampign.setText(campaignName);
-            txtProduct.setText(name + "$ " + item_total);
-            txtPrice.setText(quantity);
-            customerName.setText(customer_name);
-            sellingPrice.setText(selling_price);
-            date.setText(expiry_date);
-
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        btn_cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-
-                dialog.dismiss();
-                qrCodeReaderView.startCamera();
-
-            }
-        });
-
-        dialog.show();
-
-    }
-
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -250,51 +282,73 @@ public class QRScannerActivity extends AppCompatActivity implements QRCodeReader
     }
 
 
-    public class CheckQRDetails extends AsyncTask<Void , Void , String>{
+    private void CheckValidateCoupon(String getCouponNumber) {
 
-        String userId = "";
-        String dataFromQR = "";
-        String roleId = "";
+        customDialog.show();
+        Call<QRScanModel> qrScanModelCall = null ;
 
-        public CheckQRDetails(String userId, String dataFromQR , String roleId) {
-            this.userId = userId;
-            this.dataFromQR = dataFromQR;
-            this.roleId = roleId;
-        }
-
-        @Override
-        protected String doInBackground(Void... params) {
-
-            List<NameValuePair> pairs = new ArrayList<>();
-
-
-
-            pairs.add(new BasicNameValuePair(W.KEY_USERID , userId));
-            pairs.add(new BasicNameValuePair(W.KEY_ROLEID , roleId));
-            pairs.add(new BasicNameValuePair("coupon_data" , dataFromQR ));
-
-            String json = new ServiceHandler().makeServiceCall(W.BASE_URL + "Order/app_validate_coupon" , ServiceHandler.POST , pairs);
-
-            Log.e("parameters" , "-->" + pairs);
-            Log.e("json" , "-->" + json);
-
-
-
-            return json;
+        if(isEditTime==false){
+            qrScanModelCall = adminAPI.CheckQRValidCoupon(user , role ,getCouponNumber );
+        }else {
+            qrScanModelCall = adminAPI.CheckValidCoupon(user , role , getCouponNumber);
         }
 
 
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-
-            C.INSTANCE.showToast(getApplicationContext() , "success");
 
 
+        qrScanModelCall.enqueue(new Callback<QRScanModel>() {
+            @Override
+            public void onResponse(Call<QRScanModel> call, Response<QRScanModel> response) {
+                customDialog.dismiss();
+                QRScanModel qrScanModel = response.body();
+
+                if(qrScanModel!=null){
+                    if(qrScanModel.isStatus()){
+
+                        Intent intent = new Intent(QRScannerActivity.this , RedeemActivity.class);
+                        intent.putExtra("quantity" , qrScanModel.getLeft_qty());
+                        intent.putExtra("order_product_id" , qrScanModel.getOrder_product_id());
+                        intent.putExtra("product_type_id" , qrScanModel.getProduct_type_id());
+                        intent.putExtra("product_name" , qrScanModel.getProduct_name());
+                        intent.putExtra("left_money" , qrScanModel.getLeft_money());
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
 
 
-        }
+                    }else {
+                        C.INSTANCE.showToast(getApplicationContext() , qrScanModel.getMessage());
+                    }
+
+
+
+
+
+                }else {
+                    C.INSTANCE.defaultError(getApplicationContext());
+                }
+
+
+            }
+
+            @Override
+            public void onFailure(Call<QRScanModel> call, Throwable t) {
+                customDialog.dismiss();
+                C.INSTANCE.errorToast(getApplicationContext() , t);
+
+            }
+        });
+
+
+
+
+
+
+
+
+
+
     }
+
 
 
 }

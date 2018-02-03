@@ -126,6 +126,7 @@ public class W {
     public static final String GETALLSETTINGSLIST = "NotificationSetting/app_get_notification_setting";
     public static final String UPDATESETTINGS = "NotificationSetting/app_update_notification_setting";
     public static final String GETINDIVIDUALCAMPAIGN = "Campaign/app_get_individual_campaign";
+    public static final String CHECKVALIDCOUPON = "Order/app_validate_coupon";
 
 
 

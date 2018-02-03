@@ -30,9 +30,12 @@ import com.fundit.model.NotificationSettingsModel;
 import com.fundit.model.OrderHistoryResponse;
 import com.fundit.model.OrganizationResponse;
 import com.fundit.model.ProductListResponse;
+import com.fundit.model.QRScanModel;
 import com.fundit.model.RegisterResponse;
 import com.fundit.model.UniqueEmailResponse;
 import com.fundit.model.VerifyResponse;
+
+import java.util.StringTokenizer;
 
 import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
@@ -393,5 +396,12 @@ public interface AdminAPI {
     @POST(W.ADDORDER)
     Call<CompleteOrderModel> CompleteOrder(@Field(W.KEY_USERID) String userId , @Field(W.KEY_ROLEID) String roleId , @Field(W.KEY_TOKEN) String tokenhash , @Field("campaign_id") String capmpaignId , @Field("firstname") String firstName , @Field("lastname") String lastName , @Field("email") String emailId , @Field("mobile") String mobileNo , @Field("payment_address_1") String address , @Field("payment_city") String city , @Field("payment_postcode") String zipCode , @Field("payment_state") String state , @Field("payment_method") String method , @Field("total") String totalPrice , @Field("owner_id") String ownerId , @Field("latitude") String lattitude , @Field("longitude") String longitude , @Field("organization_id") String orgenizationId , @Field("fundspot_id") String fundspotId , @Field("product_id") String productIdArray ,@Field("auth_cust_paymnet_profile_id") String auth_cust_paymnet_profile_id,@Field("customerProfileId") String customerProfileId, @Field("cvv") String cvv , @Field("card_id") String cardId , @Field("save_card") String savedCard , @Field("on_behalf_of") String onBehalfOf , @Field("order_request") String orderRequest , @Field("Other_user") String otherUser,@Field("is_card_save") String is_card_save);
 
+    @FormUrlEncoded
+    @POST(W.CHECKVALIDCOUPON)
+    Call<QRScanModel> CheckValidCoupon (@Field(W.KEY_USERID) String userId , @Field(W.KEY_ROLEID) String roleId , @Field("coupon_number") String couponNumber);
+
+    @FormUrlEncoded
+    @POST(W.CHECKVALIDCOUPON)
+    Call<QRScanModel> CheckQRValidCoupon (@Field(W.KEY_USERID) String userId , @Field(W.KEY_ROLEID) String roleId , @Field("coupon_data") String couponNumber);
 
 }

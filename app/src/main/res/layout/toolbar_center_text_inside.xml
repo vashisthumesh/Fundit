@@ -37,7 +37,7 @@
             android:paddingTop="10dp"
             android:paddingRight="5dp"
             android:paddingBottom="5dp"
-            android:src="@drawable/qrrrr"/>
+            android:src="@drawable/qrscan"/>
 
 
         <FrameLayout

@@ -37,12 +37,18 @@ public class RedeemActivity extends AppCompatActivity {
     String roleId = "";
     String quantity = "";
 
-    TextView txt_quantity , txt_remain ;
-    EditText edt_quantity ;
-    Button btn_redeem ;
+    TextView txt_quantity, txt_remain, txt_labelqty, txt_productname, txt_remainig_qty;
+    EditText edt_quantity;
+    Button btn_redeem;
 
     String remaining = "";
     String productId = "";
+    String leftMoney = "";
+    String product_type_id = "";
+    String product_name = "";
+
+
+    boolean isEditTimes = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,24 +56,19 @@ public class RedeemActivity extends AppCompatActivity {
         setContentView(R.layout.activity_redeem);
 
         preference = new AppPreference(getApplicationContext());
-        dialog = new CustomDialog(RedeemActivity.this , "");
+        dialog = new CustomDialog(RedeemActivity.this, "");
 
         Intent intent = getIntent();
-        text = intent.getStringExtra("text");
-        userId = intent.getStringExtra("userId");
-        roleId = intent.getStringExtra("roleId");
+
         quantity = intent.getStringExtra("quantity");
-
-
-
-
-
+        productId = intent.getStringExtra("order_product_id");
+        product_type_id = intent.getStringExtra("product_type_id");
+        product_name = intent.getStringExtra("product_name");
+        leftMoney = intent.getStringExtra("left_money");
 
 
         setupToolBar();
         fetchIds();
-
-
 
     }
 
@@ -75,13 +76,32 @@ public class RedeemActivity extends AppCompatActivity {
 
         txt_quantity = (TextView) findViewById(R.id.txt_quantity);
         txt_remain = (TextView) findViewById(R.id.txt_remain);
+        txt_labelqty = (TextView) findViewById(R.id.txt_labelqty);
+        txt_productname = (TextView) findViewById(R.id.txt_labelqty);
+        txt_remainig_qty = (TextView) findViewById(R.id.txt_remainig_qty);
 
         edt_quantity = (EditText) findViewById(R.id.edt_quantity);
         edt_quantity.setText("0");
 
         btn_redeem = (Button) findViewById(R.id.btn_redeem);
 
-        txt_quantity.setText(quantity);
+
+        if (!product_name.isEmpty() || product_name != null) {
+            txt_productname.setText(product_name);
+        }
+
+
+        if (product_type_id.equalsIgnoreCase("2")) {
+
+            txt_labelqty.setText("Total Gift Card Value");
+            txt_quantity.setText(leftMoney);
+
+            txt_remainig_qty.setText("Remaining Gift Card Value");
+
+        } else {
+            txt_quantity.setText(quantity);
+        }
+
 
         edt_quantity.addTextChangedListener(new TextWatcher() {
             @Override
@@ -98,6 +118,7 @@ public class RedeemActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
 
+
                 String getEditQuantity = edt_quantity.getText().toString().trim();
                 int getQty = 0;
                 int remaingQty = Integer.parseInt(remaining);
@@ -105,27 +126,25 @@ public class RedeemActivity extends AppCompatActivity {
                 int finalQty = 0;
 
 
-                if(getEditQuantity.isEmpty()){
+                if (getEditQuantity.isEmpty()) {
 
-                    Log.e("empty" , "empty");
+                    Log.e("empty", "empty");
 
                     edt_quantity.setHint("0");
                     txt_remain.setText(remaining);
                     getQty = 0;
 
-                }
-                else {
+                } else {
                     getQty = Integer.parseInt(getEditQuantity);
 
-                    if(getQty > remaingQty){
-                        Log.e("greater" , "greater");
+                    if (getQty > remaingQty) {
+                        Log.e("greater", "greater");
                         getQty = Integer.parseInt(getEditQuantity);
 
                         edt_quantity.setText(String.valueOf(remaingQty));
                         finalQty = remaingQty - Integer.parseInt(edt_quantity.getText().toString());
                         txt_remain.setText(String.valueOf(finalQty));
-                    }
-                    else {
+                    } else {
 
 
                         finalQty = remaingQty - getQty;
@@ -134,11 +153,9 @@ public class RedeemActivity extends AppCompatActivity {
                     }
                 }
 
+
             }
         });
-
-
-
 
 
         btn_redeem.setOnClickListener(new View.OnClickListener() {
@@ -148,35 +165,34 @@ public class RedeemActivity extends AppCompatActivity {
                 String getQty = edt_quantity.getText().toString();
                 String remainingQty = txt_remain.getText().toString();
 
-                Log.e("remainingQTY" , remainingQty);
+                Log.e("remainingQTY", remainingQty);
 
                 int finalQuantities = 0;
 
-                if(!getQty.isEmpty()){
+                if (!getQty.isEmpty()) {
                     finalQuantities = Integer.parseInt(getQty);
                 }
 
-                if(getQty.isEmpty()){
-                    C.INSTANCE.showToast(getApplicationContext() , "Please Enter Quantity First");
+                if (getQty.isEmpty()) {
+                    C.INSTANCE.showToast(getApplicationContext(), "Please Enter Quantity First");
+                } else if (finalQuantities == 0) {
+                    C.INSTANCE.showToast(getApplicationContext(), "Please Enter Quantity Atleast 1 Quantity");
+                } else {
+                    new RedeemQuantity(productId, remainingQty).execute();
                 }
-                else if(finalQuantities==0){
-                    C.INSTANCE.showToast(getApplicationContext() , "Please Enter Quantity Atleast 1 Quantity");
-                }
-                else {
-                    new RedeemQuantity(productId , remainingQty).execute();
-                }
-
-
-
-
-
             }
         });
 
 
 
+        /*if(isEditTimes){
+            txt_remain.setText(remaining);
+        }else {
+            new CheckQRDetails(userId , text , roleId).execute();
+        }
 
-        new CheckQRDetails(userId , text , roleId).execute();
+*/
+
 
     }
 
@@ -195,13 +211,13 @@ public class RedeemActivity extends AppCompatActivity {
         });
     }
 
-    public class CheckQRDetails extends AsyncTask<Void , Void , String> {
+    public class CheckQRDetails extends AsyncTask<Void, Void, String> {
 
         String userId = "";
         String dataFromQR = "";
         String roleId = "";
 
-        public CheckQRDetails(String userId, String dataFromQR , String roleId) {
+        public CheckQRDetails(String userId, String dataFromQR, String roleId) {
             this.userId = userId;
             this.dataFromQR = dataFromQR;
             this.roleId = roleId;
@@ -210,11 +226,11 @@ public class RedeemActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            try{
+            try {
 
                 dialog.show();
 
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
 
             }
@@ -226,16 +242,14 @@ public class RedeemActivity extends AppCompatActivity {
             List<NameValuePair> pairs = new ArrayList<>();
 
 
+            pairs.add(new BasicNameValuePair(W.KEY_USERID, userId));
+            pairs.add(new BasicNameValuePair(W.KEY_ROLEID, roleId));
+            pairs.add(new BasicNameValuePair("coupon_data", dataFromQR));
 
-            pairs.add(new BasicNameValuePair(W.KEY_USERID , userId));
-            pairs.add(new BasicNameValuePair(W.KEY_ROLEID , roleId));
-            pairs.add(new BasicNameValuePair("coupon_data" , dataFromQR ));
+            String json = new ServiceHandler().makeServiceCall(W.BASE_URL + "Order/app_validate_coupon", ServiceHandler.POST, pairs);
 
-            String json = new ServiceHandler().makeServiceCall(W.BASE_URL + "Order/app_validate_coupon" , ServiceHandler.POST , pairs);
-
-            Log.e("parameters" , "-->" + pairs);
-            Log.e("json" , "-->" + json);
-
+            Log.e("parameters", "-->" + pairs);
+            Log.e("json", "-->" + json);
 
 
             return json;
@@ -245,16 +259,15 @@ public class RedeemActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-dialog.dismiss();
+            dialog.dismiss();
 
-            if(s.isEmpty()){
+            if (s.isEmpty()) {
 
 
                 C.INSTANCE.defaultError(getApplicationContext());
 
 
-
-            }else {
+            } else {
 
                 try {
                     JSONObject mainObject = new JSONObject(s);
@@ -265,24 +278,19 @@ dialog.dismiss();
                     status = mainObject.getBoolean("status");
                     message = mainObject.getString("message");
 
-                    if(status){
+                    if (status) {
 
                         remaining = mainObject.getString("left_qty");
                         productId = mainObject.getString("order_product_id");
 
                         txt_remain.setText(remaining);
 
-                    }
-
-                    else {
-                        C.INSTANCE.showToast(getApplicationContext() , message);
-                        Intent intent = new Intent(getApplicationContext() , HomeActivity.class);
+                    } else {
+                        C.INSTANCE.showToast(getApplicationContext(), message);
+                        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
                     }
-
-
-
 
 
                 } catch (JSONException e) {
@@ -293,12 +301,10 @@ dialog.dismiss();
             }
 
 
-
-
         }
     }
 
-    public class RedeemQuantity extends AsyncTask<Void , Void , String> {
+    public class RedeemQuantity extends AsyncTask<Void, Void, String> {
 
         String productId = "";
         String qty = "";
@@ -311,11 +317,11 @@ dialog.dismiss();
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            try{
+            try {
 
                 dialog.show();
 
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
 
             }
@@ -327,16 +333,17 @@ dialog.dismiss();
 
             List<NameValuePair> pairs = new ArrayList<>();
 
+            pairs.add(new BasicNameValuePair("order_product_id", productId));
+            if (product_type_id.equalsIgnoreCase("2")) {
+                pairs.add(new BasicNameValuePair("left_money", qty));
+            } else {
+                pairs.add(new BasicNameValuePair("left_qty", qty));
+            }
 
+            String json = new ServiceHandler().makeServiceCall(W.BASE_URL + "Order/App_Update_Qty", ServiceHandler.POST, pairs);
 
-            pairs.add(new BasicNameValuePair("order_product_id" , productId));
-            pairs.add(new BasicNameValuePair("left_qty" , qty ));
-
-            String json = new ServiceHandler().makeServiceCall(W.BASE_URL + "Order/App_Update_Qty" , ServiceHandler.POST , pairs);
-
-            Log.e("parameters" , "-->" + pairs);
-            Log.e("json" , "-->" + json);
-
+            Log.e("parameters", "-->" + pairs);
+            Log.e("json", "-->" + json);
 
 
             return json;
@@ -348,14 +355,13 @@ dialog.dismiss();
             super.onPostExecute(s);
 
 
-            if(s.isEmpty()){
+            if (s.isEmpty()) {
 
 
                 C.INSTANCE.defaultError(getApplicationContext());
 
 
-
-            }else {
+            } else {
 
                 try {
                     JSONObject mainObject = new JSONObject(s);
@@ -367,16 +373,15 @@ dialog.dismiss();
                     status = mainObject.getBoolean("status");
                     message = mainObject.getString("message");
 
-                    if(status){
-                     C.INSTANCE.showToast(getApplicationContext() , message);
+                    if (status) {
+                        C.INSTANCE.showToast(getApplicationContext(), message);
 
-                        Intent intent = new Intent(getApplicationContext() , HomeActivity.class);
+                        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
 
 
                     }
-
 
 
                 } catch (JSONException e) {
@@ -385,8 +390,6 @@ dialog.dismiss();
 
 
             }
-
-
 
 
         }
