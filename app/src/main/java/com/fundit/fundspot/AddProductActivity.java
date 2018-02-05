@@ -234,6 +234,7 @@ public class AddProductActivity extends AppCompatActivity {
                             if (model != null) {
                                 C.INSTANCE.showToast(getApplicationContext(), model.getMessage());
                                 if (model.isStatus()) {
+                                    preference.setSkiped(false);
                                     setResult(RESULT_OK);
                                     onBackPressed();
                                 }

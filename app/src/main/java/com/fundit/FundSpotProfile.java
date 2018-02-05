@@ -399,7 +399,7 @@ public class FundSpotProfile extends AppCompatActivity {
                                         Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                         startActivity(intent);
-                                        finish();
+                                        finishAffinity();
                                     } else {
                                         C.INSTANCE.showToast(getApplicationContext(), verifyResponse.getMessage());
                                     }

@@ -210,7 +210,7 @@ public class CampaignSetting extends AppCompatActivity {
                                 Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(intent);
-                                finish();
+                                finishAffinity();
                             } else {
                                 C.INSTANCE.showToast(getApplicationContext(), verifyResponse.getMessage());
                             }
@@ -285,11 +285,14 @@ public class CampaignSetting extends AppCompatActivity {
                                     C.INSTANCE.showToast(getApplicationContext(), verifyResponse.getMessage());
                                     String memberData = new Gson().toJson(verifyResponse.getData().getMember().getFundspot());
                                     preference.setMemberData(memberData);
+                                    if(firstTIme){
+                                        preference.setSkiped(true);
+                                    }
 
                                     Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                     startActivity(intent);
-                                    finish();
+                                    finishAffinity();
                                 } else {
                                     C.INSTANCE.showToast(getApplicationContext(), verifyResponse.getMessage());
                                 }

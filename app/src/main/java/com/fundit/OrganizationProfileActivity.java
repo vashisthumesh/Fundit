@@ -387,18 +387,9 @@ public class OrganizationProfileActivity extends AppCompatActivity {
                                     String memberData = new Gson().toJson(verifyResponse.getData().getMember().getOrganization());
                                     preference.setMemberData(memberData);
                                     Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-/*
-                                    if(firstTime){
-                                        SignInActivity.getInstance().finish();
-                                        AccountTypeActivity.getInstance().finish();
-                                    OrganizationAccountActivity.getInstance().finish();
-                                        VerificationActivity.getInstance().finish();
-
-                                    }
-*/
                                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                     startActivity(intent);
-                                    finish();
+                                    finishAffinity();
                                 } else {
                                     C.INSTANCE.showToast(getApplicationContext(), verifyResponse.getMessage());
                                 }

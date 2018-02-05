@@ -55,7 +55,7 @@ public class SerchPeopleActivity extends AppCompatActivity {
 
     Button btnAdd, btnJoin, btnFollow, btnMessage;
 
-    LinearLayout layout_contact, current, past, layout_buttons , layout_mail,layout_fundspot,layput_contact_mobile,layput_contact_email;
+    LinearLayout layout_contact, current, past, layout_buttons , layout_mail,layout_fundspot,layput_contact_mobile,layput_contact_email , layout_org;
 
 
     String Id = "";
@@ -138,6 +138,7 @@ public class SerchPeopleActivity extends AppCompatActivity {
         circleImageView = (CircleImageView) findViewById(R.id.img_profilePic);
         txt_fundspots= (TextView) findViewById(R.id.txt_fundspot);
         layout_fundspot= (LinearLayout) findViewById(R.id.layout_fundspot);
+        layout_org= (LinearLayout) findViewById(R.id.layout_org);
         layput_contact_email= (LinearLayout) findViewById(R.id.layput_contact_email);
         layput_contact_mobile= (LinearLayout) findViewById(R.id.layput_contact_mobile);
         txt_email= (TextView) findViewById(R.id.txt_email);
@@ -429,7 +430,17 @@ public class SerchPeopleActivity extends AppCompatActivity {
 
 
                         txt_address.setText(memberObject.getString("location")+"\n"+memberObject.getString("city_name")+ " , " + stateObject.getString("state_code") + " , " + memberObject.getString("zip_code"));
-                        txt_organizations.setText(memberObject.getString("organization_names"));
+
+                        if(memberObject.getString("organization_names").equalsIgnoreCase("")){
+                            layout_org.setVisibility(View.GONE);
+                            txt_organizations.setVisibility(View.GONE);
+                        }else {
+                            txt_organizations.setText(memberObject.getString("organization_names"));
+                        }
+
+
+
+
 
 
 

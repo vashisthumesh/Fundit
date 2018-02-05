@@ -227,6 +227,7 @@ public class SignInActivity extends AppCompatActivity {
                 Intent in = new Intent(SignInActivity.this, AccountTypeActivity.class);
                 in.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(in);
+
             }
         });
 
