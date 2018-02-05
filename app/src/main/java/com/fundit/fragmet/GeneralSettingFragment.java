@@ -1,11 +1,13 @@
 package com.fundit.fragmet;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.TextView;
 
 import com.fundit.CampaignSetting;
@@ -103,6 +105,14 @@ public class GeneralSettingFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), NotificationSettingsActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
+            }
+        });
+
+        txtLegal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://docs.google.com/document/d/1I4wMk7kNTAYI3lbiMDI_rSf4BsxOl_uSNgevyFbZEYo/edit?usp=sharing"));
+                startActivity(browserIntent);
             }
         });
 

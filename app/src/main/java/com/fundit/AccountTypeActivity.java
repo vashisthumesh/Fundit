@@ -20,20 +20,27 @@ import com.fundit.a.C;
 public class AccountTypeActivity extends AppCompatActivity {
 
 
-    TextView tv_organization,tv_fundspot,tv_General_member;
+    TextView tv_organization, tv_fundspot, tv_General_member;
 
     AppPreference preferences;
+
+    static AccountTypeActivity activity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_type);
 
+        activity = this;
         preferences = new AppPreference(getApplicationContext());
 
         fetchid();
         setupToolbar();
 
+    }
+
+    public static AccountTypeActivity getInstance() {
+        return activity;
     }
 
     private void setupToolbar() {
@@ -55,15 +62,15 @@ public class AccountTypeActivity extends AppCompatActivity {
 
     private void fetchid() {
 
-        tv_organization=(TextView)findViewById(R.id.tv_organization);
-        tv_fundspot=(TextView)findViewById(R.id.tv_fundspot);
-        tv_General_member=(TextView)findViewById(R.id.tv_General_member);
+        tv_organization = (TextView) findViewById(R.id.tv_organization);
+        tv_fundspot = (TextView) findViewById(R.id.tv_fundspot);
+        tv_General_member = (TextView) findViewById(R.id.tv_General_member);
 
 
         tv_organization.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(AccountTypeActivity.this,OrganizationAccountActivity.class);
+                Intent intent = new Intent(AccountTypeActivity.this, OrganizationAccountActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.putExtra("roleID", C.ORGANIZATION);
                 startActivity(intent);
@@ -73,7 +80,7 @@ public class AccountTypeActivity extends AppCompatActivity {
         tv_fundspot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(AccountTypeActivity.this,OrganizationAccountActivity.class);
+                Intent intent = new Intent(AccountTypeActivity.this, OrganizationAccountActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.putExtra("roleID", C.FUNDSPOT);
                 startActivity(intent);
@@ -83,7 +90,7 @@ public class AccountTypeActivity extends AppCompatActivity {
         tv_General_member.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(AccountTypeActivity.this,OrganizationAccountActivity.class);
+                Intent intent = new Intent(AccountTypeActivity.this, OrganizationAccountActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.putExtra("roleID", C.GENERAL_MEMBER);
                 startActivity(intent);
@@ -99,7 +106,7 @@ public class AccountTypeActivity extends AppCompatActivity {
                 final int DRAWABLE_RIGHT = 2;
                 final int DRAWABLE_BOTTOM = 3;
 
-                if(event.getAction() == MotionEvent.ACTION_UP) {
+                if (event.getAction() == MotionEvent.ACTION_UP) {
                     if (event.getRawX() >= (tv_organization.getRight() - tv_organization.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
 
                         String message = "";
@@ -113,7 +120,7 @@ public class AccountTypeActivity extends AppCompatActivity {
                     }
                 }
 
-                        return false;
+                return false;
             }
         });
 
@@ -127,7 +134,7 @@ public class AccountTypeActivity extends AppCompatActivity {
                 final int DRAWABLE_RIGHT = 2;
                 final int DRAWABLE_BOTTOM = 3;
 
-                if(event.getAction() == MotionEvent.ACTION_UP) {
+                if (event.getAction() == MotionEvent.ACTION_UP) {
                     if (event.getRawX() >= (tv_fundspot.getRight() - tv_fundspot.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
 
                         String message = "";
@@ -155,7 +162,7 @@ public class AccountTypeActivity extends AppCompatActivity {
                 final int DRAWABLE_RIGHT = 2;
                 final int DRAWABLE_BOTTOM = 3;
 
-                if(event.getAction() == MotionEvent.ACTION_UP) {
+                if (event.getAction() == MotionEvent.ACTION_UP) {
                     if (event.getRawX() >= (tv_General_member.getRight() - tv_General_member.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
 
                         String message = "";
@@ -173,24 +180,19 @@ public class AccountTypeActivity extends AppCompatActivity {
         });
 
 
-
-
-
-
     }
 
     private void openDialog(String message) {
 
-        Log.e("message" , message);
+        Log.e("message", message);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(AccountTypeActivity.this);
         LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View dialogView = inflater.inflate(R.layout.dialog_forget_password, null);
         builder.setView(dialogView);
-      //  builder.setTitle("Notification");
+        //  builder.setTitle("Notification");
         final AlertDialog dialogB = builder.create();
         //setting custom layout to dialog
-
 
 
         final TextView Email = (TextView) dialogView.findViewById(R.id.tv_message);
@@ -215,7 +217,6 @@ public class AccountTypeActivity extends AppCompatActivity {
 
         dialogB.show();
     }
-
 
 
     @Override

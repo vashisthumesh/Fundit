@@ -277,7 +277,7 @@ public class CreateCampaignNextActivity extends AppCompatActivity {
 //                        }
                         if (chk_maxAmount.isChecked()) {
 
-                            detailObject.put("target_amount", 0);
+                            detailObject.put("target_amount", maxAmount1);
                         } else {
 
                             detailObject.put("target_amount", maxAmount1);

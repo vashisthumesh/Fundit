@@ -191,9 +191,6 @@ public class QRScannerActivity extends AppCompatActivity implements QRCodeReader
                     isEditTime = true ;
                     CheckValidateCoupon(getCouponNumber);
                 }
-
-
-
             }
         });
 
@@ -301,10 +298,8 @@ public class QRScannerActivity extends AppCompatActivity implements QRCodeReader
             public void onResponse(Call<QRScanModel> call, Response<QRScanModel> response) {
                 customDialog.dismiss();
                 QRScanModel qrScanModel = response.body();
-
                 if(qrScanModel!=null){
                     if(qrScanModel.isStatus()){
-
                         Intent intent = new Intent(QRScannerActivity.this , RedeemActivity.class);
                         intent.putExtra("quantity" , qrScanModel.getLeft_qty());
                         intent.putExtra("order_product_id" , qrScanModel.getOrder_product_id());
@@ -314,22 +309,13 @@ public class QRScannerActivity extends AppCompatActivity implements QRCodeReader
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
 
-
                     }else {
                         C.INSTANCE.showToast(getApplicationContext() , qrScanModel.getMessage());
                     }
-
-
-
-
-
                 }else {
                     C.INSTANCE.defaultError(getApplicationContext());
                 }
-
-
             }
-
             @Override
             public void onFailure(Call<QRScanModel> call, Throwable t) {
                 customDialog.dismiss();
@@ -337,16 +323,6 @@ public class QRScannerActivity extends AppCompatActivity implements QRCodeReader
 
             }
         });
-
-
-
-
-
-
-
-
-
-
     }
 
 

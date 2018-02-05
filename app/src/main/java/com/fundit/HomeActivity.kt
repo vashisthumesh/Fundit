@@ -57,7 +57,7 @@ class HomeActivity : AppCompatActivity() {
     var cartCount: TextView? = null
     var memberRequest: Int = 0
     var campaignRequestCount: Int = 0
-    var couponCount : Int = 0
+    var couponCount: Int = 0
     var totalRequest: Int = 0
     var flag = false
     var couponTimes = false
@@ -75,7 +75,7 @@ class HomeActivity : AppCompatActivity() {
         getintent = getIntent()
         flag = getintent.getBooleanExtra("flag", false)
         couponTimes = getintent.getBooleanExtra("couponTimes", false)
-        isNotificationTimes = getintent.getBooleanExtra("notificationTimes" , false)
+        isNotificationTimes = getintent.getBooleanExtra("notificationTimes", false)
 
 
 
@@ -86,7 +86,7 @@ class HomeActivity : AppCompatActivity() {
 
         } catch (e: Exception) {
             Log.e("Exception", e.message)
-            Log.e("VCS TESTING" , "VCS PLEASE")
+            Log.e("VCS TESTING", "VCS PLEASE")
         }
 
 
@@ -199,7 +199,7 @@ class HomeActivity : AppCompatActivity() {
             else -> fragment = Fragment()
         }
 
-        if(isNotificationTimes){
+        if (isNotificationTimes) {
             GoToNextFragment()
         }
 
@@ -288,16 +288,16 @@ class HomeActivity : AppCompatActivity() {
 
     private fun GoToNextFragment() {
 
-        var typeID : String = ""
+        var typeID: String = ""
         typeID = getintent.getStringExtra("typeId")
 
-        if(typeID.equals("1") || typeID.equals("3")){
+        if (typeID.equals("1") || typeID.equals("3")) {
             actionTitle?.text = "Requests"
             fragment = FRequestFragment()
             val transaction = fm?.beginTransaction()
             transaction?.replace(R.id.content, fragment)
             transaction?.commit()
-        }else if(typeID.equals("12") || typeID.equals("13") || typeID.equals("14") ){
+        } else if (typeID.equals("12") || typeID.equals("13") || typeID.equals("14")) {
             actionTitle?.text = "My Coupons"
             fragment = CouponFragment()
             val transaction = fm?.beginTransaction()
@@ -306,15 +306,15 @@ class HomeActivity : AppCompatActivity() {
         }
 
 
-
-
     }
 
     private fun handleClicks(position: Int) {
         img_edit?.visibility = View.GONE
+        img_notification?.visibility = View.GONE
         if (position == 0) {
 
         } else if (position == 1) {
+            img_notification?.visibility = View.VISIBLE
             actionTitle?.text = "Fundit"
             when (preference?.userRoleID) {
                 C.ORGANIZATION -> {
@@ -430,7 +430,7 @@ class HomeActivity : AppCompatActivity() {
 
     private fun coupon() {
 
-        if(couponTimes){
+        if (couponTimes) {
 
             actionTitle?.text = "My Coupons"
             fragment = CouponFragment()
@@ -438,7 +438,7 @@ class HomeActivity : AppCompatActivity() {
             transaction?.replace(R.id.content, fragment)
             transaction?.commit()
             flag = false
-        }else {
+        } else {
             actionTitle?.text = "My Orders"
             fragment = OrderHistoryFragment()
             val transaction = fm?.beginTransaction()
@@ -449,10 +449,7 @@ class HomeActivity : AppCompatActivity() {
         }
 
 
-
-
     }
-
 
     private fun logout() {
         val builder = AlertDialog.Builder(this)
@@ -523,7 +520,7 @@ class HomeActivity : AppCompatActivity() {
 
 
 
-            if(preference?.userRoleID.equals(C.GENERAL_MEMBER)){
+            if (preference?.userRoleID.equals(C.GENERAL_MEMBER)) {
                 if (position == 2) {
                     if (getCouponCount == 0) {
                         txt_count.visibility = View.GONE

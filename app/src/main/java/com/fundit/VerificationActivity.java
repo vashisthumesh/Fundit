@@ -36,6 +36,7 @@ public class VerificationActivity extends AppCompatActivity {
     CustomDialog dialog;
 
     AdminAPI adminAPI;
+    static VerificationActivity activity ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -120,6 +121,10 @@ public class VerificationActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public static VerificationActivity getInstance(){
+        return activity ;
     }
 
     private void setupToolbar() {

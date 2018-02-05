@@ -56,6 +56,7 @@ public class SignInActivity extends AppCompatActivity {
 
 
     AdminAPI adminAPI;
+    static SignInActivity activity ;
 
     @TargetApi(Build.VERSION_CODES.M)
     public static boolean isPermissionRequestRequired(Activity activity, @NonNull String[] permissions, int requestCode) {
@@ -85,6 +86,7 @@ public class SignInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
 
+        activity = this ;
         isPermissionRequestRequired(this, perms, 1);
 
         fetchid();
@@ -236,6 +238,10 @@ public class SignInActivity extends AppCompatActivity {
                 startActivity(in);
             }
         });
+    }
+
+    public static SignInActivity getInstance() {
+        return activity ;
     }
 
     private void showdialog() {

@@ -38,6 +38,8 @@ public class OrganizationAccountActivity extends AppCompatActivity {
     boolean isRegisteredEmail=false, checkedForUniqueEmail=false;
     CustomDialog dialog;
 
+    static OrganizationAccountActivity activity ;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +52,10 @@ public class OrganizationAccountActivity extends AppCompatActivity {
 
         fetchid();
         setupToolbar();
+    }
+
+    public static OrganizationAccountActivity getInstance(){
+        return activity ;
     }
 
     private void setupToolbar() {
