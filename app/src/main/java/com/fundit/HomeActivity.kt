@@ -28,6 +28,7 @@ import com.fundit.model.*
 import com.google.gson.Gson
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
+import kotlinx.android.synthetic.main.dialog_forget_password.*
 import org.apache.http.NameValuePair
 import org.apache.http.message.BasicNameValuePair
 import org.json.JSONException
@@ -104,7 +105,7 @@ class HomeActivity : AppCompatActivity() {
 
             }
             C.FUNDSPOT -> {
-                menuList = arrayOf("Home", "My Profile", "Requests", "My Product", "My Members", "Settings", "Invite Friends", "Help", "Logout")
+                menuList = arrayOf("Home", "My Profile", "Requests", "My Products", "My Members", "Settings", "Invite Friends", "Help", "Logout")
 
 
             }
@@ -315,12 +316,15 @@ class HomeActivity : AppCompatActivity() {
 
         } else if (position == 1) {
             img_notification?.visibility = View.VISIBLE
-            actionTitle?.text = "Fundit"
+            //actionTitle?.text = "Fundit"
+            actionTitle?.visibility=View.INVISIBLE
+
             when (preference?.userRoleID) {
                 C.ORGANIZATION -> {
                     fragment = HomeFragment()
                 }
                 C.FUNDSPOT -> {
+                    img_qrscan?.visibility=View.VISIBLE
                     fragment = HomeFragment()
                 }
                 C.GENERAL_MEMBER -> {
@@ -332,14 +336,17 @@ class HomeActivity : AppCompatActivity() {
             transaction?.commit()
 
         } else if (position == 2) {
+            actionTitle?.visibility=View.VISIBLE
             img_edit?.visibility = View.VISIBLE
+            img_qrscan?.visibility = View.GONE
             actionTitle?.text = "My Profile"
             fragment = MyProfileFragment()
             val transaction = fm?.beginTransaction()
             transaction?.replace(R.id.content, fragment)
             transaction?.commit()
         } else if (position == 3) {
-            img_edit?.visibility = View.GONE
+            actionTitle?.visibility=View.VISIBLE
+            img_edit?.visibility = View.INVISIBLE
             if (preference?.userRoleID.equals(C.FUNDSPOT) || preference?.userRoleID.equals(C.ORGANIZATION)) {
                 actionTitle?.text = "Requests"
                 fragment = FRequestFragment()
@@ -349,15 +356,20 @@ class HomeActivity : AppCompatActivity() {
             }
             if (preference?.userRoleID.equals(C.GENERAL_MEMBER)) {
                 actionTitle?.text = "My Coupons"
+                img_edit?.visibility=View.GONE
+                img_notification?.visibility=View.VISIBLE
                 fragment = CouponFragment()
                 val transaction = fm?.beginTransaction()
                 transaction?.replace(R.id.content, fragment)
                 transaction?.commit()
             }
         } else if (position == 4) {
+            actionTitle?.visibility=View.VISIBLE
             img_edit?.visibility = View.GONE
+            img_notification?.visibility=View.VISIBLE
             if (preference?.userRoleID.equals(C.FUNDSPOT)) {
-                actionTitle?.text = "My Product"
+                img_qrscan?.visibility=View.VISIBLE
+                actionTitle?.text = "My Products"
                 fragment = MyProductsFragment()
                 val transaction = fm?.beginTransaction()
                 transaction?.replace(R.id.content, fragment)
@@ -372,7 +384,18 @@ class HomeActivity : AppCompatActivity() {
             }
 
         } else if (position == 5) {
+            actionTitle?.visibility=View.VISIBLE
             img_edit?.visibility = View.GONE
+
+            if(preference?.userRoleID.equals(C.FUNDSPOT))
+            {
+                img_notification?.visibility=View.VISIBLE
+            }
+            else if(preference?.userRoleID.equals(C.ORGANIZATION))
+            {
+
+            }
+
             if (preference?.userRoleID.equals(C.FUNDSPOT) || preference?.userRoleID.equals(C.ORGANIZATION)) {
                 actionTitle?.text = "My Members"
                 fragment = MyMemberFragment()
@@ -390,6 +413,8 @@ class HomeActivity : AppCompatActivity() {
             }
 
         } else if (position == 6) {
+            img_qrscan?.visibility=View.INVISIBLE
+            actionTitle?.visibility=View.VISIBLE
             img_edit?.visibility = View.GONE
             actionTitle?.text = "Settings"
             fragment = GeneralSettingFragment()
@@ -399,7 +424,7 @@ class HomeActivity : AppCompatActivity() {
 
         } else if (position == 7) {
             img_edit?.visibility = View.GONE
-
+            actionTitle?.visibility=View.VISIBLE
             val sharingIntent = Intent(android.content.Intent.ACTION_SEND)
             sharingIntent.type = "text/plain"
             //val shareBodyText = GlobalFile.share
@@ -409,6 +434,7 @@ class HomeActivity : AppCompatActivity() {
 
 
         } else if (position == 8) {
+            actionTitle?.visibility=View.VISIBLE
             img_edit?.visibility = View.GONE
             actionTitle?.text = "Help"
             fragment = HelpFragment()

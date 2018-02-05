@@ -21,9 +21,8 @@
         android:gravity="center"
         style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
         android:layout_weight="2"
-        android:visibility="invisible"
         android:id="@+id/actionTitle"
-        android:text="Fundit"/>
+     />
 
 
         <ImageView

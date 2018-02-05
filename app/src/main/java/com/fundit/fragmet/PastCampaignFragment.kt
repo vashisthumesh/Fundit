@@ -86,7 +86,7 @@ class PastCampaignFragment : Fragment() {
                 dialog.dismiss()
                 val campaignList = response.body()
                 if (campaignList != null) {
-                    C.showToast(activity, campaignList.message)
+                  //  C.showToast(activity, campaignList.message)
                     if (campaignList.isStatus) {
                         campaignArrayList.addAll(campaignList.data)
                     } else {

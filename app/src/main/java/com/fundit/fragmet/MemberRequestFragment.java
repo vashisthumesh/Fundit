@@ -233,7 +233,7 @@ public class MemberRequestFragment extends Fragment {
                         memberRequestAdapter.notifyDataSetChanged();
                     }else {
 
-                        C.INSTANCE.showToast(getContext() , message);
+                       // C.INSTANCE.showToast(getContext() , message);
 
                     }
                 }

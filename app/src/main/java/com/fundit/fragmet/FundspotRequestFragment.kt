@@ -135,7 +135,7 @@ class FundspotRequestFragment : Fragment() {
                     null -> C.defaultError(context)
                     else -> {
                         when (campaignListResponse.isStatus) {
-                            false -> C.showToast(context, campaignListResponse.message)
+                           // false -> C.showToast(context, campaignListResponse.message)
                             true -> {
                                 campaignList.addAll(campaignListResponse.data)
                             }

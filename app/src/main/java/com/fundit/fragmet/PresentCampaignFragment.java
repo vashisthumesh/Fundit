@@ -91,7 +91,7 @@ public class PresentCampaignFragment extends Fragment {
                 dialog.dismiss();
                 CampaignListResponse campaignList = response.body();
                 if(campaignList!=null){
-                    C.INSTANCE.showToast(getActivity() , campaignList.getMessage());
+                   // C.INSTANCE.showToast(getActivity() , campaignList.getMessage());
                     if(campaignList.isStatus()){
                         campaignArrayList.addAll(campaignList.getData());
                     }else {
