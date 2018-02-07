@@ -292,7 +292,7 @@ public class OrderPlaceActivity extends AppCompatActivity {
                 startActivity(intent);
 
 
-               // C.INSTANCE.showToast(getApplicationContext() , "We are working on it");
+                // C.INSTANCE.showToast(getApplicationContext() , "We are working on it");
 
             }
         });
