@@ -91,7 +91,7 @@ public class MyCardsFragment extends Fragment {
                     if (cardResponse.isStatus()) {
                         bankCard.addAll(cardResponse.getData());
                     } else {
-                        C.INSTANCE.showToast(getActivity(), "No card Available");
+                        C.INSTANCE.showToast(getActivity(), cardResponse.getMessage());
                     }
                 } else {
                     C.INSTANCE.defaultError(getActivity());

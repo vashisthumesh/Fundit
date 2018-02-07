@@ -196,7 +196,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
             String replaceString = mainString.replace("[" , "");
             String finalString = replaceString.replace("]" , "");
 
-            String main_titlestring = "<b>" + newsDataList.get(position).getCampaignDetails().getCreateUser().getTitle()  + "</b> " + "just kicked off a campaign with "+"<b>"+newsDataList.get(position).getCampaignDetails().getReceiveUser().getTitle()+"</b>" +" Support them and buy "+ finalString;
+            String main_titlestring = "<b>" + newsDataList.get(position).getCampaignDetails().getCreateUser().getTitle()  + "</b> " + "just kicked off a campaign with "+"<b>"+newsDataList.get(position).getCampaignDetails().getReceiveUser().getTitle()+ "!"+"</b>" +" Support them and buy "+ finalString;
 
             holder.txt_mainTitle.setText(Html.fromHtml(main_titlestring));
 

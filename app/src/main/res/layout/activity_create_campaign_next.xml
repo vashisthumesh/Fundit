@@ -87,7 +87,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:gravity="start|top"
-                android:hint="Description"
+                android:hint=""
                 android:inputType="textMultiLine"
                 android:lines="4"
                 android:maxLines="4"
@@ -114,9 +114,8 @@
                     android:layout_height="40dp"
                     android:gravity="center"
                     android:background="@color/white"
-                    android:textSize="20dp"
-                    android:text="$"
-                    android:textColor="@color/black" />
+                    android:textSize="16sp"
+                    android:text="$"/>
 
 
                 <EditText
@@ -136,7 +135,7 @@
                     android:layout_marginLeft="5dp"
                     android:layout_weight="1"
                     android:padding="5dp"
-                    android:text="Maximum Amount Sold"
+                    android:text="Maximum Selling Limit"
                     android:textColor="@color/black"
                     android:textSize="14sp" />
 
@@ -148,7 +147,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="1dp"
-                android:drawableRight="@drawable/star"
                 android:padding="5dp"
                 android:textSize="16sp" />
 
@@ -226,7 +224,6 @@
                 android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:gravity="top|start"
-                android:hint="Message"
                 android:inputType="textMultiLine"
                 android:lines="4"
                 android:padding="5dp"

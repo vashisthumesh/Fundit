@@ -2,8 +2,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/menu_requestCampaign"
-        android:title="Campaign"/>
+        android:title="Campaigns"/>
     <item
         android:id="@+id/menu_requestMember"
-        android:title="Member"/>
+        android:title="Members"/>
 </menu>

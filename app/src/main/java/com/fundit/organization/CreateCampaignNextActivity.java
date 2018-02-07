@@ -19,6 +19,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.fundit.HomeActivity;
 import com.fundit.R;
 import com.fundit.a.AppPreference;
 import com.fundit.a.C;
@@ -68,6 +69,7 @@ public class CreateCampaignNextActivity extends AppCompatActivity {
     ArrayList<String> selectedProducts = new ArrayList<>();
     MemberListAdapter memberListAdapter;
 
+    boolean isProfileMode = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +88,7 @@ public class CreateCampaignNextActivity extends AppCompatActivity {
         maxLimitCoupon = intent.getStringExtra("maxLimitCoupon");
         couponExpiry = intent.getStringExtra("couponExpiry");
         selectedProducts = intent.getStringArrayListExtra("products");
+        isProfileMode = intent.getBooleanExtra("isProfileMode", false);
 
         //couponFinePrint = intent.getStringExtra("couponFinePrint");
         // product = (ProductListResponse.Product) intent.getSerializableExtra("product");
@@ -230,16 +233,16 @@ public class CreateCampaignNextActivity extends AppCompatActivity {
                 List<Member> selectedMemberList = memberListAdapter.getMemberList();
 
                 if (campaignTitle.isEmpty()) {
-                    C.INSTANCE.showToast(getApplicationContext(), "Please enter campaign title");
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter campaign name");
                 } else if (description.isEmpty()) {
-                    C.INSTANCE.showToast(getApplicationContext(), "Please enter description");
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter fundraiser for what?");
                 } else if (maxAmount1.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter target amount");
                 } else if (message.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter message");
-                } else if (fundspotMessage.isEmpty()) {
+                } /*else if (fundspotMessage.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter message for fundspot");
-                } else {
+                }*/ else {
 
                     JSONArray campaignDetailArray = new JSONArray();
                     JSONObject detailObject = new JSONObject();
@@ -322,9 +325,16 @@ public class CreateCampaignNextActivity extends AppCompatActivity {
                             AppModel model = response.body();
                             if (model != null) {
                                 if (model.isStatus()) {
-                                    C.INSTANCE.showToast(getApplicationContext(), model.getMessage());
-                                    setResult(RESULT_OK);
-                                    onBackPressed();
+                                    if (isProfileMode) {
+                                        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                        startActivity(intent);
+                                        finishAffinity();
+                                    } else {
+                                        C.INSTANCE.showToast(getApplicationContext(), model.getMessage());
+                                        setResult(RESULT_OK);
+                                        onBackPressed();
+                                    }
                                 } else {
                                     C.INSTANCE.showToast(getApplicationContext(), model.getMessage());
                                 }
@@ -351,7 +361,7 @@ public class CreateCampaignNextActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-        actionTitle.setText("Create Campaign");
+        actionTitle.setText("Create Campaign Request");
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

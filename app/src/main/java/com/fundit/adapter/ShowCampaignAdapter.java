@@ -132,7 +132,7 @@ public class ShowCampaignAdapter extends BaseAdapter {
         double ibyf = 0.0, multiply = 0.0, toadd = 0.0;
 
 
-        txt_itemLabel.setText("Product :");
+        txt_itemLabel.setText("Products :");
         txt_dateLabel.setText("Dates :");
         txt_mainTitle.setText(campaignLists.get(position).getCampaign().getTitle());
 
@@ -256,10 +256,23 @@ public class ShowCampaignAdapter extends BaseAdapter {
             }
         }
 
+        ArrayList<String> allProducts = new ArrayList<>();
+
         for (int i = 0; i < campaignLists.get(position).getCampaignProduct().size(); i++) {
-            String itemNames = campaignLists.get(position).getCampaignProduct().get(i).getName();
-            txt_item.setText(itemNames);
+            String itemNames = campaignLists.get(position).getCampaignProduct().get(i).getName() + ", ";
+
+            allProducts.add(itemNames);
+
+
         }
+
+        String mainString = "";
+        mainString = allProducts.toString();
+        String replaceString = mainString.replace("[" , "");
+        String finalString = replaceString.replace("]" , "");
+
+
+        txt_item.setText(finalString);
 
         img_forward.setOnClickListener(new View.OnClickListener() {
             @Override

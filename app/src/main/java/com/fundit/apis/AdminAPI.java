@@ -324,6 +324,10 @@ public interface AdminAPI {
     Call<InboxMessagesResponse> GetInboxMessage(@Field("receiver_id") String recieverId , @Field(W.KEY_TOKEN) String tokenHash);
 
     @FormUrlEncoded
+    @POST(W.CLEAR_MESSAGE)
+    Call<AppModel>Clear_All_Message(@Field(W.KEY_USERID)String userId,@Field(W.KEY_TOKEN) String tokenHash);
+
+    @FormUrlEncoded
     @POST(W.READ_INBOX_MESSAGES)
     Call<AppModel> UnreadMessage (@Field(W.KEY_USERID) String userId , @Field(W.KEY_TOKEN) String tokenHash , @Field("notification_id") String messageId);
 
@@ -403,5 +407,8 @@ public interface AdminAPI {
     @FormUrlEncoded
     @POST(W.CHECKVALIDCOUPON)
     Call<QRScanModel> CheckQRValidCoupon (@Field(W.KEY_USERID) String userId , @Field(W.KEY_ROLEID) String roleId , @Field("coupon_data") String couponNumber);
+
+
+
 
 }

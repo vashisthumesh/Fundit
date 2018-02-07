@@ -176,8 +176,13 @@ public class OrganizationAccountActivity extends AppCompatActivity {
                     return;
                 }
 
-                if(!roleID.equals(C.GENERAL_MEMBER) && title.isEmpty()){
-                    C.INSTANCE.showToast(getApplicationContext(), "Please enter title");
+                if(roleID.equals(C.ORGANIZATION) && title.isEmpty()){
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter organization name");
+                    return;
+                }
+
+                if(roleID.equals(C.FUNDSPOT) && title.isEmpty()){
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter fundspot name");
                     return;
                 }
 
@@ -201,13 +206,18 @@ public class OrganizationAccountActivity extends AppCompatActivity {
                     return;
                 }
 
-                if(password.isEmpty() || password.length()<6){
-                    C.INSTANCE.showToast(getApplicationContext(),"Please enter password.");
+                if(password.isEmpty() ){
+                    C.INSTANCE.showToast(getApplicationContext(),"Please enter password");
+                    return;
+                }
+
+                if(!password.isEmpty() && password.length()<6){
+                    C.INSTANCE.showToast(getApplicationContext(),"Please enter atleast 6 digit password");
                     return;
                 }
 
                 if(confirmPassowrd.isEmpty()){
-                    C.INSTANCE.showToast(getApplicationContext(),"Please enter atleast 6 digit Confirm password");
+                    C.INSTANCE.showToast(getApplicationContext(),"Please enter atleast 6 digit confirm password");
                     return;
                 }
 

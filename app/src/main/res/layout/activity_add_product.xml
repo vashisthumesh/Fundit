@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,8 +7,18 @@
     android:orientation="vertical"
     tools:context="com.fundit.fundspot.AddProductActivity">
 
-    <include
-        layout="@layout/toolbar_center_text"/>
+    <include layout="@layout/toolbar_center_text" />
+
+    <TextView
+        android:id="@+id/txt_mainTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:gravity="center"
+        android:padding="3dp"
+        android:text="Please add any products that will be available to sell during campaings"
+        android:textColor="@color/colorTextSecondary"
+        android:textSize="16sp" />
 
 
     <ScrollView
@@ -23,6 +32,16 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:padding="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="1dp"
+                android:drawableRight="@drawable/star"
+                android:padding="5dp"
+                android:text="Type of Product"
+                android:textSize="16sp" />
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -47,7 +66,7 @@
                         android:padding="3dp"
                         android:text="Item"
                         android:textColor="@color/black"
-                        android:textSize="16sp"/>
+                        android:textSize="16sp" />
 
                     <RadioButton
                         android:id="@+id/rdo_typeGiftCard"
@@ -57,7 +76,7 @@
                         android:padding="3dp"
                         android:text="Gift Card Value"
                         android:textColor="@color/black"
-                        android:textSize="16sp"/>
+                        android:textSize="16sp" />
                 </RadioGroup>
             </LinearLayout>
 
@@ -67,8 +86,8 @@
                 android:layout_marginLeft="1dp"
                 android:drawableRight="@drawable/star"
                 android:padding="5dp"
-                android:text="Name"
-                android:textSize="16sp"/>
+                android:text="Product Name"
+                android:textSize="16sp" />
 
             <EditText
                 android:id="@+id/edt_productName"
@@ -77,7 +96,8 @@
                 android:background="@color/white"
                 android:inputType="text"
                 android:padding="5dp"
-                android:textColor="@color/black"/>
+                android:hint="Product Name "
+                android:textColor="@color/black" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -86,7 +106,7 @@
                 android:drawableRight="@drawable/star"
                 android:padding="5dp"
                 android:text="Description"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
 
             <EditText
                 android:id="@+id/edt_description"
@@ -98,14 +118,13 @@
                 android:lines="4"
                 android:maxLines="4"
                 android:padding="5dp"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:orientation="horizontal">
-            </LinearLayout>
+                android:orientation="horizontal"></LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -114,7 +133,7 @@
                 android:drawableRight="@drawable/star"
                 android:padding="5dp"
                 android:text="Selling Price"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
 
             <EditText
                 android:id="@+id/edt_price"
@@ -122,16 +141,16 @@
                 android:layout_height="40dp"
                 android:layout_marginTop="5dp"
                 android:background="@color/white"
-                android:hint="Enter Amount"
+                android:hint="$ Seeling Price"
                 android:inputType="number"
                 android:padding="5dp"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black" />
 
             <LinearLayout
-                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -146,7 +165,7 @@
                         android:drawableRight="@drawable/star"
                         android:padding="5dp"
                         android:text="Fundspot Percent"
-                        android:textSize="16sp"/>
+                        android:textSize="16sp" />
 
                     <EditText
                         android:id="@+id/edt_fundSplit"
@@ -156,7 +175,7 @@
                         android:background="@color/white"
                         android:inputType="numberDecimal"
                         android:padding="5dp"
-                        android:textColor="@color/black"/>
+                        android:textColor="@color/black" />
 
                 </LinearLayout>
 
@@ -174,7 +193,7 @@
                         android:drawableRight="@drawable/star"
                         android:padding="5dp"
                         android:text="Organization Percent"
-                        android:textSize="16sp"/>
+                        android:textSize="16sp" />
 
                     <EditText
                         android:id="@+id/edt_organizationSplit"
@@ -185,24 +204,23 @@
                         android:enabled="false"
                         android:inputType="numberDecimal"
                         android:padding="5dp"
-                        android:textColor="@color/black"/>
+                        android:textColor="@color/black" />
 
                 </LinearLayout>
 
             </LinearLayout>
 
             <TextView
-                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="1dp"
                 android:drawableRight="@drawable/star"
                 android:padding="5dp"
                 android:text="Campaign duration"
-                android:textSize="16sp"/>
+                android:textSize="16sp"
+                android:visibility="gone" />
 
             <EditText
-                android:visibility="gone"
                 android:id="@+id/edt_campaignDuration"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
@@ -210,20 +228,20 @@
                 android:hint="Enter campaign duration in days"
                 android:inputType="number"
                 android:padding="5dp"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black"
+                android:visibility="gone" />
 
             <TextView
-                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="1dp"
                 android:drawableRight="@drawable/star"
                 android:padding="5dp"
                 android:text="Max limit of coupons"
-                android:textSize="16sp"/>
+                android:textSize="16sp"
+                android:visibility="gone" />
 
             <EditText
-                android:visibility="gone"
                 android:id="@+id/edt_maxLimitCoupon"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
@@ -231,20 +249,20 @@
                 android:hint="Enter maximum number of coupon"
                 android:inputType="number"
                 android:padding="5dp"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black"
+                android:visibility="gone" />
 
             <TextView
-                android:visibility="gone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="1dp"
-            android:drawableRight="@drawable/star"
-            android:padding="5dp"
-            android:text="Coupons Expiration"
-            android:textSize="16sp"/>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="1dp"
+                android:drawableRight="@drawable/star"
+                android:padding="5dp"
+                android:text="Coupons Expiration"
+                android:textSize="16sp"
+                android:visibility="gone" />
 
             <EditText
-                android:visibility="gone"
                 android:id="@+id/edt_couponExpireDay"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
@@ -252,14 +270,17 @@
                 android:hint="Enter days from purchase date"
                 android:inputType="number"
                 android:padding="5dp"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black"
+                android:visibility="gone" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="1dp"
                 android:padding="5dp"
+                android:drawableRight="@drawable/star"
                 android:text="Fine Print on Coupon"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
 
             <EditText
                 android:id="@+id/edt_fine_print"
@@ -267,11 +288,11 @@
                 android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:gravity="start|top"
-                android:hint="Fine print on coupon"
                 android:inputType="textMultiLine"
                 android:lines="3"
                 android:padding="5dp"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black" />
+
             <TextView
                 android:id="@+id/tv_fund_uplode_photo"
                 android:layout_width="wrap_content"
@@ -279,21 +300,21 @@
                 android:layout_gravity="center"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="5dp"
-                android:drawableRight="@drawable/star"
                 android:padding="5dp"
-                android:text="Upload Product Image"
-                android:textSize="16sp"/>
+                android:text="Upload Image"
+                android:textSize="16sp" />
 
             <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center">
+
                 <ImageView
                     android:id="@+id/img_productImage"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/img"/>
+                    android:src="@drawable/img" />
 
                 <ImageView
                     android:id="@+id/img_remove"
@@ -301,8 +322,7 @@
                     android:layout_height="25dp"
                     android:layout_gravity="top|end"
                     android:src="@drawable/ic_remove"
-                    android:visibility="gone"
-                    />
+                    android:visibility="gone" />
 
 
             </FrameLayout>
@@ -325,7 +345,7 @@
                     android:text="Cancel"
                     android:textAllCaps="false"
                     android:textColor="#000"
-                    android:textSize="20sp"/>
+                    android:textSize="20sp" />
 
                 <Button
                     android:id="@+id/btn_addProduct"
@@ -336,10 +356,10 @@
                     android:layout_weight="1"
                     android:background="@color/colorButton"
                     android:gravity="center"
-                    android:text="Add Product"
+                    android:text="Add"
                     android:textAllCaps="false"
                     android:textColor="#000"
-                    android:textSize="20sp"/>
+                    android:textSize="20sp" />
             </LinearLayout>
 
         </LinearLayout>

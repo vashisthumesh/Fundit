@@ -42,7 +42,7 @@ public class OnboardingFragment2 extends Fragment {
 
         image.setImageResource(R.drawable.smile);
         txt_title.setText("Manage Your Fundraisers");
-        txt_message.setText("Money management , coupon generation , distribution and redemption is taken care of.");
+        txt_message.setText("Money management, coupon generation, distribution and redemption is taken care of.");
 
     }
 

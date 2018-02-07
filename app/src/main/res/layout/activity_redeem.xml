@@ -10,12 +10,15 @@
 
     <include layout="@layout/toolbar_center_text" />
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="10dp"
-        android:layout_gravity="center"
+        android:layout_gravity="start"
         android:gravity="center"
         android:orientation="vertical">
 
@@ -124,6 +127,6 @@
 
 
     </LinearLayout>
-
+    </ScrollView>
 
 </LinearLayout>

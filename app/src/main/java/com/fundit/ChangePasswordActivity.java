@@ -22,7 +22,7 @@ import retrofit2.Response;
 
 public class ChangePasswordActivity extends AppCompatActivity {
 
-    EditText edt_password,edt_cnf_password;
+    EditText edt_password, edt_cnf_password;
     Button btn_change;
 
     String userID = "";
@@ -39,7 +39,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
         setContentView(R.layout.activity_change_password);
         adminAPI = ServiceGenerator.getAPIClass();
         dialog = new CustomDialog(this);
-        preference= new AppPreference(getApplicationContext());
+        preference = new AppPreference(getApplicationContext());
         fetchID();
         setupToolbar();
 
@@ -70,7 +70,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
         userID = preference.getUserID();
 
         edt_password = (EditText) findViewById(R.id.edt_password);
-        edt_cnf_password= (EditText) findViewById(R.id.edt_cnf_password);
+        edt_cnf_password = (EditText) findViewById(R.id.edt_cnf_password);
 
         btn_change = (Button) findViewById(R.id.btn_change);
 
@@ -80,29 +80,19 @@ public class ChangePasswordActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 String getPassword = edt_password.getText().toString().trim();
-                String confirmPassword=edt_cnf_password.getText().toString().trim();
+                String confirmPassword = edt_cnf_password.getText().toString().trim();
 
                 if (getPassword.isEmpty()) {
-
-
-                    C.INSTANCE.showToast(getApplicationContext(), "Please enter new password");
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter minimum 6 character password");
                     edt_password.requestFocus();
-
-
-                }
-                if(confirmPassword.isEmpty())
-                {
-                    C.INSTANCE.showToast(getApplicationContext(), "Please enter confirm password");
-                    edt_cnf_password.requestFocus();
-                }
-                else if(getPassword.length() < 6 || edt_cnf_password.length() < 6){
-                    C.INSTANCE.showToast(getApplicationContext(), "Please enter min. 6 char password");
-                }
-                else if(!getPassword.equalsIgnoreCase(confirmPassword))
-                {
+                } else if (getPassword.length() < 6) {
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter minimum 6 character valid password");
+                } else if (confirmPassword.isEmpty() || edt_cnf_password.length() < 6) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter valid password");
-                }
-                else {
+                    edt_cnf_password.requestFocus();
+                } else if (!getPassword.equalsIgnoreCase(confirmPassword)) {
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter valid password");
+                } else {
 
                     Call<AppModel> forgetpasswordcall = adminAPI.ForgetPass_change_edit(userID, getPassword);
 
@@ -114,9 +104,19 @@ public class ChangePasswordActivity extends AppCompatActivity {
                             if (appModel != null) {
                                 if (appModel.isStatus()) {
                                     C.INSTANCE.showToast(getApplicationContext(), appModel.getMessage());
-                                    Intent in3 = new Intent(getApplicationContext(), HomeActivity.class);
+                                    Intent in3 = new Intent(getApplicationContext(), SignInActivity.class);
                                     in3.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    preference.setLoggedIn(false);
+                                    preference.setUserID("");
+                                    preference.setUserRoleID("");
+                                    preference.setTokenHash("");
+                                    preference.setUserData("");
+                                    preference.setMemberData("");
+                                    preference.setMessageCount(0);
+                                    preference.setSkiped(false);
+                                    preference.setFirstTime(false);
                                     startActivity(in3);
+                                    finishAffinity();
 
                                 } else {
                                     C.INSTANCE.showToast(getApplicationContext(), appModel.getMessage());

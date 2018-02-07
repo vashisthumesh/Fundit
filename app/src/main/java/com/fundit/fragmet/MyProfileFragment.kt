@@ -60,6 +60,7 @@ class MyProfileFragment : Fragment() {
     internal var member = Member()
 
 
+
     var btn_edit: Button? = null
 
 
@@ -180,11 +181,12 @@ class MyProfileFragment : Fragment() {
             C.FUNDSPOT -> {
                 val memberData = Gson().fromJson(preference?.memberData, Fundspot::class.java)
 
-
+                Log.e("fundsdata" , "-->" + preference?.memberData)
                 txt_name?.text = userData.title
                 txt_emailID?.text = userData.email_id
 
                 layout_type?.visibility=View.GONE
+                layout_category?.visibility=View.GONE
 
                 if(memberData.contact_info_email.isEmpty())
                 {
@@ -208,7 +210,7 @@ class MyProfileFragment : Fragment() {
 
                 txt_address?.text = memberData.location + "\n" + memberData.city_name + " , " + memberData.state.state_code + "   " + memberData.zip_code
 
-                if(memberData.category_id.isEmpty())
+                /*if(memberData.category_id.isEmpty())
                 {
                     layout_category?.visibility=View.GONE
                 }
@@ -216,7 +218,7 @@ class MyProfileFragment : Fragment() {
                     layout_category?.visibility=View.VISIBLE
                     txt_category?.text="Category"+" "+memberData.category_id
                 }
-
+*/
 
                 if(memberData.fundraise_split.isEmpty())
                 {
@@ -317,7 +319,7 @@ class MyProfileFragment : Fragment() {
                     dialog?.dismiss()
                     val campaignList = response.body()
                     if (campaignList != null) {
-                        C.showToast(activity, campaignList.message)
+                      //  C.showToast(activity, campaignList.message)
                         if (campaignList.isStatus) {
 
                             val first_name =campaignList.data.member.first_name

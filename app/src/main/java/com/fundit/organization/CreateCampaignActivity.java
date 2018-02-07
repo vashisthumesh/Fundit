@@ -276,7 +276,7 @@ public class CreateCampaignActivity extends AppCompatActivity {
                 int couponExpiryNum = Integer.parseInt(couponExpiry.isEmpty() ? "0" : couponExpiry);
 
                 if (selectedFundSpotName == null) {
-                    C.INSTANCE.showToast(getApplicationContext(), "Please select Fundspot and its Product");
+                    C.INSTANCE.showToast(getApplicationContext(), "Please select fundspot");
                 } else if (orgSplit < 1) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter Organization split min. 1%");
                 } else if (!chk_indefinite.isChecked() && campDurationNum < 1) {
@@ -304,6 +304,7 @@ public class CreateCampaignActivity extends AppCompatActivity {
                     intent.putExtra("couponExpiry", couponExpiry);
                     //intent.putExtra("couponFinePrint", couponFinePrint);
                     intent.putStringArrayListExtra("products", selectedProducts);
+                    intent.putExtra("isProfileMode" , isProfileMode);
                     startActivityForResult(intent, NEXT_STEP);
                 }
             }
@@ -353,7 +354,7 @@ public class CreateCampaignActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-        actionTitle.setText("Create Campaign");
+        actionTitle.setText("Create Campaign Request");
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

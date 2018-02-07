@@ -57,7 +57,7 @@ public class AddProductActivity extends AppCompatActivity {
     RadioButton rdo_typeItem, rdo_typeGiftCard;
 
     Toolbar toolbar;
-    TextView actionTitle;
+    TextView actionTitle , txt_mainTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,7 +83,7 @@ public class AddProductActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbarCenterText);
         actionTitle = (TextView) findViewById(R.id.actionTitle);
         setSupportActionBar(toolbar);
-        actionTitle.setText("Add Product");
+        actionTitle.setText("My Products");
 
         if(preference.isSkiped()==false) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -120,12 +120,15 @@ public class AddProductActivity extends AppCompatActivity {
         btn_cancel = (Button) findViewById(R.id.btn_cancel);
         btn_addProduct = (Button) findViewById(R.id.btn_addProduct);
 
+        txt_mainTitle = (TextView) findViewById(R.id.txt_mainTitle);
+
         if(preference.isSkiped()){
             btn_cancel.setText("Skip");
         }
 
         if (isEditMode) {
-            btn_addProduct.setText("Edit Product");
+            txt_mainTitle.setVisibility(View.GONE);
+            btn_addProduct.setText("Update Product");
         }
 
         img_productImage.setOnClickListener(new View.OnClickListener() {
@@ -195,9 +198,9 @@ public class AddProductActivity extends AppCompatActivity {
                 if (name.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter product name");
                 } else if (description.isEmpty()) {
-                    C.INSTANCE.showToast(getApplicationContext(), "Please enter product description");
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter description");
                 } else if (productPrice < 1) {
-                    C.INSTANCE.showToast(getApplicationContext(), "Please enter product price min. $1");
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter selling price");
                 } /*else if (fundSplitPer < 1) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter FundSpot split min. 1%");
                 } else if (orgSplitPer < 1) {
@@ -208,10 +211,12 @@ public class AddProductActivity extends AppCompatActivity {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter max. coupon limit at least 1");
                 } else if (couponExpiryDaysNum < 1) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter coupon expiry days min. 1");
-                }*/ else if (!isEditMode && (imagePath == null || imagePath.isEmpty())) {
-                    C.INSTANCE.showToast(getApplicationContext(), "Please select product image");
+                }*/
+                else if(fine_print.isEmpty()) {
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter fine print");
+                } else if (!isEditMode && (imagePath == null || imagePath.isEmpty())) {
+                    C.INSTANCE.showToast(getApplicationContext(), "Please select image");
                 } else {
-
                     int checkedTypeID = rg_productType.getCheckedRadioButtonId();
                     String typeID = checkedTypeID == R.id.rdo_typeItem ? C.TYPE_PRODUCT : C.TYPE_GIFTCARD;
 

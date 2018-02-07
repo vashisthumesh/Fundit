@@ -31,6 +31,7 @@ public class Address extends AppModel {
             String location="";
             String zip_code="";
             String contact_info="";
+            String city_name = "";
 
 
             public String getLocation() {
@@ -43,6 +44,10 @@ public class Address extends AppModel {
 
             public String getContact_info() {
                 return contact_info;
+            }
+
+            public String getCity_name() {
+                return city_name;
             }
         }
 

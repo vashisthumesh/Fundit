@@ -68,7 +68,7 @@
                     <EditText
                         android:id="@+id/edt_firstname"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="40dp"
                         android:background="@drawable/background_txt_border"
                         android:padding="5dp"
                         android:inputType="text"
@@ -98,7 +98,7 @@
                     <EditText
                         android:id="@+id/edt_lastname"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="40dp"
                         android:background="@drawable/background_txt_border"
                         android:padding="5dp"
                         android:hint="Last Name*"
@@ -156,7 +156,7 @@
                 <Spinner
                     android:id="@+id/spn_month"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="40dp"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
                     android:background="@drawable/cardspinner"></Spinner>
@@ -175,7 +175,7 @@
                 <Spinner
                     android:id="@+id/spn_year"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="40dp"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
                     android:background="@drawable/cardspinner"></Spinner>
@@ -194,7 +194,7 @@
             <EditText
                 android:id="@+id/edt_cvv_number"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:layout_margin="5dp"
                 android:background="@drawable/background_txt_border"
                 android:inputType="numberPassword"
@@ -268,7 +268,7 @@
                     <EditText
                         android:id="@+id/edt_city"
                         android:layout_width="match_parent"
-                        android:layout_height="30dp"
+                        android:layout_height="40dp"
                         android:background="@drawable/background_txt_border"
                         android:padding="5dp"
                         android:hint="City*"
@@ -297,7 +297,7 @@
                     <Spinner
                         android:id="@+id/sp_state"
                         android:layout_width="match_parent"
-                        android:layout_height="30dp"
+                        android:layout_height="40dp"
                         android:background="@drawable/cardspinner"></Spinner>
                 </LinearLayout>
 
@@ -317,7 +317,7 @@
             <EditText
                 android:id="@+id/edt_zip"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:layout_margin="5dp"
                 android:background="@drawable/background_txt_border"
                 android:hint="Zipcode"

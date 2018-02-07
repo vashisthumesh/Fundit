@@ -1,6 +1,8 @@
 package com.fundit;
 
 import android.content.Intent;
+import android.os.AsyncTask;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -16,27 +18,33 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.fundit.Bean.Bean_Notification_history;
 import com.fundit.a.AppPreference;
+import com.fundit.a.C;
 import com.fundit.a.W;
 import com.fundit.adapter.Notification_Adapter;
+import com.fundit.apis.ServiceHandler;
 import com.fundit.helper.CustomDialog;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class NotificationActivity extends AppCompatActivity {
 
 
-     ListView List_notification;
+    ListView List_notification;
     Notification_Adapter order_history_adapter1;
     ArrayList<Bean_Notification_history> array_order_history_list = new ArrayList<Bean_Notification_history>();
 
     AppPreference prefs;
-    String user_id="",token_hash="";
+    String user_id = "", token_hash = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +54,7 @@ public class NotificationActivity extends AppCompatActivity {
 
 
     }
+
     private void setupToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarCenterText);
         TextView actionTitle = (TextView) findViewById(R.id.actionTitle);
@@ -68,12 +77,12 @@ public class NotificationActivity extends AppCompatActivity {
         order_history_adapter1 = new Notification_Adapter(NotificationActivity.this, array_order_history_list, NotificationActivity.this);
         order_history_adapter1.notifyDataSetChanged();
         List_notification.setAdapter(order_history_adapter1);
-       user_id = prefs.getUserID();
-        token_hash=prefs.getTokenHash();
-        getNotifications(user_id,token_hash,user_id);
+        user_id = prefs.getUserID();
+        token_hash = prefs.getTokenHash();
+        getNotifications(user_id, token_hash, user_id);
     }
 
-    private void getNotifications(final String user_id,final String token_hash,final String receiver_id) {
+    private void getNotifications(final String user_id, final String token_hash, final String receiver_id) {
         final CustomDialog loadingView = new CustomDialog(NotificationActivity.this, "");
         loadingView.setCancelable(false);
         loadingView.show();
@@ -114,10 +123,12 @@ public class NotificationActivity extends AppCompatActivity {
                             Log.e("Exception", "-->" + j.getMessage());
                         }
                         loadingView.dismiss();
-                        if(array_order_history_list.size()==0){
+                        if (array_order_history_list.size() == 0) {
                             Toast.makeText(NotificationActivity.this, "No Notification Available", Toast.LENGTH_LONG).show();
                         }
                         order_history_adapter1.notifyDataSetChanged();
+
+                        new GetNotificationCount().execute();
 
                     }
                 },
@@ -128,18 +139,18 @@ public class NotificationActivity extends AppCompatActivity {
                         Log.e("ERROR", error.getMessage());
 
                         if (error instanceof NetworkError) {
-                           // noInternet(getApplicationContext());
+                            // noInternet(getApplicationContext());
                         } else {
-                           // serverError(getApplicationContext());
+                            // serverError(getApplicationContext());
                         }
                     }
                 }) {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("user_id",user_id);
+                params.put("user_id", user_id);
                 params.put("tokenhash", token_hash);
-                params.put("receive_user",user_id);
+                params.put("receive_user", user_id);
 
 
                 Log.e("params", params.toString());
@@ -152,8 +163,75 @@ public class NotificationActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(getApplicationContext() , HomeActivity.class);
+        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
+    }
+
+
+    public class GetNotificationCount extends AsyncTask<Void, Void, String> {
+        CustomDialog loadingView = null;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            try {
+                loadingView = new CustomDialog(NotificationActivity.this, "");
+                loadingView.setCancelable(false);
+                loadingView.show();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        protected String doInBackground(Void... voids) {
+
+
+            List<NameValuePair> pairList = new ArrayList<>();
+
+            pairList.add(new BasicNameValuePair("user_id", prefs.getUserID()));
+            pairList.add(new BasicNameValuePair("tokenhash", prefs.getTokenHash()));
+
+
+            String json = new ServiceHandler().makeServiceCall(W.BASE_URL + W.GetNotificationCount, ServiceHandler.POST, pairList);
+
+            return json;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            loadingView.dismiss();
+
+            try {
+
+                if (s.isEmpty() || s.equalsIgnoreCase("")) {
+                    C.INSTANCE.showToast(getApplicationContext(), "Please check your Internet");
+                } else {
+
+                    JSONObject mainObject = new JSONObject(s);
+
+                    int totalRequest, memberRequest, campaignRequest;
+
+                    memberRequest = mainObject.getInt("total_member_request_count");
+                    campaignRequest = mainObject.getInt("total_request_count");
+
+                    totalRequest = memberRequest + campaignRequest;
+
+
+                    prefs.setMessageCount(mainObject.getInt("total_unread_msg"));
+                    prefs.setCampaignCount(mainObject.getInt(String.valueOf(campaignRequest)));
+                    prefs.setMemberCount(memberRequest);
+                    prefs.setCouponCount(mainObject.getInt("total_coupon_count"));
+                    prefs.setTotalCount(totalRequest);
+                    prefs.setfundspot_product_count(mainObject.getInt("fundspot_product_count"));
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
     }
 }

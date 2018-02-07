@@ -333,23 +333,25 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
                 } */else if (statePosition == 0) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please select state");
                 } else if (cityName.isEmpty()) {
-                    C.INSTANCE.showToast(getApplicationContext(), "Please enter city");
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter city name");
                 } else if (zipcode.isEmpty() || zipcode.length() < 5) {
-                    C.INSTANCE.showToast(getApplicationContext(), "Please enter 5 digit zip code");
-                } else if (contactInfo.isEmpty()) {
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter zipcode");
+                } /*else if (contactInfo.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter contact information");
                 }
                 else if(contact_email.isEmpty())
                 {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter contact information");
-                }
-                else if(!C.INSTANCE.validEmail(contact_email))
+                }*/
+                else if(!contact_email.isEmpty() && !C.INSTANCE.validEmail(contact_email))
                 {
-                    C.INSTANCE.showToast(getApplicationContext(), "Please enter valid email");
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter valid contact info email");
+                }else if(!contactInfo.isEmpty() && contactInfo.length()!=10){
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter valid contact info mobile number");
                 }
                 else if (imagePath == null) {
 
-                    C.INSTANCE.showToast(getApplicationContext(), "Please select profile image");
+                    C.INSTANCE.showToast(getApplicationContext(), "Please select image");
                 } else {
                     Call<VerifyResponse> generalMemberResponse = null;
                     int checkID = rg_type.getCheckedRadioButtonId();
@@ -399,14 +401,10 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
                                     C.INSTANCE.showToast(getApplicationContext(), verifyResponse.getMessage());
                                     String memberData = new Gson().toJson(verifyResponse.getData().getMember());
                                     preference.setMemberData(memberData);
-
+                                    if(firstTime==false){
+                                        preference.setRedirection("2");
+                                    }
                                     Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-                                    /*if(firstTime){
-                                        SignInActivity.getInstance().finish();
-                                        AccountTypeActivity.getInstance().finish();
-                                        OrganizationAccountActivity.getInstance().finish();
-                                        VerificationActivity.getInstance().finish();
-                                    }*/
                                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                     startActivity(intent);
                                     finish();

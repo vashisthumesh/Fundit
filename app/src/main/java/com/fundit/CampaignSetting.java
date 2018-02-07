@@ -193,7 +193,7 @@ public class CampaignSetting extends AppCompatActivity {
 
                 Call<VerifyResponse> fundspotResponse = null;
                 dialog.show();
-                fundspotResponse = adminAPI.editFundsportProfile(preference.getUserID(), preference.getTokenHash(), title, state_id, city_id, address, zipcode, category, funsplit, description, contactInfo, "", "", "", "", "","0", ServiceGenerator.prepareFilePart("image", imagePath));
+                fundspotResponse = adminAPI.editFundsportProfile(preference.getUserID(), preference.getTokenHash(), title, state_id, city_id, address, zipcode, category, funsplit, description, contactInfo, "", "", "", "", "", "0", ServiceGenerator.prepareFilePart("image", imagePath));
 
                 fundspotResponse.enqueue(new Callback<VerifyResponse>() {
                     @Override
@@ -248,15 +248,21 @@ public class CampaignSetting extends AppCompatActivity {
 
 
                 if (fundraiser.isEmpty() || fundraiser.equalsIgnoreCase("0")) {
-                    C.INSTANCE.showToast(getApplicationContext(), "Please enter fundraiser percentage");
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter fundspot percentage");
                 } else if (organization.isEmpty() || organization.equalsIgnoreCase("0")) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter organization percentage");
-                } else if (campaign_days.isEmpty() || campaign_days.equalsIgnoreCase("0")) {
+                } else if (campaign_days.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter campaign duration");
-                } else if (amount.isEmpty()||  Double.parseDouble(amount) == 0.0) {
+                } else if (Double.parseDouble(campaign_days) == 0.0) {
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter valid campaign duration");
+                } else if (amount.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter max selling limit");
-                } else if (totalDays.isEmpty() || totalDays.equalsIgnoreCase("0")) {
-                    C.INSTANCE.showToast(getApplicationContext(), "Please enter coupons expiration");
+                } else if (Double.parseDouble(amount) == 0.0) {
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter valid max selling limit");
+                } else if (totalDays.isEmpty()) {
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter coupons expiration days");
+                } else if (Double.parseDouble(totalDays) == 0.0) {
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter valid coupons expiration days");
                 } else {
                     Call<VerifyResponse> fundspotResponse = null;
                     dialog.show();
@@ -285,7 +291,7 @@ public class CampaignSetting extends AppCompatActivity {
                                     C.INSTANCE.showToast(getApplicationContext(), verifyResponse.getMessage());
                                     String memberData = new Gson().toJson(verifyResponse.getData().getMember().getFundspot());
                                     preference.setMemberData(memberData);
-                                    if(firstTIme){
+                                    if (firstTIme) {
                                         preference.setSkiped(true);
                                     }
 

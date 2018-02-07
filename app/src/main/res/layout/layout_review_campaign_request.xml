@@ -44,11 +44,11 @@
             <TextView
                 android:id="@+id/txt_message"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="1dp"
+                android:layout_height="60dp"
                 android:background="@drawable/background_txt_border"
                 android:padding="5dp"
                 android:text="Message:we would love to partner up with you and start a fundraiser"
+                android:layout_marginTop="5dp"
                 android:textSize="16sp" />
 
             <LinearLayout
@@ -142,7 +142,7 @@
                 android:layout_marginLeft="1dp"
                 android:drawableRight="@drawable/star"
                 android:padding="5dp"
-                android:text="Percentage split fundspot/organization "
+                android:text="Percentage Split Fundspot/Organization "
                 android:textSize="16sp" />
 
             <LinearLayout
@@ -237,7 +237,7 @@
                 android:layout_marginLeft="1dp"
                 android:drawableRight="@drawable/star"
                 android:padding="5dp"
-                android:text="Maximum Limit of Coupon"
+                android:text="Maximum Selling Limit"
                 android:textSize="16sp" />
 
             <EditText
@@ -307,6 +307,19 @@
                 android:maxLines="4"
                 android:padding="5dp"
                 android:textColor="@color/black" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="1dp"
+                android:padding="5dp"
+                android:drawableRight="@drawable/star"
+                android:layout_marginTop="5dp"
+                android:text="Product being sold"
+                android:textSize="16sp"/>
+
+
 
 
             <ListView

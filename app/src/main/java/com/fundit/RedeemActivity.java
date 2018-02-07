@@ -65,6 +65,15 @@ public class RedeemActivity extends AppCompatActivity {
         product_type_id = intent.getStringExtra("product_type_id");
         product_name = intent.getStringExtra("product_name");
         leftMoney = intent.getStringExtra("left_money");
+        remaining = intent.getStringExtra("quantity");
+
+
+        Log.e("quantity", "-->" + quantity);
+        Log.e("productId", "-->" + productId);
+        Log.e("product_type_id", "-->" + product_type_id);
+        Log.e("product_name", "-->" + product_name);
+        Log.e("leftMoney", "-->" + leftMoney);
+        Log.e("remaining", "-->" + remaining);
 
 
         setupToolBar();
@@ -77,7 +86,7 @@ public class RedeemActivity extends AppCompatActivity {
         txt_quantity = (TextView) findViewById(R.id.txt_quantity);
         txt_remain = (TextView) findViewById(R.id.txt_remain);
         txt_labelqty = (TextView) findViewById(R.id.txt_labelqty);
-        txt_productname = (TextView) findViewById(R.id.txt_labelqty);
+        txt_productname = (TextView) findViewById(R.id.txt_productname);
         txt_remainig_qty = (TextView) findViewById(R.id.txt_remainig_qty);
 
         edt_quantity = (EditText) findViewById(R.id.edt_quantity);
@@ -86,12 +95,11 @@ public class RedeemActivity extends AppCompatActivity {
         btn_redeem = (Button) findViewById(R.id.btn_redeem);
 
 
-        if (!product_name.isEmpty() || product_name != null) {
-            txt_productname.setText(product_name);
-        }
+        txt_productname.setText("Product Name: " + product_name);
+        txt_quantity.setText(quantity);
 
 
-        if (product_type_id.equalsIgnoreCase("2")) {
+        /*if (product_type_id.equalsIgnoreCase("2")) {
 
             txt_labelqty.setText("Total Gift Card Value");
             txt_quantity.setText(leftMoney);
@@ -101,7 +109,7 @@ public class RedeemActivity extends AppCompatActivity {
         } else {
             txt_quantity.setText(quantity);
         }
-
+*/
 
         edt_quantity.addTextChangedListener(new TextWatcher() {
             @Override
@@ -374,7 +382,7 @@ public class RedeemActivity extends AppCompatActivity {
                     message = mainObject.getString("message");
 
                     if (status) {
-                        C.INSTANCE.showToast(getApplicationContext(), message);
+                        C.INSTANCE.showToast(getApplicationContext(), "This coupon was successfully redeemed");
 
                         Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

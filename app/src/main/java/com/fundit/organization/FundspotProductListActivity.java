@@ -328,7 +328,7 @@ public class FundspotProductListActivity extends AppCompatActivity {
             txt_price.setText("$" + String.format("%.2f",Double.parseDouble(productList.get(position).getPrice())));
 
             if (productList.get(position).getType_id().equals(C.TYPE_PRODUCT)) {
-                txt_type.setText("Product Item");
+                txt_type.setText("Item");
             } else {
                 txt_type.setText("Gift Card Value");
             }
@@ -379,7 +379,7 @@ public class FundspotProductListActivity extends AppCompatActivity {
 
             checkedProducts.setChecked(true);
 
-            if (preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION)) {
+            if (preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION) || preference.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT) ) {
                 checkedProducts.setEnabled(false);
             }
 

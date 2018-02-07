@@ -43,7 +43,7 @@
             android:layout_margin="5dp"
             android:drawableRight="@drawable/blackarrow"
             android:gravity="start|center"
-            android:text="Notification Setting"
+            android:text="Notification Settings"
             android:textSize="18sp" />
 
 

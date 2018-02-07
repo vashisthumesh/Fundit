@@ -59,7 +59,7 @@ import retrofit2.Response;
  */
 
 public class FundspotCampaignActivity extends AppCompatActivity {
-    TextView txt_browseFundspot, txt_itemLabel , txt_partnerLabel;
+    TextView txt_browseFundspot, txt_itemLabel, txt_partnerLabel;
     AutoCompleteTextView auto_searchFundspot;
     ArrayList<String> fundSpotNames = new ArrayList<>();
     List<VerifyResponse.VerifyResponseData> fundSpotList = new ArrayList<>();
@@ -112,10 +112,10 @@ public class FundspotCampaignActivity extends AppCompatActivity {
 
         try {
 
-            fundspot = new Gson().fromJson(preference.getMemberData() , Fundspot.class);
+            fundspot = new Gson().fromJson(preference.getMemberData(), Fundspot.class);
 
 
-        }catch (Exception e){
+        } catch (Exception e) {
 
 
         }
@@ -159,6 +159,12 @@ public class FundspotCampaignActivity extends AppCompatActivity {
         edt_couponCost.setEnabled(false);
 
         chk_indefinite = (CheckBox) findViewById(R.id.chk_indefinite);
+
+        edt_organizationSplit.setText(fundspot.getOrganization_percent());
+        edt_fundSplit.setText(fundspot.getFundspot_percent());
+        edt_campaignDuration.setText(fundspot.getCampaign_duration());
+        edt_maxLimitCoupon.setText("$" + String.format("%.2f", Double.parseDouble(fundspot.getMax_limit_of_coupon_price())));
+        edt_couponExpireDay.setText(fundspot.getCoupon_expire_day());
 
         chk_indefinite.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -249,9 +255,9 @@ public class FundspotCampaignActivity extends AppCompatActivity {
                 VerifyResponse.VerifyResponseData data = fundSpotList.get(i);
                 Intent intent = new Intent(getApplicationContext(), FundspotProductListActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.putExtra("fundspotName",fundSpotList.get(i).getOrganization().getTitle());
+                intent.putExtra("fundspotName", fundSpotList.get(i).getOrganization().getTitle());
                 intent.putExtra("fundspotID", preference.getUserID());
-                intent.putExtra("organizationID" , fundSpotList.get(i).getOrganization().getUser_id());
+                intent.putExtra("organizationID", fundSpotList.get(i).getOrganization().getUser_id());
                 startActivityForResult(intent, REQUEST_PRODUCT);
             }
         });
@@ -262,25 +268,32 @@ public class FundspotCampaignActivity extends AppCompatActivity {
                 String organizationSplit = edt_organizationSplit.getText().toString().trim();
                 String fundSpotSplit = edt_fundSplit.getText().toString().trim();
                 String campaignDuration = edt_campaignDuration.getText().toString().trim();
-                String maxLimitCoupon = edt_maxLimitCoupon.getText().toString().trim();
+                String maxLimitCoupon1 = edt_maxLimitCoupon.getText().toString().trim();
+                String maxLimitCoupon = maxLimitCoupon1.replace("$", "");
                 String couponExpiry = edt_couponExpireDay.getText().toString().trim();
                 String couponFinePrint = edt_finePrint.getText().toString().trim();
+                String name = auto_searchFundspot.getText().toString().trim();
+
+                Log.e("tetst", "-->" + maxLimitCoupon1 + "=>" + maxLimitCoupon);
 
                 float orgSplit = Float.parseFloat(organizationSplit.isEmpty() ? "0" : organizationSplit);
                 int campDurationNum = Integer.parseInt(campaignDuration.isEmpty() ? "0" : campaignDuration);
-                int maxLimitCouponNum = Integer.parseInt(maxLimitCoupon.isEmpty() ? "0" : maxLimitCoupon);
+                float maxLimitCouponNum = Float.parseFloat(maxLimitCoupon.isEmpty() ? "0" : maxLimitCoupon);
                 int couponExpiryNum = Integer.parseInt(couponExpiry.isEmpty() ? "0" : couponExpiry);
+                float fundSplit = Float.parseFloat(fundSpotSplit.isEmpty() ? "0" : fundSpotSplit);
 
-                if (selectedFundSpotName == null) {
-                    C.INSTANCE.showToast(getApplicationContext(), "Please select Organization");
+                if (selectedFundSpotName == null || name.isEmpty()) {
+                    C.INSTANCE.showToast(getApplicationContext(), "Please select organization");
                 } else if (orgSplit < 1) {
-                    C.INSTANCE.showToast(getApplicationContext(), "Please enter Organization split min. 1%");
+                    C.INSTANCE.showToast(getApplicationContext(), "please enter organization percentage");
+                } else if (fundSplit < 1) {
+                    C.INSTANCE.showToast(getApplicationContext(), "please enter fundspot percentage");
                 } else if (!chk_indefinite.isChecked() && campDurationNum < 1) {
-                    C.INSTANCE.showToast(getApplicationContext(), "Please enter campaign duration min. 1");
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter campaign duration");
                 } else if (maxLimitCouponNum < 1) {
-                    C.INSTANCE.showToast(getApplicationContext(), "Please enter maximum limit of coupon min. 1");
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter maximum selling limit");
                 } else if (couponExpiryNum < 1) {
-                    C.INSTANCE.showToast(getApplicationContext(), "Please enter coupon expiry days min. 1");
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter days to coupon expire");
                 } /*else if (couponFinePrint.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter fine print");
                 }*/ else {
@@ -299,13 +312,15 @@ public class FundspotCampaignActivity extends AppCompatActivity {
                     intent.putExtra("maxLimitCoupon", maxLimitCoupon);
                     intent.putExtra("couponExpiry", couponExpiry);
                     //intent.putExtra("couponFinePrint", couponFinePrint);
-                    intent.putStringArrayListExtra("products" , selectedProducts);
+                    intent.putStringArrayListExtra("products", selectedProducts);
+                    intent.putExtra("isProfileMode" , isProfileMode);
                     startActivityForResult(intent, NEXT_STEP);
                 }
             }
         });
 
-        if(isProfileMode){
+
+        if (isProfileMode) {
             Intent data = getIntent();
 
 
@@ -317,7 +332,7 @@ public class FundspotCampaignActivity extends AppCompatActivity {
             selectedOrganizationID = data.getStringExtra("organizationID");
 
 
-            Log.e("selected" , "-->" + selectedOrganizationID);
+            Log.e("selected", "-->" + selectedOrganizationID);
 
             selectedFundSpotID = data.getStringExtra("fundspotID");
 
@@ -347,7 +362,7 @@ public class FundspotCampaignActivity extends AppCompatActivity {
 
             auto_searchFundspot.setText(selectedFundSpotName);
 
-    }
+        }
 
     }
 
@@ -358,7 +373,7 @@ public class FundspotCampaignActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-        actionTitle.setText("Create Campaign");
+        actionTitle.setText("Create Campaign Request");
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -381,7 +396,7 @@ public class FundspotCampaignActivity extends AppCompatActivity {
             selectedFundSpotName = data.getStringExtra("fundspotName");
             selectedOrganizationID = data.getStringExtra("organizationID");
 
-            Log.e("selectedOrganizationID" , selectedOrganizationID);
+            Log.e("selectedOrganizationID", selectedOrganizationID);
 
             selectedFundSpotID = data.getStringExtra("fundspotID");
 
@@ -527,22 +542,23 @@ public class FundspotCampaignActivity extends AppCompatActivity {
                     if (status) {
 
 
-
-
                         JSONObject dataObject = mainObject.getJSONObject("data");
                         JSONObject fundspotObject = dataObject.getJSONObject("Fundspot");
 
 
-                       // auto_searchFundspot.setText(fundspotObject.getString("title"));
+                        // auto_searchFundspot.setText(fundspotObject.getString("title"));
                         edt_organizationSplit.setText(fundspotObject.getString("organization_percent"));
                         edt_couponExpireDay.setText(fundspotObject.getString("coupon_expire_day"));
                         edt_campaignDuration.setText(fundspotObject.getString("campaign_duration"));
-                        edt_maxLimitCoupon.setText(fundspotObject.getString("max_limit_of_coupon_price"));
+
+                        String getMaxLimit = "";
+                        getMaxLimit = fundspotObject.getString("max_limit_of_coupon_price");
 
 
+                        edt_maxLimitCoupon.setText("$" + String.format("%.2f", Double.parseDouble(getMaxLimit)));
 
-                        if(edt_campaignDuration.getText().toString().trim().equalsIgnoreCase("0"))
-                        {
+
+                        if (edt_campaignDuration.getText().toString().trim().equalsIgnoreCase("0")) {
                             chk_indefinite.setChecked(true);
                         }
 
@@ -597,8 +613,6 @@ public class FundspotCampaignActivity extends AppCompatActivity {
     public void onBackPressed() {
         finish();
     }
-
-
 
 
 }

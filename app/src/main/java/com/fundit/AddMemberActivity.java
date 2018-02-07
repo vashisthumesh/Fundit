@@ -85,7 +85,7 @@ public class AddMemberActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-        actionTitle.setText("New Message");
+        actionTitle.setText("My Members");
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

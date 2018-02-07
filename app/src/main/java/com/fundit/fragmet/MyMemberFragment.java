@@ -86,9 +86,9 @@ public class MyMemberFragment extends Fragment {
                 if(memberListResponse!=null){
                     if(memberListResponse.isStatus()){
                         memberlist.addAll(memberListResponse.getData());
-                    }else {
+                    }/*else {
                         C.INSTANCE.showToast(getActivity(), memberListResponse.getMessage());
-                    }
+                    }*/
                 }else {
                     C.INSTANCE.defaultError(getActivity());
                 }

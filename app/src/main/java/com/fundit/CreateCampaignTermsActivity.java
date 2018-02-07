@@ -177,9 +177,9 @@ public class CreateCampaignTermsActivity extends AppCompatActivity {
         edt_split.setText(campaignList.getCampaign().getFundspot_percent());
         edt_orgSplit.setText(campaignList.getCampaign().getOrganization_percent());
         edt_campaignDuration.setText(campaignList.getCampaign().getCampaign_duration());
-        edt_maxLimitCoupon.setText(campaignList.getCampaign().getMax_limit_of_coupons());
+        edt_maxLimitCoupon.setText("$" + String.format("%.2f" , Double.parseDouble(campaignList.getCampaign().getMax_limit_of_coupons())));
         edt_couponExpireDay.setText(campaignList.getCampaign().getCoupon_expire_day());
-        txt_message.setText(campaignList.getCampaign().getMsg());
+        txt_message.setText("Message: " + campaignList.getCampaign().getMsg());
         // edt_finePrint.setText(campaignList.getCampaign().getFine_print());
 
         if (campaignList.getCampaign().getCampaign_duration().equals("0")) {

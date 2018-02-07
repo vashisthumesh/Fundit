@@ -131,7 +131,7 @@ public class CampaignRequestAdapter extends BaseAdapter {
                     message = "<b>" + campaignList.get(position).getUserFundspot().getFundspot().getTitle() + "</b> is started by you.";
                     break;
                 case C.FUNDSPOT_APPROVED:
-                    message = "<b>" + campaignList.get(position).getUserFundspot().getFundspot().getTitle() + "</b> has approved your campaign <b>" + campaignList.get(position).getCampaign().getTitle() + "</b>.";
+                    message = "<b>" + campaignList.get(position).getUserFundspot().getFundspot().getTitle() + "</b> Accepted your campaign Request! <b>" /*+ campaignList.get(position).getCampaign().getTitle() + "</b>."*/;
                     break;
                 case C.REJECTED:
                     message = "<b>" + campaignList.get(position).getUserFundspot().getFundspot().getTitle() + "</b> has decliend to start campaign <b>" + campaignList.get(position).getCampaign().getTitle() + "</b> with you!";
@@ -143,7 +143,7 @@ public class CampaignRequestAdapter extends BaseAdapter {
 
                 txt_partnerName.setText(Html.fromHtml(message));
                 txt_location.setText(campaignList.get(position).getUserOrganization().getFundspot().getLocation());
-                txt_partnerLabel.setText("Fundspot :");
+                txt_partnerLabel.setText("Fundspot:");
                 txt_partnerTitle.setText(campaignList.get(position).getUserOrganization().getTitle());
                 Picasso.with(activity)
                         .load(W.FILE_URL + campaignList.get(position).getUserOrganization().getFundspot().getImage())
@@ -158,7 +158,7 @@ public class CampaignRequestAdapter extends BaseAdapter {
 
                 txt_partnerName.setText(Html.fromHtml(message));
                 txt_location.setText(campaignList.get(position).getUserFundspot().getFundspot().getLocation());
-                txt_partnerLabel.setText("Fundspot :");
+                txt_partnerLabel.setText("Fundspot:");
                 txt_partnerTitle.setText(campaignList.get(position).getUserFundspot().getTitle());
                 Picasso.with(activity)
                         .load(W.FILE_URL + campaignList.get(position).getUserFundspot().getFundspot().getImage())
@@ -178,13 +178,13 @@ public class CampaignRequestAdapter extends BaseAdapter {
             //When Fundspot will create campaign , below logic will not be applied, it will be same as Fundspot review
             switch (campaignList.get(position).getCampaign().getAction_status()) {
                 case C.PENDING:
-                    message = "<b>" + campaignList.get(position).getUserOrganization().getOrganization().getTitle() + "</b> wants to start a campaign with you!" + campaignList.get(position).getCampaign().getTitle();
+                    message = "<b>" + campaignList.get(position).getUserOrganization().getOrganization().getTitle() + "</b> wants to start a campaign with you!" /*+ campaignList.get(position).getCampaign().getTitle()*/;
                     break;
                 case C.ORGANIZATION_APPROVED:
                     message = "<b>" + campaignList.get(position).getUserFundspot().getFundspot().getTitle() + "</b> is started by you.";
                     break;
                 case C.FUNDSPOT_APPROVED:
-                    message = "<b>" + campaignList.get(position).getUserFundspot().getOrganization().getTitle() + "</b> has approved your campaign <b>" + campaignList.get(position).getCampaign().getTitle() + "</b>.";
+                    message = "<b>" + campaignList.get(position).getUserFundspot().getOrganization().getTitle() + "</b> Accepted your campaign Request! <b>" /*+ campaignList.get(position).getCampaign().getTitle() + "</b>."*/;
                     break;
                 case C.REJECTED:
                     message = "<b>" + campaignList.get(position).getUserFundspot().getFundspot().getTitle() + "</b> has decliend to start campaign <b>" + campaignList.get(position).getCampaign().getTitle() + "</b> with you!";
@@ -345,8 +345,9 @@ public class CampaignRequestAdapter extends BaseAdapter {
                         if (appModel != null) {
                             if (appModel.isStatus()) {
                                 C.INSTANCE.showToast(activity, appModel.getMessage());
-                                Intent intent = new Intent(activity , HomeActivity.class);
-                                activity.startActivity(intent);
+                                /*Intent intent = new Intent(activity , HomeActivity.class);
+                                activity.startActivity(intent);*/
+                                campaignList.remove(position);
                                 //setResult(RESULT_OK);
 
                             } else {
@@ -355,6 +356,8 @@ public class CampaignRequestAdapter extends BaseAdapter {
                         } else {
                             C.INSTANCE.defaultError(activity);
                         }
+
+                        notifyDataSetChanged();
                     }
 
                     @Override

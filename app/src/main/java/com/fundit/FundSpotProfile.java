@@ -43,7 +43,7 @@ import retrofit2.Response;
 public class FundSpotProfile extends AppCompatActivity {
 
 
-    EditText ed_fund_title, ed_fund_address, ed_fund_zipcode, ed_fund_fundsplit, ed_fund_description, ed_fund_contact_info,edt_contactInfo_email , tv_city;
+    EditText ed_fund_title, ed_fund_address, ed_fund_zipcode, ed_fund_fundsplit, ed_fund_description, ed_fund_contact_info, edt_contactInfo_email, tv_city;
     Spinner sp_state, sp_city, sp_category;
     ImageView img_uplode_photo, img_remove;
     Button bt_update_profile;
@@ -106,7 +106,7 @@ public class FundSpotProfile extends AppCompatActivity {
         TextView actionTitle = (TextView) findViewById(R.id.actionTitle);
         actionTitle.setText("Fundspot Profile");
         setSupportActionBar(toolbar);
-        if(editMode) {
+        if (editMode) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setHomeButtonEnabled(true);
 
@@ -131,9 +131,7 @@ public class FundSpotProfile extends AppCompatActivity {
         ed_fund_fundsplit = (EditText) findViewById(R.id.ed_fund_fundsplit);
         ed_fund_description = (EditText) findViewById(R.id.ed_fund_description);
         ed_fund_contact_info = (EditText) findViewById(R.id.ed_fund_contact_info);
-        edt_contactInfo_email= (EditText) findViewById(R.id.edt_contactInfo_email);
-
-
+        edt_contactInfo_email = (EditText) findViewById(R.id.edt_contactInfo_email);
 
 
         tv_login_email.setText(user.getEmail_id());
@@ -205,9 +203,9 @@ public class FundSpotProfile extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
                 if (position == 0) {
-                   // clearCities();
+                    // clearCities();
                 } else {
-                   // loadCities(stateItems.get(position).getId());
+                    // loadCities(stateItems.get(position).getId());
                 }
             }
 
@@ -298,20 +296,20 @@ public class FundSpotProfile extends AppCompatActivity {
                 String title = ed_fund_title.getText().toString().trim();
                 String address1 = ed_fund_address.getText().toString().trim();
                 String zipcode = ed_fund_zipcode.getText().toString().trim();
-             //   String funsplit = ed_fund_fundsplit.getText().toString().trim();
+                //   String funsplit = ed_fund_fundsplit.getText().toString().trim();
                 String description = ed_fund_description.getText().toString().trim();
-               // String con="+";
+                // String con="+";
                 String contactInfo = ed_fund_contact_info.getText().toString().trim();
-                String contact_email=edt_contactInfo_email.getText().toString().trim();
-                String cityName = tv_city.getText().toString().trim() ;
+                String contact_email = edt_contactInfo_email.getText().toString().trim();
+                String cityName = tv_city.getText().toString().trim();
 
                 int statePosition = sp_state.getSelectedItemPosition();
-               // int cityPosition = sp_city.getSelectedItemPosition();
-             //   int categoryPosition = sp_category.getSelectedItemPosition();
+                // int cityPosition = sp_city.getSelectedItemPosition();
+                //   int categoryPosition = sp_category.getSelectedItemPosition();
 
                 Log.e("token", preference.getTokenHash());
                 Log.e("userID", preference.getUserID());
-               // Log.e("positions", statePosition + " " + cityPosition + " " + categoryPosition + " ");
+                // Log.e("positions", statePosition + " " + cityPosition + " " + categoryPosition + " ");
                 if (title.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter Funspot title");
                 } else if (title.length() < 2) {
@@ -323,28 +321,21 @@ public class FundSpotProfile extends AppCompatActivity {
                 } else if (cityName.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter city");
                 } else if (zipcode.isEmpty() || zipcode.length() < 5) {
-                    C.INSTANCE.showToast(getApplicationContext(), "Please enter 5 digit zip code");
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter zipcode");
                 } /*else if (categoryPosition == 0) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please select category");
                 }*/ else if (description.isEmpty()) {
-                    C.INSTANCE.showToast(getApplicationContext(), "Please enter description");
-                }else if (contactInfo.isEmpty()) {
-                    C.INSTANCE.showToast(getApplicationContext(), "Please enter contact information");
-                }
-                else if(contactInfo.length() != 10)
-                {
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter about us");
+                } else if (contact_email.isEmpty()) {
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter contact info email");
+                } else if (!C.INSTANCE.validEmail(contact_email)) {
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter valid contact info email");
+                } else if (contactInfo.isEmpty()) {
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter contact info mobile number ");
+                } else if (contactInfo.length() != 10) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter valid contact info mobile number");
-                }
-                else if(contact_email.isEmpty())
-                {
-                    C.INSTANCE.showToast(getApplicationContext(), "Please enter contact information");
-                }
-                else if(!C.INSTANCE.validEmail(contact_email))
-                {
-                    C.INSTANCE.showToast(getApplicationContext(), "Please enter valid email");
-                }
-                else if (imagePath == null) {
-                    C.INSTANCE.showToast(getApplicationContext(), "Please select profile image");
+                } else if (imagePath == null) {
+                    C.INSTANCE.showToast(getApplicationContext(), "Please select image");
                 } /*else if (funsplit.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please Enter Funsplit");
                 }*/ else {
@@ -376,13 +367,16 @@ public class FundSpotProfile extends AppCompatActivity {
 
                         if (!imagePath.startsWith("http")) {
 
-                            fundspotResponse = adminAPI.firstTimeEditFundsportProfile(preference.getUserID(), preference.getTokenHash(), title, stateItems.get(statePosition).getId(), /*cityItems.get(cityPosition).getId()*/ cityName, address1, zipcode, /*categoryItems.get(categoryPosition).getId()*/ "", "", description, contact_email,contactInfo, ServiceGenerator.prepareFilePart("image", imagePath));
+                            fundspotResponse = adminAPI.firstTimeEditFundsportProfile(preference.getUserID(), preference.getTokenHash(), title, stateItems.get(statePosition).getId(), /*cityItems.get(cityPosition).getId()*/ cityName, address1, zipcode, /*categoryItems.get(categoryPosition).getId()*/ "", "", description, contact_email, contactInfo, ServiceGenerator.prepareFilePart("image", imagePath));
                         } else {
 
-                            fundspotResponse = adminAPI.withoutImageEditFundsportProfile(preference.getUserID(), preference.getTokenHash(), title, stateItems.get(statePosition).getId(), /*cityItems.get(cityPosition).getId()*/ cityName, address1, zipcode, /*categoryItems.get(categoryPosition).getId()*/ "", "", description, contact_email,contactInfo);
+                            fundspotResponse = adminAPI.withoutImageEditFundsportProfile(preference.getUserID(), preference.getTokenHash(), title, stateItems.get(statePosition).getId(), /*cityItems.get(cityPosition).getId()*/ cityName, address1, zipcode, /*categoryItems.get(categoryPosition).getId()*/ "", "", description, contact_email, contactInfo);
 
 
                         }
+
+                        Log.e("checkParameters" , "-->" + contact_email + "-->" + contactInfo);
+
 
 
                         fundspotResponse.enqueue(new Callback<VerifyResponse>() {
@@ -395,7 +389,9 @@ public class FundSpotProfile extends AppCompatActivity {
                                         C.INSTANCE.showToast(getApplicationContext(), verifyResponse.getMessage());
                                         String memberData = new Gson().toJson(verifyResponse.getData().getMember().getFundspot());
                                         preference.setMemberData(memberData);
-
+                                        if(editMode){
+                                            preference.setRedirection("2");
+                                        }
                                         Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                         startActivity(intent);

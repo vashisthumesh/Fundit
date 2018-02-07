@@ -83,7 +83,7 @@ public class OrganizationListActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-        actionTitle.setText("Browse Fundspot");
+        actionTitle.setText("Create Campaign Request");
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

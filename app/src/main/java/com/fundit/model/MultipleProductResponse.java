@@ -17,7 +17,7 @@ public class MultipleProductResponse implements Serializable{
     String fine_print = "";
     String image = "";
     String type_id = "";
-    String total_price="";
+    String total_price="0";
     boolean isChecked = false;
     int qty = 0;
 

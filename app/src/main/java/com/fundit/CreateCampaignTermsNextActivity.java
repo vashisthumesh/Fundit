@@ -135,7 +135,7 @@ public class CreateCampaignTermsNextActivity extends AppCompatActivity {
             txt_members.setVisibility(View.GONE);
             edt_message.setVisibility(View.GONE);
             txt_sendmessage.setVisibility(View.VISIBLE);
-            edt_amount.setText(campaignList.getCampaign().getMax_limit_of_coupons());
+            edt_amount.setText(String.format("%.2f" , Double.parseDouble(campaignList.getCampaign().getMax_limit_of_coupons())));
             chk_max_amount.setEnabled(false);
             if (campaignList.getCampaign().getReview_status().equalsIgnoreCase("1")) {
                 if (campaignList.getCampaign().getAction_status().equalsIgnoreCase("0")) {
@@ -155,6 +155,17 @@ public class CreateCampaignTermsNextActivity extends AppCompatActivity {
             edt_amount.setEnabled(false);
             edt_campaignName.setEnabled(false);
             edt_description.setEnabled(false);
+
+            Log.e("maxSeelingAmount" , "-->" + campaignList.getCampaign().getMax_limit_of_coupons() + "-->" + edt_amount.getText().toString());
+
+            String chkmaxLimit =String.format("%.2f" ,  Double.valueOf(campaignList.getCampaign().getMax_limit_of_coupons()));
+
+
+
+            if(chkmaxLimit.equals(edt_amount.getText().toString())){
+                chk_max_amount.setChecked(true);
+                chk_max_amount.setEnabled(false);
+            }
 
 
         }
@@ -177,7 +188,7 @@ public class CreateCampaignTermsNextActivity extends AppCompatActivity {
             }
 
             txt_sendmessage.setText(createdName + " will confirm your response before launching this campaign. ");
-
+            edt_amount.setText(String.format("%.2f" , Double.parseDouble(campaignList.getCampaign().getMax_limit_of_coupons())));
 
             edt_amount.addTextChangedListener(new TextWatcher() {
                 @Override
@@ -214,16 +225,22 @@ public class CreateCampaignTermsNextActivity extends AppCompatActivity {
 
                     if (b) {
 
-                        edt_amount.setText(campaignList.getCampaign().getMax_limit_of_coupons());
+                        edt_amount.setText(String.format("%.2f" ,  Double.valueOf(campaignList.getCampaign().getMax_limit_of_coupons())));
                         edt_amount.setEnabled(false);
                     } else {
-                        edt_amount.setText(campaignList.getCampaign().getMax_limit_of_coupons());
+                        edt_amount.setText(String.format("%.2f" , Double.valueOf(campaignList.getCampaign().getMax_limit_of_coupons())));
                         edt_amount.setEnabled(true);
                     }
 
 
                 }
             });
+            String chkmaxLimit =String.format("%.2f" ,  Double.valueOf(campaignList.getCampaign().getMax_limit_of_coupons()));
+            if(chkmaxLimit.equals(edt_amount.getText().toString())){
+                chk_max_amount.setChecked(true);
+                chk_max_amount.setEnabled(true);
+            }
+
 
         }
 
@@ -346,13 +363,13 @@ public class CreateCampaignTermsNextActivity extends AppCompatActivity {
                 String max_limit_of_coupons = "";
 
                 int amount = 0;
-                if (maxAmount1.isEmpty() && edt_amount.getVisibility() == View.VISIBLE) {
-                    C.INSTANCE.showToast(getApplicationContext(), "Please enter amount");
-                } else if (campaignTitle.isEmpty()) {
-                    C.INSTANCE.showToast(getApplicationContext(), "Please enter campaign title");
-                } else if (description.isEmpty()) {
-                    C.INSTANCE.showToast(getApplicationContext(), "Please enter description");
-                } else if (edt_message.getVisibility() == View.VISIBLE && message.isEmpty()) {
+                if (campaignTitle.isEmpty()) {
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter campaign name");
+                }else if (description.isEmpty()) {
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter fundraiser for what?");
+                }else if (maxAmount1.isEmpty() && edt_amount.getVisibility() == View.VISIBLE) {
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter target amount");
+                }  else if (edt_message.getVisibility() == View.VISIBLE && message.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter message");
                 }
 
@@ -388,6 +405,11 @@ public class CreateCampaignTermsNextActivity extends AppCompatActivity {
                         detailObject.put("organization_percent", campaignList.getCampaign().getOrganization_percent());
                         detailObject.put("campaign_duration", campaignList.getCampaign().getCampaign_duration());
                         detailObject.put("max_limit_of_coupons", campaignList.getCampaign().getMax_limit_of_coupons());
+                        if(preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION)){
+                            detailObject.put("target_amount", maxAmount1);
+                        }
+
+
 
 
                         campaignDetailArray.put(detailObject);
@@ -398,6 +420,7 @@ public class CreateCampaignTermsNextActivity extends AppCompatActivity {
                     }
                     dialog.show();
                     Call<AppModel> addCampCall = adminAPI.appEditcampaign(preference.getUserID(), preference.getTokenHash(), campaignList.getCampaign().getId(), campaignDetailArray.toString(), memberIDArray.toString());
+
 
 
                     Log.e("parametersReviewCamp", "-->" + preference.getUserID() + "-->" + preference.getTokenHash() + "--->" + campaignList.getCampaign().getId() + "-->" + campaignDetailArray.toString() + "--->" + memberIDArray.toString());

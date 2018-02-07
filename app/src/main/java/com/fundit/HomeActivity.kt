@@ -209,6 +209,10 @@ class HomeActivity : AppCompatActivity() {
 
         }
 
+        if(!preference?.getRedirection().equals("")){
+            ThrowToRespectedPosition()
+        }
+
 
         drawerLayout = findViewById(R.id.drawerLayout) as DrawerLayout
         drawerToggle = object : ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close) {
@@ -287,28 +291,6 @@ class HomeActivity : AppCompatActivity() {
             Internet.noInternet(applicationContext)
     }
 
-    private fun GoToNextFragment() {
-
-        var typeID: String = ""
-        typeID = getintent.getStringExtra("typeId")
-
-        if (typeID.equals("1") || typeID.equals("3")) {
-            actionTitle?.text = "Requests"
-            fragment = FRequestFragment()
-            val transaction = fm?.beginTransaction()
-            transaction?.replace(R.id.content, fragment)
-            transaction?.commit()
-        } else if (typeID.equals("12") || typeID.equals("13") || typeID.equals("14")) {
-            actionTitle?.text = "My Coupons"
-            fragment = CouponFragment()
-            val transaction = fm?.beginTransaction()
-            transaction?.replace(R.id.content, fragment)
-            transaction?.commit()
-        }
-
-
-    }
-
     private fun handleClicks(position: Int) {
         img_edit?.visibility = View.GONE
         img_notification?.visibility = View.GONE
@@ -316,6 +298,7 @@ class HomeActivity : AppCompatActivity() {
 
         } else if (position == 1) {
             img_notification?.visibility = View.VISIBLE
+
             //actionTitle?.text = "Fundit"
             actionTitle?.visibility=View.INVISIBLE
 
@@ -328,6 +311,7 @@ class HomeActivity : AppCompatActivity() {
                     fragment = HomeFragment()
                 }
                 C.GENERAL_MEMBER -> {
+                    img_qrscan?.visibility = View.VISIBLE
                     fragment = HomeFragment()
                 }
             }
@@ -339,6 +323,8 @@ class HomeActivity : AppCompatActivity() {
             actionTitle?.visibility=View.VISIBLE
             img_edit?.visibility = View.VISIBLE
             img_qrscan?.visibility = View.GONE
+            img_notification.visibility=View.GONE
+            cartCount?.visibility=View.GONE
             actionTitle?.text = "My Profile"
             fragment = MyProfileFragment()
             val transaction = fm?.beginTransaction()
@@ -346,7 +332,10 @@ class HomeActivity : AppCompatActivity() {
             transaction?.commit()
         } else if (position == 3) {
             actionTitle?.visibility=View.VISIBLE
-            img_edit?.visibility = View.INVISIBLE
+            img_edit?.visibility = View.GONE
+            img_qrscan?.visibility = View.GONE
+            img_notification?.visibility=View.GONE
+            cartCount?.visibility=View.GONE
             if (preference?.userRoleID.equals(C.FUNDSPOT) || preference?.userRoleID.equals(C.ORGANIZATION)) {
                 actionTitle?.text = "Requests"
                 fragment = FRequestFragment()
@@ -357,7 +346,7 @@ class HomeActivity : AppCompatActivity() {
             if (preference?.userRoleID.equals(C.GENERAL_MEMBER)) {
                 actionTitle?.text = "My Coupons"
                 img_edit?.visibility=View.GONE
-                img_notification?.visibility=View.VISIBLE
+             //   img_notification?.visibility=View.VISIBLE
                 fragment = CouponFragment()
                 val transaction = fm?.beginTransaction()
                 transaction?.replace(R.id.content, fragment)
@@ -366,7 +355,8 @@ class HomeActivity : AppCompatActivity() {
         } else if (position == 4) {
             actionTitle?.visibility=View.VISIBLE
             img_edit?.visibility = View.GONE
-            img_notification?.visibility=View.VISIBLE
+            img_notification.visibility=View.GONE
+            cartCount?.visibility=View.GONE
             if (preference?.userRoleID.equals(C.FUNDSPOT)) {
                 img_qrscan?.visibility=View.VISIBLE
                 actionTitle?.text = "My Products"
@@ -386,16 +376,8 @@ class HomeActivity : AppCompatActivity() {
         } else if (position == 5) {
             actionTitle?.visibility=View.VISIBLE
             img_edit?.visibility = View.GONE
-
-            if(preference?.userRoleID.equals(C.FUNDSPOT))
-            {
-                img_notification?.visibility=View.VISIBLE
-            }
-            else if(preference?.userRoleID.equals(C.ORGANIZATION))
-            {
-
-            }
-
+            img_notification.visibility=View.GONE
+            cartCount?.visibility=View.GONE
             if (preference?.userRoleID.equals(C.FUNDSPOT) || preference?.userRoleID.equals(C.ORGANIZATION)) {
                 actionTitle?.text = "My Members"
                 fragment = MyMemberFragment()
@@ -416,6 +398,8 @@ class HomeActivity : AppCompatActivity() {
             img_qrscan?.visibility=View.INVISIBLE
             actionTitle?.visibility=View.VISIBLE
             img_edit?.visibility = View.GONE
+            img_notification.visibility=View.GONE
+            cartCount?.visibility=View.GONE
             actionTitle?.text = "Settings"
             fragment = GeneralSettingFragment()
             val transaction = fm?.beginTransaction()
@@ -425,17 +409,21 @@ class HomeActivity : AppCompatActivity() {
         } else if (position == 7) {
             img_edit?.visibility = View.GONE
             actionTitle?.visibility=View.VISIBLE
+            img_notification.visibility=View.GONE
+            cartCount?.visibility=View.GONE
             val sharingIntent = Intent(android.content.Intent.ACTION_SEND)
             sharingIntent.type = "text/plain"
             //val shareBodyText = GlobalFile.share
             sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Fundit")
-            sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, "")
+            sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, "https://itunes.apple.com/us/app/fundit-app/id1262417736?ls=1&mt=8")
             startActivity(Intent.createChooser(sharingIntent, "Share Via"))
 
 
         } else if (position == 8) {
             actionTitle?.visibility=View.VISIBLE
             img_edit?.visibility = View.GONE
+            img_notification.visibility=View.GONE
+            cartCount?.visibility=View.GONE
             actionTitle?.text = "Help"
             fragment = HelpFragment()
             val transaction = fm?.beginTransaction()
@@ -457,6 +445,11 @@ class HomeActivity : AppCompatActivity() {
     private fun coupon() {
 
         if (couponTimes) {
+            actionTitle?.visibility=View.VISIBLE
+            img_edit?.visibility = View.GONE
+            img_qrscan?.visibility = View.GONE
+            img_notification?.visibility=View.GONE
+            cartCount?.visibility=View.GONE
 
             actionTitle?.text = "My Coupons"
             fragment = CouponFragment()
@@ -465,6 +458,10 @@ class HomeActivity : AppCompatActivity() {
             transaction?.commit()
             flag = false
         } else {
+            actionTitle?.visibility=View.VISIBLE
+            img_edit?.visibility = View.GONE
+            img_notification.visibility=View.GONE
+            cartCount?.visibility=View.GONE
             actionTitle?.text = "My Orders"
             fragment = OrderHistoryFragment()
             val transaction = fm?.beginTransaction()
@@ -473,6 +470,72 @@ class HomeActivity : AppCompatActivity() {
             flag = false
 
         }
+
+
+    }
+
+    private fun GoToNextFragment() {
+
+        var typeID: String = ""
+        typeID = getintent.getStringExtra("typeId")
+
+        if (typeID.equals("1") || typeID.equals("3")) {
+            actionTitle?.visibility=View.VISIBLE
+            img_edit?.visibility = View.GONE
+            img_qrscan?.visibility = View.GONE
+            img_notification?.visibility=View.GONE
+            cartCount?.visibility=View.GONE
+            actionTitle?.text = "Requests"
+            fragment = FRequestFragment()
+            val transaction = fm?.beginTransaction()
+            transaction?.replace(R.id.content, fragment)
+            transaction?.commit()
+        } else if (typeID.equals("12") || typeID.equals("13") || typeID.equals("14")) {
+            actionTitle?.visibility=View.VISIBLE
+            img_edit?.visibility = View.GONE
+            img_qrscan?.visibility = View.GONE
+            img_notification?.visibility=View.GONE
+            cartCount?.visibility=View.GONE
+            actionTitle?.text = "My Coupons"
+            fragment = CouponFragment()
+            val transaction = fm?.beginTransaction()
+            transaction?.replace(R.id.content, fragment)
+            transaction?.commit()
+        }
+
+
+    }
+
+    private fun ThrowToRespectedPosition() {
+
+        if(preference?.getRedirection().equals("2")){
+            actionTitle?.visibility=View.VISIBLE
+            img_edit?.visibility = View.VISIBLE
+            img_qrscan?.visibility = View.GONE
+            img_notification.visibility=View.GONE
+            cartCount?.visibility=View.GONE
+            actionTitle?.text = "My Profile"
+            preference?.setRedirection("")
+            fragment = MyProfileFragment()
+            val transaction = fm?.beginTransaction()
+            transaction?.replace(R.id.content, fragment)
+            transaction?.commit()
+        }else if(preference?.getRedirection().equals("6")){
+            img_qrscan?.visibility=View.INVISIBLE
+            actionTitle?.visibility=View.VISIBLE
+            img_edit?.visibility = View.GONE
+            img_notification.visibility=View.GONE
+            cartCount?.visibility=View.GONE
+            actionTitle?.text = "Settings"
+            preference?.setRedirection("")
+            fragment = GeneralSettingFragment()
+            val transaction = fm?.beginTransaction()
+            transaction?.replace(R.id.content, fragment)
+            transaction?.commit()
+
+        }
+
+
 
 
     }
@@ -605,7 +668,7 @@ class HomeActivity : AppCompatActivity() {
             parameters.add(BasicNameValuePair("tokenhash", preference?.tokenHash))
 
 
-            val json = ServiceHandler().makeServiceCall(W.BASE_URL + W.GetNotificationCount, ServiceHandler.POST, parameters)
+                val json = ServiceHandler().makeServiceCall(W.BASE_URL + W.GetNotificationCount, ServiceHandler.POST, parameters)
 
 
 

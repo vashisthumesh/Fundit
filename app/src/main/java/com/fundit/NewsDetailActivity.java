@@ -63,6 +63,7 @@ public class NewsDetailActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         TextView actionTitle = (TextView) findViewById(R.id.actionTitle);
 
+        actionTitle.setText("");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);

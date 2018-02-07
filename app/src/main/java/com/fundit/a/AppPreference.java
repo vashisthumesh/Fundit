@@ -116,9 +116,6 @@ public class AppPreference {
         editor.putInt("CouponCount" , CouponCount).commit();
     }
 
-
-
-
     public int getfundspot_product_count() {
         return preferences.getInt("fundspot_product_count" , 0);
     }
@@ -142,6 +139,15 @@ public class AppPreference {
     public void setMemberTimes(boolean MemberTimes) {
         editor.putBoolean("MemberTimes" , MemberTimes).commit();
     }
+
+    public String getRedirection() {
+        return preferences.getString("redirection","");
+    }
+
+    public void setRedirection(String redirection) {
+        editor.putString("redirection", redirection).commit();
+    }
+
 
     public void clearData(Context context){
         SharedPreferences.Editor prefs = context.getSharedPreferences(FILE_NAME , 0).edit();

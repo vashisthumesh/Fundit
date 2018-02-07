@@ -83,7 +83,7 @@ public class FinalOrderPlacenewActivity extends AppCompatActivity implements Ord
     CustomDialog dialog;
 
     JSONArray selectedProductArray = new JSONArray();
-    JSONObject mainObject = new JSONObject();
+
 
     String organizationId = "";
     String fundspotId = "";
@@ -372,6 +372,9 @@ public class FinalOrderPlacenewActivity extends AppCompatActivity implements Ord
 
 
                     try {
+
+                        JSONObject mainObject = new JSONObject();
+
                         mainObject.put("product_id", id);
                         mainObject.put("name", name);
                         mainObject.put("quantity", quantity);
@@ -712,7 +715,7 @@ public class FinalOrderPlacenewActivity extends AppCompatActivity implements Ord
                 if (address_List != null) {
                     if (address_List.isStatus()) {
 
-                        txt_address.setText(address_List.getData().getFundspot().getLocation() + "," + '\n' + address_List.getData().getState().getState_code() + " " + address_List.getData().getFundspot().getZip_code());
+                        txt_address.setText(address_List.getData().getFundspot().getLocation()+ '\n' + address_List.getData().getFundspot().getCity_name() + "," + address_List.getData().getState().getState_code() + " " + address_List.getData().getFundspot().getZip_code());
 
                     } else {
 

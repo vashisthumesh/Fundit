@@ -61,63 +61,67 @@ public class VerificationActivity extends AppCompatActivity {
                 String user_id=userID;
                 String otp=ed_hint_verification.getText().toString().trim();
 
-                dialog.show();
-                Call<VerifyResponse> responseCall=adminAPI.userVerification(user_id,otp);
-                Log.e("parameters" , "" + user_id + otp);
-                responseCall.enqueue(new Callback<VerifyResponse>() {
-                    @Override
-                    public void onResponse(Call<VerifyResponse> call, Response<VerifyResponse> response) {
-                        dialog.dismiss();
-                        VerifyResponse verifyResponse=response.body();
-                        if(verifyResponse!=null){
-                            if(verifyResponse.isStatus()){
 
-                                Log.e("status" , "" +verifyResponse.isStatus());
-                                String userData= new Gson().toJson(verifyResponse.getData().getUser());
-                                preference.setLoggedIn(true);
-                                preference.setUserID(verifyResponse.getData().getUser().getId());
-                                preference.setUserRoleID(verifyResponse.getData().getUser().getRole_id());
-                                preference.setTokenHash(verifyResponse.getData().getUser().getTokenhash());
-                                preference.setUserData(userData);
+                if(otp.isEmpty() || otp.length()<6){
+                        C.INSTANCE.showToast(getApplicationContext() , "Please enter 6 digit otp");
+                } else {
 
-                                if(verifyResponse.getData().getUser().getRole_id().equals(C.ORGANIZATION)){
-                                    Intent in=new Intent(VerificationActivity.this,OrganizationProfileActivity.class);
-                                    in.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                    in.putExtra("firstTime", true);
-                                    startActivity(in);
-                                    finish();
-                                }
-                                else if(verifyResponse.getData().getUser().getRole_id().equals(C.FUNDSPOT)){
-                                    Intent in=new Intent(VerificationActivity.this,FundSpotProfile.class);
-                                    in.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                    in.putExtra("firstTime", true);
-                                    startActivity(in);
-                                    finish();
-                                }
-                                else if(verifyResponse.getData().getUser().getRole_id().equals(C.GENERAL_MEMBER)){
-                                    Intent in=new Intent(VerificationActivity.this,GeneralMemberProfileActivity.class);
-                                    in.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                    in.putExtra("firstTime", true);
-                                    startActivity(in);
-                                    finish();
-                                }
+                    dialog.show();
+                    Call<VerifyResponse> responseCall = adminAPI.userVerification(user_id, otp);
+                    Log.e("parameters", "" + user_id + otp);
+                    responseCall.enqueue(new Callback<VerifyResponse>() {
+                        @Override
+                        public void onResponse(Call<VerifyResponse> call, Response<VerifyResponse> response) {
+                            dialog.dismiss();
+                            VerifyResponse verifyResponse = response.body();
+                            if (verifyResponse != null) {
+                                if (verifyResponse.isStatus()) {
 
-                            }
-                            else {
-                                C.INSTANCE.showToast(getApplicationContext(),verifyResponse.getMessage());
+                                    C.INSTANCE.showToast(getApplicationContext() , verifyResponse.getMessage());
+
+                                    Log.e("status", "" + verifyResponse.isStatus());
+                                    String userData = new Gson().toJson(verifyResponse.getData().getUser());
+                                    preference.setLoggedIn(true);
+                                    preference.setUserID(verifyResponse.getData().getUser().getId());
+                                    preference.setUserRoleID(verifyResponse.getData().getUser().getRole_id());
+                                    preference.setTokenHash(verifyResponse.getData().getUser().getTokenhash());
+                                    preference.setUserData(userData);
+
+                                    if (verifyResponse.getData().getUser().getRole_id().equals(C.ORGANIZATION)) {
+                                        Intent in = new Intent(VerificationActivity.this, OrganizationProfileActivity.class);
+                                        in.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                        in.putExtra("firstTime", true);
+                                        startActivity(in);
+                                        finish();
+                                    } else if (verifyResponse.getData().getUser().getRole_id().equals(C.FUNDSPOT)) {
+                                        Intent in = new Intent(VerificationActivity.this, FundSpotProfile.class);
+                                        in.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                        in.putExtra("firstTime", true);
+                                        startActivity(in);
+                                        finish();
+                                    } else if (verifyResponse.getData().getUser().getRole_id().equals(C.GENERAL_MEMBER)) {
+                                        Intent in = new Intent(VerificationActivity.this, GeneralMemberProfileActivity.class);
+                                        in.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                        in.putExtra("firstTime", true);
+                                        startActivity(in);
+                                        finish();
+                                    }
+
+                                } else {
+                                    C.INSTANCE.showToast(getApplicationContext(), verifyResponse.getMessage());
+                                }
+                            } else {
+                                C.INSTANCE.defaultError(getApplicationContext());
                             }
                         }
-                        else{
-                            C.INSTANCE.defaultError(getApplicationContext());
-                        }
-                    }
 
-                    @Override
-                    public void onFailure(Call<VerifyResponse> call, Throwable t) {
-                        dialog.dismiss();
-                        C.INSTANCE.errorToast(getApplicationContext(),t);
-                    }
-                });
+                        @Override
+                        public void onFailure(Call<VerifyResponse> call, Throwable t) {
+                            dialog.dismiss();
+                            C.INSTANCE.errorToast(getApplicationContext(), t);
+                        }
+                    });
+                }
             }
         });
 

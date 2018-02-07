@@ -65,15 +65,17 @@ public class Thankyou extends AppCompatActivity {
         txt1.setText("Thank you for supporting"+"\t"+org+"!");
         if(isOtherUser){
             Log.e("test1" , "test1");
-            txt2.setText("Your order has been completed");
+            txt2.setText("Your order has been completed.");
+            txt3.setVisibility(View.GONE);
             txt4.setVisibility(View.VISIBLE);
         }else if(isFundTimes){
             Log.e("test2" , "test2");
             txt2.setText("Your order has been completed on Behalf of " + name);
             txt4.setVisibility(View.GONE);
+            txt3.setVisibility(View.GONE);
             txt_coupon.setVisibility(View.GONE);
         }else if(isCouponTimes) {
-            txt2.setText("Your order has been completed");
+            txt2.setText("Your order has been completed.");
             txt3.setVisibility(View.VISIBLE);
             txt3.setText("You can use your coupon @ "+fundspot+"!");
             txt4.setText("View your coupon in");
@@ -81,7 +83,7 @@ public class Thankyou extends AppCompatActivity {
             txt_coupon.setText("My Coupons");
         }else if(newsFeedTimes){
             Log.e("test4" , "test4");
-            txt2.setText("Your order has been completed");
+            txt2.setText("Your order has been completed.");
             txt3.setVisibility(View.VISIBLE);
             txt3.setText("You can use your coupon @ "+fundspot+"!");
             txt4.setText("View your coupon in");
@@ -101,11 +103,13 @@ public class Thankyou extends AppCompatActivity {
             Log.e("test6" , "test6");
             txt2.setText("Your request has been sent to " + name);
             txt4.setVisibility(View.GONE);
+            txt3.setVisibility(View.GONE);
             txt_coupon.setVisibility(View.GONE);
         }
         else{
             Log.e("test7" , "test7");
-            txt2.setText("Your order has been completed");
+            txt2.setText("Your order has been completed.");
+            txt3.setVisibility(View.GONE);
             txt4.setVisibility(View.VISIBLE);
         }
 

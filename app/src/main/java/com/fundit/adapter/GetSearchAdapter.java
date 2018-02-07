@@ -15,6 +15,7 @@ import com.fundit.AddMembersActivity;
 import com.fundit.R;
 import com.fundit.SerchPeopleActivity;
 import com.fundit.a.AppPreference;
+import com.fundit.a.C;
 import com.fundit.a.W;
 import com.fundit.model.GetDataResponses;
 import com.fundit.model.GetSearchPeople;
@@ -116,6 +117,7 @@ public class GetSearchAdapter extends BaseAdapter {
                 Intent intent = new Intent(activity , SerchPeopleActivity.class);
                 intent.putExtra("id" , people_search.get(position).getId());
                 intent.putExtra("details" , people_search.get(position));
+
                 Log.e("id",people_search.get(position).getId());
 
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

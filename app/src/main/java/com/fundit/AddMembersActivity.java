@@ -512,6 +512,7 @@ public class AddMembersActivity extends AppCompatActivity {
                     if (appModel.isStatus()) {
                         if (appModel.getData() == 1) {
                             btnJoin.setText("Leave Us");
+                            btnFollow.setText("Follow");
                             isMemberJoined = 1;
                         }
                         if (appModel.getData() == 2) {
@@ -521,18 +522,21 @@ public class AddMembersActivity extends AppCompatActivity {
                                 if (appModel.getOwner_role_id() == 1) {
 
                                     btnJoin.setText("Respond To Request");
+                                    btnFollow.setText("Unfollow");
                                     isDialogOpen = 1;
                                     isMemberJoined = 2;
 
                                 } else {
                                     C.INSTANCE.showToast(getApplicationContext(), "Your request to add " + txt_name.getText().toString().trim() +" is pending.");
                                     btnJoin.setText("Pending");
+                                    btnFollow.setText("Unfollow");
                                     isMemberJoined = 2;
                                 }
 
                             } else {
                                 C.INSTANCE.showToast(getApplicationContext(), "Your request to add " + txt_name.getText().toString().trim() +" is pending.");
                                 btnJoin.setText("Pending");
+                                btnFollow.setText("Unfollow");
                                 isMemberJoined = 2;
                             }
 
@@ -893,6 +897,14 @@ public class AddMembersActivity extends AppCompatActivity {
                     C.INSTANCE.showToast(getApplicationContext(), message);
                     if (status) {
                         btnJoin.setText("Leave Us");
+                        btnFollow.setText("Unfollow");
+
+                        if(preference.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER)){
+                            btnJoin.setText("Pending");
+                            btnFollow.setText("Unfollow");
+                        }
+
+
                         isMemberJoined = 1;
 
 //                        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
@@ -967,6 +979,7 @@ public class AddMembersActivity extends AppCompatActivity {
                     C.INSTANCE.showToast(getApplicationContext(), message);
                     if (status) {
                         btnJoin.setText("Join Us");
+                        btnFollow.setText("Follow");
                         isMemberJoined = 0;
                     }
                 }

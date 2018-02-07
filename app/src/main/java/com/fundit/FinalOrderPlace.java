@@ -30,6 +30,7 @@ import com.fundit.apis.ServiceGenerator;
 import com.fundit.apis.ServiceHandler;
 import com.fundit.apis.StringConverterFactory;
 import com.fundit.helper.CustomDialog;
+import com.fundit.model.Address;
 import com.fundit.model.AppModel;
 import com.fundit.model.BankCardResponse;
 import com.fundit.model.CampaignListResponse;
@@ -66,7 +67,7 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
     GetSearchPeople.People people;
 
 
-    TextView txt_fundraiser, txt_partnerTitle, txt_partnerName, txt_targetAmt;
+    TextView txt_fundraiser, txt_partnerTitle, txt_partnerName, txt_targetAmt , txt_address , txt_selectedname;
 
     EditText edt_name, edt_email, edt_confirm_email;
 
@@ -88,8 +89,8 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
 
     CustomDialog dialog;
 
-    JSONArray selectedProductArray = new JSONArray();
-    JSONObject mainObject = new JSONObject();
+    JSONArray selectedProductArray = new JSONArray() ;
+
 
     String organizationId = "";
     String fundspotId = "";
@@ -123,17 +124,18 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
 
 
         try {
-
             user = new Gson().fromJson(preference.getUserData(), User.class);
             Log.e("user", "--->" + user);
             member = new Gson().fromJson(preference.getMemberData(), Member.class);
-
-
         } catch (Exception e) {
-
             Log.e("Exception", e.getMessage());
         }
 
+        if (campaignList.getCampaign().getRole_id().equalsIgnoreCase("2")) {
+            getAddress(campaignList.getUserFundspot().getId());
+        } else if (campaignList.getCampaign().getRole_id().equalsIgnoreCase("3")) {
+            getAddress(campaignList.getUserOrganization().getId());
+        }
 
         setupToolbar();
         fetchIDs();
@@ -145,6 +147,7 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         TextView actionTitle = (TextView) findViewById(R.id.actionTitle);
 
+        actionTitle.setText("Place Order");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -165,6 +168,8 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
         txt_partnerTitle = (TextView) findViewById(R.id.txt_partnerTitle);
         txt_partnerName = (TextView) findViewById(R.id.txt_partnerName);
         txt_targetAmt = (TextView) findViewById(R.id.txt_targetAmt);
+        txt_address = (TextView) findViewById(R.id.txt_address);
+     //   txt_selectedname = (TextView) findViewById(R.id.txt_selectedname);
 
         fundraiser = (LinearLayout) findViewById(R.id.fundraiser);
 
@@ -180,6 +185,7 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
         radio_cashPayment = (RadioButton) findViewById(R.id.radio_cashPayment);
 
         btn_placeOrder = (Button) findViewById(R.id.btn_placeOrder);
+        btn_placeOrder.setText("Continue");
 
         tab_layout = (LinearLayout) findViewById(R.id.tab_layout);
         tabLayout = (TabLayout) findViewById(R.id.tabs_layout);
@@ -192,6 +198,8 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
         edt_email.setEnabled(false);
         edt_confirm_email.setEnabled(false);
         txt_targetAmt.setEnabled(false);
+
+
 
 
         if (campaignList.getCampaign().getTitle().equalsIgnoreCase("") || campaignList.getCampaign().getTitle() == null) {
@@ -260,7 +268,7 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
 
                 tabLayout.addTab(tabLayout.newTab().setText("Me"));
                 tabLayout.addTab(tabLayout.newTab().setText("Fundit User"));
-                tabLayout.addTab(tabLayout.newTab().setText("other"));
+                tabLayout.addTab(tabLayout.newTab().setText("Other"));
 
 
                 tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -369,6 +377,19 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
             }
         });
 
+        radioGroup_paymentType.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+
+                if(radio_cardPayment.isChecked()){
+                    radio_cashPayment.setChecked(false);
+                }
+                if(radio_cashPayment.isChecked()){
+                    radio_cardPayment.setChecked(false);
+                }
+            }
+        });
+
 
         btn_placeOrder.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -418,8 +439,10 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
 
 
                 final List<MultipleProductResponse> getSelectedProducts = productAdapter.getProducts();
-
                 for (int i = 0; i < getSelectedProducts.size(); i++) {
+
+
+
                     String name = getSelectedProducts.get(i).getName();
                     String price = getSelectedProducts.get(i).getPrice();
                     String totalPrice = getSelectedProducts.get(i).getTotal_price();
@@ -436,6 +459,8 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
 
 
                     try {
+                        JSONObject mainObject = new JSONObject() ;
+
                         mainObject.put("product_id", id);
                         mainObject.put("name", name);
                         mainObject.put("quantity", quantity);
@@ -443,10 +468,12 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
                         mainObject.put("type_id", type_id);
                         mainObject.put("item_total", totalPrice);
 
+
                         selectedProductArray.put(mainObject);
 
 
                         Log.e("selectedProducts", "---->" + selectedProductArray);
+                        Log.e("test","test");
 
 
                     } catch (JSONException e) {
@@ -456,18 +483,21 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
 
                 }
 
+
                 if (getSelectedProducts.isEmpty()) {
-                    C.INSTANCE.showToast(getApplicationContext(), "Please Select Product");
+                    C.INSTANCE.showToast(getApplicationContext(), "Please select atleast 1 product");
                 } else if (finalAmounts.equalsIgnoreCase("$0.00") || finalAmounts.isEmpty()) {
-                    C.INSTANCE.showToast(getApplicationContext(), "Please Select minimum 1 quantity");
+                    C.INSTANCE.showToast(getApplicationContext(), "Please select atleast 1 product");
                 } else if (edt_name.getText().toString().trim().isEmpty()) {
-                    C.INSTANCE.showToast(getApplicationContext(), "Please enter name");
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter receipt name");
                 } else if (edt_email.getText().toString().trim().isEmpty()) {
-                    C.INSTANCE.showToast(getApplicationContext(), "Please enter email");
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter receipt email");
+                }else if(!C.INSTANCE.validEmail(edt_email.getText().toString().trim())){
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter valid receipt email");
                 } else if (edt_confirm_email.getText().toString().trim().isEmpty()) {
-                    C.INSTANCE.showToast(getApplicationContext(), "Please enter confirm email");
+                    C.INSTANCE.showToast(getApplicationContext(), "Email not match");
                 } else if (!edt_email.getText().toString().trim().matches(edt_confirm_email.getText().toString().trim())) {
-                    C.INSTANCE.showToast(getApplicationContext(), "Confirm email id does not matches");
+                    C.INSTANCE.showToast(getApplicationContext(), "Email not match");
                 } else {
                     if (checkedPaymentType == 1) {
                         if (campaignList.getCampaign().getRole_id().equalsIgnoreCase(C.ORGANIZATION)) {
@@ -843,14 +873,17 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
         if (requestCode == 1) {
             if (data != null) {
                 people = (GetSearchPeople.People) data.getSerializableExtra("id");
-
+              //  txt_selectedname.setVisibility(View.VISIBLE);
                 edt_name.setText(people.getFirst_name() + "" + people.getLast_name());
+              //  txt_selectedname.setText("[" + people.getFirst_name() + "" + people.getLast_name() + "]");
+                radio_cashPayment.setText("Send Request To " + "[" + people.getFirst_name() + "" + people.getLast_name() + "]");
                 edt_email.setText(people.getEmail_id());
                 edt_confirm_email.setText(people.getEmail_id());
                 selectedFundsUserId = people.getUser_id();
                 firstName = people.getFirst_name();
                 lastName = people.getLast_name();
                 emailId = people.getEmail_id();
+
             }
         }
     }
@@ -872,7 +905,57 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
 
     @Override
     public void UpdateTotalPrice(float totalPrice) {
-        Log.e("price", "-->" + totalPrice);
-        txt_targetAmt.setText("$" + String.format("%.2f", totalPrice));
+        double allPrice = 0;
+        for (int i=0 ; i<productList.size() ; i++){
+            String productstotalPrice = productList.get(i).getTotal_price();
+
+            Float productWise = Float.parseFloat(productstotalPrice);
+
+            allPrice += productWise;
+        }
+
+
+
+        Log.e("price", "-->" + allPrice);
+        txt_targetAmt.setText("$" + String.format("%.2f", allPrice));
     }
-}
+
+    public void getAddress(String fundspot_id) {
+
+        dialog.show();
+
+        Call<Address> addressCall = null;
+
+        addressCall = adminAPI.GetAddress(fundspot_id);
+        Log.e("userid", "--->" + fundspot_id);
+
+        addressCall.enqueue(new Callback<Address>() {
+            @Override
+            public void onResponse(Call<Address> call, Response<Address> response) {
+                dialog.dismiss();
+
+                Address address_List = response.body();
+                if (address_List != null) {
+                    if (address_List.isStatus()) {
+
+                        txt_address.setText(address_List.getData().getFundspot().getLocation() + '\n' + address_List.getData().getFundspot().getCity_name() + ", " + address_List.getData().getState().getState_code() + " " + address_List.getData().getFundspot().getZip_code());
+
+                    } else {
+
+                        C.INSTANCE.showToast(getApplicationContext(), address_List.getMessage());
+                        // FOR_NOW_ITS_NOTHING
+                    }
+
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Address> call, Throwable t) {
+                dialog.dismiss();
+                C.INSTANCE.errorToast(getApplicationContext(), t);
+
+            }
+        });
+
+    }}

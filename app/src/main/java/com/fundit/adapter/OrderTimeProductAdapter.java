@@ -80,6 +80,7 @@ public class OrderTimeProductAdapter extends BaseAdapter {
         CheckBox check_product = (CheckBox) view.findViewById(R.id.check_product);
         txt_type.setVisibility(View.GONE);
         txt_typ.setVisibility(View.GONE);
+        edt_qty.setText("0");
         edt_qty.setEnabled(false);
         TextView txt_productDescription = (TextView) view.findViewById(R.id.txt_productDescription);
 
@@ -134,6 +135,11 @@ public class OrderTimeProductAdapter extends BaseAdapter {
                     quantity = quantity - 1;
                     productResponses.get(position).setQty(quantity);
                     edt_qty.setText(String.valueOf(quantity));
+                }
+                if(quantity<1){
+                    edt_qty.setText("1");
+                    productResponses.get(position).setQty(1);
+
                 }
 
 
@@ -190,7 +196,6 @@ public class OrderTimeProductAdapter extends BaseAdapter {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-
                     img_plus.setEnabled(true);
                     img_minus.setEnabled(true);
                     edt_qty.setText("1");
@@ -198,14 +203,11 @@ public class OrderTimeProductAdapter extends BaseAdapter {
                     edt_qty.setEnabled(false);
                     img_plus.setClickable(true);
                     img_minus.setClickable(true);
-
-
-
                 } else {
-
-                    edt_qty.setText("");
+                    edt_qty.setText("0");
                     edt_qty.setHint("0");
                     productResponses.get(position).setQty(0);
+                    productResponses.get(position).setTotal_price("0");
                     edt_qty.setEnabled(false);
                     img_plus.setClickable(false);
                     img_minus.setClickable(false);

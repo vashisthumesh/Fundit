@@ -106,6 +106,7 @@ public class W {
 
 
     public static final String GET_ALL_INBOX = "Inbox/App_Get_Inbox_Msg";
+    public static final String CLEAR_MESSAGE="Inbox/App_Remove_Inbox";
     public static final String READ_INBOX_MESSAGES = "Inbox/App_Read_Inbox_Notification";
     public static final String SEND_MESSAGES = "Inbox/App_Send_MSG";
     public static final String GET_UNREAD_INBOX_COUNT = "Inbox/App_Get_UnRead_Notification_Count";
@@ -127,6 +128,7 @@ public class W {
     public static final String UPDATESETTINGS = "NotificationSetting/app_update_notification_setting";
     public static final String GETINDIVIDUALCAMPAIGN = "Campaign/app_get_individual_campaign";
     public static final String CHECKVALIDCOUPON = "Order/app_validate_coupon";
+    public static final String DELETECOUPON = "Order/App_delete_Coupon_product";
 
 
 

@@ -45,8 +45,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
                     android:layout_weight="1"
                     android:gravity="center"
                     android:padding="3dp"
@@ -64,7 +62,7 @@
                     android:id="@+id/txt_partnerTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
+
                     android:layout_weight="1"
                     android:gravity="end"
                     android:padding="3dp"
@@ -77,9 +75,7 @@
                     android:id="@+id/txt_partnerName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
+
                     android:layout_weight="1"
                     android:gravity="center"
                     android:padding="3dp"
@@ -97,9 +93,7 @@
                     android:id="@+id/txt_address"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
+
                     android:layout_weight="1"
                     android:gravity="center"
                     android:padding="3dp"
@@ -116,7 +110,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Product:"
+                    android:text="Product"
                     android:textColor="@color/colorText"
                     android:textSize="14sp" />
 
@@ -158,7 +152,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Recipient Information:"
+                    android:text="Recipient Information"
                     android:textSize="14sp" />
 
             </LinearLayout>
@@ -182,6 +176,7 @@
                         app:tabSelectedTextColor="@color/white"
                         app:tabIndicatorColor="@color/colordarkblue"
                         app:tabIndicatorHeight="1dp"
+                        app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
                         app:tabTextColor="@color/colordarkblue"
                         android:layout_width="match_parent"
                         android:layout_height="30dp">
@@ -290,6 +285,7 @@
                 <TextView
                     android:textSize="14sp"
                     android:id="@+id/txt_targetAmt"
+                    android:textColor="@color/black"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -373,6 +369,8 @@
                     android:text="Credit/Debit Card"
                     android:textColor="@color/black"
                     android:textSize="14sp" />
+
+
 
                 <RadioButton
                     android:id="@+id/radio_cashPayment"

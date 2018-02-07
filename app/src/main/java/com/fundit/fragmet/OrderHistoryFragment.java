@@ -86,7 +86,13 @@ public class OrderHistoryFragment extends Fragment {
                 dialog.dismiss();
                 OrderHistoryResponse order = response.body();
                 if(order!=null){
-                    orderHistoryResponse.addAll(order.getData());
+                    if(order.isStatus()){
+                        orderHistoryResponse.addAll(order.getData());
+                    }else {
+                        C.INSTANCE.showToast(getActivity() , "No order found");
+                    }
+
+
                 }else{
 
                     C.INSTANCE.defaultError(getActivity());

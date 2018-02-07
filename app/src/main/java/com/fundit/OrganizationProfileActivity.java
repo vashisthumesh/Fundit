@@ -43,7 +43,7 @@ import retrofit2.Response;
 
 public class OrganizationProfileActivity extends AppCompatActivity {
 
-    EditText edt_title, edt_address1, edt_zipCode, edt_description, edt_contactInfo,edt_contactInfo_email , tv_city;
+    EditText edt_title, edt_address1, edt_zipCode, edt_description, edt_contactInfo, edt_contactInfo_email, tv_city;
     Spinner spn_state, spn_city, spn_schoolType, spn_schoolSubType;
     EditText tv_login_email;
     ImageView img_profilePic, img_remove;
@@ -109,7 +109,7 @@ public class OrganizationProfileActivity extends AppCompatActivity {
         TextView actionTitle = (TextView) findViewById(R.id.actionTitle);
         actionTitle.setText("Organization Profile");
         setSupportActionBar(toolbar);
-        if(editMode) {
+        if (editMode) {
 
 
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -136,8 +136,8 @@ public class OrganizationProfileActivity extends AppCompatActivity {
         edt_zipCode = (EditText) findViewById(R.id.edt_zipCode);
         edt_description = (EditText) findViewById(R.id.edt_description);
         edt_contactInfo = (EditText) findViewById(R.id.edt_contactInfo);
-        edt_contactInfo_email= (EditText) findViewById(R.id.edt_contactInfo_email);
-        tv_city= (EditText) findViewById(R.id.tv_city);
+        edt_contactInfo_email = (EditText) findViewById(R.id.edt_contactInfo_email);
+        tv_city = (EditText) findViewById(R.id.tv_city);
 
         spn_state = (Spinner) findViewById(R.id.spn_state);
         spn_city = (Spinner) findViewById(R.id.spn_city);
@@ -208,9 +208,9 @@ public class OrganizationProfileActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
                 if (position == 0) {
-                   // clearCities();
+                    // clearCities();
                 } else {
-                   // loadCities(stateItems.get(position).getId());
+                    // loadCities(stateItems.get(position).getId());
                 }
             }
 
@@ -223,9 +223,9 @@ public class OrganizationProfileActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
                 if (position == 0) {
-                  //  clearSchools(false);
+                    //  clearSchools(false);
                 } else {
-                  //  loadSubSchools(schoolItems.get(position).getId());
+                    //  loadSubSchools(schoolItems.get(position).getId());
                 }
             }
 
@@ -277,7 +277,7 @@ public class OrganizationProfileActivity extends AppCompatActivity {
                 AreaResponse areaResponse = response.body();
                 if (areaResponse != null) {
                     if (areaResponse.isStatus()) {
-                        Log.e("check" , "--->");
+                        Log.e("check", "--->");
                         schoolItems.addAll(areaResponse.getData());
                         schoolNames.addAll(areaResponse.getNameList());
                     } else {
@@ -317,13 +317,13 @@ public class OrganizationProfileActivity extends AppCompatActivity {
                 String zipcode = edt_zipCode.getText().toString().trim();
                 String description = edt_description.getText().toString().trim();
                 String contactInfo = edt_contactInfo.getText().toString().trim();
-                String contact_email=edt_contactInfo_email.getText().toString().trim();
+                String contact_email = edt_contactInfo_email.getText().toString().trim();
                 String cityName = tv_city.getText().toString().trim();
 
                 int statePosition = spn_state.getSelectedItemPosition();
-             //   int cityPosition = spn_city.getSelectedItemPosition();
-              //  int schoolPosition = spn_schoolType.getSelectedItemPosition();
-               // int subSchoolPosition = spn_schoolSubType.getSelectedItemPosition();
+                //   int cityPosition = spn_city.getSelectedItemPosition();
+                //  int schoolPosition = spn_schoolType.getSelectedItemPosition();
+                // int subSchoolPosition = spn_schoolSubType.getSelectedItemPosition();
 
                 Log.e("token", preference.getTokenHash());
                 Log.e("userID", preference.getUserID());
@@ -339,42 +339,42 @@ public class OrganizationProfileActivity extends AppCompatActivity {
                 } else if (statePosition == 0) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please select state");
                 } else if (cityName.isEmpty()) {
-                    C.INSTANCE.showToast(getApplicationContext(), "Please enter city");
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter city name");
                 } else if (zipcode.isEmpty() || zipcode.length() < 5) {
-                    C.INSTANCE.showToast(getApplicationContext(), "Please enter zip code");
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter zipcode");
                 } /*else if (schoolPosition == 0) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please select school type");
                 } else if (subSchoolPosition == 0) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please select school");
                 }*/ else if (description.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter description");
-                }else if (!contactInfo.isEmpty() && contactInfo.length() != 10) {
-                    C.INSTANCE.showToast(getApplicationContext(), "Please enter valid contact information");
+                } else if (!contactInfo.isEmpty() && contactInfo.length() != 10) {
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter valid contact info mobile number");
                 }
-                else if(contact_email.isEmpty())
+                /*else if(contact_email.isEmpty())
                 {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter contact information");
                 }
-                else if(!C.INSTANCE.validEmail(contact_email))
-                {
-                    C.INSTANCE.showToast(getApplicationContext(), "Please enter valid email");
+*/
+                else if (!contact_email.isEmpty() && !C.INSTANCE.validEmail(contact_email)) {
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter valid contact info email");
                 } else if (imagePath == null) {
-                    C.INSTANCE.showToast(getApplicationContext(), "Please select profile image");
+                    C.INSTANCE.showToast(getApplicationContext(), "Please select image");
                 } else {
                     dialog.show();
                     Call<VerifyResponse> profileResponse = null;
 
                     if (!imagePath.startsWith("http")) {
 
-                        profileResponse = adminAPI.editOrganizationProfile(preference.getUserID(), preference.getTokenHash(), title, stateItems.get(statePosition).getId(), cityName, address1, zipcode, "", "", description, contact_email,contactInfo, ServiceGenerator.prepareFilePart("image", imagePath));
+                        profileResponse = adminAPI.editOrganizationProfile(preference.getUserID(), preference.getTokenHash(), title, stateItems.get(statePosition).getId(), cityName, address1, zipcode, "", "", description, contact_email, contactInfo, ServiceGenerator.prepareFilePart("image", imagePath));
                     } else {
 
-                        profileResponse = adminAPI.editTimeOrganizationProfile(preference.getUserID(), preference.getTokenHash(), title, stateItems.get(statePosition).getId(), cityName , address1, zipcode, "", "", description, contact_email,contactInfo);
+                        profileResponse = adminAPI.editTimeOrganizationProfile(preference.getUserID(), preference.getTokenHash(), title, stateItems.get(statePosition).getId(), cityName, address1, zipcode, "", "", description, contact_email, contactInfo);
 
 
                     }
 
-                    Log.e("cityName" , "-->" + cityName);
+                    Log.e("cityName", "-->" + cityName);
 
                     profileResponse.enqueue(new Callback<VerifyResponse>() {
                         @Override
@@ -386,6 +386,9 @@ public class OrganizationProfileActivity extends AppCompatActivity {
                                     C.INSTANCE.showToast(getApplicationContext(), verifyResponse.getMessage());
                                     String memberData = new Gson().toJson(verifyResponse.getData().getMember().getOrganization());
                                     preference.setMemberData(memberData);
+                                    if(editMode){
+                                        preference.setRedirection("2");
+                                    }
                                     Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                     startActivity(intent);

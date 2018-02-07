@@ -186,7 +186,7 @@ public class SerchPeopleActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     Intent intent = new Intent(getApplicationContext() , FinalSendMessage.class);
                     intent.putExtra("name" ,txt_name.getText().toString().trim());
-                    intent.putExtra("id" ,Id);
+                    intent.putExtra("id" ,getResponse.getUser_id());
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                 }
@@ -304,10 +304,10 @@ public class SerchPeopleActivity extends AppCompatActivity {
                 dialog.dismiss();
                 JoinMemberModel appModel = response.body();
                 if (appModel != null) {
-                    C.INSTANCE.showToast(getApplicationContext(), appModel.getMessage());
+                 //   C.INSTANCE.showToast(getApplicationContext(), appModel.getMessage());
                     if (appModel.isStatus()) {
                         if (appModel.getData() == 1) {
-                            btnAdd.setText("Leave Us");
+                            btnAdd.setText("Remove Member");
                             isMemberJoined = 1;
                         }if(appModel.getData()==2){
 

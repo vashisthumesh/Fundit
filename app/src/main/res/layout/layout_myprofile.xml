@@ -66,7 +66,7 @@
                     android:layout_margin="5dp"
                     android:layout_weight="1"
                     android:background="@color/colorButton"
-                    android:text="Join"
+                    android:text="Join Us"
                     android:textAllCaps="false"
                     android:textColor="@color/colorText"
                     android:textStyle="bold" />

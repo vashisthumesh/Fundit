@@ -180,7 +180,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="0"
-                        android:text="max selling limit:"
+                        android:text="Max selling limit:"
                         android:textSize="16sp" />
 
                     <EditText

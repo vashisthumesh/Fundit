@@ -17,6 +17,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.fundit.HomeActivity;
 import com.fundit.R;
 import com.fundit.a.AppPreference;
 import com.fundit.a.C;
@@ -77,6 +78,8 @@ public class FundspotCampaignNextActivity extends AppCompatActivity {
 
     int amount = 0;
 
+    boolean isProfileMode = false ;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,6 +97,7 @@ public class FundspotCampaignNextActivity extends AppCompatActivity {
         maxLimitCoupon = intent.getStringExtra("maxLimitCoupon");
         couponExpiry = intent.getStringExtra("couponExpiry");
         selectedProducts = intent.getStringArrayListExtra("products");
+        isProfileMode = intent.getBooleanExtra("isProfileMode" , false);
 
         //couponFinePrint = intent.getStringExtra("couponFinePrint");
         // product = (ProductListResponse.Product) intent.getSerializableExtra("product");
@@ -238,12 +242,12 @@ public class FundspotCampaignNextActivity extends AppCompatActivity {
 
                  /*if (message.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter message");
-                }else*/ if(fundspotMessage.isEmpty()){
+                }else*/ /*if(fundspotMessage.isEmpty()){
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter message for fundspot");
                 }
 
                 else {
-
+*/
                     JSONArray campaignDetailArray = new JSONArray();
                     JSONObject detailObject = new JSONObject();
                     JSONArray memberIDArray = new JSONArray();
@@ -279,7 +283,7 @@ public class FundspotCampaignNextActivity extends AppCompatActivity {
                         }
                         if(chk_maxAmount.isChecked()){
 
-                            detailObject.put("target_amount" , 0);
+                            detailObject.put("target_amount" , amount);
                         }else{
 
                             detailObject.put("target_amount" , amount);
@@ -328,8 +332,15 @@ public class FundspotCampaignNextActivity extends AppCompatActivity {
                             if (model != null) {
                                 if (model.isStatus()) {
                                     C.INSTANCE.showToast(getApplicationContext(), model.getMessage());
-                                    setResult(RESULT_OK);
-                                    onBackPressed();
+                                    if(isProfileMode){
+                                        Intent intent = new Intent(getApplicationContext() , HomeActivity.class);
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                        startActivity(intent);
+                                        finishAffinity();
+                                    }else {
+                                        setResult(RESULT_OK);
+                                        onBackPressed();
+                                    }
                                 } else {
                                     C.INSTANCE.showToast(getApplicationContext(), model.getMessage());
                                 }
@@ -344,7 +355,7 @@ public class FundspotCampaignNextActivity extends AppCompatActivity {
                             C.INSTANCE.errorToast(getApplicationContext(), t);
                         }
                     });
-                }
+               // }
             }
         });
     }

@@ -17,8 +17,7 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:layout_weight="1"
-        android:paddingLeft="-30dp"
-        android:text="Fundit"/>
+        android:text=""/>
 
 
 </android.support.v7.widget.Toolbar>

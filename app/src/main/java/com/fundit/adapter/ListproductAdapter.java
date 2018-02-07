@@ -46,11 +46,11 @@ public class ListproductAdapter extends BaseAdapter {
     }
     @Override
     public int getCount() {
-        return campaignList1.size();
+        return campaignList1.get(0).getCampaignProduct().size();
     }
     @Override
     public Object getItem(int position) {
-        return campaignList1.get(position);
+        return campaignList1.get(0).getCampaignProduct().get(position);
     }
 
     @Override

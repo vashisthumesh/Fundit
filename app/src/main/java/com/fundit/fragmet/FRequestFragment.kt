@@ -17,7 +17,7 @@ import com.fundit.a.AppPreference
 /**
  * Created by Nivida new on 25-Jul-17.
  */
-class   FRequestFragment : Fragment() {
+class FRequestFragment : Fragment() {
 
     var fView: View? = null
     var requestCampaignFragment: FundspotRequestFragment? = null
@@ -71,11 +71,12 @@ class   FRequestFragment : Fragment() {
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
         showCampaignFragment()
     }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 
-        Log.e("Activity","Result"+ requestCode +" - "+ resultCode);
+        Log.e("Activity", "Result" + requestCode + " - " + resultCode);
 
-        if(requestCode==SUCCESS_CODE && resultCode== Activity.RESULT_OK){
+        if (requestCode == SUCCESS_CODE && resultCode == Activity.RESULT_OK) {
             showCampaignFragment()
         }
     }

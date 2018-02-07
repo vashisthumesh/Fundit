@@ -28,6 +28,7 @@ public class ProductActivity extends AppCompatActivity {
     String fine="";
     String image="";
     Boolean myproduct=false;
+    Boolean isCampaignTimes = false;
     ProductListResponse.Product product;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +51,7 @@ public class ProductActivity extends AppCompatActivity {
         image=i.getStringExtra("image");
         myproduct=i.getBooleanExtra("myproduct",false);
         product = (ProductListResponse.Product) i.getSerializableExtra("product");
+        isCampaignTimes = i.getBooleanExtra("isCampaignTimes" , false);
 
 
 
@@ -90,6 +92,13 @@ public class ProductActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         TextView actionTitle = (TextView) findViewById(R.id.actionTitle);
+
+        if(isCampaignTimes){
+            actionTitle.setText("Create Campaign Request");
+        }else {
+            actionTitle.setText("My Products");
+        }
+
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

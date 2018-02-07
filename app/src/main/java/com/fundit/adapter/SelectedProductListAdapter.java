@@ -101,6 +101,7 @@ public class SelectedProductListAdapter extends BaseAdapter {
                 i.putExtra("fine",productsFundspotBeen.get(position).getFine_print());
                 i.putExtra("image", productsFundspotBeen.get(position).getImage());
                 i.putExtra("myproduct",false);
+                i.putExtra("isCampaignTimes" , true);
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(i);
 

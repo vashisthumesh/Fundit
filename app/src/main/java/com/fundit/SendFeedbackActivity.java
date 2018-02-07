@@ -73,6 +73,9 @@ public class SendFeedbackActivity extends AppCompatActivity {
         edtName.setText(user.getTitle());
         edtMail.setText(user.getEmail_id());
 
+        edtName.setEnabled(false);
+        edtMail.setEnabled(false);
+
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,7 +90,7 @@ public class SendFeedbackActivity extends AppCompatActivity {
                 else if(emailId.isEmpty())
                     C.INSTANCE.showToast(getApplicationContext() , "Please enter your email-id");
                 else if (message.isEmpty())
-                    C.INSTANCE.showToast(getApplicationContext() , "Please enter message");
+                    C.INSTANCE.showToast(getApplicationContext() , "Please enter proper comment");
                 else
                    new SendFeedBack(name , emailId , message).execute();
             }
@@ -173,11 +176,12 @@ public class SendFeedbackActivity extends AppCompatActivity {
                     String message ="";
                     status = mainObject.getBoolean("status");
                     message = mainObject.getString("message");
-                    C.INSTANCE.showToast(getApplicationContext() , message);
+                  //  C.INSTANCE.showToast(getApplicationContext() , message);
                     if(status){
 
                         Intent intent = new Intent(getApplicationContext() , HomeActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        preference.setRedirection("6");
                         startActivity(intent);
 
                     }

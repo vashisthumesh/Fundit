@@ -59,7 +59,7 @@
             android:layout_marginBottom="5dp"
             android:layout_marginTop="3dp"
             android:gravity="center"
-            android:text="Student club , athletic teams , special interest grops etc"
+            android:text="Student clubs, athletic teams, special interest groups, etc"
             android:textColor="@color/colorTextSecondary"
             android:textSize="13sp"
             android:textStyle="bold" />
@@ -74,7 +74,7 @@
             android:drawableRight="@drawable/helpfourty"
             android:gravity="center"
             android:padding="3dp"
-            android:text="FundSpot"
+            android:text="Fundspot"
             android:textColor="@color/black"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -86,7 +86,7 @@
             android:layout_marginBottom="5dp"
             android:layout_marginTop="3dp"
             android:gravity="center"
-            android:text="Restaurants , t-shirts shops , car wash etc"
+            android:text="Restaurants, t-shirts shops, car wash, etc"
             android:textColor="@color/colorTextSecondary"
             android:textSize="13sp"
             android:textStyle="bold" />
@@ -113,7 +113,7 @@
             android:layout_marginBottom="5dp"
             android:layout_marginTop="3dp"
             android:gravity="center"
-            android:text="Organization members , fundspot employees , anyone"
+            android:text="Organization members, fundspot employees, anyone"
             android:textColor="@color/colorTextSecondary"
             android:textSize="13sp"
             android:textStyle="bold" />

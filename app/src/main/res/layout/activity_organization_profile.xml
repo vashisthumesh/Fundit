@@ -8,7 +8,7 @@
               tools:context="com.fundit.OrganizationProfileActivity">
 
     <include
-        layout="@layout/toolbar_center_text"/>
+        layout="@layout/toolbar_center_text_create"/>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -175,7 +175,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableRight="@drawable/star"
                 android:text="Contact Information"
                 android:textSize="16sp"/>
 

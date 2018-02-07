@@ -166,7 +166,7 @@ public class AccountTypeActivity extends AppCompatActivity {
                     if (event.getRawX() >= (tv_General_member.getRight() - tv_General_member.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
 
                         String message = "";
-                        message = "Organization members and business employee will use this account to buy , sell or redeem coupons. Anyone can use this account to contribute to fundraisers in their area.";
+                        message = "Organization members and business employee will use this account to buy, sell or redeem coupons. Anyone can use this account to contribute to fundraisers in their area.";
 
                         openDialog(message);
 
