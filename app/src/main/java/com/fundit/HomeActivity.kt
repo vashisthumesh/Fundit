@@ -140,7 +140,7 @@ class HomeActivity : AppCompatActivity() {
         }
 
         img_qrscan.setOnClickListener {
-            val intent = Intent(this@HomeActivity, QRScannerActivity::class.java)
+            val intent = Intent(this@HomeActivity, FinalQRScanActivity::class.java)
             startActivity(intent)
         }
 
@@ -311,7 +311,6 @@ class HomeActivity : AppCompatActivity() {
                     fragment = HomeFragment()
                 }
                 C.GENERAL_MEMBER -> {
-                    img_qrscan?.visibility = View.VISIBLE
                     fragment = HomeFragment()
                 }
             }
@@ -543,7 +542,7 @@ class HomeActivity : AppCompatActivity() {
     private fun logout() {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Logout Application")
-        builder.setMessage("Are You sure you want to logout?")
+        builder.setMessage("Are you sure you want to logout?")
         builder.setCancelable(false)
         builder.setPositiveButton("Confirm") { dialogInterface, i ->
 

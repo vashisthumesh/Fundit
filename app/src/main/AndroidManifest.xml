@@ -220,7 +220,8 @@
         <activity android:name=".NotificationOrderActivity" />
         <activity android:name=".CardActivity" />
         <activity android:name=".CreateCardActivity" />
-        <activity android:name=".FundOrganizationRequestActivity"></activity>
+        <activity android:name=".FundOrganizationRequestActivity" />
+        <activity android:name=".FinalQRScanActivity"></activity>
     </application>
 
 </manifest>

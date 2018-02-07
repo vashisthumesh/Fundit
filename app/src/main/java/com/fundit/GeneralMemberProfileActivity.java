@@ -432,35 +432,14 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
         rg_type.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
-
                 if(rb_assorganization.isChecked()){
-
                     spn_assocOrganization.setVisibility(View.VISIBLE);
                     txt_assorganization.setVisibility(View.VISIBLE);
-
-                 //   spn_assocFundspot.setVisibility(View.GONE);
-                  //  txt_assfundspot.setVisibility(View.GONE);
-
-
                 }
-
                 if(rb_assfunspot.isChecked()){
-
                     spn_assocFundspot.setVisibility(View.VISIBLE);
                     txt_assfundspot.setVisibility(View.VISIBLE);
-
-
-                  // spn_assocOrganization.setVisibility(View.GONE);
-                  //  txt_assorganization.setVisibility(View.GONE);
-
-
-
-
-
                 }
-
-
-
             }
         });
 

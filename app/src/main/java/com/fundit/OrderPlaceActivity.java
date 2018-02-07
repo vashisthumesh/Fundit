@@ -268,9 +268,6 @@ public class OrderPlaceActivity extends AppCompatActivity {
                 txt_partnerName.setText(campaignList.getUserOrganization().getTitle());
                 txt_organizationName.setText(" " + campaignList.getUserFundspot().getTitle());
             }
-
-
-
         }
 
 

@@ -95,10 +95,7 @@ public class QRScannerActivity extends AppCompatActivity implements QRCodeReader
         img_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
              //   C.INSTANCE.showToast(getApplicationContext() , "Coming Soon");
-
-
                 OpenPopupDialog();
             }
         });
@@ -211,8 +208,6 @@ public class QRScannerActivity extends AppCompatActivity implements QRCodeReader
         qrCodeReaderView.stopCamera();
         Log.e("text", text);
         if (!text.contains("organization_name")) {
-
-
             showSimpleDialog();
         } else {
 
@@ -234,16 +229,6 @@ public class QRScannerActivity extends AppCompatActivity implements QRCodeReader
                 e.printStackTrace();
             }
 
-            /*Intent intent = new Intent(QRScannerActivity.this , RedeemActivity.class);
-            intent.putExtra("text" , text);
-            intent.putExtra("userId" , user);
-            intent.putExtra("roleId" , role);
-            intent.putExtra("quantity" , quantity);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
-
-
-*/
             CheckValidateCoupon(text);
 
         }
