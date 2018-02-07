@@ -144,7 +144,9 @@ public class InboxFragment extends Fragment {
                         messageResponseDatas.addAll(messagesResponse.getResponseDataList());
                         // getAllSubject.addAll(messagesResponse.getSubjects());
                     } else {
-                        C.INSTANCE.showToast(getActivity(), messagesResponse.getMessage());
+
+                        C.INSTANCE.showToast(getActivity(),"No message found");
+                       // C.INSTANCE.showToast(getActivity(), messagesResponse.getMessage());
                     }
                 } else {
                     C.INSTANCE.defaultError(getActivity());

@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    android:id="@+id/layout_main"
+<LinearLayout android:id="@+id/layout_main"
     android:orientation="horizontal"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/listviewbackground"
     android:layout_margin="10dp"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <LinearLayout
         android:layout_weight="1"
         android:layout_gravity="center"
@@ -167,7 +166,17 @@
     <LinearLayout
         android:id="@+id/layout_coupon"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_weight="1"
+            android:id="@+id/img_delete"
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:layout_margin="10dp"
+            android:layout_gravity="center"
+            app:srcCompat="@drawable/ic_delete_black_24dp" />
 
         <ImageView
             android:layout_margin="10dp"

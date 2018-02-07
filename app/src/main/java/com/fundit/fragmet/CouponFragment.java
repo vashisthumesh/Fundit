@@ -2,6 +2,7 @@ package com.fundit.fragmet;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,6 +38,7 @@ public class CouponFragment extends Fragment {
     AppPreference preference;
     AdminAPI adminAPI;
     CustomDialog dialog;
+   // RecyclerView listOrders;
 
     ShowOrderDetailsAdapter historyAdapter;
 
@@ -65,8 +67,8 @@ public class CouponFragment extends Fragment {
 
     private void fetchIDs() {
 
-
         listOrders = (ListView) view.findViewById(R.id.list_orders);
+        //listOrders= (RecyclerView) view.findViewById(R.id.list_orders);
 
 
         historyAdapter = new ShowOrderDetailsAdapter(orderHistoryResponse , getActivity());

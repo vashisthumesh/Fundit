@@ -16,7 +16,7 @@
         android:layout_margin="5dp"
         android:gravity="center"
         android:padding="3dp"
-        android:text="Please add any products that will be available to sell during campaings"
+        android:text="Please add any products that will be available to sell during campaigns"
         android:textColor="@color/colorTextSecondary"
         android:textSize="16sp" />
 
@@ -141,7 +141,7 @@
                 android:layout_height="40dp"
                 android:layout_marginTop="5dp"
                 android:background="@color/white"
-                android:hint="$ Seeling Price"
+                android:hint="$ Seling Price"
                 android:inputType="number"
                 android:padding="5dp"
                 android:textColor="@color/black" />

@@ -32,6 +32,7 @@ import com.google.gson.Gson;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -53,7 +54,9 @@ public class ShowOrderDetailsAdapter extends BaseAdapter {
     Context context;
     AdminAPI adminAPI;
     Date date;
-
+    Date startdate, enddate;
+    String end_date;
+    Date today;
 
     public ShowOrderDetailsAdapter(List<OrderHistoryResponse.OrderList> campaignLists, Activity activity) {
         this.orderLists = campaignLists;
@@ -100,6 +103,7 @@ public class ShowOrderDetailsAdapter extends BaseAdapter {
         TextView txt_sendfrom= (TextView) view.findViewById(R.id.txt_sendfrom);
 
         ImageView img_arrow = (ImageView) view.findViewById(R.id.img_arrow);
+        ImageView img_delete= (ImageView) view.findViewById(R.id.img_delete);
 
         LinearLayout layout_coupon = (LinearLayout) view.findViewById(R.id.layout_coupon);
         final LinearLayout layout_request = (LinearLayout) view.findViewById(R.id.layout_request);
@@ -109,6 +113,17 @@ public class ShowOrderDetailsAdapter extends BaseAdapter {
         Button btn_accept = (Button) view.findViewById(R.id.btn_accept);
         Button btn_decline = (Button) view.findViewById(R.id.btn_decline);
 
+
+
+
+        Calendar c = Calendar.getInstance();
+
+        // set the calendar to start of today
+        c.set(Calendar.HOUR_OF_DAY, 0);
+        c.set(Calendar.MINUTE, 0);
+        c.set(Calendar.SECOND, 0);
+        c.set(Calendar.MILLISECOND, 0);
+        today = c.getTime();
 
 
 
@@ -138,7 +153,7 @@ public class ShowOrderDetailsAdapter extends BaseAdapter {
             layout_from.setVisibility(View.VISIBLE);
             layout_date.setVisibility(View.GONE);
             layout_camp.setVisibility(View.GONE);
-           txt_sendfrom.setText("Pending requet from "+orderLists.get(position).getOrder().getRequested_user_name());
+            txt_sendfrom.setText("Pending requet from "+orderLists.get(position).getOrder().getRequested_user_name());
             layout_request.setVisibility(View.VISIBLE);
             layout_maincoupon.setBackground(activity.getResources().getDrawable(R.drawable.listviewbackcolor));
 
@@ -167,6 +182,73 @@ public class ShowOrderDetailsAdapter extends BaseAdapter {
 //            }
 //        });
 
+
+
+         end_date = orderLists.get(position).getOrder().getCoupon_expiry_date();
+
+
+        final SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            enddate = simpleDateFormat1.parse(end_date);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+
+        img_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (enddate.before(today)) {
+
+                    dialog = new CustomDialog(activity, "");
+                    dialog.setCancelable(false);
+                    dialog.show();
+
+                    Call<AppModel> appModelCall = adminAPI.DeleteCoupon(orderLists.get(position).getOrder().getId());
+                    Log.e("parameters", "--?" + orderLists.get(position).getOrder().getId());
+                    appModelCall.enqueue(new Callback<AppModel>() {
+                        @Override
+                        public void onResponse(Call<AppModel> call, Response<AppModel> response) {
+                            dialog.dismiss();
+                            AppModel model = response.body();
+                            Log.e("response", "-->" + new Gson().toJson(response.body()));
+                            if (model != null) {
+                                C.INSTANCE.showToast(context, model.getMessage());
+                                if (model.isStatus()) {
+                                    orderLists.remove(position);
+                                    Log.e("check", "-->" + position);
+
+                                }
+                            } else {
+                                C.INSTANCE.defaultError(context);
+
+                            }
+
+                            notifyDataSetChanged();
+                        }
+
+                        @Override
+                        public void onFailure(Call<AppModel> call, Throwable t) {
+                            dialog.dismiss();
+                            C.INSTANCE.errorToast(context, t);
+                        }
+                    });
+
+                }
+                else {
+                    C.INSTANCE.showToast(activity, "Sorry, You can't delete this coupon till expired");
+                }
+
+
+
+
+
+
+
+            }
+        });
 
         layout_maincoupon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -221,7 +303,7 @@ public class ShowOrderDetailsAdapter extends BaseAdapter {
                 dialog = new CustomDialog(activity, "");
                 dialog.setCancelable(false);
                 dialog.show();
-                Call<AppModel> appModelCall = adminAPI.DeleteCoupon(orderLists.get(position).getOrder().getId(), preference.getUserID(), "0");
+                Call<AppModel> appModelCall = adminAPI.DeclineCoupon(orderLists.get(position).getOrder().getId(), preference.getUserID(), "0");
                 Log.e("parameters", "--?" + orderLists.get(position).getOrder().getId() + "-->" + preference.getUserID());
                 appModelCall.enqueue(new Callback<AppModel>() {
                     @Override

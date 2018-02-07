@@ -168,7 +168,7 @@ class MyProfileFragment : Fragment() {
                 Log.e("datas" , "-->" + preference?.memberData)
 
 
-                txt_address?.text = memberData.location + "\n" + memberData.city_name + " , " + memberData.state.state_code + "  " + memberData.zip_code
+                txt_address?.text = memberData.location + "\n" + memberData.city_name + ", " + memberData.state.state_code + "  " + memberData.zip_code
                 layout_fun?.visibility = View.GONE
                 layout_org?.visibility = View.GONE
                 Log.e("state_code",memberData.state.state_code);

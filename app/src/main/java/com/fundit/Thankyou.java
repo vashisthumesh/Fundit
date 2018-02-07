@@ -62,7 +62,7 @@ public class Thankyou extends AppCompatActivity {
         txt_coupon= (TextView) findViewById(R.id.txt_coupon);
         home= (Button) findViewById(R.id.home);
 
-        txt1.setText("Thank you for supporting"+"\t"+org+"!");
+        txt1.setText("Thank you for supporting"+" "+org+"!");
         if(isOtherUser){
             Log.e("test1" , "test1");
             txt2.setText("Your order has been completed.");

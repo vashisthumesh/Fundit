@@ -39,8 +39,8 @@ public class OnboardingFragment4 extends Fragment {
 
 
         image.setImageResource(R.drawable.user);
-        txt_title.setText("Support Your community");
-        txt_message.setText("Contribute to local fundraisers by buying coupons and helping both organizations and fundspots.");
+        txt_title.setText("Support Your Community");
+        txt_message.setText("Contribute to local fundraisers by buying coupons and helping both organizations and fundspots");
 
     }
 

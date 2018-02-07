@@ -22,7 +22,7 @@
             android:background="@color/white"
             android:gravity="center"
             android:padding="3dp"
-            android:text="A code has been sent to your email address. Please enter the code below"
+            android:text="A code has been sent to your email address. Please enter the code below."
             android:textColor="@color/colorTextSecondary"
             android:textSize="16sp" />
         <EditText
@@ -34,7 +34,7 @@
             android:inputType="number"
             android:padding="5dp"
             android:maxLength="6"
-            android:hint="Enter Code:123456"
+            android:hint="Enter Code : 123456"
             android:singleLine="true"
             android:textColor="#000"
             android:textColorHint="@color/colorIcon"/>

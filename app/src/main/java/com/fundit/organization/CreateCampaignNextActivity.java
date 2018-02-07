@@ -105,7 +105,7 @@ public class CreateCampaignNextActivity extends AppCompatActivity {
         edt_amount = (EditText) findViewById(R.id.edt_amount);
         edt_msgFundspot = (EditText) findViewById(R.id.edt_msg_fundspot);
         txt_message = (TextView) findViewById(R.id.txt_message);
-        txt_message.setText("Message to Fundspot");
+        txt_message.setText("Message to Fundspot:");
 
         chk_startDateAsPossible = (CheckBox) findViewById(R.id.chk_startDateAsPossible);
         chk_allOrgMembers = (CheckBox) findViewById(R.id.chk_allOrgMembers);

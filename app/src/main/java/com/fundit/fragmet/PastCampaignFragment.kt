@@ -90,7 +90,8 @@ class PastCampaignFragment : Fragment() {
                     if (campaignList.isStatus) {
                         campaignArrayList.addAll(campaignList.data)
                     } else {
-                        // FOR_NOW_ITS_NOTHING
+                       C.showToast(activity, "No Campaign Found")
+
                     }
 
                     campaignAdapter.notifyDataSetChanged()

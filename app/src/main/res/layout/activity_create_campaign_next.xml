@@ -34,7 +34,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:background="@color/white"
-                android:hint="Campaign name"
+                android:hint="Campaign Name"
                 android:inputType="textPersonName"
                 android:padding="5dp"
                 android:textColor="@color/colorTextSecondary" />
@@ -101,7 +101,7 @@
                 android:layout_marginLeft="1dp"
                 android:drawableRight="@drawable/star"
                 android:padding="5dp"
-                android:text="Target Amount"
+                android:text="Target Amount:"
                 android:textSize="16sp" />
 
             <LinearLayout
@@ -215,7 +215,7 @@
                 android:layout_marginLeft="1dp"
                 android:drawableRight="@drawable/star"
                 android:padding="5dp"
-                android:text="Members to sellers"
+                android:text="Message to sellers"
                 android:textSize="16sp" />
 
             <EditText

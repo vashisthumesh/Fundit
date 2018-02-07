@@ -22,14 +22,14 @@ public class CustomDialog extends ProgressDialog {
 	public CustomDialog(Context context){
 		super(context);
 		this.context = context;
-		this.comment = "Please wait...";
+		this.comment = "";
 	}
 
 	public CustomDialog(Context context, String comment) {
 		super(context);
 		// TODO Auto-generated constructor stub
 		this.context = context;
-		this.comment = comment.isEmpty() ? "Please wait..." : comment;
+		this.comment = comment.isEmpty() ? "" : comment;
 	}
 
 
@@ -51,7 +51,7 @@ public class CustomDialog extends ProgressDialog {
 	}
 
 	public void resetMessage(){
-		this.comment="Please wait...";
+		this.comment="";
 	}
 
 	@Override

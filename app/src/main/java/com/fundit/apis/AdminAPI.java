@@ -367,7 +367,11 @@ public interface AdminAPI {
 
     @FormUrlEncoded
     @POST(W.COUPON_REQUEST)
-    Call<AppModel> DeleteCoupon(@Field("order_id") String orderId , @Field(W.KEY_USERID) String userId , @Field("request_status") String status);
+    Call<AppModel> DeclineCoupon(@Field("order_id") String orderId , @Field(W.KEY_USERID) String userId , @Field("request_status") String status);
+
+    @FormUrlEncoded
+    @POST(W.DELETE_COUPON)
+    Call<AppModel> DeleteCoupon(@Field("order_id") String orderId);
 
 
     @FormUrlEncoded

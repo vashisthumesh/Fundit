@@ -40,7 +40,7 @@ public class OnboardingFragment3 extends Fragment {
 
 
         image.setImageResource(R.drawable.user);
-        txt_title.setText("Promote Your Bussiness");
+        txt_title.setText("Promote Your Business");
         txt_message.setText("Enjoy good PR, expand your customer base and gain advertising");
 
     }

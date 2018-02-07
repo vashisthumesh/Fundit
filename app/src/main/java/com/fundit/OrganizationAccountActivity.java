@@ -104,7 +104,7 @@ public class OrganizationAccountActivity extends AppCompatActivity {
                 if(!b){
                     String email=et_organization_email.getText().toString().trim();
                     if(!email.isEmpty() && C.INSTANCE.validEmail(email)){
-                        dialog.setMessage("Checking email...");
+                       // dialog.setMessage("Checking email...");
                         dialog.show();
                         Call<UniqueEmailResponse> uniqueMailCall=adminAPI.checkUniqueMail(email);
                         uniqueMailCall.enqueue(new Callback<UniqueEmailResponse>() {
@@ -126,7 +126,13 @@ public class OrganizationAccountActivity extends AppCompatActivity {
                                             showSignInDialog(emailResponse.getMessage());
                                         }
                                         else {
-                                            showNotVerifiedDialog(emailResponse.getData().getUser_id(),emailResponse.getMessage(),"");
+                                           // showNotVerifiedDialog(emailResponse.getData().getUser_id(),emailResponse.getMessage(),"");
+                                            Intent intent=new Intent(getApplicationContext(),VerificationActivity.class);
+                                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                            intent.putExtra("userID",emailResponse.getData().getUser_id());
+                                            Log.e("userID" , emailResponse.getData().getUser_id());
+                                            startActivity(intent);
+                                            finish();
                                         }
                                     }
                                 }
@@ -227,7 +233,7 @@ public class OrganizationAccountActivity extends AppCompatActivity {
                 }
 
                 if(!checkedForUniqueEmail){
-                    dialog.setMessage("Checking email...");
+                 //   dialog.setMessage("Checking email...");
                     dialog.show();
                     Call<UniqueEmailResponse> uniqueMailCall=adminAPI.checkUniqueMail(email);
                     uniqueMailCall.enqueue(new Callback<UniqueEmailResponse>() {
@@ -245,7 +251,14 @@ public class OrganizationAccountActivity extends AppCompatActivity {
                                         showSignInDialog(emailResponse.getMessage());
                                     }
                                     else {
-                                        showNotVerifiedDialog(emailResponse.getData().getUser_id(),emailResponse.getMessage(),"");
+                                        //showNotVerifiedDialog(emailResponse.getData().getUser_id(),emailResponse.getMessage(),"");
+
+                                        Intent intent=new Intent(getApplicationContext(),VerificationActivity.class);
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                        intent.putExtra("userID",emailResponse.getData().getUser_id());
+                                        Log.e("userID" , emailResponse.getData().getUser_id());
+                                        startActivity(intent);
+                                        finish();
                                     }
                                 }
                             }
@@ -333,7 +346,14 @@ public class OrganizationAccountActivity extends AppCompatActivity {
                 RegisterResponse registerResponse=response.body();
                 if(registerResponse!=null){
                     if(registerResponse.isStatus()){
-                        showNotVerifiedDialog(registerResponse.getData().getUser_id(),registerResponse.getMessage(),"Verify your Email");
+                       // showNotVerifiedDialog(registerResponse.getData().getUser_id(),registerResponse.getMessage(),"Verify your Email");
+
+                        Intent intent=new Intent(getApplicationContext(),VerificationActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        intent.putExtra("userID",registerResponse.getData().getUser_id());
+                        Log.e("userID" , registerResponse.getData().getUser_id());
+                        startActivity(intent);
+                        finish();
                     }
                     else {
                         registerResponse.getMessage();

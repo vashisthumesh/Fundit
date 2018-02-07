@@ -97,24 +97,34 @@ public class NotificationActivity extends AppCompatActivity {
                             //db = new DatabaseHandler(());
                             Log.e("666", "5555");
                             Log.e("666", "5555");
-                            JSONArray jarray_data = jObj.getJSONArray("data");
+                            boolean status=jObj.getBoolean("status");
+                            String message=jObj.getString("message");
 
-                            for (int i = 0; i < jarray_data.length(); i++) {
-                                JSONObject jobject = jarray_data.getJSONObject(i);
-                                Bean_Notification_history bean_category = new Bean_Notification_history();
-                                bean_category.setId(jobject.getString("id"));
-                                bean_category.setSent_user(jobject.getString("sent_user"));
-                                bean_category.setReceive_user(jobject.getString("receive_user"));
-                                bean_category.setMsg(jobject.getString("msg"));
-                                bean_category.setRead_status(jobject.getString("read_status"));
-                                bean_category.setRole_id(jobject.getString("role_id"));
-                                bean_category.setType_id(jobject.getString("type_id"));
-                                bean_category.setCampaign_id(jobject.getString("campaign_id"));
+                            if(status)
+                            {
+                                JSONArray jarray_data = jObj.getJSONArray("data");
 
-                                array_order_history_list.add(bean_category);
+                                for (int i = 0; i < jarray_data.length(); i++) {
+                                    JSONObject jobject = jarray_data.getJSONObject(i);
+                                    Bean_Notification_history bean_category = new Bean_Notification_history();
+                                    bean_category.setId(jobject.getString("id"));
+                                    bean_category.setSent_user(jobject.getString("sent_user"));
+                                    bean_category.setReceive_user(jobject.getString("receive_user"));
+                                    bean_category.setMsg(jobject.getString("msg"));
+                                    bean_category.setRead_status(jobject.getString("read_status"));
+                                    bean_category.setRole_id(jobject.getString("role_id"));
+                                    bean_category.setType_id(jobject.getString("type_id"));
+                                    bean_category.setCampaign_id(jobject.getString("campaign_id"));
 
-                                //  System.out.println("Category - "+array_categor.size()+" Quote - "+array_quote.size()+" card - "+array_card.size()+" clipart - "+array_clipart.size());
+                                    array_order_history_list.add(bean_category);
 
+                                    //  System.out.println("Category - "+array_categor.size()+" Quote - "+array_quote.size()+" card - "+array_card.size()+" clipart - "+array_clipart.size());
+
+                                }
+
+                            }
+                            else {
+                                C.INSTANCE.showToast(getApplicationContext(),"No Notification Found");
                             }
 
 

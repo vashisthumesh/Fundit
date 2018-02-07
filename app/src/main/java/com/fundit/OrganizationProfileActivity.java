@@ -578,8 +578,8 @@ public class OrganizationProfileActivity extends AppCompatActivity {
         stateNames.clear();
         stateItems.clear();
 
-        stateItems.add(new AreaItem("Select State"));
-        stateNames.add("Select State");
+        stateItems.add(new AreaItem("State"));
+        stateNames.add("State");
 
         stateAdapter.notifyDataSetChanged();
     }

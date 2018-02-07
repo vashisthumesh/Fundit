@@ -28,7 +28,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
     LinearLayout lv_forget_email,lv_forget_otp,lv_re_enter_password;
     EditText ed_forget_pass_email,ed_otp,ed_new_password,ed_re_enter_password;
-    Button bt_cancel,bt_send,ed_otp_continue,bt_forget_update;
+    Button  bt_send,ed_otp_continue,bt_forget_update;
 
 
     AdminAPI adminAPI;
@@ -54,19 +54,12 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         ed_new_password=(EditText) findViewById(R.id.ed_new_password);
         ed_re_enter_password=(EditText) findViewById(R.id.ed_re_enter_password);
 
-        bt_cancel=(Button) findViewById(R.id.bt_cancel);
+
         bt_send=(Button) findViewById(R.id.bt_send);
         ed_otp_continue=(Button) findViewById(R.id.ed_otp_continue);
         bt_forget_update=(Button) findViewById(R.id.bt_forget_update);
 
-        bt_cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent in3=new Intent(getApplicationContext(),SignInActivity.class);
-                in3.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(in3);
-            }
-        });
+
 
         bt_send.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -207,7 +200,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-            actionTitle.setText("Forgot Password ");
+            actionTitle.setText("");
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

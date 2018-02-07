@@ -42,7 +42,7 @@ public class OnboardingFragment1 extends Fragment {
 
         image.setImageResource(R.drawable.stars);
         txt_title.setText("Create Your Own Campaign");
-        txt_message.setText("Organizations can partner up with local fundsopt to raise money");
+        txt_message.setText("Organizations can partner up with local fundspots to raise money");
 
 
 

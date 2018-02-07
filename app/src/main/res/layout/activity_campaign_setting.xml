@@ -34,7 +34,7 @@
                     android:layout_margin="5dp"
                     android:gravity="center"
                     android:padding="3dp"
-                    android:text="Please enter default details of your fundraising campaigns. These setting can be edited with each fundraiser."
+                    android:text="Please enter default details of your fundraising campaigns. These settings can be edited with each fundraiser."
                     android:textColor="@color/colorTextSecondary"
                     android:textSize="16sp" />
 
@@ -226,7 +226,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/white"
-                        android:hint="#days from purchase"
+                        android:hint="days from purchase"
                         android:inputType="number"
                         android:padding="5dp" />
                 </LinearLayout>
