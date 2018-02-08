@@ -162,16 +162,22 @@ public class MyBrowseCampaign extends Fragment {
         rg_type.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group,  int checkedId) {
+
+                String getSearchTermed = auto_searchUser.getText().toString();
+                String getCityName = txt_city.getText().toString().trim();
+                String getZipCode = txt_zip.getText().toString().trim();
+
+
                 if(checkedId == R.id.rb_fundspot){
                     list.setVisibility(View.VISIBLE);
                     fundspotSelected = true;
-                    getAllFundspot();
+                    getAllFundspot(getSearchTermed , getCityName , getZipCode);
 
                 }
                 if(checkedId == R.id.rb_org){
                     list.setVisibility(View.VISIBLE);
                     fundspotSelected = false;
-                    getAllOrganization();
+                    getAllOrganization(getSearchTermed , getCityName , getZipCode);
 
                 }
                 if(checkedId == R.id.rb_people)
@@ -313,10 +319,10 @@ public class MyBrowseCampaign extends Fragment {
 
     }
 
-    private void getAllFundspot() {
+    private void getAllFundspot(String getSearchTermed, String getCityName, String getZipCode) {
 
         dialog.show();
-        final Call<GetDataResponses> verifyResponse = adminAPI.GET_ALL_FUNDSPOT(preferences.getUserID() , fundspot.getCity_id() , fundspot.getZip_code());
+        final Call<GetDataResponses> verifyResponse = adminAPI.GET_ALL_FUNDSPOT(preferences.getUserID() , getCityName , getZipCode);
         verifyResponse.enqueue(new Callback<GetDataResponses>() {
             @Override
             public void onResponse(Call<GetDataResponses> call, Response<GetDataResponses> response) {
@@ -461,7 +467,7 @@ public class MyBrowseCampaign extends Fragment {
     }
 
 
-    private void getAllOrganization() {
+    private void getAllOrganization(String getSearchTermed, String getCityName, String getZipCode) {
 
         dialog.show();
         Log.e("user","-->"+preferences.getUserID());
@@ -470,7 +476,7 @@ public class MyBrowseCampaign extends Fragment {
 
 
 
-        Call<GetDataResponses> verifyResponse = adminAPI.GET_ALL_ORGANIZATION(preferences.getUserID() , fundspot.getCity_id() , fundspot.getZip_code());
+        Call<GetDataResponses> verifyResponse = adminAPI.GET_ALL_ORGANIZATION(preferences.getUserID() , getCityName , getZipCode);
         verifyResponse.enqueue(new Callback<GetDataResponses>() {
             @Override
             public void onResponse(Call<GetDataResponses> call, Response<GetDataResponses> response) {
