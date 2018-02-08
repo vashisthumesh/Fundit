@@ -547,6 +547,7 @@ class HomeActivity : AppCompatActivity() {
             transaction?.replace(R.id.content, fragment)
             transaction?.commit()
 
+
         }
 
 
