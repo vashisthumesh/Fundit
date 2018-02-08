@@ -88,7 +88,7 @@ public class PeopleSerchAdapter extends BaseAdapter  {
                     .load(imagePath)
                     .into(img_profileImage);
 
-            txt_Name.setText(people_search.get(position).getFirst_name()+""+people_search.get(position).getLast_name());
+            txt_Name.setText(people_search.get(position).getFirst_name()+" "+people_search.get(position).getLast_name());
             txt_location.setText(people_search.get(position).getLocation());
 
 

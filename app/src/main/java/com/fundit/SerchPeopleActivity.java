@@ -429,7 +429,7 @@ public class SerchPeopleActivity extends AppCompatActivity {
                         txt_emailID.setText(userObject.getString("email_id"));
 
 
-                        txt_address.setText(memberObject.getString("location")+"\n"+memberObject.getString("city_name")+ " , " + stateObject.getString("state_code") + " , " + memberObject.getString("zip_code"));
+                        txt_address.setText(memberObject.getString("location")+"\n"+memberObject.getString("city_name")+ ", " + stateObject.getString("state_code")+" "+ memberObject.getString("zip_code"));
 
                         if(memberObject.getString("organization_names").equalsIgnoreCase("")){
                             layout_org.setVisibility(View.GONE);

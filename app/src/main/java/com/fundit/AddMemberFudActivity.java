@@ -390,7 +390,7 @@ public class AddMemberFudActivity extends AppCompatActivity {
                             layout_contact.setVisibility(View.VISIBLE);
                             txt_contct.setText(app_fund_list.getData().getFundspot().getDescription());
                         }
-                        txt_address.setText(location+'\n'+city_name+","+state_code+" "+Zipcode);
+                        txt_address.setText(location+'\n'+city_name+", "+state_code+" "+Zipcode);
 
 
 
@@ -533,7 +533,7 @@ public class AddMemberFudActivity extends AppCompatActivity {
                             layout_contact.setVisibility(View.VISIBLE);
                             txt_contct.setText(app_single_org_list.getData().getOrganization().getDescription());
                         }
-                        txt_address.setText(location+'\n'+city_name+","+state_code+" "+Zipcode);
+                        txt_address.setText(location+'\n'+city_name+", "+state_code+" "+Zipcode);
 
 
 

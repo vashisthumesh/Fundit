@@ -104,7 +104,7 @@ public class FundorgrequestAdapter extends BaseAdapter {
                 .into(img_profileImage);
 
         txt_Name.setText(fundRequestDataList.get(position).getTitle());
-        txt_location.setText(fundRequestDataList.get(position).getLocation()+"\n"+fundRequestDataList.get(position).getCity_name()+","+fundRequestDataList.get(position).getState()+" "+fundRequestDataList.get(position).getZip_code());
+        txt_location.setText(fundRequestDataList.get(position).getLocation()+"\n"+fundRequestDataList.get(position).getCity_name()+", "+fundRequestDataList.get(position).getState()+" "+fundRequestDataList.get(position).getZip_code());
 
 
 

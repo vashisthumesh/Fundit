@@ -396,6 +396,7 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
             public void onClick(View v) {
                 int allPrice = 0;
                 final String combineName = edt_name.getText().toString().trim();
+                Log.e("combinename","==>"+combineName);
                 String finalAmounts = "";
                 finalAmounts = txt_targetAmt.getText().toString().trim();
 
@@ -874,9 +875,9 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
             if (data != null) {
                 people = (GetSearchPeople.People) data.getSerializableExtra("id");
               //  txt_selectedname.setVisibility(View.VISIBLE);
-                edt_name.setText(people.getFirst_name() + "" + people.getLast_name());
+                edt_name.setText(people.getFirst_name() + " " + people.getLast_name());
               //  txt_selectedname.setText("[" + people.getFirst_name() + "" + people.getLast_name() + "]");
-                radio_cashPayment.setText("Send Request To " + "[" + people.getFirst_name() + "" + people.getLast_name() + "]");
+                radio_cashPayment.setText("Send Request To " + "[" + people.getFirst_name() + " " + people.getLast_name() + "]");
                 edt_email.setText(people.getEmail_id());
                 edt_confirm_email.setText(people.getEmail_id());
                 selectedFundsUserId = people.getUser_id();

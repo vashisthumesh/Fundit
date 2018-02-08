@@ -258,7 +258,7 @@ public class AddMembersActivity extends AppCompatActivity {
                 txt_name.setText(getResponse.getFundspot().getTitle());
 
 
-                txt_address.setText(getResponse.getFundspot().getLocation() + "\n" + getCityName + "," + getResponse.getState().getState_code() + " " + getResponse.getFundspot().getZip_code());
+                txt_address.setText(getResponse.getFundspot().getLocation() + "\n" + getCityName + ", " + getResponse.getState().getState_code() + " " + getResponse.getFundspot().getZip_code());
 
 
                 txt_contct.setText(getResponse.getFundspot().getDescription());
@@ -626,7 +626,7 @@ public class AddMembersActivity extends AppCompatActivity {
                         txt_emailID.setText(userObject.getString("email_id"));
                         txt_contct.setText(memberObject.getString("contact_info"));
 
-                        txt_address.setText(memberObject.getString("location") + " , " + cityObject.getString("name") + stateObject.getString("name") + " , " + memberObject.getString("zip_code"));
+                        txt_address.setText(memberObject.getString("location") + ", " + cityObject.getString("name") + stateObject.getString("name") + ", " + memberObject.getString("zip_code"));
 
 
                         String getURL = W.FILE_URL + memberObject.getString("image");
