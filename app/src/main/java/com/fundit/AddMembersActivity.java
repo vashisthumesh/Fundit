@@ -342,7 +342,11 @@ public class AddMembersActivity extends AppCompatActivity {
                     Intent intent = new Intent(getApplicationContext(), FundspotProductListActivity.class);
                     /*intent.putExtra("fundspotName", fundSpotList.get(i).getFundspot().getTitle());
                     intent.putExtra("fundspotID", fundSpotList.get(i).getFundspot().getUser_id());
+
+
 */
+
+                   /* Log.e("requestSettings" , "--->" + getResponse.getFundspot().getFundspot_percent() + "-->" + getResponse.getFundspot().getOrganization_percent() + "-->" + getResponse.getFundspot().getProduct_count());*/
                     if (preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION)) {
 
                         if ((getResponse.getFundspot().getFundspot_percent().equalsIgnoreCase("0") && getResponse.getFundspot().getOrganization_percent().equalsIgnoreCase("0")) || getResponse.getFundspot().getProduct_count().equalsIgnoreCase("0")) {
@@ -367,6 +371,7 @@ public class AddMembersActivity extends AppCompatActivity {
                         }
                     } else {
 
+                        Log.e("requestSettings" , "--->" + fundspot.getFundspot_percent() + "-->" + fundspot.getOrganization_percent() + "-->" + fundspot.getProduct_count());
                         if ((fundspot.getFundspot_percent().equalsIgnoreCase("0") && fundspot.getOrganization_percent().equalsIgnoreCase("0")) || fundspot.getProduct_count().equalsIgnoreCase("0")) {
                             AlertDialog.Builder builder = new AlertDialog.Builder(AddMembersActivity.this);
                             builder.setTitle("Sorry, Fundraiser settings not valid");
