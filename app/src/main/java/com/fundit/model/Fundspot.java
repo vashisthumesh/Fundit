@@ -35,6 +35,7 @@ public class Fundspot implements Serializable {
     String contact_info_email="";
     String contact_info_mobile="";
     String split_visibility="";
+    String product_count = "";
     String city_name="";
 
 
@@ -153,6 +154,10 @@ public class Fundspot implements Serializable {
 
     public String getSplit_visibility() {
         return split_visibility;
+    }
+
+    public String getProduct_count() {
+        return product_count;
     }
 
     /* public Fundspot.City getCity() {

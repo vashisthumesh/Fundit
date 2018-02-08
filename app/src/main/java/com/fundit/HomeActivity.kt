@@ -130,7 +130,8 @@ class HomeActivity : AppCompatActivity() {
         Log.e("redemerId", "-->" + member.redeemer.toString())
         Log.e("redemerIdss", "-->" + preference?.getRedeemer())
 
-        if (preference?.userRoleID.equals(C.FUNDSPOT) || (preference?.userRoleID.equals(C.GENERAL_MEMBER) && member.redeemer.equals("1")) || preference?.getRedeemer()!!.equals("1")) {
+        if (preference?.userRoleID.equals(C.FUNDSPOT) || (preference?.userRoleID.equals(C.GENERAL_MEMBER) && member.redeemer.equals("1")) || preference?.getRedeemer()!!.equals(1)) {
+            Log.e("redemers", "-->" + preference?.getRedeemer())
             img_qrscan?.visibility = View.VISIBLE
         } else {
             img_qrscan?.visibility = View.GONE
@@ -319,6 +320,11 @@ class HomeActivity : AppCompatActivity() {
                     fragment = HomeFragment()
                 }
                 C.GENERAL_MEMBER -> {
+                    if(member.redeemer.equals("1") || preference?.getRedeemer()!!.equals(1)){
+                        img_qrscan?.visibility = View.VISIBLE
+                    }else {
+                        img_qrscan?.visibility = View.GONE
+                    }
                     fragment = HomeFragment()
                 }
             }
@@ -385,6 +391,7 @@ class HomeActivity : AppCompatActivity() {
             img_edit?.visibility = View.GONE
             img_notification.visibility=View.GONE
             cartCount?.visibility=View.GONE
+            img_qrscan?.visibility = View.GONE
             if (preference?.userRoleID.equals(C.FUNDSPOT) || preference?.userRoleID.equals(C.ORGANIZATION)) {
                 actionTitle?.text = "My Members"
                 fragment = MyMemberFragment()
@@ -431,6 +438,7 @@ class HomeActivity : AppCompatActivity() {
             img_edit?.visibility = View.GONE
             img_notification.visibility=View.GONE
             cartCount?.visibility=View.GONE
+            img_qrscan?.visibility = View.GONE
             actionTitle?.text = "Help"
             fragment = HelpFragment()
             val transaction = fm?.beginTransaction()
@@ -468,6 +476,7 @@ class HomeActivity : AppCompatActivity() {
             img_edit?.visibility = View.GONE
             img_notification.visibility=View.GONE
             cartCount?.visibility=View.GONE
+            img_qrscan?.visibility = View.GONE
             actionTitle?.text = "My Orders"
             fragment = OrderHistoryFragment()
             val transaction = fm?.beginTransaction()

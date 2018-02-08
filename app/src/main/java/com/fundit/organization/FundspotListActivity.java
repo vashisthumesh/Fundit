@@ -81,7 +81,7 @@ public class FundspotListActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                if((fundSpotList.get(i).getFundspot().getFundspot_percent().equalsIgnoreCase("0") && fundSpotList.get(i).getFundspot().getOrganization_percent().equalsIgnoreCase("0"))){
+                if((fundSpotList.get(i).getFundspot().getFundspot_percent().equalsIgnoreCase("0") && fundSpotList.get(i).getFundspot().getOrganization_percent().equalsIgnoreCase("0")) || fundSpotList.get(i).getFundspot().getProduct_count().equalsIgnoreCase("0")){
 
 
                     AlertDialog.Builder builder=new AlertDialog.Builder(FundspotListActivity.this);

@@ -35,7 +35,7 @@ public class CampaignSetting extends AppCompatActivity {
     AppPreference preference;
     AdminAPI adminAPI;
 
-    String userid = "", title = "", state_id = "", city_id = "", address = "", zipcode = "", category = "", funsplit = "", description = "", contactInfo = "", imagePath = "";
+    String userid = "", title = "", state_id = "", city_id = "", address = "", zipcode = "", category = "", funsplit = "", description = "", contactInfo = "", contactInfoEmail = "", imagePath = "";
 
     Button btn_continue, btn_skip;
 
@@ -66,6 +66,7 @@ public class CampaignSetting extends AppCompatActivity {
         funsplit = in.getStringExtra("funsplit");
         description = in.getStringExtra("description");
         contactInfo = in.getStringExtra("contactInfo");
+        contactInfoEmail = in.getStringExtra("contactInfoEmail");
         imagePath = in.getStringExtra("imagePath");
         firstTIme = in.getBooleanExtra("firstTime", false);
         editMode = in.getBooleanExtra("editMode", false);
@@ -193,7 +194,7 @@ public class CampaignSetting extends AppCompatActivity {
 
                 Call<VerifyResponse> fundspotResponse = null;
                 dialog.show();
-                fundspotResponse = adminAPI.editFundsportProfile(preference.getUserID(), preference.getTokenHash(), title, state_id, city_id, address, zipcode, category, funsplit, description, contactInfo, "", "", "", "", "", "0", ServiceGenerator.prepareFilePart("image", imagePath));
+                fundspotResponse = adminAPI.editFundsportProfile(preference.getUserID(), preference.getTokenHash(), title, state_id, city_id, address, zipcode, category, funsplit, description, contactInfoEmail, contactInfo, "", "", "", "", "", "0", ServiceGenerator.prepareFilePart("image", imagePath));
 
                 fundspotResponse.enqueue(new Callback<VerifyResponse>() {
                     @Override
@@ -269,7 +270,7 @@ public class CampaignSetting extends AppCompatActivity {
 
 
                     if (firstTIme) {
-                        fundspotResponse = adminAPI.editFundsportProfile(preference.getUserID(), preference.getTokenHash(), title, state_id, city_id, address, zipcode, category, funsplit, description, contactInfo, fundraiser, organization, campaign_days, amount, totalDays, splitVisibility, ServiceGenerator.prepareFilePart("image", imagePath));
+                        fundspotResponse = adminAPI.editFundsportProfile(preference.getUserID(), preference.getTokenHash(), title, state_id, city_id, address, zipcode, category, funsplit, description, contactInfoEmail, contactInfo, fundraiser, organization, campaign_days, amount, totalDays, splitVisibility, ServiceGenerator.prepareFilePart("image", imagePath));
                     } else if (editMode) {
 
                         fundspotResponse = adminAPI.onlyCampaignEdit(preference.getUserID(), preference.getTokenHash(), fundraiser, organization, campaign_days, amount, totalDays);

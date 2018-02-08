@@ -28,6 +28,7 @@ import com.fundit.model.JoinMemberModel;
 import com.fundit.model.Member;
 import com.fundit.model.Organization;
 import com.fundit.model.User;
+import com.fundit.organization.FundspotListActivity;
 import com.fundit.organization.FundspotProductListActivity;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
@@ -234,7 +235,7 @@ public class AddMembersActivity extends AppCompatActivity {
                     getCityName = getResponse.getFundspot().getCity_name();
                 }
 
-                if(getResponse.getFundspot().getSplit_visibility().equalsIgnoreCase("0")){
+                if (getResponse.getFundspot().getSplit_visibility().equalsIgnoreCase("0")) {
                     txt_fundtitle.setVisibility(View.GONE);
                     txt_fundraiser_split.setVisibility(View.GONE);
                 }
@@ -343,24 +344,59 @@ public class AddMembersActivity extends AppCompatActivity {
                     intent.putExtra("fundspotID", fundSpotList.get(i).getFundspot().getUser_id());
 */
                     if (preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION)) {
-                        intent.putExtra("fundspotName", getResponse.getFundspot().getTitle());
-                        intent.putExtra("fundspotID", getResponse.getFundspot().getUser_id());
-                        intent.putExtra("profileMode", true);
-                        startActivity(intent);
-                    } else {
-                        intent.putExtra("fundspotName", fundspot.getTitle());
-                        intent.putExtra("fundspotID", fundspot.getUser_id());
-                        intent.putExtra("organizationID" , getResponse.getOrganization().getUser_id());
-                        intent.putExtra("profileMode", true);
-                        startActivity(intent);
-                    }
 
+                        if ((getResponse.getFundspot().getFundspot_percent().equalsIgnoreCase("0") && getResponse.getFundspot().getOrganization_percent().equalsIgnoreCase("0")) || getResponse.getFundspot().getProduct_count().equalsIgnoreCase("0")) {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(AddMembersActivity.this);
+                            builder.setTitle("Sorry, Fundraiser settings not valid");
+                            builder.setMessage("You can't start campaign with this fundspot");
+                            builder.setCancelable(false);
+                            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                }
+                            });
+                            AlertDialog bDialog = builder.create();
+                            bDialog.show();
+                        } else {
+                            intent.putExtra("fundspotName", getResponse.getFundspot().getTitle());
+                            intent.putExtra("fundspotID", getResponse.getFundspot().getUser_id());
+                            intent.putExtra("profileMode", true);
+                            startActivity(intent);
+
+                        }
+                    } else {
+
+                        if ((fundspot.getFundspot_percent().equalsIgnoreCase("0") && fundspot.getOrganization_percent().equalsIgnoreCase("0")) || fundspot.getProduct_count().equalsIgnoreCase("0")) {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(AddMembersActivity.this);
+                            builder.setTitle("Sorry, Fundraiser settings not valid");
+                            builder.setMessage("You can't start campaign with this fundspot");
+                            builder.setCancelable(false);
+                            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                }
+                            });
+                            AlertDialog bDialog = builder.create();
+                            bDialog.show();
+                        } else {
+
+                            intent.putExtra("fundspotName", fundspot.getTitle());
+                            intent.putExtra("fundspotID", fundspot.getUser_id());
+                            intent.putExtra("organizationID", getResponse.getOrganization().getUser_id());
+                            intent.putExtra("profileMode", true);
+                            startActivity(intent);
+                        }
+                    }
 
                 }
             });
 
 
-            btnJoin.setOnClickListener(new View.OnClickListener() {
+            btnJoin.setOnClickListener(new View.OnClickListener()
+
+            {
                 @Override
                 public void onClick(View v) {
                     String selectedUsersId = "";
@@ -391,9 +427,9 @@ public class AddMembersActivity extends AppCompatActivity {
                         new LeaveMember(preference.getUserID(), preference.getUserRoleID(), membersssIdss).execute();
                     } else if (isMemberJoined == 2) {
                         if (isDialogOpen == 1) {
-                            RespondForMemberRequest("" , "Respond to Request" , "");
+                            RespondForMemberRequest("", "Respond to Request", "");
                         } else {
-                            C.INSTANCE.showToast(getApplicationContext(), "Your request to add " + txt_name.getText().toString().trim() +" is pending.");
+                            C.INSTANCE.showToast(getApplicationContext(), "Your request to add " + txt_name.getText().toString().trim() + " is pending.");
                         }
                     }
 
@@ -401,7 +437,9 @@ public class AddMembersActivity extends AppCompatActivity {
             });
 
 
-            btnMessage.setOnClickListener(new View.OnClickListener() {
+            btnMessage.setOnClickListener(new View.OnClickListener()
+
+            {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(getApplicationContext(), FinalSendMessage.class);
@@ -416,21 +454,37 @@ public class AddMembersActivity extends AppCompatActivity {
             String checkMemberId = "";
             String userRoleId = "";
 
-            if (preference.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)) {
+            if (preference.getUserRoleID().
+
+                    equalsIgnoreCase(C.FUNDSPOT))
+
+            {
                 checkMemberId = fundspot.getId();
 
             }
-            if (preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION)) {
+            if (preference.getUserRoleID().
+
+                    equalsIgnoreCase(C.ORGANIZATION))
+
+            {
                 checkMemberId = organization.getId();
 
             }
-            if (preference.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER)) {
+            if (preference.getUserRoleID().
+
+                    equalsIgnoreCase(C.GENERAL_MEMBER))
+
+            {
                 checkMemberId = member.getId();
 
             }
 
 
-            if (preference.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER)) {
+            if (preference.getUserRoleID().
+
+                    equalsIgnoreCase(C.GENERAL_MEMBER))
+
+            {
                 Log.e("path", "check");
                 userRoleId = getResponse.getUser().getRole_id();
                 CheckMemberIsjoined(checkMemberId, userRoleId);
@@ -476,7 +530,7 @@ public class AddMembersActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
 
-                new RespondMemberRequest(getResponse.getUser().getId() , finalUserRoleId, "1" , finalCheckMemberId).execute();
+                new RespondMemberRequest(getResponse.getUser().getId(), finalUserRoleId, "1", finalCheckMemberId).execute();
 
 
             }
@@ -486,7 +540,7 @@ public class AddMembersActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
-                new RespondMemberRequest(getResponse.getUser().getId() , finalUserRoleId, "2" , finalCheckMemberId).execute();
+                new RespondMemberRequest(getResponse.getUser().getId(), finalUserRoleId, "2", finalCheckMemberId).execute();
             }
         });
 
@@ -527,14 +581,14 @@ public class AddMembersActivity extends AppCompatActivity {
                                     isMemberJoined = 2;
 
                                 } else {
-                                    C.INSTANCE.showToast(getApplicationContext(), "Your request to add " + txt_name.getText().toString().trim() +" is pending.");
+                                    C.INSTANCE.showToast(getApplicationContext(), "Your request to add " + txt_name.getText().toString().trim() + " is pending.");
                                     btnJoin.setText("Pending");
                                     btnFollow.setText("Unfollow");
                                     isMemberJoined = 2;
                                 }
 
                             } else {
-                                C.INSTANCE.showToast(getApplicationContext(), "Your request to add " + txt_name.getText().toString().trim() +" is pending.");
+                                C.INSTANCE.showToast(getApplicationContext(), "Your request to add " + txt_name.getText().toString().trim() + " is pending.");
                                 btnJoin.setText("Pending");
                                 btnFollow.setText("Unfollow");
                                 isMemberJoined = 2;
@@ -899,7 +953,7 @@ public class AddMembersActivity extends AppCompatActivity {
                         btnJoin.setText("Leave Us");
                         btnFollow.setText("Unfollow");
 
-                        if(preference.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER)){
+                        if (preference.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER)) {
                             btnJoin.setText("Pending");
                             btnFollow.setText("Unfollow");
                         }
@@ -989,16 +1043,16 @@ public class AddMembersActivity extends AppCompatActivity {
         }
     }
 
-    public class RespondMemberRequest extends AsyncTask<Void , Void , String>{
+    public class RespondMemberRequest extends AsyncTask<Void, Void, String> {
 
         String getStatus = "";
         String getMemberId = "";
         String roleId = "";
         String userId = "";
 
-        public RespondMemberRequest(String userId , String roleId , String getStatus , String getMemberId) {
+        public RespondMemberRequest(String userId, String roleId, String getStatus, String getMemberId) {
             this.userId = userId;
-            this.roleId = roleId ;
+            this.roleId = roleId;
             this.getStatus = getStatus;
             this.getMemberId = getMemberId;
         }
@@ -1006,14 +1060,14 @@ public class AddMembersActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            try{
+            try {
 
                 dialog = new CustomDialog(AddMembersActivity.this);
                 dialog.show();
                 dialog.setCancelable(false);
 
 
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -1023,14 +1077,14 @@ public class AddMembersActivity extends AppCompatActivity {
 
 
             List<NameValuePair> pairs = new ArrayList<>();
-            pairs.add(new BasicNameValuePair("user_id" , userId));
-            pairs.add(new BasicNameValuePair("role_id" , roleId));
-            pairs.add(new BasicNameValuePair("member_id" , getMemberId));
-            pairs.add(new BasicNameValuePair("status" , getStatus));
+            pairs.add(new BasicNameValuePair("user_id", userId));
+            pairs.add(new BasicNameValuePair("role_id", roleId));
+            pairs.add(new BasicNameValuePair("member_id", getMemberId));
+            pairs.add(new BasicNameValuePair("status", getStatus));
 
-            json = new ServiceHandler().makeServiceCall(W.BASE_URL + "Member/app_respond_other_request" , ServiceHandler.POST , pairs);
+            json = new ServiceHandler().makeServiceCall(W.BASE_URL + "Member/app_respond_other_request", ServiceHandler.POST, pairs);
 
-            Log.e("parameters" , "" + pairs);
+            Log.e("parameters", "" + pairs);
 
 
             return json;
@@ -1041,12 +1095,12 @@ public class AddMembersActivity extends AppCompatActivity {
             super.onPostExecute(s);
             dialog.dismiss();
 
-            try{
+            try {
 
-                if(s.equalsIgnoreCase("") || s.isEmpty()){
+                if (s.equalsIgnoreCase("") || s.isEmpty()) {
 
                     C.INSTANCE.noInternet(getApplicationContext());
-                }else {
+                } else {
 
                     JSONObject mainObject = new JSONObject(s);
 
@@ -1056,13 +1110,12 @@ public class AddMembersActivity extends AppCompatActivity {
                     status = mainObject.getBoolean("status");
                     message = mainObject.getString("message");
 
-                    C.INSTANCE.showToast(getApplicationContext() , message);
-                    if(status==true){
-                        Intent intent = new Intent(getApplicationContext() , HomeActivity.class);
+                    C.INSTANCE.showToast(getApplicationContext(), message);
+                    if (status == true) {
+                        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                         startActivity(intent);
                     }
                 }
-
 
 
             } catch (JSONException e) {

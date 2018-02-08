@@ -355,6 +355,7 @@ public class FundSpotProfile extends AppCompatActivity {
                         intent.putExtra("funsplit", "");
                         intent.putExtra("description", description);
                         intent.putExtra("contactInfo", contactInfo);
+                        intent.putExtra("contactInfoEmail", contact_email);
                         intent.putExtra("imagePath", imagePath);
                         intent.putExtra("firstTime", true);
 
