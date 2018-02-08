@@ -34,11 +34,11 @@ public class NotificationSettingsActivity extends AppCompatActivity {
     List<NotificationSettingsModel.NotificationData> notificationData = new ArrayList<>();
     NotificationSettingsAdapter settingsAdapter;
 
-    String[] Org_Title = {"Member Join Requests", "Member Join Approvals", "Campaign Requests", "Campiagn Kickoff", "Campaign End", "Coupon Order Placed", "Fundspot/Organization Followed Activity"};
+    String[] Org_Title = {"Member Join Requests", "Member Join Approvals", "Campaign Requests", "Campaign Kickoff", "Campaign End", "Coupon Order Placed", "Fundspot/Organization Followed Activity"};
 
-    String[] Fund_Title = {"Member Join Requests", "Member Join Approvals", "Campaign Requests", "Campiagn Kickoff", "Campaign End", "Coupon Order Placed", "Fundspot/Organization Followed Activity"};
+    String[] Fund_Title = {"Member Join Requests", "Member Join Approvals", "Campaign Requests", "Campaign Kickoff", "Campaign End", "Coupon Order Placed", "Fundspot/Organization Followed Activity"};
 
-    String[] Gm_Title = {"Member Join Requests", "Member Join Approvals", "Campiagn Kickoff", "Campaign End", "Fundspot/Organization Followed Activity", "Coupon Send/Recieved", "Coupon Expiration Warning", "Coupon Requests"};
+    String[] Gm_Title = {"Member Join Requests", "Member Join Approvals", "Campaign Kickoff", "Campaign End", "Fundspot/Organization Followed Activity", "Coupon Send/Recieved", "Coupon Expiration Warning", "Coupon Requests"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

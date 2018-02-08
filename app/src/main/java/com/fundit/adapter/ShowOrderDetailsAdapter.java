@@ -63,6 +63,7 @@ public class ShowOrderDetailsAdapter extends BaseAdapter {
         this.activity = activity;
         this.inflater = activity.getLayoutInflater();
         this.context = activity.getApplication();
+        this.adminAPI=ServiceGenerator.getAPIClass();
 
     }
 
@@ -298,7 +299,6 @@ public class ShowOrderDetailsAdapter extends BaseAdapter {
             }
 
             private void DeclineCouponRequest(final int position, final View view) {
-                adminAPI = ServiceGenerator.getAPIClass();
                 preference = new AppPreference(activity);
                 dialog = new CustomDialog(activity, "");
                 dialog.setCancelable(false);
