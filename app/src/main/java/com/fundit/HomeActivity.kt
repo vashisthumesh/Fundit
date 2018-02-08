@@ -7,6 +7,7 @@ import android.os.AsyncTask
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
+import android.support.v4.app.FragmentTransaction
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AlertDialog
@@ -127,8 +128,9 @@ class HomeActivity : AppCompatActivity() {
         //actionTitle?.text = ""
         setSupportActionBar(toolbar)
         Log.e("redemerId", "-->" + member.redeemer.toString())
+        Log.e("redemerIdss", "-->" + preference?.getRedeemer())
 
-        if (preference?.userRoleID.equals(C.FUNDSPOT) || (preference?.userRoleID.equals(C.GENERAL_MEMBER) && member.redeemer.equals("1"))) {
+        if (preference?.userRoleID.equals(C.FUNDSPOT) || (preference?.userRoleID.equals(C.GENERAL_MEMBER) && member.redeemer.equals("1")) || preference?.getRedeemer()!!.equals("1")) {
             img_qrscan?.visibility = View.VISIBLE
         } else {
             img_qrscan?.visibility = View.GONE
@@ -211,6 +213,12 @@ class HomeActivity : AppCompatActivity() {
 
         if(!preference?.getRedirection().equals("")){
             ThrowToRespectedPosition()
+        }
+
+        if (preference?.userRoleID.equals(C.FUNDSPOT) && preference?.isSkiped == true) {
+
+            setMyProductFragment()
+
         }
 
 
@@ -449,7 +457,6 @@ class HomeActivity : AppCompatActivity() {
             img_qrscan?.visibility = View.GONE
             img_notification?.visibility=View.GONE
             cartCount?.visibility=View.GONE
-
             actionTitle?.text = "My Coupons"
             fragment = CouponFragment()
             val transaction = fm?.beginTransaction()
@@ -467,7 +474,6 @@ class HomeActivity : AppCompatActivity() {
             transaction?.replace(R.id.content, fragment)
             transaction?.commit()
             flag = false
-
         }
 
 
@@ -537,6 +543,14 @@ class HomeActivity : AppCompatActivity() {
 
 
 
+    }
+
+    private fun setMyProductFragment() {
+        actionTitle?.text = "My Products"
+        fragment = MyProductsFragment()
+        val transaction = fm?.beginTransaction()
+        transaction?.replace(R.id.content, fragment)
+        transaction?.commit()
     }
 
     private fun logout() {
@@ -703,6 +717,8 @@ class HomeActivity : AppCompatActivity() {
                     campaignRequestCount = mainObject.getInt("total_request_count")
                     couponCount = mainObject.getInt("total_coupon_count")
                     preference?.setfundspot_product_count(mainObject.getInt("fundspot_product_count"))
+                    preference?.setRedeemer(mainObject.getInt("is_redeemer"))
+                    preference?.setSeller(mainObject.getInt("is_seller"))
 
 
                     totalRequest = memberRequest + campaignRequestCount

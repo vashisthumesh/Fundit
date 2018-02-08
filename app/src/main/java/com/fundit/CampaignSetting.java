@@ -163,7 +163,7 @@ public class CampaignSetting extends AppCompatActivity {
 
             if (getDuration.equalsIgnoreCase("10000") || getDuration.equalsIgnoreCase("0")) {
                 checkbox_indefinite.setChecked(true);
-                edt_duration.setEnabled(false);
+                edt_duration.setEnabled(true);
             } else {
                 edt_duration.setText(getDuration);
                 edt_duration.setEnabled(true);

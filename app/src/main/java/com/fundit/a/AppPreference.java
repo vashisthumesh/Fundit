@@ -148,6 +148,23 @@ public class AppPreference {
         editor.putString("redirection", redirection).commit();
     }
 
+    public int getRedeemer() {
+        return preferences.getInt("Redeemer" , 0);
+    }
+
+    public void setRedeemer(int Redeemer) {
+        editor.putInt("Redeemer" , Redeemer).commit();
+    }
+
+    public int getSeller() {
+        return preferences.getInt("Seller" , 0);
+    }
+
+    public void setSeller(int Seller) {
+        editor.putInt("Seller" , Seller).commit();
+    }
+
+
 
     public void clearData(Context context){
         SharedPreferences.Editor prefs = context.getSharedPreferences(FILE_NAME , 0).edit();

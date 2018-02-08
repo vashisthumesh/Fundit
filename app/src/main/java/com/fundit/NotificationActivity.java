@@ -236,6 +236,9 @@ public class NotificationActivity extends AppCompatActivity {
                     prefs.setCouponCount(mainObject.getInt("total_coupon_count"));
                     prefs.setTotalCount(totalRequest);
                     prefs.setfundspot_product_count(mainObject.getInt("fundspot_product_count"));
+                    prefs.setRedeemer(mainObject.getInt("is_redeemer"));
+                    prefs.setSeller(mainObject.getInt("is_seller"));
+
                 }
 
             } catch (Exception e) {

@@ -86,12 +86,12 @@ class HomeFragment : Fragment() {
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
 
-        if (preferences?.userRoleID.equals(C.FUNDSPOT) && preferences?.isSkiped == true) {
+        /*if (preferences?.userRoleID.equals(C.FUNDSPOT) && preferences?.isSkiped == true) {
 
             setMyProductFragment()
 
         }
-        else if(preferences?.userRoleID.equals(C.FUNDSPOT) || preferences?.userRoleID.equals(C.ORGANIZATION) && preferences?.isSkiped == false)
+        else*/ if(preferences?.userRoleID.equals(C.FUNDSPOT) || preferences?.userRoleID.equals(C.ORGANIZATION) && preferences?.isSkiped == false)
         {
             setMyCampaignFragment()
             navigation.getMenu().getItem(2).setChecked(true);

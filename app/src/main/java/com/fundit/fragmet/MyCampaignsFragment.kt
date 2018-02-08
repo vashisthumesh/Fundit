@@ -273,6 +273,9 @@ class MyCampaignsFragment : Fragment() {
                     memberRequest = mainObject.getInt("total_member_request_count")
                     campaignRequestCount = mainObject.getInt("total_request_count")
                     preference?.setfundspot_product_count(mainObject.getInt("fundspot_product_count"))
+                    preference?.setRedeemer(mainObject.getInt("is_redeemer"))
+                    preference?.setSeller(mainObject.getInt("is_seller"))
+
 
 
                     totalRequest = memberRequest + campaignRequestCount
