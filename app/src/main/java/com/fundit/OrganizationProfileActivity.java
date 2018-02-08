@@ -183,7 +183,7 @@ public class OrganizationProfileActivity extends AppCompatActivity {
 
             tv_login_email.setVisibility(View.GONE);
             edt_title.setText(user.getTitle());
-            edt_title.setEnabled(false);
+          //  edt_title.setEnabled(false);
 
             edt_address1.setText(member.getLocation());
 

@@ -208,7 +208,7 @@ class MyProfileFragment : Fragment() {
                 }
 
 
-                txt_address?.text = memberData.location + "\n" + memberData.city_name + " , " + memberData.state.state_code + "   " + memberData.zip_code
+                txt_address?.text = memberData.location + "\n" + memberData.city_name + ", " + memberData.state.state_code + "   " + memberData.zip_code
 
                 /*if(memberData.category_id.isEmpty())
                 {
@@ -325,9 +325,9 @@ class MyProfileFragment : Fragment() {
                             val first_name =campaignList.data.member.first_name
                             val last_name=campaignList.data.member.last_name
 
-                            txt_name?.text = first_name + last_name
+                            txt_name?.text = first_name +" "+ last_name
                             txt_emailID?.text = campaignList.data.user.email_id
-                            txt_address?.text = campaignList.data.member.location + "\n" + campaignList.data.member.city_name + " , " + campaignList.data.state.state_code+ "  " + campaignList.data.member.zip_code
+                            txt_address?.text = campaignList.data.member.location + "\n" + campaignList.data.member.city_name + ", " + campaignList.data.state.state_code+ "  " + campaignList.data.member.zip_code
 
                             if(campaignList.data.member.contact_info_email.isEmpty())
                             {

@@ -171,7 +171,7 @@ public class GeneralMemberProfileActivity extends AppCompatActivity {
             edt_lastName.setText(member.getLast_name());
             tv_city.setText(member.getCity_name());
 
-            edt_firstName.setEnabled(false);
+           // edt_firstName.setEnabled(false);
 
             ed_member_address.setText(member.getLocation());
             ed_zip_code.setText(member.getZip_code());

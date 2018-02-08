@@ -46,7 +46,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:background="@color/white"
-                android:hint="Enter fundspot title"
+                android:hint="Title"
                 android:inputType="text"
                 android:padding="5dp"
                 android:textColor="@color/black" />
@@ -105,7 +105,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:background="@color/white"
-                android:hint="City"
+                android:hint="City *"
                 android:padding="5dp"
                 android:layout_marginTop="5dp"
                 android:textSize="16sp" />
@@ -116,7 +116,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawableRight="@drawable/star"
-                android:text="Zip code"
+                android:text="Zip code *"
                 android:textSize="16sp" />
 
             <EditText
@@ -174,7 +174,6 @@
                 android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:gravity="start|top"
-                android:hint="Enter description"
                 android:inputType="textMultiLine"
                 android:lines="4"
                 android:padding="5dp"
@@ -221,6 +220,7 @@
                 android:layout_marginTop="5dp"
                 android:drawableRight="@drawable/star"
                 android:text="Upload Photo"
+                android:textColor="@color/colorPrimary"
                 android:textSize="16sp" />
 
             <FrameLayout

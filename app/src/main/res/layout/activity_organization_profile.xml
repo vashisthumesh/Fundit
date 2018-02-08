@@ -44,7 +44,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:background="@color/white"
-                android:hint="Organization Title"
+                android:hint="Organization Name"
                 android:inputType="text"
                 android:padding="5dp"
                 android:textColor="@color/black"/>
@@ -81,6 +81,7 @@
                 android:spinnerMode="dropdown"/>
 
             <TextView
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawableRight="@drawable/star"
@@ -95,7 +96,8 @@
                 android:id="@+id/tv_city"
                 android:background="@color/white"
                 android:padding="5dp"
-                android:hint="City"
+                android:layout_marginTop="5dp"
+                android:hint="City *"
                 android:textSize="16sp" />
 
 
@@ -112,6 +114,7 @@
                 android:spinnerMode="dropdown"/>
 
             <TextView
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawableRight="@drawable/star"
@@ -124,7 +127,7 @@
                 android:layout_height="40dp"
                 android:layout_marginTop="5dp"
                 android:background="@color/white"
-                android:hint="Zip code"
+                android:hint="Zip Code *"
                 android:inputType="number"
                 android:maxLength="5"
                 android:padding="5dp"
@@ -193,7 +196,7 @@
                 android:layout_marginTop="15dp"
                 android:layout_height="40dp"
                 android:background="@color/white"
-                android:hint="Mobile Number"
+                android:hint="Mobile number"
                 android:inputType="number"
                 android:maxLength="10"
                 android:padding="5dp"
@@ -207,6 +210,7 @@
                 android:layout_marginTop="5dp"
                 android:drawableRight="@drawable/star"
                 android:text="Upload Photo"
+                android:textColor="@color/colorPrimary"
                 android:textSize="16sp"/>
 
             <FrameLayout

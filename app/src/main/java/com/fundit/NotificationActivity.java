@@ -134,7 +134,7 @@ public class NotificationActivity extends AppCompatActivity {
                         }
                         loadingView.dismiss();
                         if (array_order_history_list.size() == 0) {
-                            Toast.makeText(NotificationActivity.this, "No Notification Available", Toast.LENGTH_LONG).show();
+                            //Toast.makeText(NotificationActivity.this, "No Notification Available", Toast.LENGTH_LONG).show();
                         }
                         order_history_adapter1.notifyDataSetChanged();
 

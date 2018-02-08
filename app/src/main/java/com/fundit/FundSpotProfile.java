@@ -174,7 +174,7 @@ public class FundSpotProfile extends AppCompatActivity {
             tv_login_email.setVisibility(View.GONE);
 
             ed_fund_title.setText(user.getTitle());
-            ed_fund_title.setEnabled(false);
+           // ed_fund_title.setEnabled(false);
 
             ed_fund_address.setText(member.getLocation());
 

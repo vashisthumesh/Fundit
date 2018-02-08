@@ -88,7 +88,7 @@ public class AddProductActivity extends AppCompatActivity {
         if(preference.isSkiped()==false) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setHomeButtonEnabled(true);
-
+            actionTitle.setText("Add Product");
 
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
@@ -124,6 +124,7 @@ public class AddProductActivity extends AppCompatActivity {
 
         if(preference.isSkiped()){
             btn_cancel.setText("Skip");
+            txt_mainTitle.setVisibility(View.GONE);
         }
 
         if (isEditMode) {

@@ -164,8 +164,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif"
-            android:padding="5dp"
-            android:text="Category: "
+            android:padding="2dp"
+            android:text="Category:"
             android:textColor="@color/colorText"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -175,7 +175,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif"
-            android:padding="5dp"
+            android:padding="2dp"
             android:textColor="@color/colorText"
             android:textSize="16sp"
             tools:text="Chipotle" />
@@ -225,8 +225,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif"
-            android:padding="5dp"
-            android:text="Description: "
+            android:padding="2dp"
+            android:text="Description:"
             android:textColor="@color/colorText"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -236,7 +236,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif"
-            android:padding="5dp"
+            android:padding="2dp"
             android:textColor="@color/colorText"
             android:textSize="16sp"
             tools:text="Chipotle" />
@@ -255,8 +255,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif"
-            android:padding="5dp"
-            android:text="Organizations: "
+            android:padding="2dp"
+            android:text="Organizations:"
             android:textColor="@color/colorText"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -266,7 +266,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif"
-            android:padding="5dp"
+            android:padding="2dp"
             android:textColor="@color/colorText"
             android:textSize="16sp"
             tools:text="VT Club Tennis, VT Bhangra, SIA" />
@@ -285,8 +285,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif"
-            android:padding="5dp"
-            android:text="Fundspots: "
+            android:padding="2dp"
+            android:text="Fundspots:"
             android:textColor="@color/colorText"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -296,7 +296,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif"
-            android:padding="5dp"
+            android:padding="2dp"
             android:textColor="@color/colorText"
             android:textSize="16sp"
             tools:text="Chipotle" />
@@ -314,8 +314,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif"
-            android:padding="5dp"
-            android:text="Contact Info Email: "
+            android:padding="2dp"
+            android:text="Contact Info Email:"
             android:textColor="@color/colorText"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -325,7 +325,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif"
-            android:padding="5dp"
+            android:padding="2dp"
             android:textColor="@color/colorText"
             android:textSize="16sp"
             tools:text="Chipotle" />
@@ -343,8 +343,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif"
-            android:padding="5dp"
-            android:text="Contact Info Mobile: "
+            android:padding="2dp"
+            android:text="Contact Info Mobile:"
             android:textColor="@color/colorText"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -354,7 +354,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif"
-            android:padding="5dp"
+            android:padding="2dp"
             android:textColor="@color/colorText"
             android:textSize="16sp"
             tools:text="Chipotle" />
@@ -373,8 +373,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif"
-            android:padding="5dp"
-            android:text="Fundraiser Split: "
+            android:padding="2dp"
+            android:text="Fundraiser Split:"
             android:textColor="@color/colorText"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -384,7 +384,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif"
-            android:padding="5dp"
+            android:padding="2dp"
             android:textColor="@color/colorText"
             android:textSize="16sp"
             tools:text="Chipotle" />
@@ -404,7 +404,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif"
             android:padding="5dp"
-            android:text="Current Campaign: "
+            android:text="Current Campaign:"
             android:textColor="@color/colorText"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -435,7 +435,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif"
             android:padding="5dp"
-            android:text="Past Campaigns: "
+            android:text="Past Campaigns:"
             android:textColor="@color/colorText"
             android:textSize="16sp"
             android:textStyle="bold" />

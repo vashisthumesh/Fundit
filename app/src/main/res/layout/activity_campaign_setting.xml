@@ -189,7 +189,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@color/white"
-                        android:hint="$amount"
+                        android:hint="$ amount"
                         android:inputType="number"
                         android:padding="5dp" />
 
