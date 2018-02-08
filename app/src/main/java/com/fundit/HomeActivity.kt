@@ -1,6 +1,7 @@
 package com.fundit
 
 import android.app.Activity
+import android.app.Dialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.AsyncTask
@@ -558,6 +559,10 @@ class HomeActivity : AppCompatActivity() {
         builder.setTitle("Logout Application")
         builder.setMessage("Are you sure you want to logout?")
         builder.setCancelable(false)
+
+//        val btn_positive : Button = bDialog.getButton(Dialog.BUTTON_POSITIVE)
+//        btn_positive.setAllCaps(false)
+
         builder.setPositiveButton("Confirm") { dialogInterface, i ->
 
             preference?.isLoggedIn = false

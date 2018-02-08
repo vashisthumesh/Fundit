@@ -150,7 +150,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@color/white"
-                        android:hint="#days"
+                        android:hint="# days"
                         android:inputType="date"
                         android:padding="5dp" />
 
@@ -226,7 +226,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/white"
-                        android:hint="days from purchase"
+                        android:hint="# days from purchase"
                         android:inputType="number"
                         android:padding="5dp" />
                 </LinearLayout>

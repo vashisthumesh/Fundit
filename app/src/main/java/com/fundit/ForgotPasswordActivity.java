@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -29,6 +30,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     LinearLayout lv_forget_email,lv_forget_otp,lv_re_enter_password;
     EditText ed_forget_pass_email,ed_otp,ed_new_password,ed_re_enter_password;
     Button  bt_send,ed_otp_continue,bt_forget_update;
+    boolean flag=false;
 
 
     AdminAPI adminAPI;
@@ -80,6 +82,8 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                                     userID=verifyResponse.getData().getUser_id();
                                     lv_forget_email.setVisibility(View.GONE);
                                     lv_forget_otp.setVisibility(View.VISIBLE);
+                                    flag=true;
+                                    setupToolbar();
 
                                 } else {
                                     C.INSTANCE.showToast(getApplicationContext(), verifyResponse.getMessage());
@@ -121,7 +125,8 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                                     lv_forget_email.setVisibility(View.GONE);
                                     lv_forget_otp.setVisibility(View.GONE);
                                     lv_re_enter_password.setVisibility(View.VISIBLE);
-
+                                    flag=false;
+                                    setupToolbar();
                                 } else {
                                     C.INSTANCE.showToast(getApplicationContext(), verifyResponse.getMessage());
                                 }
@@ -200,7 +205,16 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+
+        Log.e("flag","--->"+flag);
+        if(flag)
+        {
+            actionTitle.setText("Verification");
+        }
+        else {
             actionTitle.setText("");
+        }
+
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
