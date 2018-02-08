@@ -115,7 +115,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif"
-            android:padding="5dp"
+            android:padding="2dp"
             android:textColor="@color/colorText"
             android:textSize="16sp"
             tools:text="VT Bhangra, Godwin Robotics, Club Tennis Team, etc." />
