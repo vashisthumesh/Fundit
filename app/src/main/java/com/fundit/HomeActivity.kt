@@ -140,6 +140,7 @@ class HomeActivity : AppCompatActivity() {
         img_notification.setOnClickListener {
             val intent = Intent(this@HomeActivity, NotificationActivity::class.java)
             startActivity(intent)
+
         }
 
         img_qrscan.setOnClickListener {
