@@ -371,8 +371,8 @@ public class AddMembersActivity extends AppCompatActivity {
                         }
                     } else {
 
-                        Log.e("requestSettings" , "--->" + fundspot.getFundspot_percent() + "-->" + fundspot.getOrganization_percent() + "-->" + fundspot.getProduct_count());
-                        if ((fundspot.getFundspot_percent().equalsIgnoreCase("0") && fundspot.getOrganization_percent().equalsIgnoreCase("0")) || fundspot.getProduct_count().equalsIgnoreCase("0")) {
+                        Log.e("requestSettings" , "--->" + fundspot.getFundspot_percent() + "-->" + fundspot.getOrganization_percent() + "-->" + preference.getfundspot_product_count());
+                        if ((fundspot.getFundspot_percent().equalsIgnoreCase("0") && fundspot.getOrganization_percent().equalsIgnoreCase("0")) || preference.getfundspot_product_count()==0) {
                             AlertDialog.Builder builder = new AlertDialog.Builder(AddMembersActivity.this);
                             builder.setTitle("Sorry, Fundraiser settings not valid");
                             builder.setMessage("You can't start campaign with this fundspot");
