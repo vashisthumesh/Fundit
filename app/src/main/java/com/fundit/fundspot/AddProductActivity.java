@@ -124,12 +124,12 @@ public class AddProductActivity extends AppCompatActivity {
 
         if(preference.isSkiped()){
             btn_cancel.setText("Skip");
-            txt_mainTitle.setVisibility(View.GONE);
+          //  txt_mainTitle.setVisibility(View.VISIBLE);
         }
 
         if (isEditMode) {
-            txt_mainTitle.setVisibility(View.GONE);
-            btn_addProduct.setText("Update Product");
+           // txt_mainTitle.setVisibility(View.GONE);
+            btn_addProduct.setText("Update");
         }
 
         img_productImage.setOnClickListener(new View.OnClickListener() {
@@ -317,6 +317,7 @@ public class AddProductActivity extends AppCompatActivity {
             edt_maxLimitCoupon.setText(product.getMax_limit_of_coupons());
             edt_couponExpireDay.setText(product.getCoupon_expire_day());
             edt_fine_print.setText(product.getFine_print());
+            img_remove.setVisibility(View.VISIBLE);
 
             Picasso.with(this)
                     .load(W.FILE_URL + product.getImage())

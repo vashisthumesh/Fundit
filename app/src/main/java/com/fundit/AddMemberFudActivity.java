@@ -350,7 +350,7 @@ public class AddMemberFudActivity extends AppCompatActivity {
                         if(app_fund_list.getData().getFundspot().getSplit_visibility().equalsIgnoreCase("1"))
                         {
                             layout_fundraiser.setVisibility(View.VISIBLE);
-                            txt_fundtitle.setText("% Split ( Fundspot/Organization ): ");
+                            txt_fundtitle.setText("% Split ( Fundspot/Organization ):");
                             txt_fundraiser_split.setText(app_fund_list.getData().getFundspot().getFundspot_percent() + " / " + app_fund_list.getData().getFundspot().getOrganization_percent());
 
                         }

@@ -248,7 +248,7 @@ public class AddMembersActivity extends AppCompatActivity {
                 String imagePath = W.FILE_URL + getResponse.getFundspot().getImage();
                 Log.e("path", imagePath);
 
-                txt_fundtitle.setText("% Split ( Fundspot/Organization ): ");
+                txt_fundtitle.setText("% Split ( Fundspot/Organization ):");
                 txt_fundraiser_split.setText(getResponse.getFundspot().getFundspot_percent() + " / " + getResponse.getFundspot().getOrganization_percent());
 
 
@@ -303,7 +303,7 @@ public class AddMembersActivity extends AppCompatActivity {
                         .into(circleImageView);
 
                 txt_name.setText(getResponse.getOrganization().getTitle());
-                txt_address.setText(getResponse.getOrganization().getLocation() + "\n" + getCityName + "," + getResponse.getState().getState_code() + " " + getResponse.getOrganization().getZip_code());
+                txt_address.setText(getResponse.getOrganization().getLocation() + "\n" + getCityName + ", " + getResponse.getState().getState_code() + " " + getResponse.getOrganization().getZip_code());
 
                 Log.e("location", getResponse.getOrganization().getLocation());
                 Log.e("location", "--->" + getResponse.getOrganization().getState().getState_code());
@@ -685,7 +685,7 @@ public class AddMembersActivity extends AppCompatActivity {
                         txt_emailID.setText(userObject.getString("email_id"));
                         txt_contct.setText(memberObject.getString("contact_info"));
 
-                        txt_address.setText(memberObject.getString("location") + ", " + cityObject.getString("name") + stateObject.getString("name") + ", " + memberObject.getString("zip_code"));
+                        txt_address.setText(memberObject.getString("location") + ", " + cityObject.getString("name") + " "+stateObject.getString("name") + ", " + memberObject.getString("zip_code"));
 
 
                         String getURL = W.FILE_URL + memberObject.getString("image");

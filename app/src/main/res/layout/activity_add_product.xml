@@ -10,7 +10,6 @@
     <include layout="@layout/toolbar_center_text" />
 
     <TextView
-        android:visibility="gone"
         android:id="@+id/txt_mainTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -38,7 +37,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="1dp"
-                android:drawableRight="@drawable/star"
                 android:padding="5dp"
                 android:text="Type of Product"
                 android:textSize="16sp" />
@@ -115,7 +113,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:gravity="top"
-                android:inputType="textMultiLine"
+                android:inputType="textMultiLine|textCapSentences"
                 android:lines="4"
                 android:maxLines="4"
                 android:padding="5dp"
@@ -289,7 +287,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:gravity="start|top"
-                android:inputType="textMultiLine"
+                android:inputType="textMultiLine|textCapSentences"
                 android:lines="3"
                 android:padding="5dp"
                 android:textColor="@color/black" />

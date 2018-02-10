@@ -168,7 +168,7 @@ class MyProfileFragment : Fragment() {
                 Log.e("datas" , "-->" + preference?.memberData)
 
 
-                txt_address?.text = memberData.location + "\n" + memberData.city_name + ", " + memberData.state.state_code + "  " + memberData.zip_code
+                txt_address?.text = memberData.location + "\n" + memberData.city_name + ", " + memberData.state.state_code + " " + memberData.zip_code
                 layout_fun?.visibility = View.GONE
                 layout_org?.visibility = View.GONE
                 Log.e("state_code",memberData.state.state_code);
@@ -208,7 +208,7 @@ class MyProfileFragment : Fragment() {
                 }
 
 
-                txt_address?.text = memberData.location + "\n" + memberData.city_name + ", " + memberData.state.state_code + "   " + memberData.zip_code
+                txt_address?.text = memberData.location + "\n" + memberData.city_name + ", " + memberData.state.state_code + " " + memberData.zip_code
 
                 /*if(memberData.category_id.isEmpty())
                 {
@@ -327,7 +327,7 @@ class MyProfileFragment : Fragment() {
 
                             txt_name?.text = first_name +" "+ last_name
                             txt_emailID?.text = campaignList.data.user.email_id
-                            txt_address?.text = campaignList.data.member.location + "\n" + campaignList.data.member.city_name + ", " + campaignList.data.state.state_code+ "  " + campaignList.data.member.zip_code
+                            txt_address?.text = campaignList.data.member.location + "\n" + campaignList.data.member.city_name + ", " + campaignList.data.state.state_code+ " " + campaignList.data.member.zip_code
 
                             if(campaignList.data.member.contact_info_email.isEmpty())
                             {
