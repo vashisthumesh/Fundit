@@ -127,16 +127,12 @@ public class SignInActivity extends AppCompatActivity {
                 String password = ed_input_password.getText().toString().trim();
 
                 if (emailID.isEmpty()) {
+                    Log.e("1","1");
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter email address");
-                } else if(emailID.contains(".com") && !C.INSTANCE.validEmailcom(emailID)){
-
-                        C.INSTANCE.showToast(getApplicationContext(), "Please enter email address");
-                }else if (emailID.contains("co.in") && !C.INSTANCE.validEmailin(emailID))
-                {
-                    C.INSTANCE.showToast(getApplicationContext(), "Please enter valid email address");
                 }
-                else if(!C.INSTANCE.validEmailcom(emailID))
+                else if(!C.INSTANCE.validEmail(emailID))
                 {
+                    Log.e("4","4");
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter valid email address");
                 }
                 else if (password.isEmpty()) {

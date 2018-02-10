@@ -66,29 +66,15 @@ object C{
 
     fun validEmail(email: String): Boolean{
 
+//        val pattern: Pattern = Pattern.compile("^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^-]+(?:\\.[a-zA-Z0-9_!#$%&'*+/=?`{|}~^-]+)*@[@a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$")
+
+
         val pattern: Pattern = Pattern.compile("[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{2,256}" + "\\@" + "[a-zA-Z0-9][a-zA-Z0-9\\-]{1,64}" + "\\." + "[a-zA-Z0-9][a-zA-Z0-9\\-]{2,6}")
         val match: Matcher = pattern.matcher(email)
 
         return match.matches()
     }
 
-
-
-    fun validEmailcom(email: String): Boolean{
-
-        val pattern: Pattern = Pattern.compile("[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{2,256}\" + \"\\\\@\" + \"[a-zA-Z0-9][a-zA-Z0-9\\\\-]{1,64}\" + \"\\\\.\" + \"[a-zA-Z0-9][a-zA-Z0-9\\-]{1,6}")
-        val match: Matcher = pattern.matcher(email)
-
-        return match.matches()
-    }
-
-    fun validEmailin(email: String): Boolean{
-
-        val pattern: Pattern = Pattern.compile("[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+\\.+[a-z]+")
-        val match: Matcher = pattern.matcher(email)
-
-        return match.matches()
-    }
 
     fun errorToast(context: Context, t: Throwable): Unit{
         Log.e("Error", t.message)

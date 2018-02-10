@@ -154,9 +154,10 @@ public class ShowOrderDetailsAdapter extends BaseAdapter {
             layout_from.setVisibility(View.VISIBLE);
             layout_date.setVisibility(View.GONE);
             layout_camp.setVisibility(View.GONE);
-            txt_sendfrom.setText("Pending requet from "+orderLists.get(position).getOrder().getRequested_user_name());
+            txt_sendfrom.setText("Pending request from "+orderLists.get(position).getOrder().getRequested_user_name());
             layout_request.setVisibility(View.VISIBLE);
             layout_maincoupon.setBackground(activity.getResources().getDrawable(R.drawable.listviewbackcolor));
+            img_delete.setVisibility(View.GONE);
 
 
 
