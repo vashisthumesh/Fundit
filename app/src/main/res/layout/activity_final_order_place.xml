@@ -279,7 +279,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Total Amount:"
+                    android:text="Total Amount: "
                     android:textSize="14sp" />
 
                 <TextView
@@ -347,7 +347,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Method of Payment"
+                android:text="Method of Payment:"
                 android:textSize="16sp" />
 
             <RadioGroup
