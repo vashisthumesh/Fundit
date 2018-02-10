@@ -1,7 +1,9 @@
 package com.fundit;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -17,6 +19,7 @@ import com.fundit.a.W;
 import com.fundit.apis.AdminAPI;
 import com.fundit.apis.ServiceGenerator;
 import com.fundit.apis.ServiceHandler;
+import com.fundit.fundspot.AddProductActivity;
 import com.fundit.helper.CustomDialog;
 import com.fundit.model.Address;
 import com.fundit.model.App_Single_Fundspot;
@@ -73,6 +76,7 @@ public class AddMemberFudActivity extends AppCompatActivity {
 
 
     int isMemberJoined = 0;
+    Fundspot fundspot = new Fundspot();
 
 
     @Override
@@ -90,8 +94,8 @@ public class AddMemberFudActivity extends AppCompatActivity {
         Flag=intent.getStringExtra("Flag");
 
         try {
-
             member = new Gson().fromJson(preference.getMemberData(), Member.class);
+            fundspot = new Gson().fromJson(preference.getMemberData(), Fundspot.class);
             Log.e("userData", preference.getUserData());
         } catch (Exception e) {
             Log.e("Exception", e.getMessage());
@@ -258,7 +262,7 @@ public class AddMemberFudActivity extends AppCompatActivity {
                     /*intent.putExtra("fundspotName", fundSpotList.get(i).getFundspot().getTitle());
                     intent.putExtra("fundspotID", fundSpotList.get(i).getFundspot().getUser_id());
 */
-                if (preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION)) {
+                /*if (preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION)) {
                     intent.putExtra("fundspotName", app_fund_list.getData().getFundspot().getTitle());
                     intent.putExtra("fundspotID", app_fund_list.getData().getFundspot().getUser_id());
                     intent.putExtra("profileMode", true);
@@ -268,7 +272,109 @@ public class AddMemberFudActivity extends AppCompatActivity {
                     intent.putExtra("fundspotID", app_single_org_list.getData().getOrganization().getUser_id());
                     intent.putExtra("profileMode", true);
                     startActivity(intent);
+                }*/
+
+                if (preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION)) {
+
+                    if ((app_fund_list.getData().getFundspot().getFundspot_percent().equalsIgnoreCase("0") && app_fund_list.getData().getFundspot().getOrganization_percent().equalsIgnoreCase("0"))) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(AddMemberFudActivity.this);
+                        builder.setTitle("Sorry, Fundraiser settings not valid");
+                        builder.setMessage("You can't start campaign with this fundspot");
+                        builder.setCancelable(false);
+                        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        });
+                        AlertDialog bDialog = builder.create();
+                        bDialog.show();
+                    } else if (app_fund_list.getData().getFundspot().getProduct_count().equalsIgnoreCase("0")) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(AddMemberFudActivity.this);
+                        builder.setTitle("Sorry,No product available");
+                        builder.setMessage("You can't start campaign with this fundspot");
+                        builder.setCancelable(false);
+                        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        });
+                        AlertDialog bDialog = builder.create();
+                        bDialog.show();
+                    } else {
+                        intent.putExtra("fundspotName", app_fund_list.getData().getFundspot().getTitle());
+                        intent.putExtra("fundspotID", app_fund_list.getData().getFundspot().getUser_id());
+                        intent.putExtra("profileMode", true);
+                        startActivity(intent);
+
+                    }
+                } else if (preference.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)) {
+
+                    Log.e("requestSettings", "--->" + fundspot.getFundspot_percent() + "-->" + fundspot.getOrganization_percent() + "-->" + preference.getfundspot_product_count());
+                    if ((fundspot.getFundspot_percent().equalsIgnoreCase("0") && fundspot.getOrganization_percent().equalsIgnoreCase("0"))) {
+                        final AlertDialog.Builder builder = new AlertDialog.Builder(AddMemberFudActivity.this);
+                        builder.setTitle("First set your campaign terms!");
+                        builder.setMessage("Before starting your first campaign, make sure to set your campaign terms and products.");
+                        builder.setCancelable(false);
+                        builder.setPositiveButton("Set Terms", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                Intent intent1 = new Intent(getApplicationContext(), CampaignSetting.class);
+                                intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                intent1.putExtra("editMode", true);
+                                startActivity(intent1);
+                            }
+                        });
+                        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        });
+                        AlertDialog bDialog = builder.create();
+                        bDialog.show();
+                    } else if (preference.getfundspot_product_count() == 0) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(AddMemberFudActivity.this);
+                        builder.setTitle("First add your Products!");
+                        builder.setMessage("Please add your products or services available for sale during campaigns.");
+                        builder.setCancelable(false);
+                        builder.setPositiveButton("Add Products", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                Intent in = new Intent(getApplicationContext(), AddProductActivity.class);
+                                in.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(in);
+                            }
+                        });
+                        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        });
+                        AlertDialog bDialog = builder.create();
+                        bDialog.show();
+                    } else {
+
+                        intent.putExtra("fundspotName", fundspot.getTitle());
+                        intent.putExtra("fundspotID", fundspot.getUser_id());
+                        intent.putExtra("organizationID", app_single_org_list.getData().getOrganization().getUser_id());
+                        intent.putExtra("profileMode", true);
+                        startActivity(intent);
+                    }
                 }
+
+
+
+
+
+
+
+
+
+
+
 
 
             }

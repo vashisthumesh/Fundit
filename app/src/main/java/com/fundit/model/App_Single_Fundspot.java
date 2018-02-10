@@ -60,6 +60,7 @@ public class App_Single_Fundspot extends AppModel {
             String contact_info_mobile="";
             String contact_info_email="";
             String split_visibility="";
+            String product_count = "";
             String created="";
             String modified="";
 
@@ -146,6 +147,10 @@ public class App_Single_Fundspot extends AppModel {
 
             public String getSplit_visibility() {
                 return split_visibility;
+            }
+
+            public String getProduct_count() {
+                return product_count;
             }
 
             public String getCreated() {
