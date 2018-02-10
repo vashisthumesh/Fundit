@@ -66,10 +66,10 @@ object C{
 
     fun validEmail(email: String): Boolean{
 
-//        val pattern: Pattern = Pattern.compile("^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^-]+(?:\\.[a-zA-Z0-9_!#$%&'*+/=?`{|}~^-]+)*@[@a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$")
-
-
         val pattern: Pattern = Pattern.compile("[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{2,256}" + "\\@" + "[a-zA-Z0-9][a-zA-Z0-9\\-]{1,64}" + "\\." + "[a-zA-Z0-9][a-zA-Z0-9\\-]{2,6}")
+
+
+//        val pattern: Pattern = Pattern.compile("[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{2,256}" + "\\@" + "[a-zA-Z0-9][a-zA-Z0-9\\-]{1,64}" + "\\." + "[a-zA-Z0-9][a-zA-Z0-9\\-]{2,6}")
         val match: Matcher = pattern.matcher(email)
 
         return match.matches()

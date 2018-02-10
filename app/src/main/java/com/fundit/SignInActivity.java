@@ -132,7 +132,6 @@ public class SignInActivity extends AppCompatActivity {
                 }
                 else if(!C.INSTANCE.validEmail(emailID))
                 {
-                    Log.e("4","4");
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter valid email address");
                 }
                 else if (password.isEmpty()) {
