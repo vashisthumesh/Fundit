@@ -114,7 +114,7 @@ public interface AdminAPI {
 
     @Multipart
     @POST(W.EDIT_FUNDSPOT_PROFILE)
-    Call<VerifyResponse> withoutImageEditFundsportProfile(@Part(W.KEY_USERID) String userID, @Part(W.KEY_TOKEN) String tokenHash, @Part("title") String title, @Part("state_id") String stateID, @Part("city_id") String cityID, @Part("location") String address, @Part("zip_code") String zipCode, @Part("category_id") String category_id, @Part("fundraise_split") String fundraise_split, @Part("description") String description, @Part("contact_info_email") String contact_email,@Part("contact_info_mobile") String contactInfo);
+    Call<VerifyResponse> withoutImageEditFundsportProfile(@Part(W.KEY_USERID) String userID, @Part(W.KEY_TOKEN) String tokenHash, @Part("title") String title, @Part("state_id") String stateID, @Part("city_name") String cityID, @Part("location") String address, @Part("zip_code") String zipCode, @Part("category_id") String category_id, @Part("fundraise_split") String fundraise_split, @Part("description") String description, @Part("contact_info_email") String contact_email,@Part("contact_info_mobile") String contactInfo);
 
 
 

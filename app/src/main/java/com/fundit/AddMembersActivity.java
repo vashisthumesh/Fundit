@@ -445,12 +445,15 @@ public class AddMembersActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     String selectedUsersId = "";
                     String membersssIdss = "";
+                    String selectedUsersRoleId = "";
 
                     Log.e("checking", "-->");
                     if (status) {
                         selectedUsersId = getResponse.getFundspot().getUser_id();
+                        selectedUsersRoleId = C.FUNDSPOT ;
                     } else {
                         selectedUsersId = getResponse.getOrganization().getUser_id();
+                        selectedUsersRoleId = C.ORGANIZATION ;
                     }
 
 
@@ -468,7 +471,8 @@ public class AddMembersActivity extends AppCompatActivity {
                     if (isMemberJoined == 0) {
                         new JoinMember(membersssIdss, selectedUsersId).execute();
                     } else if (isMemberJoined == 1) {
-                        new LeaveMember(preference.getUserID(), preference.getUserRoleID(), membersssIdss).execute();
+                        //new LeaveMember(preference.getUserID(), preference.getUserRoleID(), membersssIdss).execute();
+                        new LeaveMember(selectedUsersId, selectedUsersRoleId, membersssIdss).execute();
                     } else if (isMemberJoined == 2) {
                         if (isDialogOpen == 1) {
                             RespondForMemberRequest("", "Respond to Request", "");

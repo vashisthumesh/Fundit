@@ -70,9 +70,13 @@ class HomeActivity : AppCompatActivity() {
     internal var member = Member()
     lateinit var getintent: Intent
 
+    lateinit var thisActivity: Activity
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
+
+        thisActivity = this
 
         preference = AppPreference(this)
         getintent = getIntent()
@@ -131,7 +135,9 @@ class HomeActivity : AppCompatActivity() {
         Log.e("redemerId", "-->" + member.redeemer.toString())
         Log.e("redemerIdss", "-->" + preference?.getRedeemer())
 
-        if (preference?.userRoleID.equals(C.FUNDSPOT) || (preference?.userRoleID.equals(C.GENERAL_MEMBER) && member.redeemer.equals("1")) || preference?.getRedeemer()!!.equals("1")) {
+        if (preference?.userRoleID.equals(C.FUNDSPOT) /*|| (preference?.userRoleID.equals(C.GENERAL_MEMBER) && member.redeemer.equals("1")) || preference?.getRedeemer()!!.equals("1")*/) {
+            img_qrscan?.visibility = View.VISIBLE
+        } else if (preference?.getRedeemer()!!.equals("1")) {
             img_qrscan?.visibility = View.VISIBLE
         } else {
             img_qrscan?.visibility = View.GONE
@@ -213,7 +219,7 @@ class HomeActivity : AppCompatActivity() {
 
         }
 
-        if(!preference?.getRedirection().equals("")){
+        if (!preference?.getRedirection().equals("")) {
             ThrowToRespectedPosition()
         }
 
@@ -310,17 +316,22 @@ class HomeActivity : AppCompatActivity() {
             img_notification?.visibility = View.VISIBLE
 
             //actionTitle?.text = "Fundit"
-            actionTitle?.visibility=View.INVISIBLE
+            actionTitle?.visibility = View.INVISIBLE
 
             when (preference?.userRoleID) {
                 C.ORGANIZATION -> {
                     fragment = HomeFragment()
                 }
                 C.FUNDSPOT -> {
-                    img_qrscan?.visibility=View.VISIBLE
+                    img_qrscan?.visibility = View.VISIBLE
                     fragment = HomeFragment()
                 }
                 C.GENERAL_MEMBER -> {
+                    if (preference?.getRedeemer()!!.equals("1")) {
+                        img_qrscan?.visibility = View.VISIBLE
+                    } else {
+                        img_qrscan?.visibility = View.GONE
+                    }
                     fragment = HomeFragment()
                 }
             }
@@ -329,22 +340,22 @@ class HomeActivity : AppCompatActivity() {
             transaction?.commit()
 
         } else if (position == 2) {
-            actionTitle?.visibility=View.VISIBLE
+            actionTitle?.visibility = View.VISIBLE
             img_edit?.visibility = View.VISIBLE
             img_qrscan?.visibility = View.GONE
-            img_notification.visibility=View.GONE
-            cartCount?.visibility=View.GONE
+            img_notification.visibility = View.GONE
+            cartCount?.visibility = View.GONE
             actionTitle?.text = "My Profile"
             fragment = MyProfileFragment()
             val transaction = fm?.beginTransaction()
             transaction?.replace(R.id.content, fragment)
             transaction?.commit()
         } else if (position == 3) {
-            actionTitle?.visibility=View.VISIBLE
+            actionTitle?.visibility = View.VISIBLE
             img_edit?.visibility = View.GONE
             img_qrscan?.visibility = View.GONE
-            img_notification?.visibility=View.GONE
-            cartCount?.visibility=View.GONE
+            img_notification?.visibility = View.GONE
+            cartCount?.visibility = View.GONE
             if (preference?.userRoleID.equals(C.FUNDSPOT) || preference?.userRoleID.equals(C.ORGANIZATION)) {
                 actionTitle?.text = "Requests"
                 fragment = FRequestFragment()
@@ -354,20 +365,20 @@ class HomeActivity : AppCompatActivity() {
             }
             if (preference?.userRoleID.equals(C.GENERAL_MEMBER)) {
                 actionTitle?.text = "My Coupons"
-                img_edit?.visibility=View.GONE
-             //   img_notification?.visibility=View.VISIBLE
+                img_edit?.visibility = View.GONE
+                //   img_notification?.visibility=View.VISIBLE
                 fragment = CouponFragment()
                 val transaction = fm?.beginTransaction()
                 transaction?.replace(R.id.content, fragment)
                 transaction?.commit()
             }
         } else if (position == 4) {
-            actionTitle?.visibility=View.VISIBLE
+            actionTitle?.visibility = View.VISIBLE
             img_edit?.visibility = View.GONE
-            img_notification.visibility=View.GONE
-            cartCount?.visibility=View.GONE
+            img_notification.visibility = View.GONE
+            cartCount?.visibility = View.GONE
             if (preference?.userRoleID.equals(C.FUNDSPOT)) {
-                img_qrscan?.visibility=View.VISIBLE
+                img_qrscan?.visibility = View.VISIBLE
                 actionTitle?.text = "My Products"
                 fragment = MyProductsFragment()
                 val transaction = fm?.beginTransaction()
@@ -383,10 +394,10 @@ class HomeActivity : AppCompatActivity() {
             }
 
         } else if (position == 5) {
-            actionTitle?.visibility=View.VISIBLE
+            actionTitle?.visibility = View.VISIBLE
             img_edit?.visibility = View.GONE
-            img_notification.visibility=View.GONE
-            cartCount?.visibility=View.GONE
+            img_notification.visibility = View.GONE
+            cartCount?.visibility = View.GONE
             if (preference?.userRoleID.equals(C.FUNDSPOT) || preference?.userRoleID.equals(C.ORGANIZATION)) {
                 actionTitle?.text = "My Members"
                 fragment = MyMemberFragment()
@@ -404,11 +415,11 @@ class HomeActivity : AppCompatActivity() {
             }
 
         } else if (position == 6) {
-            img_qrscan?.visibility=View.INVISIBLE
-            actionTitle?.visibility=View.VISIBLE
+            img_qrscan?.visibility = View.INVISIBLE
+            actionTitle?.visibility = View.VISIBLE
             img_edit?.visibility = View.GONE
-            img_notification.visibility=View.GONE
-            cartCount?.visibility=View.GONE
+            img_notification.visibility = View.GONE
+            cartCount?.visibility = View.GONE
             actionTitle?.text = "Settings"
             fragment = GeneralSettingFragment()
             val transaction = fm?.beginTransaction()
@@ -417,9 +428,9 @@ class HomeActivity : AppCompatActivity() {
 
         } else if (position == 7) {
             img_edit?.visibility = View.GONE
-            actionTitle?.visibility=View.VISIBLE
-            img_notification.visibility=View.GONE
-            cartCount?.visibility=View.GONE
+            actionTitle?.visibility = View.VISIBLE
+            img_notification.visibility = View.GONE
+            cartCount?.visibility = View.GONE
             val sharingIntent = Intent(android.content.Intent.ACTION_SEND)
             sharingIntent.type = "text/plain"
             //val shareBodyText = GlobalFile.share
@@ -429,10 +440,10 @@ class HomeActivity : AppCompatActivity() {
 
 
         } else if (position == 8) {
-            actionTitle?.visibility=View.VISIBLE
+            actionTitle?.visibility = View.VISIBLE
             img_edit?.visibility = View.GONE
-            img_notification.visibility=View.GONE
-            cartCount?.visibility=View.GONE
+            img_notification.visibility = View.GONE
+            cartCount?.visibility = View.GONE
             actionTitle?.text = "Help"
             fragment = HelpFragment()
             val transaction = fm?.beginTransaction()
@@ -454,11 +465,11 @@ class HomeActivity : AppCompatActivity() {
     private fun coupon() {
 
         if (couponTimes) {
-            actionTitle?.visibility=View.VISIBLE
+            actionTitle?.visibility = View.VISIBLE
             img_edit?.visibility = View.GONE
             img_qrscan?.visibility = View.GONE
-            img_notification?.visibility=View.GONE
-            cartCount?.visibility=View.GONE
+            img_notification?.visibility = View.GONE
+            cartCount?.visibility = View.GONE
             actionTitle?.text = "My Coupons"
             fragment = CouponFragment()
             val transaction = fm?.beginTransaction()
@@ -466,10 +477,10 @@ class HomeActivity : AppCompatActivity() {
             transaction?.commit()
             flag = false
         } else {
-            actionTitle?.visibility=View.VISIBLE
+            actionTitle?.visibility = View.VISIBLE
             img_edit?.visibility = View.GONE
-            img_notification.visibility=View.GONE
-            cartCount?.visibility=View.GONE
+            img_notification.visibility = View.GONE
+            cartCount?.visibility = View.GONE
             actionTitle?.text = "My Orders"
             fragment = OrderHistoryFragment()
             val transaction = fm?.beginTransaction()
@@ -487,22 +498,22 @@ class HomeActivity : AppCompatActivity() {
         typeID = getintent.getStringExtra("typeId")
 
         if (typeID.equals("1") || typeID.equals("3")) {
-            actionTitle?.visibility=View.VISIBLE
+            actionTitle?.visibility = View.VISIBLE
             img_edit?.visibility = View.GONE
             img_qrscan?.visibility = View.GONE
-            img_notification?.visibility=View.GONE
-            cartCount?.visibility=View.GONE
+            img_notification?.visibility = View.GONE
+            cartCount?.visibility = View.GONE
             actionTitle?.text = "Requests"
             fragment = FRequestFragment()
             val transaction = fm?.beginTransaction()
             transaction?.replace(R.id.content, fragment)
             transaction?.commit()
         } else if (typeID.equals("12") || typeID.equals("13") || typeID.equals("14")) {
-            actionTitle?.visibility=View.VISIBLE
+            actionTitle?.visibility = View.VISIBLE
             img_edit?.visibility = View.GONE
             img_qrscan?.visibility = View.GONE
-            img_notification?.visibility=View.GONE
-            cartCount?.visibility=View.GONE
+            img_notification?.visibility = View.GONE
+            cartCount?.visibility = View.GONE
             actionTitle?.text = "My Coupons"
             fragment = CouponFragment()
             val transaction = fm?.beginTransaction()
@@ -515,24 +526,24 @@ class HomeActivity : AppCompatActivity() {
 
     private fun ThrowToRespectedPosition() {
 
-        if(preference?.getRedirection().equals("2")){
-            actionTitle?.visibility=View.VISIBLE
+        if (preference?.getRedirection().equals("2")) {
+            actionTitle?.visibility = View.VISIBLE
             img_edit?.visibility = View.VISIBLE
             img_qrscan?.visibility = View.GONE
-            img_notification.visibility=View.GONE
-            cartCount?.visibility=View.GONE
+            img_notification.visibility = View.GONE
+            cartCount?.visibility = View.GONE
             actionTitle?.text = "My Profile"
             preference?.setRedirection("")
             fragment = MyProfileFragment()
             val transaction = fm?.beginTransaction()
             transaction?.replace(R.id.content, fragment)
             transaction?.commit()
-        }else if(preference?.getRedirection().equals("6")){
-            img_qrscan?.visibility=View.INVISIBLE
-            actionTitle?.visibility=View.VISIBLE
+        } else if (preference?.getRedirection().equals("6")) {
+            img_qrscan?.visibility = View.INVISIBLE
+            actionTitle?.visibility = View.VISIBLE
             img_edit?.visibility = View.GONE
-            img_notification.visibility=View.GONE
-            cartCount?.visibility=View.GONE
+            img_notification.visibility = View.GONE
+            cartCount?.visibility = View.GONE
             actionTitle?.text = "Settings"
             preference?.setRedirection("")
             fragment = GeneralSettingFragment()
@@ -541,8 +552,6 @@ class HomeActivity : AppCompatActivity() {
             transaction?.commit()
 
         }
-
-
 
 
     }
@@ -687,7 +696,7 @@ class HomeActivity : AppCompatActivity() {
             parameters.add(BasicNameValuePair("tokenhash", preference?.tokenHash))
 
 
-                val json = ServiceHandler().makeServiceCall(W.BASE_URL + W.GetNotificationCount, ServiceHandler.POST, parameters)
+            val json = ServiceHandler().makeServiceCall(W.BASE_URL + W.GetNotificationCount, ServiceHandler.POST, parameters)
 
 
 
@@ -743,8 +752,17 @@ class HomeActivity : AppCompatActivity() {
                     preference?.couponCount = couponCount
 
 
+                    Log.e("totalReddermer", "--->" + preference?.getRedeemer() + "-->" + mainObject.getInt("is_redeemer"))
 
                     navigationAdapter?.notifyDataSetChanged()
+                    if (preference?.userRoleID.equals(C.FUNDSPOT) /*|| (preference?.userRoleID.equals(C.GENERAL_MEMBER) && member.redeemer.equals("1")) || preference?.getRedeemer()!!.equals("1")*/) {
+                        img_qrscan?.visibility = View.VISIBLE
+                    } else if (preference?.getRedeemer()!!.equals("1")) {
+                        img_qrscan?.visibility = View.VISIBLE
+                    } else {
+                        img_qrscan?.visibility = View.GONE
+                    }
+
 
 
 

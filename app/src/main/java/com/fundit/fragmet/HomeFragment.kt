@@ -1,12 +1,14 @@
 package com.fundit.fragmet
 
 
+import android.os.AsyncTask
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentTransaction
 import android.support.v4.view.MenuItemCompat
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.View
@@ -15,6 +17,13 @@ import android.widget.TextView
 import com.fundit.R
 import com.fundit.a.AppPreference
 import com.fundit.a.C
+import com.fundit.a.W
+import com.fundit.apis.ServiceHandler
+import org.apache.http.NameValuePair
+import org.apache.http.message.BasicNameValuePair
+import org.json.JSONException
+import org.json.JSONObject
+import java.util.ArrayList
 
 /**
  * A simple [Fragment] subclass.
@@ -25,6 +34,13 @@ class HomeFragment : Fragment() {
     internal var fragment: Fragment? = null
     internal var fm: FragmentManager? = null
     var preferences: AppPreference? = null
+
+    var cartCount: TextView? = null
+    var memberRequest: Int = 0
+    var campaignRequestCount: Int = 0
+    var couponCount: Int = 0
+    var totalRequest: Int = 0
+
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
@@ -102,6 +118,9 @@ class HomeFragment : Fragment() {
             navigation.getMenu().getItem(0).setChecked(true);
         }
         // Inflate the layout for this fragment
+
+        GetNotificationCount().execute()
+
         return view
     }
 
@@ -121,6 +140,87 @@ class HomeFragment : Fragment() {
         val transaction: FragmentTransaction = fm!!.beginTransaction()
         transaction.replace(R.id.content_home, fragment)
         transaction.commit()
+    }
+
+    inner class GetNotificationCount : AsyncTask<Void, Void, String>() {
+
+        override fun doInBackground(vararg params: Void): String {
+
+
+            val parameters = ArrayList<NameValuePair>()
+
+            parameters.add(BasicNameValuePair("user_id", preferences?.userID))
+            parameters.add(BasicNameValuePair("tokenhash", preferences?.tokenHash))
+
+
+            val json = ServiceHandler().makeServiceCall(W.BASE_URL + W.GetNotificationCount, ServiceHandler.POST, parameters)
+
+
+
+            return json
+        }
+
+
+        override fun onPostExecute(s: String) {
+            super.onPostExecute(s)
+
+
+            if (s.equals("", ignoreCase = true) || s.isEmpty()) {
+
+
+                C.showToast(activity, "Please check your Internet")
+
+
+            } else {
+
+                try {
+                    val mainObject = JSONObject(s)
+
+                    var status = false
+                    var message = ""
+
+                    status = mainObject.getBoolean("status")
+                    message = mainObject.getString("message")
+
+                    cartCount?.text = mainObject.getString("total_unread_msg")
+                    preferences?.messageCount = mainObject.getInt("total_unread_msg")
+
+                    memberRequest = mainObject.getInt("total_member_request_count")
+                    campaignRequestCount = mainObject.getInt("total_request_count")
+                    couponCount = mainObject.getInt("total_coupon_count")
+                    preferences?.setfundspot_product_count(mainObject.getInt("fundspot_product_count"))
+                    preferences?.setRedeemer(mainObject.getInt("is_redeemer"))
+                    preferences?.setSeller(mainObject.getInt("is_seller"))
+
+
+                    totalRequest = memberRequest + campaignRequestCount
+                    Log.e("totalCount", "--->" + totalRequest)
+                    Log.e("totalproductCount", "--->" + preferences?.getfundspot_product_count())
+
+
+                    preferences?.campaignCount = campaignRequestCount
+                    preferences?.memberCount = memberRequest
+                    preferences?.totalCount = totalRequest
+                    preferences?.couponCount = couponCount
+
+
+
+                  //  navigationAdapter?.notifyDataSetChanged()
+
+
+
+                    Log.e("count", "" + preferences?.messageCount)
+
+
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+
+
+            }
+
+
+        }
     }
 
 }
