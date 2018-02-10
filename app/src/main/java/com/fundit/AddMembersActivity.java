@@ -20,6 +20,7 @@ import com.fundit.a.W;
 import com.fundit.apis.AdminAPI;
 import com.fundit.apis.ServiceGenerator;
 import com.fundit.apis.ServiceHandler;
+import com.fundit.fundspot.AddProductActivity;
 import com.fundit.helper.CustomDialog;
 import com.fundit.model.AppModel;
 import com.fundit.model.Fundspot;
@@ -339,19 +340,27 @@ public class AddMembersActivity extends AppCompatActivity {
             btnrequest.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(getApplicationContext(), FundspotProductListActivity.class);
-                    /*intent.putExtra("fundspotName", fundSpotList.get(i).getFundspot().getTitle());
-                    intent.putExtra("fundspotID", fundSpotList.get(i).getFundspot().getUser_id());
-
-
-*/
+                    final Intent intent = new Intent(getApplicationContext(), FundspotProductListActivity.class);
 
                    /* Log.e("requestSettings" , "--->" + getResponse.getFundspot().getFundspot_percent() + "-->" + getResponse.getFundspot().getOrganization_percent() + "-->" + getResponse.getFundspot().getProduct_count());*/
                     if (preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION)) {
 
-                        if ((getResponse.getFundspot().getFundspot_percent().equalsIgnoreCase("0") && getResponse.getFundspot().getOrganization_percent().equalsIgnoreCase("0")) || getResponse.getFundspot().getProduct_count().equalsIgnoreCase("0")) {
+                        if ((getResponse.getFundspot().getFundspot_percent().equalsIgnoreCase("0") && getResponse.getFundspot().getOrganization_percent().equalsIgnoreCase("0"))) {
                             AlertDialog.Builder builder = new AlertDialog.Builder(AddMembersActivity.this);
                             builder.setTitle("Sorry, Fundraiser settings not valid");
+                            builder.setMessage("You can't start campaign with this fundspot");
+                            builder.setCancelable(false);
+                            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                }
+                            });
+                            AlertDialog bDialog = builder.create();
+                            bDialog.show();
+                        } else if (getResponse.getFundspot().getProduct_count().equalsIgnoreCase("0")) {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(AddMembersActivity.this);
+                            builder.setTitle("Sorry,No product available");
                             builder.setMessage("You can't start campaign with this fundspot");
                             builder.setCancelable(false);
                             builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -369,15 +378,45 @@ public class AddMembersActivity extends AppCompatActivity {
                             startActivity(intent);
 
                         }
-                    } else {
+                    } else if (preference.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)) {
 
-                        Log.e("requestSettings" , "--->" + fundspot.getFundspot_percent() + "-->" + fundspot.getOrganization_percent() + "-->" + preference.getfundspot_product_count());
-                        if ((fundspot.getFundspot_percent().equalsIgnoreCase("0") && fundspot.getOrganization_percent().equalsIgnoreCase("0")) || preference.getfundspot_product_count()==0) {
-                            AlertDialog.Builder builder = new AlertDialog.Builder(AddMembersActivity.this);
-                            builder.setTitle("Sorry, Fundraiser settings not valid");
-                            builder.setMessage("You can't start campaign with this fundspot");
+                        Log.e("requestSettings", "--->" + fundspot.getFundspot_percent() + "-->" + fundspot.getOrganization_percent() + "-->" + preference.getfundspot_product_count());
+                        if ((fundspot.getFundspot_percent().equalsIgnoreCase("0") && fundspot.getOrganization_percent().equalsIgnoreCase("0"))) {
+                            final AlertDialog.Builder builder = new AlertDialog.Builder(AddMembersActivity.this);
+                            builder.setTitle("First set your campaign terms!");
+                            builder.setMessage("Before starting your first campaign, make sure to set your campaign terms and products.");
                             builder.setCancelable(false);
-                            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            builder.setPositiveButton("Set Terms", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    Intent intent1 = new Intent(getApplicationContext(), CampaignSetting.class);
+                                    intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    intent1.putExtra("editMode", true);
+                                    startActivity(intent1);
+                                }
+                            });
+                            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                }
+                            });
+                            AlertDialog bDialog = builder.create();
+                            bDialog.show();
+                        } else if (preference.getfundspot_product_count() == 0) {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(AddMembersActivity.this);
+                            builder.setTitle("First add your Products!");
+                            builder.setMessage("Please add your products or services available for sale during campaigns.");
+                            builder.setCancelable(false);
+                            builder.setPositiveButton("Add Products", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    Intent in = new Intent(getApplicationContext(), AddProductActivity.class);
+                                    in.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    startActivity(in);
+                                }
+                            });
+                            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
                                     dialogInterface.dismiss();
@@ -685,7 +724,7 @@ public class AddMembersActivity extends AppCompatActivity {
                         txt_emailID.setText(userObject.getString("email_id"));
                         txt_contct.setText(memberObject.getString("contact_info"));
 
-                        txt_address.setText(memberObject.getString("location") + ", " + cityObject.getString("name") + " "+stateObject.getString("name") + ", " + memberObject.getString("zip_code"));
+                        txt_address.setText(memberObject.getString("location") + ", " + cityObject.getString("name") + " " + stateObject.getString("name") + ", " + memberObject.getString("zip_code"));
 
 
                         String getURL = W.FILE_URL + memberObject.getString("image");

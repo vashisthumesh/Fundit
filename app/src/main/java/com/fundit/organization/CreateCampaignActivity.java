@@ -228,10 +228,7 @@ public class CreateCampaignActivity extends AppCompatActivity {
         auto_searchFundspot.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
                 if (fundSpotList.get(i).getFundspot().getFundspot_percent().equalsIgnoreCase("0") && fundSpotList.get(i).getFundspot().getOrganization_percent().equalsIgnoreCase("0")) {
-
-
                     AlertDialog.Builder builder = new AlertDialog.Builder(CreateCampaignActivity.this);
                     builder.setTitle("Sorry, Fundraiser settings not valid");
                     builder.setMessage("You can't start campaign with this fundspot");
@@ -244,11 +241,7 @@ public class CreateCampaignActivity extends AppCompatActivity {
                     });
                     AlertDialog bDialog = builder.create();
                     bDialog.show();
-
-
                 } else {
-
-
                     VerifyResponse.VerifyResponseData data = fundSpotList.get(i);
                     Intent intent = new Intent(getApplicationContext(), FundspotProductListActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

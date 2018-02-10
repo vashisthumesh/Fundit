@@ -81,9 +81,7 @@ public class FundspotListActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                if((fundSpotList.get(i).getFundspot().getFundspot_percent().equalsIgnoreCase("0") && fundSpotList.get(i).getFundspot().getOrganization_percent().equalsIgnoreCase("0")) || fundSpotList.get(i).getFundspot().getProduct_count().equalsIgnoreCase("0")){
-
-
+                if((fundSpotList.get(i).getFundspot().getFundspot_percent().equalsIgnoreCase("0") && fundSpotList.get(i).getFundspot().getOrganization_percent().equalsIgnoreCase("0"))){
                     AlertDialog.Builder builder=new AlertDialog.Builder(FundspotListActivity.this);
                     builder.setTitle("Sorry, Fundraiser settings not valid");
                     builder.setMessage("You can't start campaign with this fundspot");
@@ -96,11 +94,19 @@ public class FundspotListActivity extends AppCompatActivity {
                     });
                     AlertDialog bDialog=builder.create();
                     bDialog.show();
-
-
-
-
-
+                }else if(fundSpotList.get(i).getFundspot().getProduct_count().equalsIgnoreCase("0")){
+                    AlertDialog.Builder builder=new AlertDialog.Builder(FundspotListActivity.this);
+                    builder.setTitle("Sorry,No product available");
+                    builder.setMessage("You can't start campaign with this fundspot");
+                    builder.setCancelable(false);
+                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                        }
+                    });
+                    AlertDialog bDialog=builder.create();
+                    bDialog.show();
                 }else {
                     Intent intent = new Intent(getApplicationContext(), FundspotProductListActivity.class);
                     intent.putExtra("fundspotName", fundSpotList.get(i).getFundspot().getTitle());
