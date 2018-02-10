@@ -319,7 +319,7 @@ public class FundSpotProfile extends AppCompatActivity {
                 } else if (statePosition == 0) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please select state");
                 } else if (cityName.isEmpty()) {
-                    C.INSTANCE.showToast(getApplicationContext(), "Please enter city");
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter city name");
                 } else if (zipcode.isEmpty() || zipcode.length() < 5) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter zipcode");
                 } /*else if (categoryPosition == 0) {

@@ -747,6 +747,7 @@ class HomeActivity : AppCompatActivity() {
                     navigationAdapter?.notifyDataSetChanged()
 
 
+
                     Log.e("count", "" + preference?.messageCount)
 
 

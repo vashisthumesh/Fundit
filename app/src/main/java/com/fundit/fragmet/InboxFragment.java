@@ -141,9 +141,12 @@ public class InboxFragment extends Fragment {
 
                 if (messagesResponse != null) {
                     if (messagesResponse.isStatus()) {
+                        img_clear.setVisibility(View.VISIBLE);
                         messageResponseDatas.addAll(messagesResponse.getResponseDataList());
                         // getAllSubject.addAll(messagesResponse.getSubjects());
                     } else {
+
+                        img_clear.setVisibility(View.GONE);
 
                         C.INSTANCE.showToast(getActivity(),"No message found");
                        // C.INSTANCE.showToast(getActivity(), messagesResponse.getMessage());

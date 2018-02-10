@@ -206,7 +206,7 @@ public class MyBrowseCampaign extends Fragment {
                     getSelectedId=R.id.rb_people;
 
                 if(getSearchTermed.isEmpty())
-                    C.INSTANCE.showToast(getActivity() , "Please enter name");
+                    C.INSTANCE.showToast(getActivity() , "Please enter atleast 3 character to search");
                 /*else if(getSearchTermed.length() <3)
                     C.INSTANCE.showToast(getActivity() , "Please enter mininum 3 keuwords");*/
                 /*else if(getCityName.isEmpty())

@@ -75,7 +75,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:text="Money management,coupon generation,distribution and redemption is taken care of"
+            android:text="Money management, coupon generation, distribution and redemption is taken care of"
             android:textSize="12sp" />
 
 
@@ -103,7 +103,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:text="Enjoy good PR,expand your customer base and gain advertising"
+            android:text="Enjoy good PR, expand your customer base and gain advertising"
             android:textSize="12sp" />
 
 
