@@ -128,9 +128,18 @@ public class SignInActivity extends AppCompatActivity {
 
                 if (emailID.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter email address");
-                } else if (!C.INSTANCE.validEmail(emailID)) {
+                } else if(emailID.contains(".com") && !C.INSTANCE.validEmailcom(emailID)){
+
+                        C.INSTANCE.showToast(getApplicationContext(), "Please enter email address");
+                }else if (emailID.contains("co.in") && !C.INSTANCE.validEmailin(emailID))
+                {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter valid email address");
-                } else if (password.isEmpty()) {
+                }
+                else if(!C.INSTANCE.validEmailcom(emailID))
+                {
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter valid email address");
+                }
+                else if (password.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter password");
                 } else if (password.length() < 6) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter min. 6 char password");

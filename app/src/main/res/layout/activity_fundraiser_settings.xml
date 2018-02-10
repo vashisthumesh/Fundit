@@ -212,7 +212,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
-                    android:hint="#days"
+                    android:hint="# days"
                     android:padding="5dp" />
             </LinearLayout>
 
@@ -262,7 +262,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
-                    android:hint="#days from purchase"
+                    android:hint="# days from purchase"
                     android:padding="5dp" />
             </LinearLayout>
 
