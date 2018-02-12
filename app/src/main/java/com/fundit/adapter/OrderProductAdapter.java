@@ -53,7 +53,7 @@ public class OrderProductAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
 
 
         View view = inflater.inflate(R.layout.layout_order_products , parent , false);
@@ -104,6 +104,8 @@ public class OrderProductAdapter extends BaseAdapter {
             layout_main.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
+
                     showFullImageView(QRSCAN , Name,type_id,Selling_price,Total_qty,Item_total,Remaining_qty,Coupon_no);
                 }
             });
