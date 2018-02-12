@@ -336,9 +336,9 @@ public class CreateCardActivity extends AppCompatActivity {
 
                 int statePosition = spn_state.getSelectedItemPosition();
                 if (firstname.isEmpty()) {
-                    C.INSTANCE.showToast(getApplicationContext(), "Please enter firstname");
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter valid first name");
                 } else if (lastname.isEmpty()) {
-                    C.INSTANCE.showToast(getApplicationContext(), "Please enter lastname");
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter valid last name");
                 } else if (cardType.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter proper card number");
                 } else if (address.isEmpty()) {

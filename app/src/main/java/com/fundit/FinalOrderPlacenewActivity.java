@@ -222,6 +222,7 @@ public class FinalOrderPlacenewActivity extends AppCompatActivity implements Ord
         Log.e("testKeval", "--->test" + C.FUNDSPOT);
         Log.e("test", "test");
 
+        txt_partnerTitle.setVisibility(View.VISIBLE);
         txt_partnerTitle.setText("Fundspot :");
         if (newslist.getCampaignDetails().getNews_Campaign().getRole_id().equalsIgnoreCase("2")) {
 
