@@ -456,10 +456,19 @@ class HomeActivity : AppCompatActivity() {
             transaction?.commit()
 
         } else if (position == 9) {
+
             img_edit?.visibility = View.GONE
+            actionTitle?.visibility = View.VISIBLE
+            img_notification.visibility = View.GONE
+            cartCount?.visibility = View.GONE
+
 
             logout()
         } else if (position == 10) {
+            img_edit?.visibility = View.GONE
+            actionTitle?.visibility = View.VISIBLE
+            img_notification.visibility = View.GONE
+            cartCount?.visibility = View.GONE
 
             if (preference?.userRoleID.equals(C.FUNDSPOT))
                 logout()

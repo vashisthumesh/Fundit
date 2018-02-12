@@ -26,6 +26,7 @@ import com.fundit.model.MemberListResponse;
 import com.fundit.model.MemberResponse;
 import com.fundit.model.News_model;
 import com.fundit.model.NotificationCampaignModel;
+import com.fundit.model.NotificationCountModel;
 import com.fundit.model.NotificationSettingsModel;
 import com.fundit.model.OrderHistoryResponse;
 import com.fundit.model.OrganizationResponse;
@@ -411,6 +412,11 @@ public interface AdminAPI {
     @FormUrlEncoded
     @POST(W.CHECKVALIDCOUPON)
     Call<QRScanModel> CheckQRValidCoupon (@Field(W.KEY_USERID) String userId , @Field(W.KEY_ROLEID) String roleId , @Field("coupon_data") String couponNumber);
+
+    @FormUrlEncoded
+    @POST(W.GetNotificationCount)
+    Call<NotificationCountModel> NOTIFICATION_COUNT_MODEL_CALL(@Field(W.KEY_USERID) String userId , @Field(W.KEY_TOKEN) String tokenHash);
+
 
 
 
