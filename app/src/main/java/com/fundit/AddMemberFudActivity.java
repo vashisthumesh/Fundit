@@ -880,6 +880,4 @@ public class AddMemberFudActivity extends AppCompatActivity {
         }
     }
 
-
-
 }
