@@ -40,11 +40,11 @@ import retrofit2.Response;
 public class AddMemberActivity extends AppCompatActivity {
 
 
-    EditText searchUsers ;
-    ImageView search ;
+    EditText searchUsers;
+    ImageView search;
     ListView listView;
 
-    AppPreference preference ;
+    AppPreference preference;
     CustomDialog dialog;
     AdminAPI adminAPI;
 
@@ -54,6 +54,7 @@ public class AddMemberActivity extends AppCompatActivity {
 
 
     SendMessageAdapter messageAdapter;
+    boolean isSearchTimes = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,8 +65,6 @@ public class AddMemberActivity extends AppCompatActivity {
         campaignId = intent.getStringExtra("campaignId");
 
 
-
-
         preference = new AppPreference(getApplicationContext());
         dialog = new CustomDialog(this);
         adminAPI = ServiceGenerator.getAPIClass();
@@ -73,9 +72,6 @@ public class AddMemberActivity extends AppCompatActivity {
 
         setupToolBar();
         fetchIds();
-
-
-
 
 
     }
@@ -105,7 +101,7 @@ public class AddMemberActivity extends AppCompatActivity {
         search = (ImageView) findViewById(R.id.img_search);
         listView = (ListView) findViewById(R.id.list_users);
 
-        messageAdapter = new SendMessageAdapter(searchedMembers , getApplicationContext() , true);
+        messageAdapter = new SendMessageAdapter(searchedMembers, getApplicationContext(), true);
         listView.setAdapter(messageAdapter);
 
 
@@ -151,9 +147,10 @@ public class AddMemberActivity extends AppCompatActivity {
                 String findName = "";
                 findName = searchUsers.getText().toString().trim();
 
-                if(findName.isEmpty()){
+                if (findName.isEmpty()) {
 
-                }else {
+                } else {
+                    isSearchTimes = true;
                     SearchMembers(findName);
                 }
 
@@ -166,11 +163,11 @@ public class AddMemberActivity extends AppCompatActivity {
 
     private void SearchMembers(String getText) {
 
-
-        dialog.show();
+        if (isSearchTimes == false) {
+            dialog.show();
+        }
         Call<MemberListResponse> memberListResponseCall = adminAPI.getMemberList(preference.getUserID(), preference.getTokenHash(), getText);
-
-        Log.e("parameters" , "-->" + preference.getUserID() + "--->" + preference.getTokenHash());
+        Log.e("parameters", "-->" + preference.getUserID() + "--->" + preference.getTokenHash());
         memberListResponseCall.enqueue(new Callback<MemberListResponse>() {
             @Override
             public void onResponse(Call<MemberListResponse> call, Response<MemberListResponse> response) {
@@ -178,11 +175,13 @@ public class AddMemberActivity extends AppCompatActivity {
                 searchedMembers.clear();
                 MemberListResponse memberListResponse = response.body();
 
-                Log.e("AllNames" , "--->" + new Gson().toJson(memberListResponse));
+                Log.e("AllNames", "--->" + new Gson().toJson(memberListResponse));
 
                 if (memberListResponse != null) {
                     if (memberListResponse.isStatus()) {
+                        isSearchTimes = false;
                         searchedMembers.addAll(memberListResponse.getData());
+
                     }
                 } else {
                     C.INSTANCE.defaultError(getApplicationContext());
@@ -203,7 +202,7 @@ public class AddMemberActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        J.GetNotificationCountGlobal(preference.getUserID() , preference.getTokenHash() , preference , getApplicationContext() , this);
+        J.GetNotificationCountGlobal(preference.getUserID(), preference.getTokenHash(), preference, getApplicationContext(), this);
     }
 
 }
