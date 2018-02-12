@@ -76,12 +76,13 @@ public class CreateCardActivity extends AppCompatActivity {
     boolean newsFeedTimes = false ;
     boolean isotherTimes = false;
     boolean isCouponTimes = false ;
+    boolean actionflag=false;
 
 
     CreditCardEditText textview_credit_card;
     Button btn_continue;
     EditText edt_firstname, edt_lastname, edt_address, edt_city , edt_cvv_number;
-
+    TextView title_text;
     Spinner spn_state;
 
     EditText edtZip;
@@ -123,6 +124,7 @@ public class CreateCardActivity extends AppCompatActivity {
         Intent i = getIntent();
 
         isCouponTimes = i.getBooleanExtra("isCouponTimes" , false);
+        actionflag=i.getBooleanExtra("actionflag",false);
 
         if(isCouponTimes){
             orderId = i.getStringExtra("orderId");
@@ -184,8 +186,14 @@ public class CreateCardActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
+        if(actionflag)
+        {
+            actionTitle.setText("");
+        }
+        else {
+            actionTitle.setText("Save Card");
+        }
 
-        actionTitle.setText("Save Card");
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -196,6 +204,7 @@ public class CreateCardActivity extends AppCompatActivity {
 
     private void fetchIds() {
 
+        title_text= (TextView) findViewById(R.id.title_text);
         textview_credit_card = (CreditCardEditText) findViewById(R.id.textview_credit_card);
         textview_credit_card.setCreditCardEditTextListener(creditCardPattern);
         btn_continue = (Button) findViewById(R.id.btn_continue);
@@ -227,7 +236,10 @@ public class CreateCardActivity extends AppCompatActivity {
         if(SaveCard==true){
             chk_save.setVisibility(View.GONE);
         }
-
+        if(actionflag == true)
+        {
+            title_text.setText("Payment");
+        }
 
 
         if (editMode == true) {

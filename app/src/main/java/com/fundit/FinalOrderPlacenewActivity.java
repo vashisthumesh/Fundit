@@ -442,6 +442,7 @@ public class FinalOrderPlacenewActivity extends AppCompatActivity implements Ord
                                 } else {
 
                                     Intent i = new Intent(getApplicationContext(), CreateCardActivity.class);
+                                    i.putExtra("actionflag","true");
                                     i.putExtra("selectedProductArray", selectedProductArray.toString());
                                     i.putExtra("firstname", user.getFirst_name());
                                     i.putExtra("lastname", user.getLast_name());

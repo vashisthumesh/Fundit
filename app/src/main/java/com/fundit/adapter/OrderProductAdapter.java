@@ -29,11 +29,13 @@ public class OrderProductAdapter extends BaseAdapter {
     Context context;
     LayoutInflater inflater = null;
     boolean isCoupontimes = false;
+    boolean isaccept=false;
 
-    public OrderProductAdapter(List<OrderHistoryResponse.OrderedProducts> orderedProductses, Context context , boolean isCoupontimes) {
+    public OrderProductAdapter(List<OrderHistoryResponse.OrderedProducts> orderedProductses, Context context , boolean isCoupontimes,boolean isaccept) {
         this.orderedProductses = orderedProductses;
         this.context = context;
         this.isCoupontimes = isCoupontimes;
+        this.isaccept=isaccept;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -90,6 +92,21 @@ public class OrderProductAdapter extends BaseAdapter {
 //        txtTotalAmt.setText("$" + orderedProductses.get(position).getSelling_price());
 
 
+
+
+        layout_main.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isCoupontimes) {
+                    if (isaccept == false) {
+                        showFullImageView(QRSCAN, Name, type_id, Selling_price, Total_qty, Item_total, Remaining_qty, Coupon_no);
+                    }
+
+                }
+            }
+        });
+
+
         if(isCoupontimes){
 
             layout_coupon.setVisibility(View.VISIBLE);
@@ -99,16 +116,6 @@ public class OrderProductAdapter extends BaseAdapter {
                     .load(QRSCAN)
 
                     .into(img_qr);
-
-
-            layout_main.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-
-                    showFullImageView(QRSCAN , Name,type_id,Selling_price,Total_qty,Item_total,Remaining_qty,Coupon_no);
-                }
-            });
 
 
 
