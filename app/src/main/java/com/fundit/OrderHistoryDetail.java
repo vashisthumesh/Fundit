@@ -314,7 +314,7 @@ public class OrderHistoryDetail extends AppCompatActivity {
         txt_fundspotName.setText(historyResponse.getFundspot().getTitle());
         txt_organizations.setText(historyResponse.getOrganization().getTitle());
 
-        productAdapter = new OrderProductAdapter(products,getApplicationContext() , isCouponTimes/*,isExpired*/);
+        productAdapter = new OrderProductAdapter(products,getApplicationContext() , isCouponTimes,isaccept);
         listProducts.setAdapter(productAdapter);
 
         String getCreatedDate = historyResponse.getOrder().getCreated();

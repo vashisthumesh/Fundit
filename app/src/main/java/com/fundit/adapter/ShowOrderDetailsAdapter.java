@@ -266,7 +266,7 @@ public class ShowOrderDetailsAdapter extends BaseAdapter {
                     intent.putExtra("flag" , true);
                 }
                 else {
-                    intent.putExtra("accept",true);
+                    intent.putExtra("accept",false);
                 }
                 context.startActivity(intent);
             }
