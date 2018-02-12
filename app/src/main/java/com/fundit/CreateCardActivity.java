@@ -76,7 +76,7 @@ public class CreateCardActivity extends AppCompatActivity {
     boolean newsFeedTimes = false ;
     boolean isotherTimes = false;
     boolean isCouponTimes = false ;
-    boolean actionflag=false;
+    String actionflag="false";
 
 
     CreditCardEditText textview_credit_card;
@@ -124,7 +124,7 @@ public class CreateCardActivity extends AppCompatActivity {
         Intent i = getIntent();
 
         isCouponTimes = i.getBooleanExtra("isCouponTimes" , false);
-        actionflag=i.getBooleanExtra("actionflag",false);
+
 
         if(isCouponTimes){
             orderId = i.getStringExtra("orderId");
@@ -154,7 +154,7 @@ public class CreateCardActivity extends AppCompatActivity {
             SaveCard = i.getBooleanExtra("isSaveCard", false);
             newsFeedTimes = i.getBooleanExtra("newsFeedTimes", false);
             isotherTimes = i.getBooleanExtra("isOtherTimes", false);
-
+            actionflag=i.getStringExtra("actionflag");
             Log.e("isother4", "-->" + isotherTimes);
         }
         adminAPI = ServiceGenerator.getAPIClass();
@@ -186,7 +186,7 @@ public class CreateCardActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        if(actionflag)
+        if(actionflag.equalsIgnoreCase("true"))
         {
             actionTitle.setText("");
         }
@@ -236,7 +236,7 @@ public class CreateCardActivity extends AppCompatActivity {
         if(SaveCard==true){
             chk_save.setVisibility(View.GONE);
         }
-        if(actionflag == true)
+        if(actionflag.equalsIgnoreCase("true"))
         {
             title_text.setText("Payment");
         }
