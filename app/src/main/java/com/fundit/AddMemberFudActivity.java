@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.fundit.a.AppPreference;
 import com.fundit.a.C;
+import com.fundit.a.J;
 import com.fundit.a.W;
 import com.fundit.apis.AdminAPI;
 import com.fundit.apis.ServiceGenerator;
@@ -879,4 +880,9 @@ public class AddMemberFudActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        J.GetNotificationCountGlobal(preference.getUserID() , preference.getTokenHash() , preference , getApplicationContext() , this);
+    }
 }

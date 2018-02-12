@@ -36,27 +36,37 @@ public class J {
     public static final String GENERAL_MEMBER = "4";
 
 
-    public void GetNotificationCountGlobal(String userId , String tokenHash , final AppPreference appPreference , Context context , Activity activity){
+    public static void GetNotificationCountGlobal(String userId , String tokenHash , final AppPreference appPreference , Context context , Activity activity){
 
         AdminAPI adminAPI = ServiceGenerator.getAPIClass();
         final CustomDialog customDialog = new CustomDialog(activity , "");
         customDialog.show();
-        Call<NotificationCountModel> countModelCall = adminAPI.NOTIFICATION_COUNT_MODEL_CALL(userId, tokenHash);
+        final Call<NotificationCountModel> countModelCall = adminAPI.NOTIFICATION_COUNT_MODEL_CALL(userId, tokenHash);
         countModelCall.enqueue(new Callback<NotificationCountModel>() {
             @Override
             public void onResponse(Call<NotificationCountModel> call, Response<NotificationCountModel> response) {
                 customDialog.dismiss();
-
                 NotificationCountModel countModel = response.body();
                 if(countModel!=null){
                     if(countModel.isStatus()){
 
+                        int totalRequest = 0 , memberRequest = 0 , campaignRequestCount = 0 ;
+
+                        memberRequest = Integer.parseInt(countModel.getTotal_request_count());
+                        campaignRequestCount = Integer.parseInt(countModel.getTotal_member_request_count());
+
+                        totalRequest = memberRequest + campaignRequestCount ;
+
                         appPreference.setMessageCount(Integer.parseInt(countModel.getTotal_unread_msg()));
                         appPreference.setfundspot_product_count(Integer.parseInt(countModel.getFundspot_product_count()));
-                       // appPreference.setRedeemer(countModel.get);
+                        appPreference.setRedeemer(Integer.parseInt(countModel.getIs_redeemer()));
+                        appPreference.setSeller(Integer.parseInt(countModel.getIs_seller()));
+                        appPreference.setCouponCount(Integer.parseInt(countModel.getTotal_coupon_count()));
+                        appPreference.setCampaignCount(campaignRequestCount);
+                        appPreference.setMemberCount(memberRequest);
+                        appPreference.setTotalCount(totalRequest);
 
-
-
+                        Log.e("GlobalSuccess" , "--->" );
                     }
                 }
             }
