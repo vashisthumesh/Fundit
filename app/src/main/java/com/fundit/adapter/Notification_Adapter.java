@@ -140,40 +140,143 @@ public class Notification_Adapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
 
-                String user_id = result.get(position).getReceive_user();
-                String tokenhash = pref.getTokenHash();
-                String notificationId = result.get(position).getId();
-                String campaignId = result.get(position).getCampaign_id();
+                final String user_id = result.get(position).getReceive_user();
+                final String tokenhash = pref.getTokenHash();
+                final String notificationId = result.get(position).getId();
+                final String campaignId = result.get(position).getCampaign_id();
                 int read = Integer.parseInt(result.get(position).getRead_status());
                 role_id = result.get(position).getRole_id();
-                String typeId = result.get(position).getType_id();
-
-
-             /*if(pref.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER)) {
-                 if (read == 1) {
-                     Intent i=new Intent(activity, NotificationDetailActivity.class);
-                     i.putExtra("role_id",role_id);
-                     i.putExtra("sent_user",result.get(position).getSent_user());
-                     i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                     activity.startActivity(i);
-                     //showdialog(position);
-                 } else {
-                     read_notification(user_id, tokenhash, notificationId, position);
-
-                 }
-             }
-             else {
-                 if (read == 1) {
-                     showdialog(position);
-                 } else {
-                     read_notification(user_id, tokenhash, notificationId, position);
-
-                 }
-             }*/
-
+                final String typeId = result.get(position).getType_id();
 
                 if (read == 0) {
-                    read_notification(user_id, tokenhash, notificationId, position);
+                 //   read_notification(user_id, tokenhash, notificationId, position);
+                    final CustomDialog loadingView = new CustomDialog(context, "");
+                    loadingView.setCancelable(false);
+                    loadingView.show();
+                    final StringRequest request = new StringRequest(W.POST, W.BASE_URL + "Notification/app_read_notification",
+                            new Response.Listener<String>() {
+                                @Override
+                                public void onResponse(String json) {
+                                    Log.e("JSON", json);
+                                    try {
+                                        JSONObject object = new JSONObject(json);
+                                        String message = object.getString("message");
+                                        Toast.makeText(context, "" + message, Toast.LENGTH_SHORT).show();
+                                        loadingView.dismiss();
+                                        if (typeId.equalsIgnoreCase("1")) {
+
+                                            if (pref.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION) || pref.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)) {
+
+                                                Intent intent = new Intent(context, HomeActivity.class);
+                                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                intent.putExtra("notificationTimes", true);
+                                                intent.putExtra("typeId", typeId);
+                                                context.startActivity(intent);
+
+                                            } else if (pref.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER)) {
+                                                Intent i = new Intent(activity, FundOrganizationRequestActivity.class);
+                            /*i.putExtra("role_id", role_id);
+                            i.putExtra("sent_user", result.get(position).getSent_user());*/
+                                                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                                activity.startActivity(i);
+                                            }
+
+
+                                        } else if (typeId.equalsIgnoreCase("2")) {
+
+                                            if (pref.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION) || pref.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)) {
+                                                Intent intent = new Intent(activity, SerchPeopleActivity.class);
+                                                intent.putExtra("id", result.get(position).getSent_user());
+                                                intent.putExtra("flag", true);
+                                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                context.startActivity(intent);
+
+                                            } else if (pref.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER)) {
+
+                                                Intent intent = new Intent(context, AddMemberFudActivity.class);
+
+
+
+                                                if(result.get(position).getRole_id().equalsIgnoreCase(C.ORGANIZATION)){
+                                                    intent.putExtra("Flag","org");
+                                                }else if (result.get(position).getRole_id().equalsIgnoreCase(C.FUNDSPOT)){
+                                                    intent.putExtra("Flag","fund");
+                                                }
+                                                intent.putExtra("memberId", result.get(position).getSent_user());
+                                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                context.startActivity(intent);
+
+
+
+                                            }
+
+                                        } else if (typeId.equalsIgnoreCase("3")) {
+                                            Intent intent = new Intent(context, HomeActivity.class);
+                                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                            intent.putExtra("notificationTimes", true);
+                                            intent.putExtra("typeId", typeId);
+                                            context.startActivity(intent);
+
+                                        } else if (typeId.equalsIgnoreCase("4") || typeId.equalsIgnoreCase("6")) {
+
+                                            GetCampaignDetails(campaignId);
+
+                                        } else if (typeId.equalsIgnoreCase("12") || typeId.equalsIgnoreCase("13") || typeId.equalsIgnoreCase("14")) {
+                                            Intent intent = new Intent(context, HomeActivity.class);
+                                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                            intent.putExtra("notificationTimes", true);
+                                            intent.putExtra("typeId", typeId);
+                                            context.startActivity(intent);
+                                        } else if (typeId.equalsIgnoreCase("16")) {
+                                            Intent i = new Intent(activity, NotificationDetailActivity.class);
+                                            i.putExtra("role_id", role_id);
+                                            i.putExtra("sent_user", result.get(position).getSent_user());
+                                            i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                            activity.startActivity(i);
+
+                                        } else {
+                                            showdialog(position);
+                                        }
+                                    } catch (JSONException j) {
+                                        j.printStackTrace();
+                                        Log.e("Exception", "" + j.getMessage());
+                                        loadingView.dismiss();
+                                    }
+                                }
+                            },
+                            new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    loadingView.dismiss();
+                                    Log.e("ERROR", error.getMessage());
+                                    if (error instanceof NetworkError) {
+                                        //noInternet(context);
+                                    } else {
+                                        // serverError(context);
+                                    }
+                                }
+                            }) {
+                        @Override
+                        protected Map<String, String> getParams() {
+                            Map<String, String> params = new HashMap<String, String>();
+                            params.put("user_id", user_id);
+                            params.put("tokenhash", tokenhash);
+                            params.put("notification_id", notificationId);
+
+                            Log.e("params", params.toString());
+                            return params;
+                        }
+                    };
+                    Fundit.getInstance().addToRequestQueue(request);
+
+
+
+
+
+
                 } else {
 
                     if (typeId.equalsIgnoreCase("1")) {

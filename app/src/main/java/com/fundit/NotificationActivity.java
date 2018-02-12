@@ -247,4 +247,10 @@ public class NotificationActivity extends AppCompatActivity {
 
         }
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getNotifications(user_id, token_hash, user_id);
+    }
 }
