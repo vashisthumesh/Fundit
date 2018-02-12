@@ -136,10 +136,13 @@ class HomeActivity : AppCompatActivity() {
         Log.e("redemerIdss", "-->" + preference?.getRedeemer())
 
         if (preference?.userRoleID.equals(C.FUNDSPOT) /*|| (preference?.userRoleID.equals(C.GENERAL_MEMBER) && member.redeemer.equals("1")) || preference?.getRedeemer()!!.equals("1")*/) {
+            Log.e("totalReddermer", "4")
             img_qrscan?.visibility = View.VISIBLE
-        } else if (preference?.getRedeemer()!!.equals("1")) {
+        } else if (preference?.getRedeemer()==1) {
+            Log.e("totalReddermer", "5")
             img_qrscan?.visibility = View.VISIBLE
         } else {
+            Log.e("totalReddermer", "6")
             img_qrscan?.visibility = View.GONE
         }
 
@@ -327,9 +330,11 @@ class HomeActivity : AppCompatActivity() {
                     fragment = HomeFragment()
                 }
                 C.GENERAL_MEMBER -> {
-                    if (preference?.getRedeemer()!!.equals("1")) {
+                    if (preference?.getRedeemer()==1) {
+                        Log.e("totalReddermer", "7")
                         img_qrscan?.visibility = View.VISIBLE
                     } else {
+                        Log.e("totalReddermer", "8")
                         img_qrscan?.visibility = View.GONE
                     }
                     fragment = HomeFragment()
@@ -755,11 +760,17 @@ class HomeActivity : AppCompatActivity() {
                     Log.e("totalReddermer", "--->" + preference?.getRedeemer() + "-->" + mainObject.getInt("is_redeemer"))
 
                     navigationAdapter?.notifyDataSetChanged()
+
+
                     if (preference?.userRoleID.equals(C.FUNDSPOT) /*|| (preference?.userRoleID.equals(C.GENERAL_MEMBER) && member.redeemer.equals("1")) || preference?.getRedeemer()!!.equals("1")*/) {
+                        Log.e("totalReddermer", "1")
+
                         img_qrscan?.visibility = View.VISIBLE
-                    } else if (preference?.getRedeemer()!!.equals("1")) {
+                    } else if (preference?.getRedeemer()==1) {
+                        Log.e("totalReddermer", "2")
                         img_qrscan?.visibility = View.VISIBLE
                     } else {
+                        Log.e("totalReddermer", "3")
                         img_qrscan?.visibility = View.GONE
                     }
 
@@ -778,5 +789,12 @@ class HomeActivity : AppCompatActivity() {
 
 
         }
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+        Log.e("checking" , "--->")
+        GetNotificationCount().execute()
     }
 }

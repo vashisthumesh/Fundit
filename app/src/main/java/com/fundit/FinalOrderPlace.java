@@ -251,6 +251,7 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
 */
 
         txt_partnerTitle.setText("Fundspot: ");
+        txt_partnerTitle.setVisibility(View.VISIBLE);
         if (campaignList.getCampaign().getRole_id().equalsIgnoreCase("2")) {
             txt_partnerName.setText(campaignList.getUserFundspot().getTitle());
         } else if (campaignList.getCampaign().getRole_id().equalsIgnoreCase("3")) {
