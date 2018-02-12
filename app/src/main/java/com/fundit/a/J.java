@@ -39,13 +39,10 @@ public class J {
     public static void GetNotificationCountGlobal(String userId , String tokenHash , final AppPreference appPreference , Context context , Activity activity){
 
         AdminAPI adminAPI = ServiceGenerator.getAPIClass();
-        final CustomDialog customDialog = new CustomDialog(activity , "");
-        customDialog.show();
         final Call<NotificationCountModel> countModelCall = adminAPI.NOTIFICATION_COUNT_MODEL_CALL(userId, tokenHash);
         countModelCall.enqueue(new Callback<NotificationCountModel>() {
             @Override
             public void onResponse(Call<NotificationCountModel> call, Response<NotificationCountModel> response) {
-                customDialog.dismiss();
                 NotificationCountModel countModel = response.body();
                 if(countModel!=null){
                     if(countModel.isStatus()){
@@ -73,7 +70,6 @@ public class J {
 
             @Override
             public void onFailure(Call<NotificationCountModel> call, Throwable t) {
-                customDialog.dismiss();
 
             }
         });

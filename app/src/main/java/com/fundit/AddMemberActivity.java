@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.fundit.a.AppPreference;
 import com.fundit.a.C;
+import com.fundit.a.J;
 import com.fundit.adapter.SendMessageAdapter;
 import com.fundit.apis.AdminAPI;
 import com.fundit.apis.ServiceGenerator;
@@ -176,5 +177,10 @@ public class AddMemberActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        J.GetNotificationCountGlobal(preference.getUserID() , preference.getTokenHash() , preference , getApplicationContext() , this);
+    }
 
 }

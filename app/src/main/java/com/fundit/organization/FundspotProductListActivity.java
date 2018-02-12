@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.fundit.R;
 import com.fundit.a.AppPreference;
 import com.fundit.a.C;
+import com.fundit.a.J;
 import com.fundit.a.W;
 import com.fundit.adapter.ProductListAdapter;
 import com.fundit.apis.AdminAPI;
@@ -400,6 +401,12 @@ public class FundspotProductListActivity extends AppCompatActivity {
 
             return selctedProducts;
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        J.GetNotificationCountGlobal(preference.getUserID() , preference.getTokenHash() , preference , getApplicationContext() , this);
     }
 
 }

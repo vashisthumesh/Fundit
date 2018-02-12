@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.alihafizji.library.CreditCardEditText;
 import com.fundit.a.AppPreference;
 import com.fundit.a.C;
+import com.fundit.a.J;
 import com.fundit.apis.AdminAPI;
 import com.fundit.apis.ServiceGenerator;
 import com.fundit.helper.CreditCardPattern;
@@ -381,6 +382,12 @@ public class CardActivity extends AppCompatActivity {
 
 
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        J.GetNotificationCountGlobal(preference.getUserID() , preference.getTokenHash() , preference , getApplicationContext() , this);
     }
 
 }

@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.fundit.a.AppPreference;
 import com.fundit.a.C;
+import com.fundit.a.J;
 import com.fundit.adapter.CampaignMembersAdapter;
 import com.fundit.adapter.MemberListAdapter;
 import com.fundit.apis.AdminAPI;
@@ -196,5 +197,11 @@ public class AddMemberToCampaign extends AppCompatActivity {
         });
 
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        J.GetNotificationCountGlobal(preference.getUserID() , preference.getTokenHash() , preference , getApplicationContext() , this);
     }
 }
