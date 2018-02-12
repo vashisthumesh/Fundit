@@ -191,6 +191,7 @@ public class NotificationActivity extends AppCompatActivity {
                 loadingView.show();
             } catch (Exception e) {
                 e.printStackTrace();
+
             }
         }
 
