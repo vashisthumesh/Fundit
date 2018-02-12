@@ -66,7 +66,7 @@ public class J {
                         appPreference.setMemberCount(memberRequest);
                         appPreference.setTotalCount(totalRequest);
 
-                        Log.e("GlobalSuccess" , "--->" );
+                        Log.e("GlobalSuccess" , "---->" );
                     }
                 }
             }
