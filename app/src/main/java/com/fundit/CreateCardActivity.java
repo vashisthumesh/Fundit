@@ -340,7 +340,7 @@ public class CreateCardActivity extends AppCompatActivity {
                 } else if (lastname.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter valid last name");
                 } else if (cardType.isEmpty()) {
-                    C.INSTANCE.showToast(getApplicationContext(), "Please enter proper card number");
+                    C.INSTANCE.showToast(getApplicationContext(), "Please enter valid card number");
                 } else if (address.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter address");
                 } else if (city.isEmpty()) {

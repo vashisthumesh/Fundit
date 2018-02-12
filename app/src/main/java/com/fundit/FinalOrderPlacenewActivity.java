@@ -204,7 +204,7 @@ public class FinalOrderPlacenewActivity extends AppCompatActivity implements Ord
             fundraiser.setVisibility(View.GONE);
         } else {
             fundraiser.setVisibility(View.VISIBLE);
-            txt_fundraiser.setText("Fundriser : " + newslist.getCampaignDetails().getNews_Campaign().getTitle());
+            txt_fundraiser.setText("Fundriser:" + newslist.getCampaignDetails().getNews_Campaign().getTitle());
         }
 
 
@@ -223,7 +223,6 @@ public class FinalOrderPlacenewActivity extends AppCompatActivity implements Ord
         Log.e("test", "test");
 
         txt_partnerTitle.setVisibility(View.VISIBLE);
-        txt_partnerTitle.setText("Fundspot :");
         if (newslist.getCampaignDetails().getNews_Campaign().getRole_id().equalsIgnoreCase("2")) {
 
             fundspotId = newslist.getCampaignDetails().getReceiveUser().getId();
