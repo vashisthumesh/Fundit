@@ -22,11 +22,13 @@
             android:padding="5dp"
             android:textColor="@color/colorText"
             android:text="Notifications"
+            android:visibility="gone"
             android:textSize="18sp" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1.5dp"
+            android:visibility="gone"
             android:background="@color/colorButton"/>
 
         <ListView

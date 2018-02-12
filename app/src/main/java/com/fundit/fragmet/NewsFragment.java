@@ -43,7 +43,7 @@ public class NewsFragment extends Fragment {
     int totalPageCount = 0;
     int page = 1;
 
-    boolean isPaginationTimes = false ;
+    boolean isPaginationTimes = false;
 
     public NewsFragment() {
         // Required empty public constructor
@@ -67,8 +67,7 @@ public class NewsFragment extends Fragment {
         return view;
     }
 
-    private void fetchIds()
-    {
+    private void fetchIds() {
 
         news_recycle = (RecyclerView) view.findViewById(R.id.news_recycler);
         news_adapter = new NewsAdapter(newsDataList, getActivity());
@@ -87,15 +86,15 @@ public class NewsFragment extends Fragment {
                 int totalListItems = newsDataList.size();
                 int lastVisiblePosition = gridLayoutManager.findLastVisibleItemPosition();
 
-                Log.e("check",  "=-->" + totalListItems);
-                Log.e("check1",  "=-->" + lastVisiblePosition);
-                Log.e("check2",  "=-->" + page);
-                Log.e("check3",  "=-->" + totalPageCount);
+                Log.e("check", "=-->" + totalListItems);
+                Log.e("check1", "=-->" + lastVisiblePosition);
+                Log.e("check2", "=-->" + page);
+                Log.e("check3", "=-->" + totalPageCount);
 
                 if (lastVisiblePosition == (totalListItems - 1)) {
                     if (page < totalPageCount) {
                         page += 1;
-                        isPaginationTimes = true ;
+                        isPaginationTimes = true;
                         GetNewsDatas();
 
                     }
@@ -111,24 +110,21 @@ public class NewsFragment extends Fragment {
         });
 
 
-
-
-
-
-
     }
 
     private void GetNewsDatas() {
-        dialog.show();
+        if (isPaginationTimes == false) {
+            dialog.show();
+        }
         Call<News_model> news_response = null;
 
         news_response = adminAPI.NEWS_MODEL(preference.getUserID(), String.valueOf(page));
-        Log.e("userid","--->"+preference.getUserID() + "-->" + String.valueOf(page));
+        Log.e("userid", "--->" + preference.getUserID() + "-->" + String.valueOf(page));
         news_response.enqueue(new Callback<News_model>() {
             @Override
             public void onResponse(Call<News_model> call, Response<News_model> response) {
                 dialog.dismiss();
-                if(isPaginationTimes==false){
+                if (isPaginationTimes == false) {
                     newsDataList.clear();
                 }
                 News_model news_modelList = response.body();
@@ -158,6 +154,5 @@ public class NewsFragment extends Fragment {
 
 
     }
-
 
 }
