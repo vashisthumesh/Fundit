@@ -292,14 +292,23 @@ public class CampaignSetting extends AppCompatActivity {
                                     C.INSTANCE.showToast(getApplicationContext(), verifyResponse.getMessage());
                                     String memberData = new Gson().toJson(verifyResponse.getData().getMember().getFundspot());
                                     preference.setMemberData(memberData);
+                                    Log.e("prefrence","--->"+preference.getMemberData());
                                     if (firstTIme) {
                                         preference.setSkiped(true);
                                     }
 
-                                    Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-                                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                    startActivity(intent);
-                                    finishAffinity();
+
+                                    if(editMode)
+                                    {
+                                         onBackPressed();
+                                    }
+                                    else {
+                                        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                        startActivity(intent);
+                                        finishAffinity();
+                                    }
+
                                 } else {
                                     C.INSTANCE.showToast(getApplicationContext(), verifyResponse.getMessage());
                                 }

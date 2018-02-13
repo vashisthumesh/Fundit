@@ -3,6 +3,7 @@ package com.fundit;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -121,6 +122,7 @@ public class CardActivity extends AppCompatActivity {
         preference = new AppPreference(getApplicationContext());
 
         fetchIds();
+        setupToolbar();
     }
 
     public void fetchIds()
@@ -142,8 +144,8 @@ public class CardActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<BankCardResponse> call, Response<BankCardResponse> response) {
                 // dialog.dismiss();
-                cardName.add("Select Card");
-                cardId.add("0");
+//                cardName.add("Select Card");
+//                cardId.add("0");
 
                 BankCardResponse cardResponse = response.body();
 
@@ -180,16 +182,12 @@ public class CardActivity extends AppCompatActivity {
         spn_savedcard.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 0) {
 
-                    edt_cvv.setText("");
+                      auth_cust_paymnet_profile_id=bankCard.get(position).getAuth_cust_paymnet_profile_id();
+                      customerProfileId=bankCard.get(position ).getCustomerProfileId();
+                      card_Id=bankCard.get(position).getCard_id();
 
-                } else {
-                      auth_cust_paymnet_profile_id=bankCard.get(position - 1).getAuth_cust_paymnet_profile_id();
-                      customerProfileId=bankCard.get(position - 1).getCustomerProfileId();
-                      card_Id=bankCard.get(position - 1).getCard_id();
 
-                }
 
 
             }
@@ -249,9 +247,8 @@ public class CardActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 cvv = edt_cvv.getText().toString();
-                if (spn_savedcard.getSelectedItemPosition() == 0 || card_Id.isEmpty()) {
-                    C.INSTANCE.showToast(getApplicationContext(), "Please Select Card");
-                } else if (cvv.isEmpty()) {
+
+                if (cvv.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please Enter CVV Number");
                 } else {
                     dialog.show();
@@ -325,6 +322,7 @@ public class CardActivity extends AppCompatActivity {
                         Log.e("organization_id", "--->" + organization_id);
                         Log.e("fundspot_id", "-->" + fundspot_id);
                         Log.e("selectedProductArray", "-->" + selectedProductArray);
+                        Log.e("card_Id","--->"+card_Id);
                         Log.e("auth_cust_paymnet", "-->" + auth_cust_paymnet_profile_id);
 
 
@@ -382,6 +380,24 @@ public class CardActivity extends AppCompatActivity {
 
 
 
+    }
+
+
+    private void setupToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarCenterText);
+        TextView actionTitle = (TextView) findViewById(R.id.actionTitle);
+
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        actionTitle.setText("");
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
     }
 
     @Override

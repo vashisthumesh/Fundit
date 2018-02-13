@@ -642,6 +642,7 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
                                             } else {
 
                                                 Intent i = new Intent(getApplicationContext(), CreateCardActivity.class);
+                                                i.putExtra("actionflag","false");
                                                 i.putExtra("selectedProductArray", selectedProductArray.toString());
                                                 i.putExtra("firstname", user.getFirst_name());
                                                 i.putExtra("lastname", user.getLast_name());
@@ -711,6 +712,7 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
 
 
                                 Intent i = new Intent(getApplicationContext(), CreateCardActivity.class);
+                                i.putExtra("actionflag","false");
                                 i.putExtra("selectedProductArray", selectedProductArray.toString());
                                 i.putExtra("firstname", user.getFirst_name());
                                 i.putExtra("lastname", user.getLast_name());
@@ -769,6 +771,7 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
 
 
                             Intent i = new Intent(getApplicationContext(), CreateCardActivity.class);
+                            i.putExtra("actionflag","false");
                             i.putExtra("selectedProductArray", selectedProductArray.toString());
                             i.putExtra("firstname", user.getFirst_name());
                             i.putExtra("lastname", user.getLast_name());

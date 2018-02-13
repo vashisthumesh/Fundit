@@ -248,8 +248,6 @@ public class OrderHistoryDetail extends AppCompatActivity {
             }
 
 
-
-
             String getExpDate = historyResponse.getOrder().getCoupon_expiry_date();
             final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd k:mm:ss");
             try {
@@ -393,6 +391,7 @@ public class OrderHistoryDetail extends AppCompatActivity {
                     } else {
                         Intent i = new Intent(getApplicationContext(), CreateCardActivity.class);
                         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        i.putExtra("actionflag","false");
                         i.putExtra("isCouponTimes" , true);
                         i.putExtra("orderId" , historyResponse.getOrder().getId());
                         startActivity(i);

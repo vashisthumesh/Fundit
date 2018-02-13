@@ -883,6 +883,13 @@ public class AddMemberFudActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        try {
+            member = new Gson().fromJson(preference.getMemberData(), Member.class);
+            fundspot = new Gson().fromJson(preference.getMemberData(), Fundspot.class);
+            Log.e("userData", preference.getUserData());
+        } catch (Exception e) {
+            Log.e("Exception", e.getMessage());
+        }
         J.GetNotificationCountGlobal(preference.getUserID() , preference.getTokenHash() , preference , getApplicationContext() , this);
     }
 }
