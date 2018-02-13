@@ -370,8 +370,6 @@ class HomeActivity : AppCompatActivity() {
             }
             if (preference?.userRoleID.equals(C.GENERAL_MEMBER)) {
                 actionTitle?.text = "My Coupons"
-                img_edit?.visibility = View.GONE
-                //   img_notification?.visibility=View.VISIBLE
                 fragment = CouponFragment()
                 val transaction = fm?.beginTransaction()
                 transaction?.replace(R.id.content, fragment)
@@ -571,6 +569,10 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun setMyProductFragment() {
+        actionTitle?.visibility = View.VISIBLE
+        img_edit?.visibility = View.GONE
+        img_notification.visibility = View.GONE
+        cartCount?.visibility = View.GONE
         actionTitle?.text = "My Products"
         fragment = MyProductsFragment()
         val transaction = fm?.beginTransaction()
