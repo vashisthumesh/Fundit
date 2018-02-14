@@ -61,6 +61,7 @@ public class CardActivity extends AppCompatActivity {
     String organization_name="";
     String combineName = "";
     String orderId = "";
+    String actionflag = "";
     boolean newsFeedTimes = false;
     boolean isotherTimes = false;
     boolean isCouponTimes = false ;
@@ -111,6 +112,7 @@ public class CardActivity extends AppCompatActivity {
             organization_name=i.getStringExtra("organization_name");
             newsFeedTimes=i.getBooleanExtra("newsFeedTimes" , false);
             isotherTimes=i.getBooleanExtra("isOtherTimes" , false);
+            actionflag = i.getStringExtra("actionflag");
         }
 
 
@@ -233,6 +235,7 @@ public class CardActivity extends AppCompatActivity {
                     i.putExtra("isOtherTimes" , isotherTimes);
                     i.putExtra("email",email);
                     i.putExtra("name" , combineName);
+                    i.putExtra("actionflag","true");
 
                     Log.e("isother" ,"-->" +  isotherTimes);
 

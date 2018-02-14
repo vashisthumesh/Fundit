@@ -54,7 +54,7 @@ public class AddMemberFudActivity extends AppCompatActivity {
     AppPreference preference;
     CustomDialog dialog;
     AdminAPI adminAPI;
-    Member member = new Member();
+
     CircleImageView circleImageView;
 
     TextView txt_name, txt_address, txt_emailID, txt_organizations, txt_fundspots, txt_currentCampaigns, txt_pastCampaigns, txt_contct, txt_con_info_email, txt_con_info_mobile, txt_fundtitle, txt_fundraiser_split;
@@ -77,7 +77,11 @@ public class AddMemberFudActivity extends AppCompatActivity {
 
 
     int isMemberJoined = 0;
+    int isDialogOpen = 0;
     Fundspot fundspot = new Fundspot();
+    Organization organization = new Organization();
+    Member member = new Member();
+
 
 
     @Override
@@ -95,8 +99,10 @@ public class AddMemberFudActivity extends AppCompatActivity {
         Flag=intent.getStringExtra("Flag");
 
         try {
-            member = new Gson().fromJson(preference.getMemberData(), Member.class);
+
             fundspot = new Gson().fromJson(preference.getMemberData(), Fundspot.class);
+            organization = new Gson().fromJson(preference.getMemberData(), Organization.class);
+            member = new Gson().fromJson(preference.getMemberData(), Member.class);
             Log.e("userData", preference.getUserData());
         } catch (Exception e) {
             Log.e("Exception", e.getMessage());
@@ -210,17 +216,43 @@ public class AddMemberFudActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String selectedUsersId = "";
                 String membersssIdss = "";
+                String selectedUserRoleId = "";
                 Log.e("checking", "-->");
                 if (preference.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER)) {
                     membersssIdss = member.getId();
+                }else if(preference.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)){
+                    membersssIdss = fundspot.getId();
+                }else if(preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION)){
+                    membersssIdss = organization.getId();
                 }
+
+
+
+
+
+
+
+
+                if(Flag.equalsIgnoreCase("fund")){
+                    selectedUserRoleId = C.FUNDSPOT;
+                }else if(Flag.equalsIgnoreCase("org")) {
+                    selectedUserRoleId = C.ORGANIZATION;
+                }else {
+                    selectedUserRoleId = preference.getUserRoleID();
+                }
+
 
                 if (isMemberJoined == 0) {
                     new  JoinMember(membersssIdss, memberId).execute();
                 } else if(isMemberJoined==1) {
-                    new  LeaveMember(preference.getUserID(), preference.getUserRoleID(), membersssIdss).execute();
+                    new  LeaveMember(memberId, selectedUserRoleId, membersssIdss).execute();
                 }else if(isMemberJoined==2){
-                    C.INSTANCE.showToast(getApplicationContext() , "You request are to join is pending!");
+
+                    if (isDialogOpen == 1) {
+                        RespondForMemberRequest("", "Respond to Request", "");
+                    } else {
+                        C.INSTANCE.showToast(getApplicationContext(), "Your request to add " + txt_name.getText().toString().trim() + " is pending.");
+                    }
                 }
             }
         });
@@ -692,17 +724,41 @@ public class AddMemberFudActivity extends AppCompatActivity {
                 dialog.dismiss();
                 JoinMemberModel appModel = response.body();
                 if (appModel != null) {
-                    C.INSTANCE.showToast(getApplicationContext(), appModel.getMessage());
+
                     if (appModel.isStatus()) {
                         if (appModel.getData() == 1) {
                             btnJoin.setText("Leave Us");
+                            btnFollow.setText("Follow");
                             isMemberJoined = 1;
-                        }if(appModel.getData()==2){
-                            btnJoin.setText("Pending");
-                            isMemberJoined=2;
+                        }
+                        if (appModel.getData() == 2) {
+
+                            if (preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION) || preference.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)) {
+
+                                if (appModel.getOwner_role_id() == 1) {
+
+                                    btnJoin.setText("Respond To Request");
+                                    btnFollow.setText("Unfollow");
+                                    isDialogOpen = 1;
+                                    isMemberJoined = 2;
+
+                                } else {
+                                    /*C.INSTANCE.showToast(getApplicationContext(), "Your request to add " + txt_name.getText().toString().trim() + " is pending.");*/
+                                    btnJoin.setText("Pending");
+                                    btnFollow.setText("Unfollow");
+                                    isMemberJoined = 2;
+                                }
+
+                            } else {
+                                /*C.INSTANCE.showToast(getApplicationContext(), "Your request to add " + txt_name.getText().toString().trim() + " is pending.");*/
+                                btnJoin.setText("Pending");
+                                btnFollow.setText("Unfollow");
+                                isMemberJoined = 2;
+                            }
+
+
                         }
                     }
-
 
                 } else {
                     C.INSTANCE.defaultError(getApplicationContext());
@@ -794,7 +850,7 @@ public class AddMemberFudActivity extends AppCompatActivity {
                     status = mainObject.getBoolean("status");
                     message = mainObject.getString("message");
 
-                    C.INSTANCE.showToast(getApplicationContext(), message);
+                    //C.INSTANCE.showToast(getApplicationContext(), message);
                     if (status) {
 
 
@@ -879,6 +935,144 @@ public class AddMemberFudActivity extends AppCompatActivity {
             }
         }
     }
+
+    private void RespondForMemberRequest(final String userID, String message, String title) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(title.isEmpty() ? "Member Request Pending" : title);
+        builder.setMessage(message);
+        builder.setCancelable(false);
+        String checkMemberId = "";
+        String userRoleId = "";
+
+        if (preference.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)) {
+            checkMemberId = fundspot.getId();
+            userRoleId = C.FUNDSPOT;
+
+        }
+        if (preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION)) {
+            checkMemberId = organization.getId();
+            userRoleId = C.ORGANIZATION;
+        }
+        if (preference.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER)) {
+            checkMemberId = member.getId();
+            userRoleId = C.GENERAL_MEMBER;
+
+        }
+
+        final String finalUserRoleId = userRoleId;
+        final String finalCheckMemberId = checkMemberId;
+        builder.setPositiveButton("Accept", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+
+                new RespondMemberRequest(memberId, finalUserRoleId, "1", finalCheckMemberId).execute();
+
+
+            }
+        });
+
+        builder.setNegativeButton("Decline", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+                new RespondMemberRequest(memberId, finalUserRoleId, "2", finalCheckMemberId).execute();
+            }
+        });
+
+
+        AlertDialog bDialog = builder.create();
+        bDialog.show();
+
+
+    }
+
+    public class RespondMemberRequest extends AsyncTask<Void, Void, String> {
+
+        String getStatus = "";
+        String getMemberId = "";
+        String roleId = "";
+        String userId = "";
+
+        public RespondMemberRequest(String userId, String roleId, String getStatus, String getMemberId) {
+            this.userId = userId;
+            this.roleId = roleId;
+            this.getStatus = getStatus;
+            this.getMemberId = getMemberId;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            try {
+
+                dialog = new CustomDialog(AddMemberFudActivity.this);
+                dialog.show();
+                dialog.setCancelable(false);
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+
+
+            List<NameValuePair> pairs = new ArrayList<>();
+            pairs.add(new BasicNameValuePair("user_id", userId));
+            pairs.add(new BasicNameValuePair("role_id", roleId));
+            pairs.add(new BasicNameValuePair("member_id", getMemberId));
+            pairs.add(new BasicNameValuePair("status", getStatus));
+
+            String json = new ServiceHandler().makeServiceCall(W.BASE_URL + "Member/app_respond_other_request", ServiceHandler.POST, pairs);
+
+            Log.e("parameters", "" + pairs);
+
+
+            return json;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            dialog.dismiss();
+
+            try {
+
+                if (s.equalsIgnoreCase("") || s.isEmpty()) {
+
+                    C.INSTANCE.noInternet(getApplicationContext());
+                } else {
+
+                    JSONObject mainObject = new JSONObject(s);
+
+                    boolean status = false;
+                    String message = "";
+
+                    status = mainObject.getBoolean("status");
+                    message = mainObject.getString("message");
+
+                    C.INSTANCE.showToast(getApplicationContext(), message);
+                    if (status == true) {
+                        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                        startActivity(intent);
+                    }
+                }
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+        }
+    }
+
+
+
 
     @Override
     protected void onResume() {

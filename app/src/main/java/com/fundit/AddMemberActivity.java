@@ -202,6 +202,7 @@ public class AddMemberActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        searchUsers.setText("");
         J.GetNotificationCountGlobal(preference.getUserID(), preference.getTokenHash(), preference, getApplicationContext(), this);
     }
 

@@ -634,6 +634,7 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
                                                 Log.e("orgid", organizationId);
                                                 Log.e("fundid", fundspotId);
                                                 Log.e("array", selectedProductArray.toString());
+                                                i.putExtra("actionflag","false");
 
                                                 Log.e("isother2", "-->" + isotherTimes);
 
@@ -642,7 +643,7 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
                                             } else {
 
                                                 Intent i = new Intent(getApplicationContext(), CreateCardActivity.class);
-                                                i.putExtra("actionflag","false");
+                                                i.putExtra("actionflag","true");
                                                 i.putExtra("selectedProductArray", selectedProductArray.toString());
                                                 i.putExtra("firstname", user.getFirst_name());
                                                 i.putExtra("lastname", user.getLast_name());
@@ -712,7 +713,7 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
 
 
                                 Intent i = new Intent(getApplicationContext(), CreateCardActivity.class);
-                                i.putExtra("actionflag","false");
+                                i.putExtra("actionflag","true");
                                 i.putExtra("selectedProductArray", selectedProductArray.toString());
                                 i.putExtra("firstname", user.getFirst_name());
                                 i.putExtra("lastname", user.getLast_name());
@@ -771,7 +772,7 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
 
 
                             Intent i = new Intent(getApplicationContext(), CreateCardActivity.class);
-                            i.putExtra("actionflag","false");
+                            i.putExtra("actionflag","true");
                             i.putExtra("selectedProductArray", selectedProductArray.toString());
                             i.putExtra("firstname", user.getFirst_name());
                             i.putExtra("lastname", user.getLast_name());

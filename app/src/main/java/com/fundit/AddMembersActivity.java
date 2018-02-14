@@ -544,8 +544,30 @@ public class AddMembersActivity extends AppCompatActivity {
 
 
         if (!profileMode) {
+
+            btnMessage.setOnClickListener(new View.OnClickListener()
+
+            {
+                @Override
+                public void onClick(View v) {
+
+                    String names = "";
+                    names = txt_name.getText().toString();
+
+
+                    Intent intent = new Intent(getApplicationContext(), FinalSendMessage.class);
+                    intent.putExtra("name", names);
+                    intent.putExtra("id", memberId);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                }
+            });
+
+
+
             btnJoin.setVisibility(View.GONE);
             btnFollow.setVisibility(View.GONE);
+            btnMessage.setVisibility(View.VISIBLE);
             new GetAllDetails().execute();
 
         }
@@ -632,14 +654,14 @@ public class AddMembersActivity extends AppCompatActivity {
                                     isMemberJoined = 2;
 
                                 } else {
-                                    C.INSTANCE.showToast(getApplicationContext(), "Your request to add " + txt_name.getText().toString().trim() + " is pending.");
+                                   /* C.INSTANCE.showToast(getApplicationContext(), "Your request to add " + txt_name.getText().toString().trim() + " is pending.");*/
                                     btnJoin.setText("Pending");
                                     btnFollow.setText("Unfollow");
                                     isMemberJoined = 2;
                                 }
 
                             } else {
-                                C.INSTANCE.showToast(getApplicationContext(), "Your request to add " + txt_name.getText().toString().trim() + " is pending.");
+                           /*     C.INSTANCE.showToast(getApplicationContext(), "Your request to add " + txt_name.getText().toString().trim() + " is pending.");*/
                                 btnJoin.setText("Pending");
                                 btnFollow.setText("Unfollow");
                                 isMemberJoined = 2;
@@ -726,12 +748,15 @@ public class AddMembersActivity extends AppCompatActivity {
                         JSONObject stateObject = dataObject.getJSONObject("State");
                         JSONObject cityObject = dataObject.getJSONObject("City");
 
-                        String name = "" , emailids = "" , contact="" , contactinfoMobile = "" , contactinfoEmail = "";
+                        String name = "" , emailids = "" , contact="" , contactinfoMobile = "" , contactinfoEmail = "" , organizationName = "" , fundspotName = "";
                         name = userObject.getString("title");
                         emailids = userObject.getString("email_id");
                         contact = memberObject.getString("contact_info");
                         contactinfoMobile = memberObject.getString("contact_info_mobile");
                         contactinfoEmail = memberObject.getString("contact_info_email");
+                        organizationName = memberObject.getString("organization_names");
+                        fundspotName = memberObject.getString("fundspot_names");
+
 
                         txt_name.setText(name);
 
@@ -763,12 +788,26 @@ public class AddMembersActivity extends AppCompatActivity {
                             txt_con_info_email.setText(contactinfoEmail);
                         }
 
+                        Log.e("check" , "-->" + organizationName + "-->" + fundspotName + "-->" + layout_org.getVisibility() + "-->");
+                        if(organizationName==null || organizationName.equalsIgnoreCase("") || organizationName.equalsIgnoreCase("null") || organizationName.equalsIgnoreCase(null)){
+                            layout_org.setVisibility(View.GONE);
+                        }else {
+                            layout_org.setVisibility(View.VISIBLE);
+                            txt_organizations.setText(organizationName);
+                        }
+
+                        if(fundspotName==null || fundspotName.equalsIgnoreCase("") || fundspotName.equalsIgnoreCase("null") || fundspotName.equalsIgnoreCase(null)){
+                            layout_fun.setVisibility(View.GONE);
+                        }else {
+                            layout_fun.setVisibility(View.VISIBLE);
+                            txt_fundspots.setText(fundspotName);
+                        }
 
 
 
 
 
-                        txt_address.setText(memberObject.getString("location") + ", " + memberObject.getString("city_name") + " " + stateObject.getString("name") + ", " + memberObject.getString("zip_code"));
+                        txt_address.setText(memberObject.getString("location") + ", " + memberObject.getString("city_name") + " " + stateObject.getString("state_code") + " " + memberObject.getString("zip_code"));
 
 
 

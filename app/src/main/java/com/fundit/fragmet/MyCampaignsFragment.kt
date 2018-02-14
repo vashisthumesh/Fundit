@@ -309,6 +309,13 @@ class MyCampaignsFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        try {
+            member = Gson().fromJson(preference?.getMemberData(), Fundspot::class.java)
+            Log.e("member", "-->" + preference?.getMemberData())
+
+        } catch (e: Exception) {
+            Log.e("Exception", e.message)
+        }
         GetNotificationCount().execute()
     }
 

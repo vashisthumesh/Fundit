@@ -438,6 +438,8 @@ public class FinalOrderPlacenewActivity extends AppCompatActivity implements Ord
                                     i.putExtra("is_card_save", "1");
                                     i.putExtra("organization_name", org_name);
                                     i.putExtra("newsFeedTimes" , true);
+                                    i.putExtra("actionflag","true");
+
                                     startActivity(i);
                                 } else {
 

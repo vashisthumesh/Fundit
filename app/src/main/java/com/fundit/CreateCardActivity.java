@@ -188,7 +188,7 @@ public class CreateCardActivity extends AppCompatActivity {
 
         if(actionflag.equalsIgnoreCase("true"))
         {
-            actionTitle.setText("");
+            actionTitle.setText("Place Order");
         }
         else {
             actionTitle.setText("Save Card");
