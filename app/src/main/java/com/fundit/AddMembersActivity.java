@@ -544,6 +544,8 @@ public class AddMembersActivity extends AppCompatActivity {
 
 
         if (!profileMode) {
+            btnJoin.setVisibility(View.GONE);
+            btnFollow.setVisibility(View.GONE);
             new GetAllDetails().execute();
 
         }
@@ -724,12 +726,52 @@ public class AddMembersActivity extends AppCompatActivity {
                         JSONObject stateObject = dataObject.getJSONObject("State");
                         JSONObject cityObject = dataObject.getJSONObject("City");
 
+                        String name = "" , emailids = "" , contact="" , contactinfoMobile = "" , contactinfoEmail = "";
+                        name = userObject.getString("title");
+                        emailids = userObject.getString("email_id");
+                        contact = memberObject.getString("contact_info");
+                        contactinfoMobile = memberObject.getString("contact_info_mobile");
+                        contactinfoEmail = memberObject.getString("contact_info_email");
 
-                        txt_name.setText(userObject.getString("title"));
-                        txt_emailID.setText(userObject.getString("email_id"));
-                        txt_contct.setText(memberObject.getString("contact_info"));
+                        txt_name.setText(name);
 
-                        txt_address.setText(memberObject.getString("location") + ", " + cityObject.getString("name") + " " + stateObject.getString("name") + ", " + memberObject.getString("zip_code"));
+
+                        if(emailids==null || emailids.equalsIgnoreCase("")){
+                            txt_emailID.setVisibility(View.GONE);
+                        }else {
+                            txt_emailID.setText(emailids);
+                        }
+
+
+
+                        if(contact==null || contact.equalsIgnoreCase("") || contact.equalsIgnoreCase("null") || contact.equalsIgnoreCase(null)){
+                            layout_contact.setVisibility(View.GONE);
+                        }else {
+                            txt_contct.setText(contact);
+                        }
+
+
+                        if(contactinfoMobile==null || contactinfoMobile.equalsIgnoreCase("") || contactinfoMobile.equalsIgnoreCase("null") || contactinfoMobile.equalsIgnoreCase(null)){
+                            layout_contact_info_mobile.setVisibility(View.GONE);
+                        }else {
+                            txt_con_info_mobile.setText(contactinfoMobile);
+                        }
+
+                        if(contactinfoEmail==null || contactinfoEmail.equalsIgnoreCase("") || contactinfoEmail.equalsIgnoreCase("null") || contactinfoEmail.equalsIgnoreCase(null)){
+                            layout_contact_info_email.setVisibility(View.GONE);
+                        }else {
+                            txt_con_info_email.setText(contactinfoEmail);
+                        }
+
+
+
+
+
+
+                        txt_address.setText(memberObject.getString("location") + ", " + memberObject.getString("city_name") + " " + stateObject.getString("name") + ", " + memberObject.getString("zip_code"));
+
+
+
 
 
                         String getURL = W.FILE_URL + memberObject.getString("image");
@@ -838,6 +880,10 @@ public class AddMembersActivity extends AppCompatActivity {
                             Log.e("path", "check");
                             userRoleId = getResponse.getUser().getRole_id();
                             CheckMemberIsjoined(checkMemberId, userRoleId);
+                        }
+
+                        if(!profileMode){
+                            onBackPressed();
                         }
 
                     }
