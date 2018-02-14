@@ -93,7 +93,15 @@ public class FundspotProductListActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-        actionTitle.setText("Select Product");
+
+        if (isProfileMode)
+        {
+            actionTitle.setText("");
+        }
+        else {
+            actionTitle.setText("Select Product");
+        }
+
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
