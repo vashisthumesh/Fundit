@@ -639,14 +639,14 @@ public class AddMembersActivity extends AppCompatActivity {
                     if (appModel.isStatus()) {
                         if (appModel.getData() == 1) {
                             btnJoin.setText("Leave Us");
-                            btnFollow.setText("Follow");
+                            btnFollow.setText("Unfollow");
                             isMemberJoined = 1;
                         }
                         if (appModel.getData() == 2) {
 
-                            if (preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION) || preference.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)) {
-
-                                if (appModel.getOwner_role_id() == 1) {
+                            /*if (preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION) || preference.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)) {
+*/
+                                if (appModel.getOwner_role_id() == 0) {
 
                                     btnJoin.setText("Respond To Request");
                                     btnFollow.setText("Unfollow");
@@ -660,15 +660,15 @@ public class AddMembersActivity extends AppCompatActivity {
                                     isMemberJoined = 2;
                                 }
 
-                            } else {
-                           /*     C.INSTANCE.showToast(getApplicationContext(), "Your request to add " + txt_name.getText().toString().trim() + " is pending.");*/
+                            }/* else {
+                           *//*     C.INSTANCE.showToast(getApplicationContext(), "Your request to add " + txt_name.getText().toString().trim() + " is pending.");*//*
                                 btnJoin.setText("Pending");
                                 btnFollow.setText("Unfollow");
                                 isMemberJoined = 2;
                             }
+*/
 
-
-                        }
+                      //  }
                     }
 
 
@@ -1246,8 +1246,10 @@ public class AddMembersActivity extends AppCompatActivity {
 
                     C.INSTANCE.showToast(getApplicationContext(), message);
                     if (status == true) {
-                        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-                        startActivity(intent);
+                        /*Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                        startActivity(intent);*/
+
+                        onBackPressed();
                     }
                 }
 

@@ -103,6 +103,7 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
 
     boolean isotherTimes = false;
     boolean ischeckedTimes = false;
+    boolean newsFeedTimes = false ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -260,12 +261,12 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
 
 
         if (preference.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER)) {
-            if (member.getSeller().equalsIgnoreCase("1")) {
+            if (member.getSeller().equalsIgnoreCase("1") || preference.getSeller()==1) {
                 tab_layout.setVisibility(View.VISIBLE);
                 confirm_layout.setVisibility(View.VISIBLE);
-
-
                 me_data();
+                newsFeedTimes = true ;
+
 
                 tabLayout.addTab(tabLayout.newTab().setText("Me"));
                 tabLayout.addTab(tabLayout.newTab().setText("Fundit User"));
@@ -276,13 +277,16 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
                     @Override
                     public void onTabSelected(TabLayout.Tab tab) {
                         if (tab.getPosition() == 0) {
+                          newsFeedTimes = true ;
                             me_data();
 
 
                         } else if (tab.getPosition() == 1) {
+                            newsFeedTimes = false ;
                             fundit_user();
 
                         } else if (tab.getPosition() == 2) {
+                            newsFeedTimes = false ;
                             other_user();
 
                         }
@@ -298,6 +302,8 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
 
                     }
                 });
+
+
             } else {
                 tab_layout.setVisibility(View.GONE);
                 confirm_layout.setVisibility(View.GONE);
@@ -621,6 +627,7 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
                                                 i.putExtra("organization_name", "");
                                                 i.putExtra("isOtherTimes", isotherTimes);
                                                 i.putExtra("name", combineName);
+                                                i.putExtra("newsFeedTimes" , newsFeedTimes);
 
                                                 Log.e("id", campaignList.getCampaign().getId());
                                                 Log.e("firstname", user.getFirst_name());
@@ -666,6 +673,7 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
                                                 i.putExtra("organization_name", "");
                                                 i.putExtra("isOtherTimes", isotherTimes);
                                                 i.putExtra("name", combineName);
+                                                i.putExtra("newsFeedTimes" , newsFeedTimes);
 
 
                                                 Log.e("id", campaignList.getCampaign().getId());
@@ -737,6 +745,7 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
                                 i.putExtra("isSaveCard", true);
                                 i.putExtra("isOtherTimes", isotherTimes);
                                 i.putExtra("name", combineName);
+                                i.putExtra("newsFeedTimes" , newsFeedTimes);
 
 
                                 Log.e("id", campaignList.getCampaign().getId());
@@ -796,6 +805,7 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
                             i.putExtra("isSaveCard", true);
                             i.putExtra("isOtherTimes", isotherTimes);
                             i.putExtra("name", combineName);
+                            i.putExtra("newsFeedTimes" , newsFeedTimes);
 
 
                             Log.e("id", campaignList.getCampaign().getId());

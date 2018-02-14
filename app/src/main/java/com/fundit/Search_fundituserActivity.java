@@ -76,7 +76,7 @@ public class Search_fundituserActivity extends AppCompatActivity implements Peop
             @Override
             public void afterTextChanged(Editable editable) {
                 String searchKey = edt_search_user.getText().toString().trim();
-                if (searchKey.length() >= 3) {
+                if (searchKey.length() > 0) {
                     SEARCH_PEOPLE(searchKey);
                 }
             }
@@ -90,8 +90,8 @@ public class Search_fundituserActivity extends AppCompatActivity implements Peop
 
                 if(getSearchTermed.isEmpty())
                     C.INSTANCE.showToast(getApplicationContext() , "Please enter name");
-                else if(getSearchTermed.length() <3)
-                    C.INSTANCE.showToast(getApplicationContext() , "Please enter mininum 3 keuwords");
+                else if(getSearchTermed.length() <=0)
+                    C.INSTANCE.showToast(getApplicationContext() , "Please enter mininum 3 keywords");
                 else {
                     SEARCH_PEOPLE(getSearchTermed);
                 }

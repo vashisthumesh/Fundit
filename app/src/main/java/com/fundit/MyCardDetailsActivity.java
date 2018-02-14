@@ -464,8 +464,9 @@ public class MyCardDetailsActivity extends AppCompatActivity {
 
                     C.INSTANCE.showToast(getApplicationContext(), message);
                     if (status == true) {
-                        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-                        startActivity(intent);
+                        /*Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                        startActivity(intent);*/
+                        onBackPressed();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -552,8 +553,10 @@ public class MyCardDetailsActivity extends AppCompatActivity {
                     C.INSTANCE.showToast(getApplicationContext(), message);
                     if (status == true) {
                         editMode = false;
-                        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-                        startActivity(intent);
+                        /*Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                        startActivity(intent);*/
+
+                        onBackPressed();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

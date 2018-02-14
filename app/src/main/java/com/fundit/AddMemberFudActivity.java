@@ -733,9 +733,9 @@ public class AddMemberFudActivity extends AppCompatActivity {
                         }
                         if (appModel.getData() == 2) {
 
-                            if (preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION) || preference.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)) {
-
-                                if (appModel.getOwner_role_id() == 1) {
+                            /*if (preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION) || preference.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)) {
+*/
+                                if (appModel.getOwner_role_id() == 0) {
 
                                     btnJoin.setText("Respond To Request");
                                     btnFollow.setText("Unfollow");
@@ -749,15 +749,15 @@ public class AddMemberFudActivity extends AppCompatActivity {
                                     isMemberJoined = 2;
                                 }
 
-                            } else {
-                                /*C.INSTANCE.showToast(getApplicationContext(), "Your request to add " + txt_name.getText().toString().trim() + " is pending.");*/
+                            } /*else {
+                                *//*C.INSTANCE.showToast(getApplicationContext(), "Your request to add " + txt_name.getText().toString().trim() + " is pending.");*//*
                                 btnJoin.setText("Pending");
                                 btnFollow.setText("Unfollow");
                                 isMemberJoined = 2;
                             }
 
 
-                        }
+                        }*/
                     }
 
                 } else {

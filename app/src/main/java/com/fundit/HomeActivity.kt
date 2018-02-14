@@ -65,6 +65,7 @@ class HomeActivity : AppCompatActivity() {
     var flag = false
     var couponTimes = false
     var isNotificationTimes = false
+    var isResume = false
     internal var user = User()
 
     internal var member = Member()
@@ -138,7 +139,7 @@ class HomeActivity : AppCompatActivity() {
         if (preference?.userRoleID.equals(C.FUNDSPOT) /*|| (preference?.userRoleID.equals(C.GENERAL_MEMBER) && member.redeemer.equals("1")) || preference?.getRedeemer()!!.equals("1")*/) {
             Log.e("totalReddermer", "4")
             img_qrscan?.visibility = View.VISIBLE
-        } else if (preference?.getRedeemer()==1) {
+        } else if (preference?.getRedeemer() == 1) {
             Log.e("totalReddermer", "5")
             img_qrscan?.visibility = View.VISIBLE
         } else {
@@ -330,7 +331,7 @@ class HomeActivity : AppCompatActivity() {
                     fragment = HomeFragment()
                 }
                 C.GENERAL_MEMBER -> {
-                    if (preference?.getRedeemer()==1) {
+                    if (preference?.getRedeemer() == 1) {
                         Log.e("totalReddermer", "7")
                         img_qrscan?.visibility = View.VISIBLE
                     } else {
@@ -756,11 +757,6 @@ class HomeActivity : AppCompatActivity() {
                     Log.e("totalCount", "--->" + totalRequest)
                     Log.e("totalproductCount", "--->" + preference?.getfundspot_product_count())
 
-                    if (cartCount?.text.toString().equals("0")) {
-                        cartCount?.visibility = View.GONE
-                    } else {
-                        cartCount?.visibility = View.VISIBLE
-                    }
 
                     preference?.campaignCount = campaignRequestCount
                     preference?.memberCount = memberRequest
@@ -773,20 +769,31 @@ class HomeActivity : AppCompatActivity() {
                     navigationAdapter?.notifyDataSetChanged()
 
 
-                    if (preference?.userRoleID.equals(C.FUNDSPOT) /*|| (preference?.userRoleID.equals(C.GENERAL_MEMBER) && member.redeemer.equals("1")) || preference?.getRedeemer()!!.equals("1")*/) {
-                        Log.e("totalReddermer", "1")
+                    if (isResume == false) {
+                        if (cartCount?.text.toString().equals("0")) {
+                            cartCount?.visibility = View.GONE
+                        } else {
+                            cartCount?.visibility = View.VISIBLE
+                        }
 
-                        img_qrscan?.visibility = View.VISIBLE
-                    } else if (preference?.getRedeemer()==1) {
-                        Log.e("totalReddermer", "2")
-                        img_qrscan?.visibility = View.VISIBLE
-                    } else {
-                        Log.e("totalReddermer", "3")
-                        img_qrscan?.visibility = View.GONE
+
+
+                        if (preference?.userRoleID.equals(C.FUNDSPOT) /*|| (preference?.userRoleID.equals(C.GENERAL_MEMBER) && member.redeemer.equals("1")) || preference?.getRedeemer()!!.equals("1")*/) {
+                            Log.e("totalReddermer", "1")
+
+                            img_qrscan?.visibility = View.VISIBLE
+                        } else if (preference?.getRedeemer() == 1) {
+                            Log.e("totalReddermer", "2")
+                            img_qrscan?.visibility = View.VISIBLE
+                        } else {
+                            Log.e("totalReddermer", "3")
+                            img_qrscan?.visibility = View.GONE
+                        }
+
+
                     }
 
-
-
+                    isResume = false
 
                     Log.e("count", "" + preference?.messageCount)
 
@@ -805,7 +812,8 @@ class HomeActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        Log.e("checking" , "--->")
+        isResume = true
+        Log.e("checking", "--->")
         GetNotificationCount().execute()
     }
 }

@@ -76,6 +76,20 @@ public class MyCardsFragment extends Fragment {
         list_cards.setAdapter(cardDetailsAdapter);
 
 
+
+
+        addNewCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), MyCardDetailsActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        ShowAddedCards();
+    }
+
+    private void ShowAddedCards() {
         dialog.show();
         final Call<BankCardResponse> bankCardResponse = adminAPI.BankCard(preference.getUserID(), preference.getTokenHash());
         Log.e("parameters", "-->" + preference.getUserID() + "-->" + preference.getTokenHash());
@@ -83,6 +97,7 @@ public class MyCardsFragment extends Fragment {
             @Override
             public void onResponse(Call<BankCardResponse> call, Response<BankCardResponse> response) {
                 dialog.dismiss();
+                bankCard.clear();
                 BankCardResponse cardResponse = response.body();
 
                 Log.e("getData", "-->" + new Gson().toJson(cardResponse));
@@ -106,14 +121,11 @@ public class MyCardsFragment extends Fragment {
                 C.INSTANCE.errorToast(getActivity(), t);
             }
         });
+    }
 
-        addNewCard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), MyCardDetailsActivity.class);
-                startActivity(intent);
-            }
-        });
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        ShowAddedCards();
     }
 }

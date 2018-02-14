@@ -236,6 +236,7 @@ public class CardActivity extends AppCompatActivity {
                     i.putExtra("email",email);
                     i.putExtra("name" , combineName);
                     i.putExtra("actionflag","true");
+                    i.putExtra("newsFeedTimes" , newsFeedTimes);
 
                     Log.e("isother" ,"-->" +  isotherTimes);
 

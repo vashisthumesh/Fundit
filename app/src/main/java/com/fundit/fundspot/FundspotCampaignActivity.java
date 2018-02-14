@@ -236,8 +236,8 @@ public class FundspotCampaignActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                String searchKey = auto_searchFundspot.getText().toString().trim();
-                if (searchKey.length() >= 3) {
+                String searchKey = auto_searchFundspot.getText().toString();
+                if (searchKey.length() > 0) {
                     searchFundspot(searchKey);
                 } else {
                     fundSpotList.clear();
