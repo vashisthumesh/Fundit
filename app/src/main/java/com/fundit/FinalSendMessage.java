@@ -108,6 +108,7 @@ public class FinalSendMessage extends AppCompatActivity {
 
                 dialog.show();
                 Call<AppModel> sendFinalMessage = adminAPI.SendMessage(preference.getUserID(), preference.getTokenHash(), id, subject, message);
+                Log.e("sendMessage" , "--->" + preference.getUserID() + "-->" + preference.getTokenHash() + "-->" + id + "->" + subject + "message");
                 sendFinalMessage.enqueue(new Callback<AppModel>() {
                     @Override
                     public void onResponse(Call<AppModel> call, Response<AppModel> response) {
@@ -118,9 +119,11 @@ public class FinalSendMessage extends AppCompatActivity {
                         if (model != null) {
                             if (model.isStatus()) {
                                 C.INSTANCE.showToast(getApplicationContext(), model.getMessage());
-                                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                                /*Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                startActivity(intent);
+                                startActivity(intent);*/
+
+                                onBackPressed();
                             } else {
                                 C.INSTANCE.showToast(getApplicationContext(), model.getMessage());
                             }
@@ -140,5 +143,11 @@ public class FinalSendMessage extends AppCompatActivity {
         });
 
         }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        System.gc();
+    }
     }
 

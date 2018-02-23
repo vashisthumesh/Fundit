@@ -306,28 +306,28 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
             if(newsDataList.get(position).getCampaignDetails().getNews_Campaign().getRole_id().equalsIgnoreCase("2"))
             {
                 String main_titlestring = "<b>" +newsDataList.get(position).getCampaignDetails().getNews_Campaign().getTitle() + "</b> "
-                        + "<br/>" + "Fundspot Partner:" +"<b>"+ newsDataList.get(position).getCampaignDetails().getReceiveUser().getTitle() +"</b>"+ "<br/>"  +"Products:"+ finalString;
+                        + "<br/>" + "Fundspot Partner: " +"<b>"+ newsDataList.get(position).getCampaignDetails().getReceiveUser().getTitle() +"</b>"+ "<br/>"  +"Products: "+ finalString;
                 holder.txt_mainTitle.setText(Html.fromHtml(main_titlestring));
 
             }
             else if(newsDataList.get(position).getCampaignDetails().getNews_Campaign().getRole_id().equalsIgnoreCase("3"))
             {
                 String main_titlestring = "<b>" +newsDataList.get(position).getCampaignDetails().getNews_Campaign().getTitle() + "</b> "
-                        + "<br/>" + "Fundspot Partner:" +"<b>"+ newsDataList.get(position).getCampaignDetails().getCreateUser().getTitle() +"</b>"+ "<br/>"  +"Products:"+ finalString;
+                        + "<br/>" + "Fundspot Partner: " +"<b>"+ newsDataList.get(position).getCampaignDetails().getCreateUser().getTitle() +"</b>"+ "<br/>"  +"Products: "+ finalString;
 
                 holder.txt_mainTitle.setText(Html.fromHtml(main_titlestring));
             }
 
 
-           // String main_titlestring1="Fundspot Partner:" +"<b>"+ newsDataList.get(position).getCampaignDetails().getReceiveUser().getTitle() +"</b>";
-          //  String main_titlestring2="Products:"+ finalString;
+           // String main_titlestring1="Fundspot Partner: " +"<b>"+ newsDataList.get(position).getCampaignDetails().getReceiveUser().getTitle() +"</b>";
+          //  String main_titlestring2="Products: "+ finalString;
 
           //  String final_string=main_titlestring+"\n"+main_titlestring1+"\n"+main_titlestring2;
 
 
 
 
-          //  holder.txt_mainTitle.setText(newsDataList.get(position).getCampaignDetails().getNews_Campaign().getTitle() + "\n" + "Fundspot Partner:" + newsDataList.get(position).getCampaignDetails().getReceiveUser().getTitle() + "\n" + "Products:" + finalString);
+          //  holder.txt_mainTitle.setText(newsDataList.get(position).getCampaignDetails().getNews_Campaign().getTitle() + "\n" + "Fundspot Partner: " + newsDataList.get(position).getCampaignDetails().getReceiveUser().getTitle() + "\n" + "Products: " + finalString);
 
 
            // holder.txt_raised.setText(newsDataList.get(position).getCampaignDetails().getNews_Campaign().getTotal_earning());

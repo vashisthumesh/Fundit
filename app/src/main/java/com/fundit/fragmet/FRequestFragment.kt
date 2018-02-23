@@ -59,6 +59,8 @@ class FRequestFragment : Fragment() {
         fView = inflater?.inflate(R.layout.fragment_reuest_home, container, false)
         preference = AppPreference(activity)
 
+
+
         fetchIDs()
 
         return fView
@@ -70,6 +72,14 @@ class FRequestFragment : Fragment() {
         val navigation = fView?.findViewById(R.id.navigation) as BottomNavigationView
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
         showCampaignFragment()
+        Log.e("check" , "--->" + preference?.isMemberTimes)
+        if(preference?.isMemberTimes==true){
+            Log.e("checkingmem" , "--->" + preference?.isMemberTimes)
+            showMemberFragment()
+            navigation.getMenu().getItem(1).setChecked(true)
+        }
+
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

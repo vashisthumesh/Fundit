@@ -237,14 +237,16 @@ public class FundspotCampaignActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable editable) {
                 String searchKey = auto_searchFundspot.getText().toString();
-                if (searchKey.length() > 0) {
-                    searchFundspot(searchKey);
-                } else {
-                    fundSpotList.clear();
-                    fundSpotNames.clear();
-                    autoAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_textview, fundSpotNames);
-                    auto_searchFundspot.setAdapter(autoAdapter);
-                    auto_searchFundspot.showDropDown();
+                if (!isProfileMode) {
+                    if (searchKey.length() > 0) {
+                        searchFundspot(searchKey);
+                    } else {
+                        fundSpotList.clear();
+                        fundSpotNames.clear();
+                        autoAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_textview, fundSpotNames);
+                        auto_searchFundspot.setAdapter(autoAdapter);
+                        auto_searchFundspot.showDropDown();
+                    }
                 }
             }
         });

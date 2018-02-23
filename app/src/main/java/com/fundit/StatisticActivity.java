@@ -285,4 +285,10 @@ public class StatisticActivity extends AppCompatActivity {
 
         }
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        System.gc();
+    }
 }

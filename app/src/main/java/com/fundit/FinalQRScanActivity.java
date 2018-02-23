@@ -13,7 +13,9 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -171,6 +173,14 @@ public class FinalQRScanActivity extends AppCompatActivity implements QRCodeRead
         final Dialog dialog = new Dialog(FinalQRScanActivity.this);
         dialog.setContentView(R.layout.layout_popup);
         dialog.setCancelable(false);
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        lp.gravity = Gravity.CENTER;
+
+        dialog.getWindow().setAttributes(lp);
+
 
         final EditText edt_couponnumber = (EditText) dialog.findViewById(R.id.edt_couponnumber);
         Button btn_apply = (Button) dialog.findViewById(R.id.btn_apply);
@@ -213,6 +223,14 @@ public class FinalQRScanActivity extends AppCompatActivity implements QRCodeRead
             }
         });
         AlertDialog bDialog = builder.create();
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(bDialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        lp.gravity = Gravity.CENTER;
+
+        bDialog.getWindow().setAttributes(lp);
+
         bDialog.show();
     }
 
@@ -232,6 +250,7 @@ public class FinalQRScanActivity extends AppCompatActivity implements QRCodeRead
             public void onResponse(Call<QRScanModel> call, Response<QRScanModel> response) {
                 customDialog.dismiss();
                 QRScanModel qrScanModel = response.body();
+                Log.e("response" , "--->" + new Gson().toJson(response));
                 if (qrScanModel != null) {
                     if (qrScanModel.isStatus()) {
 
@@ -256,12 +275,15 @@ public class FinalQRScanActivity extends AppCompatActivity implements QRCodeRead
                         startActivity(intent);
 */
                     } else {
-                        C.INSTANCE.showToast(getApplicationContext(), qrScanModel.getMessage());
+                      //  C.INSTANCE.showToast(getApplicationContext(), qrScanModel.getMessage());
+
+                        showInvalidDialog(qrScanModel.getMessage() , qrScanModel.getPop_up_title());
                     }
                 } else {
                     C.INSTANCE.defaultError(getApplicationContext());
                 }
             }
+
 
             @Override
             public void onFailure(Call<QRScanModel> call, Throwable t) {
@@ -277,6 +299,13 @@ public class FinalQRScanActivity extends AppCompatActivity implements QRCodeRead
         final Dialog dialog = new Dialog(FinalQRScanActivity.this);
         dialog.setContentView(R.layout.layout_leftmoney_dialog);
         dialog.setCancelable(false);
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        lp.gravity = Gravity.CENTER;
+
+        dialog.getWindow().setAttributes(lp);
 
         TextView txt_productname = (TextView) dialog.findViewById(R.id.txt_productname);
         TextView txt_quantity = (TextView) dialog.findViewById(R.id.txt_quantity);
@@ -333,7 +362,7 @@ public class FinalQRScanActivity extends AppCompatActivity implements QRCodeRead
                 }
             }
         });
-
+        edt_quantity.setText("1");
         btn_redeem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -375,6 +404,13 @@ public class FinalQRScanActivity extends AppCompatActivity implements QRCodeRead
         final Dialog dialog = new Dialog(FinalQRScanActivity.this);
         dialog.setContentView(R.layout.layout_quantity_reddem);
         dialog.setCancelable(false);
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        lp.gravity = Gravity.CENTER;
+
+        dialog.getWindow().setAttributes(lp);
 
         TextView txt_productname = (TextView) dialog.findViewById(R.id.txt_productname);
         TextView txt_quantity = (TextView) dialog.findViewById(R.id.txt_quantity);
@@ -432,6 +468,7 @@ public class FinalQRScanActivity extends AppCompatActivity implements QRCodeRead
             }
         });
 
+        edt_quantity.setText("1");
         btn_redeem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -537,5 +574,35 @@ public class FinalQRScanActivity extends AppCompatActivity implements QRCodeRead
                 }
             }
         }
+    }
+
+    private void showInvalidDialog(String message, String pop_up_title) {
+        AlertDialog.Builder builder=new AlertDialog.Builder(this);
+        builder.setTitle(pop_up_title);
+        builder.setMessage(message);
+        builder.setCancelable(false);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+                qrCodeReaderView.startCamera();
+            }
+        });
+        AlertDialog bDialog=builder.create();
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(bDialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        lp.gravity = Gravity.CENTER;
+
+        bDialog.getWindow().setAttributes(lp);
+        bDialog.show();
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        System.gc();
     }
 }

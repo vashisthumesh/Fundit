@@ -9,9 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.fundit.HomeActivity;
 import com.fundit.R;
 import com.fundit.a.AppPreference;
 import com.fundit.a.C;
+import com.fundit.a.J;
 import com.fundit.adapter.OrderHistoryAdapter;
 import com.fundit.adapter.ShowOrderDetailsAdapter;
 import com.fundit.apis.AdminAPI;
@@ -44,6 +46,8 @@ public class CouponFragment extends Fragment {
 
     List<OrderHistoryResponse.OrderList> orderHistoryResponse = new ArrayList<>();
 
+   // HomeActivity homeActivity ;
+
 
     public CouponFragment() {
 
@@ -54,6 +58,9 @@ public class CouponFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.fragment_order_history, container, false);
+
+       // homeActivity = new HomeActivity();
+
 
         preference = new AppPreference(getActivity());
         adminAPI = ServiceGenerator.getAPIClass();
@@ -88,6 +95,7 @@ public class CouponFragment extends Fragment {
             @Override
             public void onResponse(Call<OrderHistoryResponse> call, Response<OrderHistoryResponse> response) {
                 dialog.dismiss();
+                orderHistoryResponse.clear();
                 OrderHistoryResponse order = response.body();
                 if(order!=null){
                     orderHistoryResponse.addAll(order.getData());
@@ -115,4 +123,12 @@ public class CouponFragment extends Fragment {
     }
 
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        J.GetNotificationCountGlobal(preference.getUserID() , preference.getTokenHash() , preference , getContext() , getActivity());
+       // homeActivity.notifyAll();
+
+
+    }
 }

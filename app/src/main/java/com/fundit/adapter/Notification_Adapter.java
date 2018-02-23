@@ -26,10 +26,12 @@ import com.fundit.Bean.Bean_Notification_history;
 import com.fundit.FundOrganizationRequestActivity;
 import com.fundit.Fundit;
 import com.fundit.HomeActivity;
+import com.fundit.NewsDetailActivity;
 import com.fundit.NewsadapterclickActivity;
 import com.fundit.NotificationActivity;
 import com.fundit.NotificationDetailActivity;
 import com.fundit.NotificationOrderActivity;
+import com.fundit.OrderPlaceActivity;
 import com.fundit.R;
 import com.fundit.SerchPeopleActivity;
 import com.fundit.SignInActivity;
@@ -161,7 +163,7 @@ public class Notification_Adapter extends BaseAdapter {
                                     try {
                                         JSONObject object = new JSONObject(json);
                                         String message = object.getString("message");
-                                        Toast.makeText(context, "" + message, Toast.LENGTH_SHORT).show();
+                                       // Toast.makeText(context, "" + message, Toast.LENGTH_SHORT).show();
                                         loadingView.dismiss();
                                         if (typeId.equalsIgnoreCase("1")) {
 
@@ -370,6 +372,7 @@ public class Notification_Adapter extends BaseAdapter {
         loadingView.setCancelable(false);
         loadingView.show();
         Call<NotificationCampaignModel> notificationCampaignModelCall = adminAPI.NOTIFICATION_CAMPAIGN_MODEL_CALL(campaignId);
+        Log.e("adapterParameters" , "--->" + campaignId);
         notificationCampaignModelCall.enqueue(new Callback<NotificationCampaignModel>() {
             @Override
             public void onResponse(Call<NotificationCampaignModel> call, retrofit2.Response<NotificationCampaignModel> response) {
@@ -377,10 +380,28 @@ public class Notification_Adapter extends BaseAdapter {
                 NotificationCampaignModel campaignModel = response.body();
                 if (campaignModel != null) {
                     if (campaignModel.isStatus()) {
-                        Intent intent = new Intent(context, NotificationOrderActivity.class);
+                        /*Intent intent = new Intent(context, OrderPlaceActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        intent.putExtra("details", campaignModel.getData());
-                        context.startActivity(intent);
+                        intent.putExtra("Details", campaignModel.getData());
+                        context.startActivity(intent);*/
+
+                        if (pref.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER)) {
+                            Intent intent = new Intent(context, NewsDetailActivity.class);
+                            intent.putExtra("details", campaignModel.getData());
+                            pref.setCampaignBack(true);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(intent);
+                        } else {
+                            Intent intent = new Intent(context, OrderPlaceActivity.class);
+                            intent.putExtra("Details", campaignModel.getData());
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(intent);
+                        }
+
+
+
+
+
                     } else {
                         C.INSTANCE.showToast(context, campaignModel.getMessage());
                     }

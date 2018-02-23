@@ -254,6 +254,7 @@ public class QRScannerActivity extends AppCompatActivity implements QRCodeReader
     @Override
     protected void onResume() {
         super.onResume();
+        System.gc();
         qrCodeReaderView.startCamera();
     }
 
@@ -296,6 +297,10 @@ public class QRScannerActivity extends AppCompatActivity implements QRCodeReader
 
                     }else {
                         C.INSTANCE.showToast(getApplicationContext() , qrScanModel.getMessage());
+
+
+                        showInvalidDialog(qrScanModel.getMessage());
+
                     }
                 }else {
                     C.INSTANCE.defaultError(getApplicationContext());
@@ -309,6 +314,25 @@ public class QRScannerActivity extends AppCompatActivity implements QRCodeReader
             }
         });
     }
+
+
+    private void showInvalidDialog(String message) {
+        AlertDialog.Builder builder=new AlertDialog.Builder(this);
+        builder.setTitle("Invalid Coupon");
+        builder.setMessage(message);
+        builder.setCancelable(false);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+                qrCodeReaderView.startCamera();
+            }
+        });
+        AlertDialog bDialog=builder.create();
+        bDialog.show();
+
+    }
+
 
 
 

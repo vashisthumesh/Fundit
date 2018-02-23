@@ -536,4 +536,10 @@ public class CreateCampaignTermsNextActivity extends AppCompatActivity {
     public void onBackPressed() {
         finish();
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        System.gc();
+    }
 }

@@ -202,6 +202,7 @@ public class AddMemberToCampaign extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        System.gc();
         J.GetNotificationCountGlobal(preference.getUserID() , preference.getTokenHash() , preference , getApplicationContext() , this);
     }
 }

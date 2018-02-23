@@ -132,8 +132,8 @@ public class ShowCampaignAdapter extends BaseAdapter {
         double ibyf = 0.0, multiply = 0.0, toadd = 0.0;
 
 
-        txt_itemLabel.setText("Products :");
-        txt_dateLabel.setText("Dates :");
+        txt_itemLabel.setText("Products:");
+        txt_dateLabel.setText("Dates:");
         txt_mainTitle.setText(campaignLists.get(position).getCampaign().getTitle());
 
         if (campaignLists.get(position).getCampaign().getTitle().isEmpty()) {
@@ -219,7 +219,7 @@ public class ShowCampaignAdapter extends BaseAdapter {
 
         if (preference.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)) {
             org_layout.setVisibility(View.GONE);
-            txt_labelPartner.setText("Organization Partner :");
+            txt_labelPartner.setText("Organization Partner:");
 
             if (campaignLists.get(position).getCampaign().getRole_id().equalsIgnoreCase(C.FUNDSPOT)) {
                 txt_fundPartner.setText(campaignLists.get(position).getUserFundspot().getTitle());
@@ -231,7 +231,7 @@ public class ShowCampaignAdapter extends BaseAdapter {
         if (preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION)) {
             org_layout.setVisibility(View.GONE);
             //txt_labelPartner.setText("Organization Partner :");
-            txt_labelPartner.setText("Fundspot Partner :");
+            txt_labelPartner.setText("Fundspot Partner:");
 
 
             if (campaignLists.get(position).getCampaign().getRole_id().equalsIgnoreCase(C.FUNDSPOT)) {
@@ -245,7 +245,7 @@ public class ShowCampaignAdapter extends BaseAdapter {
 
         if (preference.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER)) {
             org_layout.setVisibility(View.VISIBLE);
-            txt_labelPartner.setText("Fundspot Partner :");
+            txt_labelPartner.setText("Fundspot Partner:");
             txt_labelpart.setText("Organization Partner:");
             if (campaignLists.get(position).getCampaign().getRole_id().equalsIgnoreCase(C.FUNDSPOT)) {
                 txt_fundPartner.setText(campaignLists.get(position).getUserOrganization().getTitle());
@@ -259,7 +259,7 @@ public class ShowCampaignAdapter extends BaseAdapter {
         ArrayList<String> allProducts = new ArrayList<>();
 
         for (int i = 0; i < campaignLists.get(position).getCampaignProduct().size(); i++) {
-            String itemNames = campaignLists.get(position).getCampaignProduct().get(i).getName() + ", ";
+            String itemNames = campaignLists.get(position).getCampaignProduct().get(i).getName() /*+ ", "*/;
 
             allProducts.add(itemNames);
 
@@ -286,6 +286,7 @@ public class ShowCampaignAdapter extends BaseAdapter {
                 } else {
                     Intent intent = new Intent(context, OrderPlaceActivity.class);
                     intent.putExtra("Details", campaignLists.get(position));
+                    intent.putExtra("pastCampaign" , isPastCampaign);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);
                 }
@@ -304,6 +305,7 @@ public class ShowCampaignAdapter extends BaseAdapter {
                 } else {
                     Intent intent = new Intent(context, OrderPlaceActivity.class);
                     intent.putExtra("Details", campaignLists.get(position));
+                    intent.putExtra("pastCampaign" , isPastCampaign);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);
                 }

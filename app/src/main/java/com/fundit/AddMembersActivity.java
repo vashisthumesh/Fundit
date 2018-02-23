@@ -87,6 +87,8 @@ public class AddMembersActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_my_profile);
 
+        Log.e("addMembers" , "-->");
+
         preference = new AppPreference(getApplicationContext());
         dialog = new CustomDialog(this);
         adminAPI = ServiceGenerator.getAPIClass();
@@ -127,7 +129,7 @@ public class AddMembersActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-        actionTitle.setText("Profile");
+       // actionTitle.setText("Profile");
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -227,6 +229,7 @@ public class AddMembersActivity extends AppCompatActivity {
             txt_emailID.setVisibility(View.GONE);
             layout_mail.setVisibility(View.GONE);
             btnAdd.setVisibility(View.GONE);
+            btnFollow.setText("Follow");
 
             setupToolbar();
 
@@ -313,7 +316,7 @@ public class AddMembersActivity extends AppCompatActivity {
 
                 txt_contct.setText(getResponse.getOrganization().getDescription());
                 Log.e("email", "--->" + getResponse.getOrganization().getContact_info_email());
-                if (getResponse.getOrganization().getContact_info_email() == null || getResponse.getOrganization().getContact_info_mobile().equalsIgnoreCase("")) {
+                if (getResponse.getOrganization().getContact_info_email() == null || getResponse.getOrganization().getContact_info_email().equalsIgnoreCase("")) {
                     layout_contact_info_email.setVisibility(View.GONE);
 
                 } else {
@@ -427,7 +430,7 @@ public class AddMembersActivity extends AppCompatActivity {
                             bDialog.show();
                         } else {
 
-                            intent.putExtra("fundspotName", fundspot.getTitle());
+                            intent.putExtra("fundspotName", getResponse.getOrganization().getTitle());
                             intent.putExtra("fundspotID", fundspot.getUser_id());
                             intent.putExtra("organizationID", getResponse.getOrganization().getUser_id());
                             intent.putExtra("profileMode", true);
@@ -545,6 +548,8 @@ public class AddMembersActivity extends AppCompatActivity {
 
         if (!profileMode) {
 
+
+
             btnMessage.setOnClickListener(new View.OnClickListener()
 
             {
@@ -577,7 +582,7 @@ public class AddMembersActivity extends AppCompatActivity {
     private void RespondForMemberRequest(final String userID, String message, String title) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(title.isEmpty() ? "Member Request Pending" : title);
+       // builder.setTitle(title.isEmpty() ? "Member Request Pending" : title);
         builder.setMessage(message);
         builder.setCancelable(false);
         String checkMemberId = "";
@@ -642,7 +647,7 @@ public class AddMembersActivity extends AppCompatActivity {
                             btnFollow.setText("Unfollow");
                             isMemberJoined = 1;
                         }
-                        if (appModel.getData() == 2) {
+                        else if (appModel.getData() == 2) {
 
                             /*if (preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION) || preference.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)) {
 */
@@ -669,6 +674,13 @@ public class AddMembersActivity extends AppCompatActivity {
 */
 
                       //  }
+
+                        else {
+
+                            btnJoin.setText("Join Us");
+                            btnFollow.setText("Follow");
+                            isMemberJoined = 0;
+                        }
                     }
 
 
@@ -763,8 +775,10 @@ public class AddMembersActivity extends AppCompatActivity {
 
                         if(emailids==null || emailids.equalsIgnoreCase("")){
                             txt_emailID.setVisibility(View.GONE);
+                            layout_mail.setVisibility(View.GONE);
                         }else {
                             txt_emailID.setText(emailids);
+                            layout_mail.setVisibility(View.GONE);
                         }
 
 
@@ -807,7 +821,9 @@ public class AddMembersActivity extends AppCompatActivity {
 
 
 
-                        txt_address.setText(memberObject.getString("location") + ", " + memberObject.getString("city_name") + " " + stateObject.getString("state_code") + " " + memberObject.getString("zip_code"));
+                        txt_address.setText(memberObject.getString("location") + "\n" + memberObject.getString("city_name") + ", " + stateObject.getString("state_code") + " " + memberObject.getString("zip_code"));
+
+
 
 
 
@@ -896,7 +912,7 @@ public class AddMembersActivity extends AppCompatActivity {
                     status = mainObject.getBoolean("status");
                     message = mainObject.getString("message");
 
-                    C.INSTANCE.showToast(getApplicationContext(), message);
+                   // C.INSTANCE.showToast(getApplicationContext(), message);
                     if (status) {
 
                         String checkMemberId = "";
@@ -990,7 +1006,7 @@ public class AddMembersActivity extends AppCompatActivity {
                     status = mainObject.getBoolean("status");
                     message = mainObject.getString("message");
 
-                    C.INSTANCE.showToast(getApplicationContext(), message);
+                   // C.INSTANCE.showToast(getApplicationContext(), message);
                     if (status) {
 
                         Intent intent = new Intent(getApplicationContext(), AddMemberToCampaign.class);
@@ -1082,7 +1098,7 @@ public class AddMembersActivity extends AppCompatActivity {
                     status = mainObject.getBoolean("status");
                     message = mainObject.getString("message");
 
-                    C.INSTANCE.showToast(getApplicationContext(), message);
+                  //  C.INSTANCE.showToast(getApplicationContext(), message);
                     if (status) {
                         btnJoin.setText("Leave Us");
                         btnFollow.setText("Unfollow");
@@ -1093,7 +1109,7 @@ public class AddMembersActivity extends AppCompatActivity {
                         }
 
 
-                        isMemberJoined = 1;
+                        isMemberJoined = 2;
 
 //                        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
 //                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -1164,7 +1180,7 @@ public class AddMembersActivity extends AppCompatActivity {
                     String message = "";
                     status = mainObject.getBoolean("status");
                     message = mainObject.getString("message");
-                    C.INSTANCE.showToast(getApplicationContext(), message);
+                   // C.INSTANCE.showToast(getApplicationContext(), message);
                     if (status) {
                         btnJoin.setText("Join Us");
                         btnFollow.setText("Follow");
@@ -1244,12 +1260,25 @@ public class AddMembersActivity extends AppCompatActivity {
                     status = mainObject.getBoolean("status");
                     message = mainObject.getString("message");
 
-                    C.INSTANCE.showToast(getApplicationContext(), message);
+                   // C.INSTANCE.showToast(getApplicationContext(), message);
                     if (status == true) {
                         /*Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                         startActivity(intent);*/
 
-                        onBackPressed();
+                       // onBackPressed();
+                       // recreate();
+
+
+                        btnJoin.setText("Leave Us");
+                        btnFollow.setText("Unfollow");
+                        isMemberJoined = 1;
+
+
+
+                        /*finish();
+                        overridePendingTransition(0, 0);
+                        startActivity(getIntent());
+                        overridePendingTransition(0, 0);*/
                     }
                 }
 
@@ -1261,9 +1290,21 @@ public class AddMembersActivity extends AppCompatActivity {
 
         }
     }
+
+
     @Override
     protected void onResume() {
         super.onResume();
+        System.gc();
+        try {
+            fundspot = new Gson().fromJson(preference.getMemberData(), Fundspot.class);
+            organization = new Gson().fromJson(preference.getMemberData(), Organization.class);
+            member = new Gson().fromJson(preference.getMemberData(), Member.class);
+            Log.e("userData", preference.getUserData());
+        } catch (Exception e) {
+            Log.e("Exception", e.getMessage());
+        }
+
         J.GetNotificationCountGlobal(preference.getUserID() , preference.getTokenHash() , preference , getApplicationContext() , this);
     }
 }

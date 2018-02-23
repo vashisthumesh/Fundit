@@ -10,14 +10,30 @@
     android:textAlignment="center"
     app:contentInsetStart="0dp">
 
-    <TextView
-        android:id="@+id/actionTitle"
-        style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:layout_weight="1"
-        android:text=""/>
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/actionTitle"
+                style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_marginLeft="-55dp"
+                android:layout_weight="1"
+                android:text=""/>
+
+        </FrameLayout>
+
+    </LinearLayout>
+
 
 
 </android.support.v7.widget.Toolbar>

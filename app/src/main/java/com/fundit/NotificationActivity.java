@@ -173,9 +173,11 @@ public class NotificationActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+        /*Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
+        startActivity(intent);*/
+
+        super.onBackPressed();
     }
 
 
@@ -252,6 +254,7 @@ public class NotificationActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        System.gc();
         getNotifications(user_id, token_hash, user_id);
     }
 }

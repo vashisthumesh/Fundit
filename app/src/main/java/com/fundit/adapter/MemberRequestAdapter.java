@@ -40,6 +40,7 @@ public class MemberRequestAdapter extends BaseAdapter {
 
     List<MemberRequestBean> memberRequestBeen = new ArrayList<>();
     Activity activity;
+    RespondRequest respondRequest;
     LayoutInflater inflater;
     AppPreference preference;
     Context context;
@@ -50,10 +51,10 @@ public class MemberRequestAdapter extends BaseAdapter {
     CustomDialog dialog;
 
 
-    public MemberRequestAdapter(List<MemberRequestBean> memberRequestBeen, Activity activity) {
+    public MemberRequestAdapter(List<MemberRequestBean> memberRequestBeen, Activity activity, RespondRequest respondRequest) {
         this.memberRequestBeen = memberRequestBeen;
         this.activity = activity;
-
+        this.respondRequest = respondRequest;
         this.inflater = activity.getLayoutInflater();
         this.preference = new AppPreference(activity);
 
@@ -75,18 +76,18 @@ public class MemberRequestAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
 
-        View view = inflater.inflate(R.layout.custom_member_request_layout , parent , false);
+        View view = inflater.inflate(R.layout.custom_member_request_layout, parent, false);
 
-        CircleImageView imageView =(CircleImageView) view.findViewById(R.id.img_profileImage);
+        CircleImageView imageView = (CircleImageView) view.findViewById(R.id.img_profileImage);
         TextView txtTitle = (TextView) view.findViewById(R.id.txt_Name);
         TextView txtLocation = (TextView) view.findViewById(R.id.txt_location);
         Button btnAccept = (Button) view.findViewById(R.id.btn_accept);
         Button btnDecline = (Button) view.findViewById(R.id.btn_decline);
 
 
-        Log.e("log" , "---;" + memberRequestBeen.get(position).getTitle());
+        Log.e("log", "---;" + memberRequestBeen.get(position).getTitle());
 
 
         String imagePath = W.FILE_URL + memberRequestBeen.get(position).getImage();
@@ -106,7 +107,7 @@ public class MemberRequestAdapter extends BaseAdapter {
             public void onClick(View v) {
                 String status = "1";
 
-                new RespondMemberRequest(status , memberId).execute();
+                new RespondMemberRequest(status, memberId, position).execute();
 
 
             }
@@ -117,37 +118,38 @@ public class MemberRequestAdapter extends BaseAdapter {
             public void onClick(View v) {
                 String status = "2";
 
-                new RespondMemberRequest(status , memberId).execute();
+                new RespondMemberRequest(status, memberId, position).execute();
             }
         });
-
 
 
         return view;
     }
 
 
-    public class RespondMemberRequest extends AsyncTask<Void , Void , String>{
+    public class RespondMemberRequest extends AsyncTask<Void, Void, String> {
 
         String getStatus = "";
         String getMemberId = "";
+        int position = 0;
 
-        public RespondMemberRequest(String getStatus , String getMemberId) {
+        public RespondMemberRequest(String getStatus, String getMemberId, int position) {
             this.getStatus = getStatus;
             this.getMemberId = getMemberId;
+            this.position = position;
         }
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            try{
+            try {
 
                 dialog = new CustomDialog(activity);
                 dialog.show();
                 dialog.setCancelable(false);
 
 
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -157,14 +159,14 @@ public class MemberRequestAdapter extends BaseAdapter {
 
 
             List<NameValuePair> pairs = new ArrayList<>();
-            pairs.add(new BasicNameValuePair("user_id" , preference.getUserID()));
-            pairs.add(new BasicNameValuePair("tokenhash" , preference.getTokenHash()));
-            pairs.add(new BasicNameValuePair("member_id" , getMemberId));
-            pairs.add(new BasicNameValuePair("status" , getStatus));
+            pairs.add(new BasicNameValuePair("user_id", preference.getUserID()));
+            pairs.add(new BasicNameValuePair("tokenhash", preference.getTokenHash()));
+            pairs.add(new BasicNameValuePair("member_id", getMemberId));
+            pairs.add(new BasicNameValuePair("status", getStatus));
 
-            json = new ServiceHandler().makeServiceCall(W.BASE_URL + "Member/app_respond_member_request" , ServiceHandler.POST , pairs);
+            json = new ServiceHandler().makeServiceCall(W.BASE_URL + "Member/app_respond_member_request", ServiceHandler.POST, pairs);
 
-            Log.e("parameters" , "" + pairs);
+            Log.e("parameters", "" + pairs);
 
 
             return json;
@@ -175,12 +177,12 @@ public class MemberRequestAdapter extends BaseAdapter {
             super.onPostExecute(s);
             dialog.dismiss();
 
-            try{
+            try {
 
-                if(s.equalsIgnoreCase("") || s.isEmpty()){
+                if (s.equalsIgnoreCase("") || s.isEmpty()) {
 
                     C.INSTANCE.noInternet(context);
-                }else {
+                } else {
 
                     JSONObject mainObject = new JSONObject(s);
 
@@ -190,13 +192,21 @@ public class MemberRequestAdapter extends BaseAdapter {
                     status = mainObject.getBoolean("status");
                     message = mainObject.getString("message");
 
-                    C.INSTANCE.showToast(activity , message);
-                    if(status==true){
-                        Intent intent = new Intent(activity , HomeActivity.class);
-                        activity.startActivity(intent);
+                    C.INSTANCE.showToast(activity, message);
+                    if (status == true) {
+                        /*Intent intent = new Intent(activity , HomeActivity.class);
+                        activity.startActivity(intent);*/
+
+                       // memberRequestBeen.remove(position);
+
+                        Log.e("yessClick" , "-->");
+
+                        respondRequest.onClick();
+
                     }
                 }
 
+               // notifyDataSetChanged();
 
 
             } catch (JSONException e) {
@@ -205,5 +215,12 @@ public class MemberRequestAdapter extends BaseAdapter {
 
 
         }
+    }
+
+
+    public interface RespondRequest {
+
+         void onClick();
+
     }
 }

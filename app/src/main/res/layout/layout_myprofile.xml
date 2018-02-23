@@ -66,10 +66,10 @@
                     android:layout_margin="5dp"
                     android:layout_weight="1"
                     android:background="@color/colorButton"
-                    android:text="Join Us"
+                    android:text=""
                     android:textAllCaps="false"
                     android:textColor="@color/colorText"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"/>
 
 
                 <Button
@@ -79,7 +79,7 @@
                     android:layout_margin="5dp"
                     android:layout_weight="1"
                     android:background="@color/colorButton"
-                    android:text="Follow"
+                    android:text=""
                     android:textAllCaps="false"
                     android:textColor="@color/colorText"
                     android:textStyle="bold" />

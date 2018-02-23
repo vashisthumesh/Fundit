@@ -52,8 +52,8 @@
 
                         <Button
                             android:id="@+id/btn_placeOrder1"
-                            android:layout_width="130dp"
-                            android:layout_height="45dp"
+                            android:layout_width="150dp"
+                            android:layout_height="35dp"
                             android:layout_gravity="center"
                             android:background="@color/colorButton"
                             android:text="Place Order"
@@ -70,8 +70,8 @@
 
                         <Button
                             android:id="@+id/btn_placeOrder"
-                            android:layout_width="130dp"
-                            android:layout_height="45dp"
+                            android:layout_width="150dp"
+                            android:layout_height="35dp"
                             android:layout_gravity="center"
                             android:background="@color/colorButton"
                             android:text="Share"
@@ -98,7 +98,10 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:layout_margin="5dp"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginRight="2dp"
                             android:text="Description:"
                             android:textColor="@color/colorText"
                             android:textSize="14sp" />
@@ -108,7 +111,6 @@
                             android:id="@+id/txt_description"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_marginLeft="2dp"
                             android:gravity="start|center"
                             android:textColor="@color/colorText"
                             android:textSize="14sp" />
@@ -136,6 +138,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_marginLeft="2dp"
+                            android:textColor="@color/colorText"
                             android:dividerHeight="1dp" />
                     </LinearLayout>
 
@@ -161,6 +164,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_marginLeft="2dp"
+                            android:textColor="@color/colorText"
                             android:dividerHeight="1dp" />
                     </LinearLayout>
 
@@ -192,16 +196,15 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="160dp"
+                        android:layout_height="wrap_content"
                         android:nestedScrollingEnabled="true"
                         android:orientation="horizontal">
 
-                        <ListView
+                        <com.fundit.helper.AdjustableListView
                             android:layout_margin="10dp"
                             android:id="@+id/listproduct"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@color/color_gray"
+                            android:layout_height="wrap_content"
                             android:nestedScrollingEnabled="true"
                             android:dividerHeight="1dp" />
                     </LinearLayout>
@@ -360,7 +363,7 @@
                         android:id="@+id/txt_message"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginLeft="2dp"
                         android:textColor="@color/colorText"
                         android:textSize="14sp" />
 

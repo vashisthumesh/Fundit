@@ -19,19 +19,16 @@ import android.widget.TextView;
 import com.fundit.a.AppPreference;
 import com.fundit.a.C;
 import com.fundit.adapter.OrderProductTimeAdapter;
-import com.fundit.adapter.OrderTimeProductAdapter;
 import com.fundit.apis.AdminAPI;
 import com.fundit.apis.ServiceGenerator;
 import com.fundit.helper.AdjustableListView;
 import com.fundit.helper.CustomDialog;
 import com.fundit.model.Address;
-import com.fundit.model.AppModel;
 import com.fundit.model.BankCardResponse;
-import com.fundit.model.CampaignListResponse;
 import com.fundit.model.GetSearchPeople;
 import com.fundit.model.Member;
-import com.fundit.model.MultipleProductResponse;
 import com.fundit.model.News_model;
+import com.fundit.model.NotificationCampaignModel;
 import com.fundit.model.User;
 import com.google.gson.Gson;
 
@@ -46,7 +43,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class FinalOrderPlacenewActivity extends AppCompatActivity implements OrderProductTimeAdapter.OnClick {
+public class NotificationTimesOrderActivity extends AppCompatActivity /*implements OrderProductTimeAdapter.OnClick*/ {
 
     AppPreference preference;
     AdminAPI adminAPI;
@@ -55,7 +52,7 @@ public class FinalOrderPlacenewActivity extends AppCompatActivity implements Ord
     ImageView serch_user;
     String Id = "";
     String flag = "false";
-    float allPrice = 0;
+    int allPrice = 0;
     GetSearchPeople.People people;
 
 
@@ -67,12 +64,12 @@ public class FinalOrderPlacenewActivity extends AppCompatActivity implements Ord
 
     RadioGroup radioGroup_paymentType;
 
-    RadioButton radio_cardPayment;
+    RadioButton radio_cardPayment ,  radio_cashPayment;
 
     Button btn_placeOrder;
 
     // CampaignListResponse.CampaignList campaignList;
-    News_model.NewsData newslist;
+  //  NotificationCampaignModel.CampaignData newslist;
     List<News_model.Product> productList = new ArrayList<>();
 
     User user = new User();
@@ -95,23 +92,24 @@ public class FinalOrderPlacenewActivity extends AppCompatActivity implements Ord
     String firstName = "";
     String lastName = "";
     String emailId = "";
-    String on_behalf_of = "0";
 
     boolean isotherTimes = false;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_final_order_placenew);
-
+        setContentView(R.layout.activity_final_order_place);
 
         Intent intent = getIntent();
         flag = intent.getStringExtra("flag");
 
-        newslist = (News_model.NewsData) intent.getSerializableExtra("details");
+       /* newslist = (NotificationCampaignModel.CampaignData) intent.getSerializableExtra("details");
         preference = new AppPreference(getApplicationContext());
         adminAPI = ServiceGenerator.getAPIClass();
-        dialog = new CustomDialog(FinalOrderPlacenewActivity.this);
+        dialog = new CustomDialog(NotificationTimesOrderActivity.this);
 
         Id = intent.getStringExtra("id");
 
@@ -129,18 +127,23 @@ public class FinalOrderPlacenewActivity extends AppCompatActivity implements Ord
         }
 
 
-        if (newslist.getCampaignDetails().getNews_Campaign().getRole_id().equalsIgnoreCase("2")) {
-            getAddress(newslist.getCampaignDetails().getReceiveUser().getId());
-        } else if (newslist.getCampaignDetails().getNews_Campaign().getRole_id().equalsIgnoreCase("3")) {
-            getAddress(newslist.getCampaignDetails().getCreateUser().getId());
+        if (newslist.getNews_Campaign().getRole_id().equalsIgnoreCase("2")) {
+            getAddress(newslist.getReceiveUser().getId());
+        } else if (newslist.getNews_Campaign().getRole_id().equalsIgnoreCase("3")) {
+            getAddress(newslist.getCreateUser().getId());
         }
         setupToolbar();
         fetchIDs();
 
 
+
+*/
+
+
     }
 
-    private void setupToolbar() {
+
+  /*  private void setupToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         TextView actionTitle = (TextView) findViewById(R.id.actionTitle);
 
@@ -177,6 +180,7 @@ public class FinalOrderPlacenewActivity extends AppCompatActivity implements Ord
         radioGroup_paymentType = (RadioGroup) findViewById(R.id.radioGroup_paymentType);
 
         radio_cardPayment = (RadioButton) findViewById(R.id.radio_cardPayment);
+        radio_cashPayment = (RadioButton) findViewById(R.id.radio_cashPayment);
 
 
         btn_placeOrder = (Button) findViewById(R.id.btn_placeOrder);
@@ -193,30 +197,30 @@ public class FinalOrderPlacenewActivity extends AppCompatActivity implements Ord
         edt_confirm_email.setEnabled(false);
         txt_targetAmt.setEnabled(false);
 
-        if (flag.equalsIgnoreCase("true")) {
+        *//*if (flag.equalsIgnoreCase("true")) {
             btn_placeOrder.setText("Continue");
             tabLayout.setVisibility(View.GONE);
             confirm_layout.setVisibility(View.GONE);
         } else {
             tabLayout.setVisibility(View.VISIBLE);
             confirm_layout.setVisibility(View.VISIBLE);
-        }
+        }*//*
 
-        if (newslist.getCampaignDetails().getNews_Campaign().getTitle().equalsIgnoreCase("") || newslist.getCampaignDetails().getNews_Campaign().getTitle() == null) {
+        if (newslist.getNews_Campaign().getTitle().equalsIgnoreCase("") || newslist.getNews_Campaign().getTitle() == null) {
             fundraiser.setVisibility(View.GONE);
         } else {
             fundraiser.setVisibility(View.VISIBLE);
-            txt_fundraiser.setText("Fundraiser: " + newslist.getCampaignDetails().getNews_Campaign().getTitle());
+            txt_fundraiser.setText("Fundraiser:" + newslist.getNews_Campaign().getTitle());
         }
 
 
         //  txt_targetAmt.setText(" $" +String.format("%.2f", Double.parseDouble( campaignList.getCampaign().getTarget_amount())));
 
-        productAdapter = new OrderProductTimeAdapter(productList, getApplicationContext(), FinalOrderPlacenewActivity.this);
+        productAdapter = new OrderProductTimeAdapter(productList, getApplicationContext(), NotificationTimesOrderActivity.this);
         list_products.setAdapter(productAdapter);
-        for (int i = 0; i < newslist.getCampaignDetails().getCampaignProduct().size(); i++) {
+        for (int i = 0; i < newslist.getCampaignProduct().size(); i++) {
 
-            productList.add(newslist.getCampaignDetails().getCampaignProduct().get(i));
+            productList.add(newslist.getCampaignProduct().get(i));
             productAdapter.notifyDataSetChanged();
 
         }
@@ -225,20 +229,20 @@ public class FinalOrderPlacenewActivity extends AppCompatActivity implements Ord
         Log.e("test", "test");
 
         txt_partnerTitle.setVisibility(View.VISIBLE);
-        if (newslist.getCampaignDetails().getNews_Campaign().getRole_id().equalsIgnoreCase("2")) {
+        if (newslist.getNews_Campaign().getRole_id().equalsIgnoreCase("2")) {
 
-            fundspotId = newslist.getCampaignDetails().getReceiveUser().getId();
-            organizationId = newslist.getCampaignDetails().getCreateUser().getId();
-            org_name = newslist.getCampaignDetails().getCreateUser().getTitle();
+            fundspotId = newslist.getReceiveUser().getId();
+            organizationId = newslist.getCreateUser().getId();
+            org_name = newslist.getCreateUser().getTitle();
 
-            txt_partnerName.setText(newslist.getCampaignDetails().getReceiveUser().getTitle());
+            txt_partnerName.setText(newslist.getReceiveUser().getTitle());
 
 
-        } else if (newslist.getCampaignDetails().getNews_Campaign().getRole_id().equalsIgnoreCase("3")) {
-            fundspotId = newslist.getCampaignDetails().getCreateUser().getId();
-            organizationId = newslist.getCampaignDetails().getReceiveUser().getId();
-            txt_partnerName.setText(newslist.getCampaignDetails().getCreateUser().getTitle());
-            org_name = newslist.getCampaignDetails().getReceiveUser().getTitle();
+        } else if (newslist.getNews_Campaign().getRole_id().equalsIgnoreCase("3")) {
+            fundspotId = newslist.getCreateUser().getId();
+            organizationId = newslist.getReceiveUser().getId();
+            txt_partnerName.setText(newslist.getCreateUser().getTitle());
+            org_name = newslist.getReceiveUser().getTitle();
 
         }
 
@@ -260,16 +264,13 @@ public class FinalOrderPlacenewActivity extends AppCompatActivity implements Ord
                     @Override
                     public void onTabSelected(TabLayout.Tab tab) {
                         if (tab.getPosition() == 0) {
-                            on_behalf_of = "0";
                             me_data();
 
 
                         } else if (tab.getPosition() == 1) {
-                            on_behalf_of = "1";
                             fundit_user();
 
                         } else if (tab.getPosition() == 2) {
-                            on_behalf_of = "0";
                             other_user();
 
                         }
@@ -288,6 +289,7 @@ public class FinalOrderPlacenewActivity extends AppCompatActivity implements Ord
             } else {
                 tab_layout.setVisibility(View.GONE);
                 confirm_layout.setVisibility(View.GONE);
+                radio_cashPayment.setVisibility(View.GONE);
                 serch_user.setVisibility(View.GONE);
                 edt_name.setText(user.getTitle());
                 edt_email.setText(user.getEmail_id());
@@ -298,7 +300,49 @@ public class FinalOrderPlacenewActivity extends AppCompatActivity implements Ord
 
         }
 
-        if (preference.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT) || preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION)) {
+        if (preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION)) {
+
+
+                tab_layout.setVisibility(View.VISIBLE);
+                confirm_layout.setVisibility(View.VISIBLE);
+
+
+                //me_data();
+
+                // tabLayout.addTab(tabLayout.newTab().setText("Me"));
+                tabLayout.addTab(tabLayout.newTab().setText("Fundit User"));
+                tabLayout.addTab(tabLayout.newTab().setText("Other"));
+
+
+                tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                    @Override
+                    public void onTabSelected(TabLayout.Tab tab) {
+                        if (tab.getPosition() == 0) {
+                            fundit_user();
+
+
+                        } else if (tab.getPosition() == 1) {
+                            other_user();
+
+                        }
+
+                    }
+
+                    @Override
+                    public void onTabUnselected(TabLayout.Tab tab) {
+
+                    }
+
+                    @Override
+                    public void onTabReselected(TabLayout.Tab tab) {
+
+                    }
+                });
+
+
+        }
+
+        if (preference.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)) {
 
             if (member.getSeller().equalsIgnoreCase("1")) {
                 tab_layout.setVisibility(View.VISIBLE);
@@ -316,12 +360,10 @@ public class FinalOrderPlacenewActivity extends AppCompatActivity implements Ord
                     @Override
                     public void onTabSelected(TabLayout.Tab tab) {
                         if (tab.getPosition() == 0) {
-                            on_behalf_of = "1";
                             fundit_user();
 
 
                         } else if (tab.getPosition() == 1) {
-                            on_behalf_of = "0";
                             other_user();
 
                         }
@@ -350,9 +392,24 @@ public class FinalOrderPlacenewActivity extends AppCompatActivity implements Ord
 
         }
 
-
         //edt_name.setText(user.getTitle());
         //edt_email.setText(user.getEmail_id());
+
+        radioGroup_paymentType.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+
+                if (radio_cardPayment.isChecked()) {
+                    radio_cashPayment.setChecked(false);
+                }
+                if (radio_cashPayment.isChecked()) {
+                    radio_cardPayment.setChecked(false);
+                }
+            }
+        });
+
+
+
 
 
         btn_placeOrder.setOnClickListener(new View.OnClickListener() {
@@ -428,7 +485,7 @@ public class FinalOrderPlacenewActivity extends AppCompatActivity implements Ord
                                     i.putExtra("firstname", user.getFirst_name());
                                     i.putExtra("lastname", user.getLast_name());
                                     i.putExtra("email", user.getEmail_id());
-                                    i.putExtra("campaign_id", newslist.getCampaignDetails().getNews_Campaign().getId());
+                                    i.putExtra("campaign_id", newslist.getNews_Campaign().getId());
                                     i.putExtra("mobile", member.getContact_info());
                                     i.putExtra("payment_address_1", member.getLocation());
                                     i.putExtra("organization_id", organizationId);
@@ -439,7 +496,7 @@ public class FinalOrderPlacenewActivity extends AppCompatActivity implements Ord
                                     i.putExtra("payment_state", member.getState().getName());
                                     i.putExtra("payment_method", "2");
                                     i.putExtra("save_card", "0");
-                                    i.putExtra("on_behalf_of", on_behalf_of);
+                                    i.putExtra("on_behalf_of", "0");
                                     i.putExtra("order_request", "0");
                                     i.putExtra("other_user", "0");
                                     i.putExtra("is_card_save", "1");
@@ -457,7 +514,7 @@ public class FinalOrderPlacenewActivity extends AppCompatActivity implements Ord
                                     i.putExtra("firstname", user.getFirst_name());
                                     i.putExtra("lastname", user.getLast_name());
                                     i.putExtra("email", user.getEmail_id());
-                                    i.putExtra("campaign_id", newslist.getCampaignDetails().getNews_Campaign().getId());
+                                    i.putExtra("campaign_id", newslist.getNews_Campaign().getId());
                                     i.putExtra("mobile", member.getContact_info());
                                     i.putExtra("payment_address_1", member.getLocation());
                                     i.putExtra("organization_id", organizationId);
@@ -468,7 +525,7 @@ public class FinalOrderPlacenewActivity extends AppCompatActivity implements Ord
                                     i.putExtra("payment_state", member.getState().getName());
                                     i.putExtra("payment_method", "2");
                                     i.putExtra("save_card", "0");
-                                    i.putExtra("on_behalf_of", on_behalf_of);
+                                    i.putExtra("on_behalf_of", "0");
                                     i.putExtra("order_request", "0");
                                     i.putExtra("other_user", "0");
                                     i.putExtra("is_card_save", "1");
@@ -494,146 +551,6 @@ public class FinalOrderPlacenewActivity extends AppCompatActivity implements Ord
 
 
                 }
-
-
-//                int allPrice = 0;
-//
-//                if(tabLayout.getSelectedTabPosition()==2){
-//
-//                    firstName = edt_name.getText().toString().trim();
-//                    lastName = "";
-//                    emailId = edt_email.getText().toString().trim();
-//                    isotherTimes = true;
-//
-//
-//
-//                }
-//
-//
-//
-//                int checkedPaymentType = radioGroup_paymentType.getCheckedRadioButtonId();
-//
-//                if (checkedPaymentType == R.id.radio_cardPayment) {
-//
-//                    checkedPaymentType = 2;
-//                }
-//
-//
-//
-//                final List<News_model.Product> getSelectedProducts = productAdapter.getProducts();
-//
-//                for (int i = 0; i < getSelectedProducts.size(); i++) {
-//                    String name = getSelectedProducts.get(i).getName();
-//                    String price = getSelectedProducts.get(i).getPrice();
-//                    String totalPrice = getSelectedProducts.get(i).getTotal_price();
-//                    String quantity = String.valueOf(getSelectedProducts.get(i).getQty());
-//                    String id = getSelectedProducts.get(i).getProduct_id();
-//                    String type_id=getSelectedProducts.get(i).getType_id();
-//
-//
-//                    float totalProductsPrice = Float.parseFloat(totalPrice);
-//
-//                    allPrice += totalProductsPrice;
-//
-//                    Log.e("totalPrice", "" + allPrice);
-//
-//
-//                    try {
-//                        mainObject.put("product_id", id);
-//                        mainObject.put("name", name);
-//                        mainObject.put("quantity", quantity);
-//                        mainObject.put("selling_price", price);
-//                        mainObject.put("type_id",type_id);
-//                        mainObject.put("item_total", totalPrice);
-//
-//                        selectedProductArray.put(mainObject);
-//
-//
-//                        Log.e("selectedProducts", "---->" + selectedProductArray);
-//
-//
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
-//
-//
-//                }
-//
-//                if (getSelectedProducts.isEmpty()) {
-//                    C.INSTANCE.showToast(getApplicationContext(), "Please Select Product");
-//
-//                } else {
-//                    if (checkedPaymentType == 1) {
-//                        if(newslist.getCampaignDetails().getNews_Campaign().getRole_id().equalsIgnoreCase(C.ORGANIZATION)){
-//                            organizationId = newslist.getCampaignDetails().getCreateUser().getId();
-//                            fundspotId = newslist.getCampaignDetails().getReceiveUser().getId();
-//                        }
-//
-//                        if(newslist.getCampaignDetails().getNews_Campaign().getRole_id().equalsIgnoreCase(C.FUNDSPOT)){
-//                            fundspotId = newslist.getCampaignDetails().getReceiveUser().getId();
-//                            organizationId = newslist.getCampaignDetails().getCreateUser().getId();
-//                        }
-//                        dialog.show();
-//                       final Call<AppModel> addOrder = adminAPI.AddOrder(newslist.getCampaignDetails().getNews_Campaign().getId(),selectedFundsUserId,preference.getTokenHash(), "4",  firstName, lastName, emailId, member.getContact_info(), member.getLocation(), /*member.getCity().getName()*/ member.getCity_name(), member.getZip_code(), member.getState().getName(), String.valueOf(checkedPaymentType), String.valueOf(allPrice), preference.getUserID(), "0.0", "0.0", organizationId, fundspotId, selectedProductArray.toString(),"","","","","","","" , "0" , "1" , "0");
-//
-//
-//
-//                        Log.e("param",preference.getUserID());
-//                        Log.e("param",preference.getUserRoleID());
-//                        Log.e("param",preference.getTokenHash());
-//                        Log.e("id",newslist.getCampaignDetails().getNews_Campaign().getId());
-//                        Log.e("firstname",user.getFirst_name());
-//                        Log.e("lastname",user.getLast_name());
-//                        Log.e("email",user.getEmail_id());
-//                        Log.e("contact",member.getContact_info());
-//                        Log.e("member", member.getLocation());
-//                        Log.e("zip",member.getZip_code());
-//                        Log.e("state",member.getState().getName());
-//                        Log.e("paymenttype",String.valueOf(checkedPaymentType));
-//                        Log.e("price",String.valueOf(allPrice));
-//                        Log.e("orgid",organizationId);
-//                        Log.e("fundid",fundspotId);
-//                        Log.e("array",selectedProductArray.toString());
-//
-//
-//
-//                        addOrder.enqueue(new Callback<AppModel>() {
-//                            @Override
-//                            public void onResponse(Call<AppModel> call, Response<AppModel> response) {
-//
-//                                dialog.dismiss();
-//                                AppModel appModel = response.body();
-//                                if (addOrder != null) {
-//                                    if (appModel.isStatus()) {
-//                                        C.INSTANCE.showToast(getApplicationContext(), appModel.getMessage());
-//
-//                                        Intent intent = new Intent(getApplicationContext(), Thankyou.class);
-//                                        intent.putExtra("org",newslist.getCampaignDetails().getCreateUser().getTitle());
-//                                        intent.putExtra("fundspot",newslist.getCampaignDetails().getReceiveUser().getTitle());
-//                                        startActivity(intent);
-//
-//                                    }
-//
-//                                } else {
-//
-//                                    C.INSTANCE.defaultError(getApplicationContext());
-//                                }
-//
-//                            }
-//
-//                            @Override
-//                            public void onFailure(Call<AppModel> call, Throwable t) {
-//
-//                                C.INSTANCE.errorToast(getApplicationContext(), t);
-//
-//                            }
-//                        });
-//
-//                    }
-//
-//                }
-
-
             }
 
 
@@ -673,7 +590,7 @@ public class FinalOrderPlacenewActivity extends AppCompatActivity implements Ord
         serch_user.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(FinalOrderPlacenewActivity.this, Search_fundituserActivity.class);
+                Intent i = new Intent(NotificationTimesOrderActivity.this, Search_fundituserActivity.class);
                 startActivityForResult(i, 1);
             }
         });
@@ -755,10 +672,13 @@ public class FinalOrderPlacenewActivity extends AppCompatActivity implements Ord
         Log.e("price", "-->" + totalPrice);
         txt_targetAmt.setText("$" + String.valueOf(totalPrice));
     }
+*/
 
     @Override
     protected void onResume() {
         super.onResume();
         System.gc();
     }
+
+
 }

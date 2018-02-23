@@ -391,4 +391,9 @@ public class CreateCampaignTermsActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        System.gc();
+    }
 }

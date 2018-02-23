@@ -71,7 +71,7 @@ public class SendMessageAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 String name = txtUserName.getText().toString().trim();
-                String id = memberList.get(position).getUser_id();
+                String id = memberList.get(position).getId();
                 Intent intent = new Intent(context, FinalSendMessage.class);
                 intent.putExtra("name", name);
                 intent.putExtra("id", id);

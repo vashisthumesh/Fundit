@@ -11,6 +11,7 @@ public class QRScanModel extends AppModel {
    String product_type_id = "";
    String product_name = "";
    String left_money = "";
+   String pop_up_title = "";
 
     public String getLeft_qty() {
         return left_qty;
@@ -30,5 +31,9 @@ public class QRScanModel extends AppModel {
 
     public String getLeft_money() {
         return left_money;
+    }
+
+    public String getPop_up_title() {
+        return pop_up_title;
     }
 }

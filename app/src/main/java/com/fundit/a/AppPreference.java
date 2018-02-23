@@ -120,6 +120,16 @@ public class AppPreference {
         return preferences.getInt("fundspot_product_count" , 0);
     }
 
+    public int getUnReadCount() {
+        return preferences.getInt("UnReadCount" , 0);
+    }
+
+    public void setUnReadCount(int UnReadCount) {
+        editor.putInt("UnReadCount" , UnReadCount).commit();
+    }
+
+
+
     public void setfundspot_product_count(int fundspot_product_count) {
         editor.putInt("fundspot_product_count" , fundspot_product_count).commit();
     }
@@ -164,6 +174,13 @@ public class AppPreference {
         editor.putInt("Seller" , Seller).commit();
     }
 
+    public boolean isCampaignBack() {
+        return preferences.getBoolean("CampaignBack" , false);
+    }
+
+    public void setCampaignBack(boolean CampaignBack) {
+        editor.putBoolean("CampaignBack" , CampaignBack).commit();
+    }
 
 
     public void clearData(Context context){

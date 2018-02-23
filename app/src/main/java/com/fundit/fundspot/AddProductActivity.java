@@ -17,6 +17,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.fundit.HomeActivity;
+import com.fundit.ProductActivity;
 import com.fundit.R;
 import com.fundit.a.AppPreference;
 import com.fundit.a.C;
@@ -26,6 +27,7 @@ import com.fundit.apis.ServiceGenerator;
 import com.fundit.helper.CustomDialog;
 import com.fundit.helper.FilePath;
 import com.fundit.model.AppModel;
+import com.fundit.model.EditProductModel;
 import com.fundit.model.ProductListResponse;
 import com.squareup.picasso.Picasso;
 
@@ -57,7 +59,7 @@ public class AddProductActivity extends AppCompatActivity {
     RadioButton rdo_typeItem, rdo_typeGiftCard;
 
     Toolbar toolbar;
-    TextView actionTitle , txt_mainTitle;
+    TextView actionTitle, txt_mainTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +87,7 @@ public class AddProductActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         actionTitle.setText("My Products");
 
-        if(preference.isSkiped()==false) {
+        if (preference.isSkiped() == false) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setHomeButtonEnabled(true);
             actionTitle.setText("Add Product");
@@ -122,13 +124,13 @@ public class AddProductActivity extends AppCompatActivity {
 
         txt_mainTitle = (TextView) findViewById(R.id.txt_mainTitle);
 
-        if(preference.isSkiped()){
+        if (preference.isSkiped()) {
             btn_cancel.setText("Skip");
-          //  txt_mainTitle.setVisibility(View.VISIBLE);
+            //  txt_mainTitle.setVisibility(View.VISIBLE);
         }
 
         if (isEditMode) {
-           // txt_mainTitle.setVisibility(View.GONE);
+            // txt_mainTitle.setVisibility(View.GONE);
             btn_addProduct.setText("Update");
         }
 
@@ -157,17 +159,15 @@ public class AddProductActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if(preference.isSkiped()){
+                if (preference.isSkiped()) {
                     Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     preference.setSkiped(false);
                     startActivity(intent);
 
-                }
-                else {
+                } else {
                     onBackPressed();
                 }
-
 
 
             }
@@ -212,8 +212,7 @@ public class AddProductActivity extends AppCompatActivity {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter max. coupon limit at least 1");
                 } else if (couponExpiryDaysNum < 1) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter coupon expiry days min. 1");
-                }*/
-                else if(fine_print.isEmpty()) {
+                }*/ else if (fine_print.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter fine print");
                 } else if (!isEditMode && (imagePath == null || imagePath.isEmpty())) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please select image");
@@ -222,43 +221,99 @@ public class AddProductActivity extends AppCompatActivity {
                     String typeID = checkedTypeID == R.id.rdo_typeItem ? C.TYPE_PRODUCT : C.TYPE_GIFTCARD;
 
                     dialog.show();
-                    Call<AppModel> addProductCall;
+
+                    Log.e("parameters", "--->" + preference.getUserID() + "-->" + preference.getTokenHash() + "-->" + typeID + "-->" + name + "-->" + description + "=-->" + price + "--->" + fine_print + "-->" + imagePath);
+
 
                     if (isEditMode) {
-                        addProductCall = adminAPI.editMyProduct(product.getId(), preference.getUserID(), preference.getTokenHash(), typeID, name, description, price, fine_print, imagePath == null ? null : ServiceGenerator.prepareFilePart("image", imagePath));
+
+                        final Call<EditProductModel> editProductCall;
+                        editProductCall = adminAPI.editMyProduct(product.getId(), preference.getUserID(), preference.getTokenHash(), typeID, name, description, price, fine_print, imagePath == null ? null : ServiceGenerator.prepareFilePart("image", imagePath));
+
+                        editProductCall.enqueue(new Callback<EditProductModel>() {
+                            @Override
+                            public void onResponse(Call<EditProductModel> call, Response<EditProductModel> response) {
+                                dialog.dismiss();
+
+                                EditProductModel editProductModel = response.body();
+                                if(editProductModel!=null){
+                                    if(editProductModel.isStatus()){
+
+                                        preference.setSkiped(false);
+                                        Intent intent = new Intent(getApplicationContext() , ProductActivity.class);
+                                        intent.putExtra("name" , editProductModel.getProduct_data().get(0).getName());
+                                        intent.putExtra("price" , editProductModel.getProduct_data().get(0).getPrice());
+                                        intent.putExtra("Desc" , editProductModel.getProduct_data().get(0).getDescription());
+                                        intent.putExtra("fine" , editProductModel.getProduct_data().get(0).getFine_print());
+                                        intent.putExtra("image" , editProductModel.getProduct_data().get(0).getImage());
+                                        intent.putExtra("myproduct" , true);
+                                        intent.putExtra("product" , editProductModel.getProduct_data().get(0));
+                                        startActivity(intent);
+                                        finish();
+
+/*
+                                        setResult(RESULT_OK , intent);
+                                        onBackPressed();*/
+
+
+                                    }else {
+                                        C.INSTANCE.defaultError(getApplicationContext());
+
+                                    }
+
+                                }else {
+                                    C.INSTANCE.defaultError(getApplicationContext());
+                                }
+
+                            }
+
+                            @Override
+                            public void onFailure(Call<EditProductModel> call, Throwable t) {
+                                dialog.dismiss();
+                                C.INSTANCE.errorToast(getApplicationContext(), t);
+                            }
+                        });
+
+
+
+
+
+
                     } else {
+
+                        Call<AppModel> addProductCall;
                         addProductCall = adminAPI.addMyProduct(preference.getUserID(), preference.getTokenHash(), typeID, name, description, price, fine_print, ServiceGenerator.prepareFilePart("image", imagePath));
+                        addProductCall.enqueue(new Callback<AppModel>() {
+                            @Override
+                            public void onResponse(Call<AppModel> call, Response<AppModel> response) {
+                                dialog.dismiss();
+                                AppModel model = response.body();
+                                if (model != null) {
+                                    C.INSTANCE.showToast(getApplicationContext(), model.getMessage());
+                                    if (model.isStatus()) {
+                                        preference.setSkiped(false);
+
+
+                                        setResult(RESULT_OK);
+                                        onBackPressed();
+                                    }
+                                } else {
+                                    C.INSTANCE.defaultError(getApplicationContext());
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<AppModel> call, Throwable t) {
+                                dialog.dismiss();
+                                C.INSTANCE.errorToast(getApplicationContext(), t);
+                            }
+                        });
                     }
 
-                    Log.e("parameters" , "--->" + preference.getUserID() + "-->" + preference.getTokenHash() + "-->" + typeID + "-->" + name + "-->" + description + "=-->" + price + "--->" + fine_print + "-->" + imagePath);
-
-                    addProductCall.enqueue(new Callback<AppModel>() {
-                        @Override
-                        public void onResponse(Call<AppModel> call, Response<AppModel> response) {
-                            dialog.dismiss();
-                            AppModel model = response.body();
-                            if (model != null) {
-                                C.INSTANCE.showToast(getApplicationContext(), model.getMessage());
-                                if (model.isStatus()) {
-                                    preference.setSkiped(false);
-                                    setResult(RESULT_OK);
-                                    onBackPressed();
-                                }
-                            } else {
-                                C.INSTANCE.defaultError(getApplicationContext());
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<AppModel> call, Throwable t) {
-                            dialog.dismiss();
-                            C.INSTANCE.errorToast(getApplicationContext(), t);
-                        }
-                    });
                 }
-
             }
         });
+
 
         edt_fundSplit.addTextChangedListener(new TextWatcher() {
             @Override

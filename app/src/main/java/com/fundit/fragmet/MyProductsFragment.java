@@ -189,4 +189,10 @@ public class MyProductsFragment extends Fragment {
             getProductList();
         }
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getProductList();
+    }
 }

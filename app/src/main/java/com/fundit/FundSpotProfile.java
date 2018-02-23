@@ -550,4 +550,10 @@ public class FundSpotProfile extends AppCompatActivity {
             finish();
         }
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        System.gc();
+    }
 }

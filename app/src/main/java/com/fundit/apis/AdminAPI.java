@@ -12,6 +12,7 @@ import com.fundit.model.BankCardResponse;
 import com.fundit.model.CampaignListResponse;
 import com.fundit.model.CategoryResponse;
 import com.fundit.model.CompleteOrderModel;
+import com.fundit.model.EditProductModel;
 import com.fundit.model.ForgotPasswordEmailResponse;
 import com.fundit.model.FundRequest;
 import com.fundit.model.Fundspot;
@@ -136,7 +137,7 @@ public interface AdminAPI {
 
     @Multipart
     @POST(W.EDIT_PRODUCT)
-    Call<AppModel> editMyProduct(@Part("id") String productID, @Part(W.KEY_USERID) String userID, @Part(W.KEY_TOKEN) String tokenHash, @Part("type_id") String typeID, @Part("name") String name, @Part("description") String description, @Part("price") String price,@Part("fine_print") String fine_print, @Part MultipartBody.Part productImage);
+    Call<EditProductModel> editMyProduct(@Part("id") String productID, @Part(W.KEY_USERID) String userID, @Part(W.KEY_TOKEN) String tokenHash, @Part("type_id") String typeID, @Part("name") String name, @Part("description") String description, @Part("price") String price, @Part("fine_print") String fine_print, @Part MultipartBody.Part productImage);
 
     @FormUrlEncoded
     @POST(W.LIST_PRODUCT)

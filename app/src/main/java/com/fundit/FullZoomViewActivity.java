@@ -88,4 +88,9 @@ public class FullZoomViewActivity extends AppCompatActivity {
                 .into(fullImagePager);
 
     }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        System.gc();
+    }
 }

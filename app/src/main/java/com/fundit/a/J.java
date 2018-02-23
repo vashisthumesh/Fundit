@@ -62,6 +62,7 @@ public class J {
                         appPreference.setCampaignCount(campaignRequestCount);
                         appPreference.setMemberCount(memberRequest);
                         appPreference.setTotalCount(totalRequest);
+                        appPreference.setUnReadCount(Integer.parseInt(countModel.getTotal_unread_msg()));
 
                         Log.e("GlobalSuccess" , "---->" );
                     }

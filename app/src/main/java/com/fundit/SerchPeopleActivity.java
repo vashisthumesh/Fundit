@@ -79,11 +79,14 @@ public class SerchPeopleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_search_people);
 
+        Log.e("searchPeople" , "-->");
+
+
         preference = new AppPreference(getApplicationContext());
         dialog = new CustomDialog(this);
         adminAPI = ServiceGenerator.getAPIClass();
 
-
+        Log.e("notiSearch" , "-->" + preference.getUserRoleID());
         Intent intent = getIntent();
         Id = intent.getStringExtra("id");
         flag = intent.getBooleanExtra("flag", false);
@@ -117,7 +120,7 @@ public class SerchPeopleActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-        actionTitle.setText("Profile");
+       // actionTitle.setText("Profile");
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -141,6 +144,7 @@ public class SerchPeopleActivity extends AppCompatActivity {
         layout_org = (LinearLayout) findViewById(R.id.layout_org);
         layput_contact_email = (LinearLayout) findViewById(R.id.layput_contact_email);
         layput_contact_mobile = (LinearLayout) findViewById(R.id.layput_contact_mobile);
+        layout_mail = (LinearLayout) findViewById(R.id.layout_mail);
         txt_email = (TextView) findViewById(R.id.txt_email);
         txt_mobile = (TextView) findViewById(R.id.txt_mobile);
 
@@ -155,15 +159,15 @@ public class SerchPeopleActivity extends AppCompatActivity {
 
         } else if (preference.getUserRoleID().equalsIgnoreCase("2")) {
             if (flag == true) {
-                btnAdd.setVisibility(View.GONE);
-                btnMessage.setVisibility(View.GONE);
+                btnAdd.setVisibility(View.VISIBLE);
+                btnMessage.setVisibility(View.VISIBLE);
             } else {
                 btnAdd.setVisibility(View.VISIBLE);
             }
         } else if (preference.getUserRoleID().equalsIgnoreCase("3")) {
             if (flag == true) {
-                btnAdd.setVisibility(View.GONE);
-                btnMessage.setVisibility(View.GONE);
+                btnAdd.setVisibility(View.VISIBLE);
+                btnMessage.setVisibility(View.VISIBLE);
             } else {
                 btnAdd.setVisibility(View.VISIBLE);
             }
@@ -174,9 +178,19 @@ public class SerchPeopleActivity extends AppCompatActivity {
         btnMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                String ids = "";
+
+                if(flag==true || flag==false){
+                    ids = Id;
+                }else {
+                    ids = getResponse.getUser_id();
+                }
+
+
                 Intent intent = new Intent(getApplicationContext(), FinalSendMessage.class);
                 intent.putExtra("name", txt_name.getText().toString().trim());
-                intent.putExtra("id", getResponse.getUser_id());
+                intent.putExtra("id", ids);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
             }
@@ -191,19 +205,25 @@ public class SerchPeopleActivity extends AppCompatActivity {
                 String checkMemberId = "";
 
 
-                if (preference.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)) {
-                    checkMemberId = getResponse.getId();
+                if(flag==true || false==false){
 
+                    checkMemberId = Id;
+
+                }else {
+
+                    if (preference.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)) {
+                        checkMemberId = getResponse.getId();
+
+                    }
+                    if (preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION)) {
+                        checkMemberId = getResponse.getId();
+
+                    }
+                    if (preference.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER)) {
+                        checkMemberId = getResponse.getId();
+
+                    }
                 }
-                if (preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION)) {
-                    checkMemberId = getResponse.getId();
-
-                }
-                if (preference.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER)) {
-                    checkMemberId = getResponse.getId();
-
-                }
-
 
                 if (isMemberJoined == 0) {
                     new AddMember().execute();
@@ -233,26 +253,29 @@ public class SerchPeopleActivity extends AppCompatActivity {
     private void RespondForMemberRequest(final String userID, String message, String title) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(title.isEmpty() ? "Member Request Pending" : title);
+        //builder.setTitle(title.isEmpty() ? "Member Request Pending" : title);
         builder.setMessage(message);
         builder.setCancelable(false);
 
         String checkMemberId = "";
 
+        if(flag==true || flag==false){
+            checkMemberId = Id;
+        }else {
 
-        if (preference.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)) {
-            checkMemberId = getResponse.getId();
+            if (preference.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)) {
+                checkMemberId = getResponse.getId();
 
+            }
+            if (preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION)) {
+                checkMemberId = getResponse.getId();
+
+            }
+            if (preference.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER)) {
+                checkMemberId = getResponse.getId();
+
+            }
         }
-        if (preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION)) {
-            checkMemberId = getResponse.getId();
-
-        }
-        if (preference.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER)) {
-            checkMemberId = getResponse.getId();
-
-        }
-
 
         final String finalCheckMemberId = checkMemberId;
         builder.setPositiveButton("Accept", new DialogInterface.OnClickListener() {
@@ -306,7 +329,7 @@ public class SerchPeopleActivity extends AppCompatActivity {
 
                             } else {
 
-                                C.INSTANCE.showToast(getApplicationContext(), "Your request to add " + txt_name.getText().toString().trim() + " is pending.");
+                            //    C.INSTANCE.showToast(getApplicationContext(), "Your request to add " + txt_name.getText().toString().trim() + " is pending.");
 
                                 btnAdd.setText("Pending");
                                 isMemberJoined = 2;
@@ -413,6 +436,7 @@ public class SerchPeopleActivity extends AppCompatActivity {
 
                         txt_name.setText(userObject.getString("title"));
                         txt_emailID.setText(userObject.getString("email_id"));
+                        layout_mail.setVisibility(View.GONE);
 
 
                         txt_address.setText(memberObject.getString("location") + "\n" + memberObject.getString("city_name") + ", " + stateObject.getString("state_code") + " " + memberObject.getString("zip_code"));
@@ -462,6 +486,11 @@ public class SerchPeopleActivity extends AppCompatActivity {
                                 checkMemberId = getResponse.getId();
 
                             }
+
+                            CheckMemberIsjoined(checkMemberId, preference.getUserRoleID());
+                        }else {
+
+                            checkMemberId = Id ;
 
                             CheckMemberIsjoined(checkMemberId, preference.getUserRoleID());
                         }
@@ -546,25 +575,28 @@ public class SerchPeopleActivity extends AppCompatActivity {
                     status = mainObject.getBoolean("status");
                     message = mainObject.getString("message");
 
-                    C.INSTANCE.showToast(getApplicationContext(), message);
+                  //  C.INSTANCE.showToast(getApplicationContext(), message);
                     if (status) {
 
                         String checkMemberId = "";
 
+                        if(flag==true||flag==false){
+                            checkMemberId=Id;
+                        }else {
 
-                        if (preference.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)) {
-                            checkMemberId = getResponse.getId();
+                            if (preference.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)) {
+                                checkMemberId = getResponse.getId();
 
+                            }
+                            if (preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION)) {
+                                checkMemberId = getResponse.getId();
+
+                            }
+                            if (preference.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER)) {
+                                checkMemberId = getResponse.getId();
+
+                            }
                         }
-                        if (preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION)) {
-                            checkMemberId = getResponse.getId();
-
-                        }
-                        if (preference.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER)) {
-                            checkMemberId = getResponse.getId();
-
-                        }
-
 
                         CheckMemberIsjoined(checkMemberId, preference.getUserRoleID());
 //                        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
@@ -645,11 +677,20 @@ public class SerchPeopleActivity extends AppCompatActivity {
                     status = mainObject.getBoolean("status");
                     message = mainObject.getString("message");
 
-                    C.INSTANCE.showToast(getApplicationContext(), message);
+                   // C.INSTANCE.showToast(getApplicationContext(), message);
                     if (status == true) {
                         /*Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                         startActivity(intent);*/
-                        onBackPressed();
+                       // onBackPressed();
+                      //  recreate();
+
+                        finish();
+                        overridePendingTransition(0, 0);
+                        startActivity(getIntent());
+                        overridePendingTransition(0, 0);
+
+
+
                     }
                 }
 
@@ -662,5 +703,10 @@ public class SerchPeopleActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        System.gc();
+    }
 
 }

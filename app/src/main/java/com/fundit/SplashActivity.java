@@ -89,4 +89,10 @@ public class SplashActivity extends AppCompatActivity {
         }, TIMEOUT);
 
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        System.gc();
+    }
 }

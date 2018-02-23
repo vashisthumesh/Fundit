@@ -72,7 +72,8 @@ class HomeActivity : AppCompatActivity() {
     lateinit var getintent: Intent
 
     lateinit var thisActivity: Activity
-
+    var toolbar_add_to_cart : FrameLayout ?= null
+    var txt_count : TextView? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
@@ -130,6 +131,7 @@ class HomeActivity : AppCompatActivity() {
         img_notification = findViewById(R.id.img_notification) as ImageView
         img_qrscan = findViewById(R.id.img_qrscan) as ImageView
         cartCount = findViewById(R.id.cartTotal) as TextView
+        toolbar_add_to_cart = findViewById(R.id.toolbar_add_to_cart) as FrameLayout
         //cartCount?.text = preference?.messageCount.toString()
         //actionTitle?.text = ""
         setSupportActionBar(toolbar)
@@ -240,12 +242,14 @@ class HomeActivity : AppCompatActivity() {
                 super.onDrawerOpened(drawerView)
                 isDrawerOpen = true
                 invalidateOptionsMenu()
+                navigationAdapter?.notifyDataSetChanged()
             }
 
             override fun onDrawerClosed(drawerView: View?) {
                 super.onDrawerClosed(drawerView)
                 isDrawerOpen = false
                 invalidateOptionsMenu()
+                navigationAdapter?.notifyDataSetChanged()
             }
         }
 
@@ -300,7 +304,9 @@ class HomeActivity : AppCompatActivity() {
 
         navigationAdapter = LeftNavigationAdapter(this, menuList, preference)
         list_navigation?.adapter = navigationAdapter
-        list_navigation?.setOnItemClickListener { _, _, i, _ -> handleClicks(i) }
+        list_navigation?.setOnItemClickListener { _, _, i, _ -> handleClicks(i)
+
+        }
 
 
 
@@ -313,11 +319,15 @@ class HomeActivity : AppCompatActivity() {
 
     private fun handleClicks(position: Int) {
         img_edit?.visibility = View.GONE
+        toolbar_add_to_cart?.visibility = View.GONE
         img_notification?.visibility = View.GONE
+
         if (position == 0) {
 
         } else if (position == 1) {
+            toolbar_add_to_cart?.visibility = View.VISIBLE
             img_notification?.visibility = View.VISIBLE
+
 
             //actionTitle?.text = "Fundit"
             actionTitle?.visibility = View.INVISIBLE
@@ -349,6 +359,7 @@ class HomeActivity : AppCompatActivity() {
             actionTitle?.visibility = View.VISIBLE
             img_edit?.visibility = View.VISIBLE
             img_qrscan?.visibility = View.GONE
+            toolbar_add_to_cart?.visibility = View.GONE
             img_notification.visibility = View.GONE
             cartCount?.visibility = View.GONE
             actionTitle?.text = "My Profile"
@@ -360,6 +371,7 @@ class HomeActivity : AppCompatActivity() {
             actionTitle?.visibility = View.VISIBLE
             img_edit?.visibility = View.GONE
             img_qrscan?.visibility = View.GONE
+            toolbar_add_to_cart?.visibility = View.GONE
             img_notification?.visibility = View.GONE
             cartCount?.visibility = View.GONE
             if (preference?.userRoleID.equals(C.FUNDSPOT) || preference?.userRoleID.equals(C.ORGANIZATION)) {
@@ -370,6 +382,7 @@ class HomeActivity : AppCompatActivity() {
                 transaction?.commit()
             }
             if (preference?.userRoleID.equals(C.GENERAL_MEMBER)) {
+
                 actionTitle?.text = "My Coupons"
                 fragment = CouponFragment()
                 val transaction = fm?.beginTransaction()
@@ -379,10 +392,10 @@ class HomeActivity : AppCompatActivity() {
         } else if (position == 4) {
             actionTitle?.visibility = View.VISIBLE
             img_edit?.visibility = View.GONE
+            toolbar_add_to_cart?.visibility = View.GONE
             img_notification.visibility = View.GONE
             cartCount?.visibility = View.GONE
             if (preference?.userRoleID.equals(C.FUNDSPOT)) {
-                img_qrscan?.visibility = View.VISIBLE
                 actionTitle?.text = "My Products"
                 fragment = MyProductsFragment()
                 val transaction = fm?.beginTransaction()
@@ -400,6 +413,7 @@ class HomeActivity : AppCompatActivity() {
         } else if (position == 5) {
             actionTitle?.visibility = View.VISIBLE
             img_edit?.visibility = View.GONE
+            toolbar_add_to_cart?.visibility = View.GONE
             img_notification.visibility = View.GONE
             cartCount?.visibility = View.GONE
             if (preference?.userRoleID.equals(C.FUNDSPOT) || preference?.userRoleID.equals(C.ORGANIZATION)) {
@@ -422,6 +436,7 @@ class HomeActivity : AppCompatActivity() {
             img_qrscan?.visibility = View.INVISIBLE
             actionTitle?.visibility = View.VISIBLE
             img_edit?.visibility = View.GONE
+            toolbar_add_to_cart?.visibility = View.GONE
             img_notification.visibility = View.GONE
             cartCount?.visibility = View.GONE
             actionTitle?.text = "Settings"
@@ -433,6 +448,7 @@ class HomeActivity : AppCompatActivity() {
         } else if (position == 7) {
             img_edit?.visibility = View.GONE
             actionTitle?.visibility = View.VISIBLE
+            toolbar_add_to_cart?.visibility = View.GONE
             img_notification.visibility = View.GONE
             cartCount?.visibility = View.GONE
             val sharingIntent = Intent(android.content.Intent.ACTION_SEND)
@@ -446,6 +462,7 @@ class HomeActivity : AppCompatActivity() {
         } else if (position == 8) {
             actionTitle?.visibility = View.VISIBLE
             img_edit?.visibility = View.GONE
+            toolbar_add_to_cart?.visibility = View.GONE
             img_notification.visibility = View.GONE
             cartCount?.visibility = View.GONE
             actionTitle?.text = "Help"
@@ -458,6 +475,7 @@ class HomeActivity : AppCompatActivity() {
 
             img_edit?.visibility = View.GONE
             actionTitle?.visibility = View.VISIBLE
+            toolbar_add_to_cart?.visibility = View.GONE
             img_notification.visibility = View.GONE
             cartCount?.visibility = View.GONE
 
@@ -466,6 +484,7 @@ class HomeActivity : AppCompatActivity() {
         } else if (position == 10) {
             img_edit?.visibility = View.GONE
             actionTitle?.visibility = View.VISIBLE
+            toolbar_add_to_cart?.visibility = View.GONE
             img_notification.visibility = View.GONE
             cartCount?.visibility = View.GONE
 
@@ -481,6 +500,7 @@ class HomeActivity : AppCompatActivity() {
             actionTitle?.visibility = View.VISIBLE
             img_edit?.visibility = View.GONE
             img_qrscan?.visibility = View.GONE
+            toolbar_add_to_cart?.visibility = View.GONE
             img_notification?.visibility = View.GONE
             cartCount?.visibility = View.GONE
             actionTitle?.text = "My Coupons"
@@ -492,6 +512,7 @@ class HomeActivity : AppCompatActivity() {
         } else {
             actionTitle?.visibility = View.VISIBLE
             img_edit?.visibility = View.GONE
+            toolbar_add_to_cart?.visibility = View.GONE
             img_notification.visibility = View.GONE
             cartCount?.visibility = View.GONE
             actionTitle?.text = "My Orders"
@@ -511,9 +532,16 @@ class HomeActivity : AppCompatActivity() {
         typeID = getintent.getStringExtra("typeId")
 
         if (typeID.equals("1") || typeID.equals("3")) {
+
+            if(typeID.equals(3)){
+                preference?.setMemberTimes(true)
+            }
+
+
             actionTitle?.visibility = View.VISIBLE
             img_edit?.visibility = View.GONE
             img_qrscan?.visibility = View.GONE
+            toolbar_add_to_cart?.visibility = View.GONE
             img_notification?.visibility = View.GONE
             cartCount?.visibility = View.GONE
             actionTitle?.text = "Requests"
@@ -525,6 +553,7 @@ class HomeActivity : AppCompatActivity() {
             actionTitle?.visibility = View.VISIBLE
             img_edit?.visibility = View.GONE
             img_qrscan?.visibility = View.GONE
+            toolbar_add_to_cart?.visibility = View.GONE
             img_notification?.visibility = View.GONE
             cartCount?.visibility = View.GONE
             actionTitle?.text = "My Coupons"
@@ -543,6 +572,7 @@ class HomeActivity : AppCompatActivity() {
             actionTitle?.visibility = View.VISIBLE
             img_edit?.visibility = View.VISIBLE
             img_qrscan?.visibility = View.GONE
+            toolbar_add_to_cart?.visibility = View.GONE
             img_notification.visibility = View.GONE
             cartCount?.visibility = View.GONE
             actionTitle?.text = "My Profile"
@@ -555,6 +585,7 @@ class HomeActivity : AppCompatActivity() {
             img_qrscan?.visibility = View.INVISIBLE
             actionTitle?.visibility = View.VISIBLE
             img_edit?.visibility = View.GONE
+            toolbar_add_to_cart?.visibility = View.GONE
             img_notification.visibility = View.GONE
             cartCount?.visibility = View.GONE
             actionTitle?.text = "Settings"
@@ -572,6 +603,7 @@ class HomeActivity : AppCompatActivity() {
     private fun setMyProductFragment() {
         actionTitle?.visibility = View.VISIBLE
         img_edit?.visibility = View.GONE
+        toolbar_add_to_cart?.visibility = View.GONE
         img_notification.visibility = View.GONE
         cartCount?.visibility = View.GONE
         actionTitle?.text = "My Products"
@@ -762,6 +794,7 @@ class HomeActivity : AppCompatActivity() {
                     preference?.memberCount = memberRequest
                     preference?.totalCount = totalRequest
                     preference?.couponCount = couponCount
+                    preference?.unReadCount = mainObject.getInt("total_unread_msg")
 
 
                     Log.e("totalReddermer", "--->" + preference?.getRedeemer() + "-->" + mainObject.getInt("is_redeemer"))
@@ -810,8 +843,12 @@ class HomeActivity : AppCompatActivity() {
     }
 
 
+
+
+
     override fun onResume() {
         super.onResume()
+        System.gc()
         isResume = true
         Log.e("checking", "--->")
         GetNotificationCount().execute()

@@ -617,4 +617,10 @@ public class MyCardDetailsActivity extends AppCompatActivity {
         super.onBackPressed();
         editMode = false;
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        System.gc();
+    }
 }

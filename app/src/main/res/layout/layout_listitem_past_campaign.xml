@@ -1,14 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp"
-    android:background="@drawable/listviewbackground"
     android:gravity="center_vertical"
-    android:orientation="horizontal">
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_margin="3dp"
+        android:background="@drawable/listviewbackground"
+        android:layout_height="match_parent">
+
+
 
     <LinearLayout
         android:id="@+id/main_layout"
@@ -41,12 +48,15 @@
                 android:id="@+id/txt_labelPartner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:maxLines="2"
+                android:maxLines="3"
                 android:minWidth="40dp"
-                android:padding="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="3dp"
+
                 android:textColor="@color/colorTextSecondary"
-                android:textSize="12sp"
-                tools:text="Fundspot Partner: " />
+                android:textSize="14sp"
+                tools:text="Fundspot Partner:" />
 
             <TextView
                 android:id="@+id/txt_fundPartner"
@@ -54,9 +64,11 @@
                 android:layout_height="wrap_content"
                 android:maxLines="2"
                 android:minWidth="40dp"
-                android:padding="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="2dp"
                 android:textColor="@color/colorTextSecondary"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 tools:text="Applo's Pizza" />
 
         </LinearLayout>
@@ -74,10 +86,12 @@
                 android:layout_height="wrap_content"
                 android:maxLines="2"
                 android:minWidth="40dp"
-                android:padding="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="3dp"
                 android:textColor="@color/colorTextSecondary"
-                android:textSize="12sp"
-                tools:text="Fundspot Partner: " />
+                android:textSize="14sp"
+                tools:text="Fundspot Partner:" />
 
             <TextView
                 android:id="@+id/txt_orgPartner"
@@ -85,9 +99,11 @@
                 android:layout_height="wrap_content"
                 android:maxLines="2"
                 android:minWidth="40dp"
-                android:padding="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="2dp"
                 android:textColor="@color/colorTextSecondary"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 tools:text="Applo's Pizza" />
 
         </LinearLayout>
@@ -103,11 +119,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxLines="2"
-                android:minWidth="40dp"
-                android:padding="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="3dp"
                 android:textColor="@color/colorTextSecondary"
-                android:textSize="12sp"
-                tools:text="Item: " />
+                android:textSize="14sp"
+                tools:text="Item:" />
 
             <TextView
                 android:id="@+id/txt_item"
@@ -115,9 +132,11 @@
                 android:layout_height="wrap_content"
                 android:maxLines="2"
                 android:minWidth="40dp"
-                android:padding="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="2dp"
                 android:textColor="@color/colorTextSecondary"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 tools:text="1 large 1-topping Pizza for $10" />
 
         </LinearLayout>
@@ -138,11 +157,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxLines="2"
-                android:minWidth="40dp"
-                android:padding="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="1dp"
                 android:textColor="@color/colorTextSecondary"
-                android:textSize="12sp"
-                tools:text="Dates: " />
+                android:textSize="14sp"
+                tools:text="Dates:" />
 
             <TextView
                 android:id="@+id/txt_dates"
@@ -150,9 +170,11 @@
                 android:layout_height="wrap_content"
                 android:maxLines="2"
                 android:minWidth="40dp"
-                android:padding="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="2dp"
                 android:textColor="@color/colorTextSecondary"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 tools:text="Sept 14th to Nov 14th" />
 
         </LinearLayout>
@@ -167,4 +189,7 @@
         android:layout_margin="10dp"
         android:src="@drawable/ic_forward_black_100dp"
         android:tint="@color/colorIcon" />
+
+
+    </LinearLayout>
 </LinearLayout>

@@ -29,6 +29,7 @@ import com.fundit.apis.AdminAPI;
 import com.fundit.apis.ServiceGenerator;
 import com.fundit.apis.ServiceHandler;
 import com.fundit.apis.StringConverterFactory;
+import com.fundit.helper.AdjustableListView;
 import com.fundit.helper.CustomDialog;
 import com.fundit.model.Address;
 import com.fundit.model.AppModel;
@@ -67,11 +68,11 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
     GetSearchPeople.People people;
 
 
-    TextView txt_fundraiser, txt_partnerTitle, txt_partnerName, txt_targetAmt , txt_address , txt_selectedname;
+    TextView txt_fundraiser, txt_partnerTitle, txt_partnerName, txt_targetAmt, txt_address, txt_selectedname;
 
     EditText edt_name, edt_email, edt_confirm_email;
 
-    ListView list_products;
+    AdjustableListView list_products;
 
     RadioGroup radioGroup_paymentType;
 
@@ -89,7 +90,7 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
 
     CustomDialog dialog;
 
-    JSONArray selectedProductArray = new JSONArray() ;
+    JSONArray selectedProductArray = new JSONArray();
 
 
     String organizationId = "";
@@ -100,10 +101,11 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
     String firstName = "";
     String lastName = "";
     String emailId = "";
+    String on_behalf_of = "0";
 
     boolean isotherTimes = false;
     boolean ischeckedTimes = false;
-    boolean newsFeedTimes = false ;
+    boolean newsFeedTimes = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,7 +117,7 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
 
         campaignList = (CampaignListResponse.CampaignList) intent.getSerializableExtra("details");
 
-        Log.e("CampaignDetails", "-->" + new Gson().toJson(campaignList));
+
 
         preference = new AppPreference(getApplicationContext());
         adminAPI = ServiceGenerator.getAPIClass();
@@ -126,10 +128,10 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
 
         try {
             user = new Gson().fromJson(preference.getUserData(), User.class);
-            Log.e("user", "--->" + user);
+
             member = new Gson().fromJson(preference.getMemberData(), Member.class);
         } catch (Exception e) {
-            Log.e("Exception", e.getMessage());
+
         }
 
         if (campaignList.getCampaign().getRole_id().equalsIgnoreCase("2")) {
@@ -170,7 +172,7 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
         txt_partnerName = (TextView) findViewById(R.id.txt_partnerName);
         txt_targetAmt = (TextView) findViewById(R.id.txt_targetAmt);
         txt_address = (TextView) findViewById(R.id.txt_address);
-     //   txt_selectedname = (TextView) findViewById(R.id.txt_selectedname);
+        //   txt_selectedname = (TextView) findViewById(R.id.txt_selectedname);
 
         fundraiser = (LinearLayout) findViewById(R.id.fundraiser);
 
@@ -178,7 +180,7 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
         edt_email = (EditText) findViewById(R.id.edt_email);
         edt_confirm_email = (EditText) findViewById(R.id.edt_confirm_email);
 
-        list_products = (ListView) findViewById(R.id.list_products);
+        list_products = (AdjustableListView) findViewById(R.id.list_products);
 
         radioGroup_paymentType = (RadioGroup) findViewById(R.id.radioGroup_paymentType);
 
@@ -201,13 +203,11 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
         txt_targetAmt.setEnabled(false);
 
 
-
-
         if (campaignList.getCampaign().getTitle().equalsIgnoreCase("") || campaignList.getCampaign().getTitle() == null) {
             fundraiser.setVisibility(View.GONE);
         } else {
             fundraiser.setVisibility(View.VISIBLE);
-            txt_fundraiser.setText("Fundriser: " + campaignList.getCampaign().getTitle());
+            txt_fundraiser.setText("Fundraiser: " + campaignList.getCampaign().getTitle());
         }
 
 
@@ -222,8 +222,8 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
 
         }
 
-        Log.e("testKeval", "--->test" + C.FUNDSPOT);
-        Log.e("test", "test");
+
+
         /*if (preference.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)) {
             txt_partnerTitle.setText("Organization :");
             if (campaignList.getCampaign().getReview_status().equals(1)) {
@@ -251,21 +251,21 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
         }
 */
 
-        txt_partnerTitle.setText("Fundspot: ");
-        txt_partnerTitle.setVisibility(View.VISIBLE);
+        txt_partnerTitle.setText("Fundspot:");
+       // txt_partnerTitle.setVisibility(View.VISIBLE);
         if (campaignList.getCampaign().getRole_id().equalsIgnoreCase("2")) {
-            txt_partnerName.setText(campaignList.getUserFundspot().getTitle());
+            txt_partnerName.setText("Fundspot: " + campaignList.getUserFundspot().getTitle());
         } else if (campaignList.getCampaign().getRole_id().equalsIgnoreCase("3")) {
-            txt_partnerName.setText(campaignList.getUserOrganization().getTitle());
+            txt_partnerName.setText("Fundspot: " + campaignList.getUserOrganization().getTitle());
         }
 
 
         if (preference.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER)) {
-            if (member.getSeller().equalsIgnoreCase("1") || preference.getSeller()==1) {
+            if (member.getSeller().equalsIgnoreCase("1") || preference.getSeller() == 1) {
                 tab_layout.setVisibility(View.VISIBLE);
                 confirm_layout.setVisibility(View.VISIBLE);
                 me_data();
-                newsFeedTimes = true ;
+                newsFeedTimes = true;
 
 
                 tabLayout.addTab(tabLayout.newTab().setText("Me"));
@@ -277,16 +277,21 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
                     @Override
                     public void onTabSelected(TabLayout.Tab tab) {
                         if (tab.getPosition() == 0) {
-                          newsFeedTimes = true ;
+                            newsFeedTimes = true;
+                            selectedFundsUserId = "";
+                            on_behalf_of = "0";
                             me_data();
 
 
                         } else if (tab.getPosition() == 1) {
-                            newsFeedTimes = false ;
+                            newsFeedTimes = false;
+                            on_behalf_of = "1";
                             fundit_user();
 
                         } else if (tab.getPosition() == 2) {
-                            newsFeedTimes = false ;
+                            newsFeedTimes = false;
+                            selectedFundsUserId = "";
+                            on_behalf_of = "0";
                             other_user();
 
                         }
@@ -312,7 +317,7 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
                 edt_name.setText(user.getTitle());
                 edt_email.setText(user.getEmail_id());
                 edt_confirm_email.setText(user.getEmail_id());
-              //  txt_targetAmt.setText("$0.00");
+                //  txt_targetAmt.setText("$0.00");
             }
 
 
@@ -328,10 +333,10 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
 
             //  me_data();
             serch_user.setVisibility(View.VISIBLE);
-
+            on_behalf_of = "1";
             // tabLayout.addTab(tabLayout.newTab().setText("Me"));
             tabLayout.addTab(tabLayout.newTab().setText("Fundit User"));
-            tabLayout.addTab(tabLayout.newTab().setText("other"));
+            tabLayout.addTab(tabLayout.newTab().setText("Other"));
 
 
             tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -339,7 +344,10 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
                 public void onTabSelected(TabLayout.Tab tab) {
                     if (tab.getPosition() == 0) {
                         fundit_user();
+                        on_behalf_of = "1";
                     } else if (tab.getPosition() == 1) {
+                        selectedFundsUserId = "";
+                        on_behalf_of = "0";
                         other_user();
                     }
 
@@ -374,8 +382,6 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
         //edt_email.setText(user.getEmail_id());
 
 
-
-
         serch_user.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -388,10 +394,10 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
 
-                if(radio_cardPayment.isChecked()){
+                if (radio_cardPayment.isChecked()) {
                     radio_cashPayment.setChecked(false);
                 }
-                if(radio_cashPayment.isChecked()){
+                if (radio_cashPayment.isChecked()) {
                     radio_cardPayment.setChecked(false);
                 }
             }
@@ -401,9 +407,9 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
         btn_placeOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int allPrice = 0;
+                float allPrice = 0;
                 final String combineName = edt_name.getText().toString().trim();
-                Log.e("combinename","==>"+combineName);
+
                 String finalAmounts = "";
                 finalAmounts = txt_targetAmt.getText().toString().trim();
 
@@ -415,7 +421,13 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
                         lastName = "";
                         emailId = edt_email.getText().toString().trim();
                         isotherTimes = true;
-                        Log.e("isother1", "-->" + isotherTimes);
+
+                    } else {
+                        firstName = edt_name.getText().toString().trim();
+                        lastName = "";
+                        emailId = edt_email.getText().toString().trim();
+
+
                     }
 
 
@@ -427,12 +439,20 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
                         lastName = "";
                         emailId = edt_email.getText().toString().trim();
                         isotherTimes = true;
-                        Log.e("isother1", "-->" + isotherTimes);
+
+
+                    }else {
+
+
+                        firstName = edt_name.getText().toString().trim();
+                        lastName = "";
+                        emailId = edt_email.getText().toString().trim();
+
 
                     }
                 }
 
-                Log.e("test", "-->" + tabLayout.getSelectedTabPosition());
+
 
                 int checkedPaymentType = radioGroup_paymentType.getCheckedRadioButtonId();
 
@@ -450,7 +470,6 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
                 for (int i = 0; i < getSelectedProducts.size(); i++) {
 
 
-
                     String name = getSelectedProducts.get(i).getName();
                     String price = getSelectedProducts.get(i).getPrice();
                     String totalPrice = getSelectedProducts.get(i).getTotal_price();
@@ -463,11 +482,11 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
 
                     allPrice += totalProductsPrice;
 
-                    Log.e("totalPrice", "" + allPrice);
+
 
 
                     try {
-                        JSONObject mainObject = new JSONObject() ;
+                        JSONObject mainObject = new JSONObject();
 
                         mainObject.put("product_id", id);
                         mainObject.put("name", name);
@@ -480,8 +499,7 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
                         selectedProductArray.put(mainObject);
 
 
-                        Log.e("selectedProducts", "---->" + selectedProductArray);
-                        Log.e("test","test");
+
 
 
                     } catch (JSONException e) {
@@ -500,7 +518,7 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter receipt name");
                 } else if (edt_email.getText().toString().trim().isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter receipt email");
-                }else if(!C.INSTANCE.validEmail(edt_email.getText().toString().trim())){
+                } else if (!C.INSTANCE.validEmail(edt_email.getText().toString().trim())) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter valid receipt email");
                 } else if (edt_confirm_email.getText().toString().trim().isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Email not match");
@@ -521,22 +539,22 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
                         final Call<AppModel> addOrder = adminAPI.AddOrder(campaignList.getCampaign().getId(), selectedFundsUserId, preference.getTokenHash(), "4", firstName, lastName, emailId, member.getContact_info(), member.getLocation(), /*member.getCity().getName()*/ member.getCity_name(), member.getZip_code(), member.getState().getName(), String.valueOf(checkedPaymentType), String.valueOf(allPrice), preference.getUserID(), "0.0", "0.0", organizationId, fundspotId, selectedProductArray.toString(), "", "", "", "", "", "", "", "0", "1", "0");
 
 
-                        Log.e("param", preference.getUserID());
-                        Log.e("param", preference.getUserRoleID());
-                        Log.e("param", preference.getTokenHash());
-                        Log.e("id", campaignList.getCampaign().getId());
-                        Log.e("firstname", user.getFirst_name());
-                        Log.e("lastname", user.getLast_name());
-                        Log.e("email", user.getEmail_id());
-                        Log.e("contact", member.getContact_info());
-                        Log.e("member", member.getLocation());
-                        Log.e("zip", member.getZip_code());
-                        Log.e("state", member.getState().getName());
-                        Log.e("paymenttype", String.valueOf(checkedPaymentType));
-                        Log.e("price", String.valueOf(allPrice));
-                        Log.e("orgid", organizationId);
-                        Log.e("fundid", fundspotId);
-                        Log.e("array", selectedProductArray.toString());
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
                         addOrder.enqueue(new Callback<AppModel>() {
@@ -591,8 +609,8 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
                             if (tabLayout.getSelectedTabPosition() == 0) {
                                 dialog.show();
                                 final Call<BankCardResponse> bankCardResponse = adminAPI.BankCard(preference.getUserID(), preference.getTokenHash());
-                                Log.e("parameters", "-->" + preference.getUserID() + "-->" + preference.getTokenHash());
-                                final int finalAllPrice = allPrice;
+
+                                final float finalAllPrice = allPrice;
                                 final int finalCheckedPaymentType = checkedPaymentType;
                                 bankCardResponse.enqueue(new Callback<BankCardResponse>() {
                                     @Override
@@ -600,15 +618,15 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
                                         dialog.dismiss();
                                         BankCardResponse cardResponse = response.body();
 
-                                        Log.e("getData", "-->" + new Gson().toJson(cardResponse));
+
 
                                         if (cardResponse != null) {
                                             if (cardResponse.isStatus()) {
                                                 Intent i = new Intent(getApplicationContext(), CardActivity.class);
                                                 i.putExtra("selectedProductArray", selectedProductArray.toString());
-                                                i.putExtra("firstname", user.getFirst_name());
-                                                i.putExtra("lastname", user.getLast_name());
-                                                i.putExtra("email", user.getEmail_id());
+                                                i.putExtra("firstname", firstName);
+                                                i.putExtra("lastname", lastName);
+                                                i.putExtra("email", emailId);
                                                 i.putExtra("campaign_id", campaignList.getCampaign().getId());
                                                 i.putExtra("mobile", member.getContact_info());
                                                 i.putExtra("payment_address_1", member.getLocation());
@@ -620,41 +638,30 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
                                                 i.putExtra("payment_state", member.getState().getName());
                                                 i.putExtra("payment_method", "2");
                                                 i.putExtra("save_card", "0");
-                                                i.putExtra("on_behalf_of", "0");
+                                                i.putExtra("on_behalf_of", on_behalf_of);
                                                 i.putExtra("order_request", "0");
                                                 i.putExtra("other_user", "0");
                                                 i.putExtra("is_card_save", "1");
                                                 i.putExtra("organization_name", "");
                                                 i.putExtra("isOtherTimes", isotherTimes);
                                                 i.putExtra("name", combineName);
-                                                i.putExtra("newsFeedTimes" , newsFeedTimes);
+                                                i.putExtra("newsFeedTimes", newsFeedTimes);
+                                                i.putExtra("selectedUserID", selectedFundsUserId);
 
-                                                Log.e("id", campaignList.getCampaign().getId());
-                                                Log.e("firstname", user.getFirst_name());
-                                                Log.e("lastname", user.getLast_name());
-                                                Log.e("email", user.getEmail_id());
-                                                Log.e("contact", member.getContact_info());
-                                                Log.e("member", member.getLocation());
-                                                Log.e("zip", member.getZip_code());
-                                                Log.e("state", member.getState().getName());
-                                                Log.e("price", String.valueOf(finalAllPrice));
-                                                Log.e("orgid", organizationId);
-                                                Log.e("fundid", fundspotId);
-                                                Log.e("array", selectedProductArray.toString());
-                                                i.putExtra("actionflag","false");
+                                       i.putExtra("actionflag", "false");
 
-                                                Log.e("isother2", "-->" + isotherTimes);
+
 
 
                                                 startActivity(i);
                                             } else {
 
                                                 Intent i = new Intent(getApplicationContext(), CreateCardActivity.class);
-                                                i.putExtra("actionflag","true");
+                                                i.putExtra("actionflag", "true");
                                                 i.putExtra("selectedProductArray", selectedProductArray.toString());
-                                                i.putExtra("firstname", user.getFirst_name());
-                                                i.putExtra("lastname", user.getLast_name());
-                                                i.putExtra("email", user.getEmail_id());
+                                                i.putExtra("firstname", firstName);
+                                                i.putExtra("lastname", lastName);
+                                                i.putExtra("email", emailId);
                                                 i.putExtra("campaign_id", campaignList.getCampaign().getId());
                                                 i.putExtra("mobile", member.getContact_info());
                                                 i.putExtra("payment_address_1", member.getLocation());
@@ -666,29 +673,30 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
                                                 i.putExtra("payment_state", member.getState().getName());
                                                 i.putExtra("payment_method", "2");
                                                 i.putExtra("save_card", "0");
-                                                i.putExtra("on_behalf_of", "0");
+                                                i.putExtra("on_behalf_of", on_behalf_of);
                                                 i.putExtra("order_request", "0");
                                                 i.putExtra("other_user", "0");
                                                 i.putExtra("is_card_save", "1");
                                                 i.putExtra("organization_name", "");
                                                 i.putExtra("isOtherTimes", isotherTimes);
                                                 i.putExtra("name", combineName);
-                                                i.putExtra("newsFeedTimes" , newsFeedTimes);
+                                                i.putExtra("newsFeedTimes", newsFeedTimes);
+                                                i.putExtra("selectedUserID", selectedFundsUserId);
 
 
-                                                Log.e("id", campaignList.getCampaign().getId());
-                                                Log.e("firstname", user.getFirst_name());
-                                                Log.e("lastname", user.getLast_name());
-                                                Log.e("email", user.getEmail_id());
-                                                Log.e("contact", member.getContact_info());
-                                                Log.e("member", member.getLocation());
-                                                Log.e("zip", member.getZip_code());
-                                                Log.e("state", member.getState().getName());
-                                                Log.e("price", String.valueOf(finalAllPrice));
-                                                Log.e("orgid", organizationId);
-                                                Log.e("fundid", fundspotId);
-                                                Log.e("array", selectedProductArray.toString());
-                                                Log.e("isother3", "-->" + isotherTimes);
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                                                 startActivity(i);
 
@@ -707,7 +715,7 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
                                     }
                                 });
 
-                            }else {
+                            } else {
 
                                 if (campaignList.getCampaign().getRole_id().equalsIgnoreCase(C.ORGANIZATION)) {
                                     organizationId = campaignList.getUserOrganization().getId();
@@ -721,11 +729,11 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
 
 
                                 Intent i = new Intent(getApplicationContext(), CreateCardActivity.class);
-                                i.putExtra("actionflag","true");
+                                i.putExtra("actionflag", "true");
                                 i.putExtra("selectedProductArray", selectedProductArray.toString());
-                                i.putExtra("firstname", user.getFirst_name());
-                                i.putExtra("lastname", user.getLast_name());
-                                i.putExtra("email", user.getEmail_id());
+                                i.putExtra("firstname", firstName);
+                                i.putExtra("lastname", lastName);
+                                i.putExtra("email", emailId);
                                 i.putExtra("campaign_id", campaignList.getCampaign().getId());
                                 i.putExtra("mobile", member.getContact_info());
                                 i.putExtra("payment_address_1", member.getLocation());
@@ -737,7 +745,7 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
                                 i.putExtra("payment_state", member.getState().getName());
                                 i.putExtra("payment_method", "2");
                                 i.putExtra("save_card", "0");
-                                i.putExtra("on_behalf_of", "0");
+                                i.putExtra("on_behalf_of", on_behalf_of);
                                 i.putExtra("order_request", "0");
                                 i.putExtra("other_user", "0");
                                 i.putExtra("is_card_save", "1");
@@ -745,21 +753,22 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
                                 i.putExtra("isSaveCard", true);
                                 i.putExtra("isOtherTimes", isotherTimes);
                                 i.putExtra("name", combineName);
-                                i.putExtra("newsFeedTimes" , newsFeedTimes);
+                                i.putExtra("newsFeedTimes", newsFeedTimes);
+                                i.putExtra("selectedUserID", selectedFundsUserId);
 
 
-                                Log.e("id", campaignList.getCampaign().getId());
-                                Log.e("firstname", user.getFirst_name());
-                                Log.e("lastname", user.getLast_name());
-                                Log.e("email", user.getEmail_id());
-                                Log.e("contact", member.getContact_info());
-                                Log.e("member", member.getLocation());
-                                Log.e("zip", member.getZip_code());
-                                Log.e("state", member.getState().getName());
-                                Log.e("price", String.valueOf(allPrice));
-                                Log.e("orgid", organizationId);
-                                Log.e("fundid", fundspotId);
-                                Log.e("array", selectedProductArray.toString());
+
+
+
+
+
+
+
+
+
+
+
+
 
 
                                 startActivity(i);
@@ -781,11 +790,11 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
 
 
                             Intent i = new Intent(getApplicationContext(), CreateCardActivity.class);
-                            i.putExtra("actionflag","true");
+                            i.putExtra("actionflag", "true");
                             i.putExtra("selectedProductArray", selectedProductArray.toString());
-                            i.putExtra("firstname", user.getFirst_name());
-                            i.putExtra("lastname", user.getLast_name());
-                            i.putExtra("email", user.getEmail_id());
+                            i.putExtra("firstname", firstName);
+                            i.putExtra("lastname", lastName);
+                            i.putExtra("email", emailId);
                             i.putExtra("campaign_id", campaignList.getCampaign().getId());
                             i.putExtra("mobile", member.getContact_info());
                             i.putExtra("payment_address_1", member.getLocation());
@@ -797,7 +806,7 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
                             i.putExtra("payment_state", member.getState().getName());
                             i.putExtra("payment_method", "2");
                             i.putExtra("save_card", "0");
-                            i.putExtra("on_behalf_of", "0");
+                            i.putExtra("on_behalf_of", on_behalf_of);
                             i.putExtra("order_request", "0");
                             i.putExtra("other_user", "0");
                             i.putExtra("is_card_save", "1");
@@ -805,21 +814,22 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
                             i.putExtra("isSaveCard", true);
                             i.putExtra("isOtherTimes", isotherTimes);
                             i.putExtra("name", combineName);
-                            i.putExtra("newsFeedTimes" , newsFeedTimes);
+                            i.putExtra("newsFeedTimes", newsFeedTimes);
+                            i.putExtra("selectedUserID", selectedFundsUserId);
 
 
-                            Log.e("id", campaignList.getCampaign().getId());
-                            Log.e("firstname", user.getFirst_name());
-                            Log.e("lastname", user.getLast_name());
-                            Log.e("email", user.getEmail_id());
-                            Log.e("contact", member.getContact_info());
-                            Log.e("member", member.getLocation());
-                            Log.e("zip", member.getZip_code());
-                            Log.e("state", member.getState().getName());
-                            Log.e("price", String.valueOf(allPrice));
-                            Log.e("orgid", organizationId);
-                            Log.e("fundid", fundspotId);
-                            Log.e("array", selectedProductArray.toString());
+
+
+
+
+
+
+
+
+
+
+
+
 
 
                             startActivity(i);
@@ -851,7 +861,7 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
         edt_name.setText(user.getTitle());
         edt_email.setText(user.getEmail_id());
         edt_confirm_email.setText(user.getEmail_id());
-      //  txt_targetAmt.setText("$0.00");
+        //  txt_targetAmt.setText("$0.00");
 
 
     }
@@ -868,7 +878,7 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
         edt_name.setText("");
         edt_email.setText("");
         edt_confirm_email.setText("");
-      //  txt_targetAmt.setText("$0.00");
+        //  txt_targetAmt.setText("$0.00");
 
 //        serch_user.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -882,16 +892,15 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
     }
 
 
-
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         // check if the request code is same as what is passed  here it is 2
         if (requestCode == 1) {
             if (data != null) {
                 people = (GetSearchPeople.People) data.getSerializableExtra("id");
-              //  txt_selectedname.setVisibility(View.VISIBLE);
+                //  txt_selectedname.setVisibility(View.VISIBLE);
                 edt_name.setText(people.getFirst_name() + " " + people.getLast_name());
-              //  txt_selectedname.setText("[" + people.getFirst_name() + "" + people.getLast_name() + "]");
+                //  txt_selectedname.setText("[" + people.getFirst_name() + "" + people.getLast_name() + "]");
                 radio_cashPayment.setText("Send Request To " + "[" + people.getFirst_name() + " " + people.getLast_name() + "]");
                 edt_email.setText(people.getEmail_id());
                 edt_confirm_email.setText(people.getEmail_id());
@@ -922,7 +931,7 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
     @Override
     public void UpdateTotalPrice(float totalPrice) {
         double allPrice = 0;
-        for (int i=0 ; i<productList.size() ; i++){
+        for (int i = 0; i < productList.size(); i++) {
             String productstotalPrice = productList.get(i).getTotal_price();
 
             Float productWise = Float.parseFloat(productstotalPrice);
@@ -932,7 +941,6 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
 
 
 
-        Log.e("price", "-->" + allPrice);
         txt_targetAmt.setText("$" + String.format("%.2f", allPrice));
     }
 
@@ -943,7 +951,7 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
         Call<Address> addressCall = null;
 
         addressCall = adminAPI.GetAddress(fundspot_id);
-        Log.e("userid", "--->" + fundspot_id);
+
 
         addressCall.enqueue(new Callback<Address>() {
             @Override
@@ -974,4 +982,11 @@ public class FinalOrderPlace extends AppCompatActivity implements OrderTimeProdu
             }
         });
 
-    }}
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        System.gc();
+    }
+}

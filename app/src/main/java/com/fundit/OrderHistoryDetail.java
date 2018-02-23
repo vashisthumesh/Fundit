@@ -427,4 +427,10 @@ public class OrderHistoryDetail extends AppCompatActivity {
         intent.putExtra("productName", productName);
         startActivity(intent);
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        System.gc();
+    }
 }

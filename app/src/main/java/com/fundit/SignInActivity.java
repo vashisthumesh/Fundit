@@ -328,4 +328,10 @@ public class SignInActivity extends AppCompatActivity {
     public void onBackPressed() {
         System.exit(0);
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        System.gc();
+    }
 }

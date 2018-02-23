@@ -137,7 +137,7 @@ public class NotificationDetailActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String json) {
 
-                        Log.e("JSON", json);
+                        Log.e("JSON1ORG", json);
                         try {
                             JSONObject jObj = new JSONObject(json);
 
@@ -153,12 +153,12 @@ public class NotificationDetailActivity extends AppCompatActivity {
                                 JSONObject Organization=data.getJSONObject("Organization");
                                 JSONObject User=data.getJSONObject("User");
                                 JSONObject State=data.getJSONObject("State");
-                                JSONObject City=data.getJSONObject("City");
+
 
 
                                 title=Organization.getString("title");
                                 location=Organization.getString("location");
-                                city=City.getString("name");
+                                city=Organization.getString("city_name");
                                 state_code=State.getString("state_code");
                                 zipcode=Organization.getString("zip_code");
                                 desc=Organization.getString("description");
@@ -220,7 +220,7 @@ public class NotificationDetailActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String json) {
 
-                        Log.e("JSON", json);
+                        Log.e("JSON2FUND", json);
                         try {
                             JSONObject jObj = new JSONObject(json);
 
@@ -236,12 +236,12 @@ public class NotificationDetailActivity extends AppCompatActivity {
                                 JSONObject Fundspot=data.getJSONObject("Fundspot");
                                 JSONObject User=data.getJSONObject("User");
                                 JSONObject State=data.getJSONObject("State");
-                                JSONObject City=data.getJSONObject("City");
+
 
 
                               title=Fundspot.getString("title");
                                 location=Fundspot.getString("location");
-                               city=City.getString("name");
+                               city=Fundspot.getString("city_name");
                                state_code=State.getString("state_code");
                                 zipcode=Fundspot.getString("zip_code");
                               desc=Fundspot.getString("description");
@@ -292,5 +292,11 @@ public class NotificationDetailActivity extends AppCompatActivity {
         };
         Fundit.getInstance().addToRequestQueue(request);
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        System.gc();
     }
 }

@@ -393,4 +393,7 @@ class MyProfileFragment : Fragment() {
 
         return view
     }
+
+
+
 }

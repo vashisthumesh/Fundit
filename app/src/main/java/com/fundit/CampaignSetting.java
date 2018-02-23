@@ -127,7 +127,7 @@ public class CampaignSetting extends AppCompatActivity {
 
                 if (buttonView.isChecked()) {
 
-                    edt_duration.setText("0");
+                    edt_duration.setText("");
                     edt_duration.setEnabled(false);
 
                 }
@@ -148,30 +148,55 @@ public class CampaignSetting extends AppCompatActivity {
 
 
         if (editMode) {
-            String getMaxCoupons = member.getMax_limit_of_coupon_price();
-            String getDuration = member.getCampaign_duration();
-            edt_fubdraiser.setText(member.getFundspot_percent());
-            edt_organization.setText(member.getOrganization_percent());
-            btn_skip.setVisibility(View.GONE);
-//            if (getMaxCoupons.equalsIgnoreCase("10000") || getMaxCoupons.equalsIgnoreCase("0")) {
-//                checkbox_nolimit.setChecked(true);
-//                edt_price.setEnabled(false);
-//            } else {
-//                edt_price.setText(getMaxCoupons);
-//                edt_price.setEnabled(true);
-//            }
-            edt_price.setText(getMaxCoupons);
+
+            String getMaxCoupons = "";
+            String getDuration = "";
+            String fundspotPercent = "";
+            String organizationPercent = "";
+            String couponExpiration = "";
+
+            getMaxCoupons = member.getMax_limit_of_coupon_price();
+            getDuration = member.getCampaign_duration();
+            fundspotPercent = member.getFundspot_percent();
+            organizationPercent = member.getOrganization_percent();
+            couponExpiration =member.getCoupon_expire_day();
+
+
+            if(fundspotPercent.equalsIgnoreCase("0")){
+                edt_fubdraiser.setText("");
+            }else {
+                edt_fubdraiser.setText(fundspotPercent);
+            }
+
+
+            if(organizationPercent.equalsIgnoreCase("0")){
+                edt_organization.setText("");
+            }else {
+                edt_organization.setText(organizationPercent);
+            }
+
+            if(getMaxCoupons.equalsIgnoreCase("0")){
+                edt_price.setText("");
+            }else {
+                edt_price.setText(getMaxCoupons);
+            }
+
+            if(couponExpiration.equalsIgnoreCase("0")){
+                edt_total_days.setText("");
+            }else {
+                edt_total_days.setText(couponExpiration);
+            }
 
             if (getDuration.equalsIgnoreCase("10000") || getDuration.equalsIgnoreCase("0")) {
                 checkbox_indefinite.setChecked(true);
                 edt_duration.setEnabled(true);
+                edt_duration.setText("");
             } else {
                 edt_duration.setText(getDuration);
                 edt_duration.setEnabled(true);
             }
 
-
-            edt_total_days.setText(member.getCoupon_expire_day());
+            btn_skip.setVisibility(View.GONE);
         }
         checkbox_nolimit.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -399,4 +424,11 @@ public class CampaignSetting extends AppCompatActivity {
             finish();
         }
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        System.gc();
+    }
+
 }

@@ -89,4 +89,11 @@ public class QRResultActivity extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext() , HomeActivity.class);
         startActivity(intent);
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        System.gc();
+    }
+
 }

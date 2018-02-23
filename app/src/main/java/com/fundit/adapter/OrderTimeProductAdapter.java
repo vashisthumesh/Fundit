@@ -67,6 +67,8 @@ public class OrderTimeProductAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
+
+
         View view = inflater.inflate(R.layout.layout_ordertime_list, parent, false);
 
 
@@ -74,12 +76,16 @@ public class OrderTimeProductAdapter extends BaseAdapter {
         TextView txt_price = (TextView) view.findViewById(R.id.txt_price);
         TextView txt_type = (TextView) view.findViewById(R.id.txt_type);
         TextView txt_typ = (TextView) view.findViewById(R.id.txt_typ);
+        TextView txt_nameLabel = (TextView) view.findViewById(R.id.txt_nameLabel);
+        TextView txt_descriptionLabel = (TextView) view.findViewById(R.id.txt_descriptionLabel);
         final ImageView img_plus = (ImageView) view.findViewById(R.id.img_plus);
         final ImageView img_minus = (ImageView) view.findViewById(R.id.img_minus);
         final EditText edt_qty = (EditText) view.findViewById(R.id.edt_qty);
         CheckBox check_product = (CheckBox) view.findViewById(R.id.check_product);
         txt_type.setVisibility(View.GONE);
         txt_typ.setVisibility(View.GONE);
+        txt_nameLabel.setVisibility(View.GONE);
+        txt_descriptionLabel.setVisibility(View.GONE);
         edt_qty.setText("0");
         edt_qty.setEnabled(false);
         TextView txt_productDescription = (TextView) view.findViewById(R.id.txt_productDescription);
@@ -168,7 +174,7 @@ public class OrderTimeProductAdapter extends BaseAdapter {
 
                     if(quantity>0){
                         productResponses.get(position).setQty(Integer.parseInt(qty));
-                        float totalPrice = Integer.parseInt(productResponses.get(position).getPrice()) *
+                        float totalPrice = Float.parseFloat(productResponses.get(position).getPrice()) *
                                 productResponses.get(position).getQty();
 
                         productResponses.get(position).setTotal_price(String.valueOf(totalPrice));

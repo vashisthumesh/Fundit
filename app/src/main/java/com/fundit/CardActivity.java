@@ -62,6 +62,7 @@ public class CardActivity extends AppCompatActivity {
     String combineName = "";
     String orderId = "";
     String actionflag = "";
+    String selectedFundsUserId="";
     boolean newsFeedTimes = false;
     boolean isotherTimes = false;
     boolean isCouponTimes = false ;
@@ -113,6 +114,7 @@ public class CardActivity extends AppCompatActivity {
             newsFeedTimes=i.getBooleanExtra("newsFeedTimes" , false);
             isotherTimes=i.getBooleanExtra("isOtherTimes" , false);
             actionflag = i.getStringExtra("actionflag");
+            selectedFundsUserId = i.getStringExtra("selectedUserID");
         }
 
 
@@ -237,6 +239,7 @@ public class CardActivity extends AppCompatActivity {
                     i.putExtra("name" , combineName);
                     i.putExtra("actionflag","true");
                     i.putExtra("newsFeedTimes" , newsFeedTimes);
+                    i.putExtra("selectedUserID" , selectedFundsUserId);
 
                     Log.e("isother" ,"-->" +  isotherTimes);
 
@@ -304,9 +307,16 @@ public class CardActivity extends AppCompatActivity {
 
                     } else {
 
+                        String sendUserId = "";
+                        if(selectedFundsUserId.isEmpty()){
+                            sendUserId=preference.getUserID();
+                        }else {
+                            sendUserId = selectedFundsUserId;
+                        }
+
                         Call<CompleteOrderModel> addOrder = null;
 
-                        addOrder = adminAPI.CompleteOrder(preference.getUserID(), preference.getUserRoleID(), preference.getTokenHash(), campaign_id, firstName, lastName, email, mobile, payment_address_1, payment_city, payment_postcode, payment_state, payment_method, total, preference.getUserID(), "", "", organization_id, fundspot_id, selectedProductArray, auth_cust_paymnet_profile_id, customerProfileId, cvv, card_Id, save_card, on_behalf_of, order_request, other_user, is_card_save);
+                        addOrder = adminAPI.CompleteOrder(sendUserId, preference.getUserRoleID(), preference.getTokenHash(), campaign_id, firstName, lastName, email, mobile, payment_address_1, payment_city, payment_postcode, payment_state, payment_method, total, preference.getUserID(), "", "", organization_id, fundspot_id, selectedProductArray, auth_cust_paymnet_profile_id, customerProfileId, cvv, card_Id, save_card, on_behalf_of, order_request, other_user, is_card_save);
 
 
                         Log.e("userid", "--->" + preference.getUserID());
@@ -407,7 +417,10 @@ public class CardActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        System.gc();
         J.GetNotificationCountGlobal(preference.getUserID() , preference.getTokenHash() , preference , getApplicationContext() , this);
     }
+
+
 
 }

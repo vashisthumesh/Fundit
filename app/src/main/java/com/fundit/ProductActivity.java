@@ -30,6 +30,7 @@ public class ProductActivity extends AppCompatActivity {
     Boolean myproduct=false;
     Boolean isCampaignTimes = false;
     ProductListResponse.Product product;
+    int PRODUCT_REQUEST = 136;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +71,7 @@ public class ProductActivity extends AppCompatActivity {
                 intent.putExtra("editMode", true);
                 intent.putExtra("product", product);
                startActivity(intent);
+               finish();
             }
         });
 
@@ -113,5 +115,11 @@ public class ProductActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        System.gc();
     }
 }

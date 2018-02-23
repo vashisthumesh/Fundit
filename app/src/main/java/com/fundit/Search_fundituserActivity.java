@@ -168,4 +168,10 @@ public class Search_fundituserActivity extends AppCompatActivity implements Peop
 
 
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        System.gc();
+    }
 }

@@ -5,7 +5,7 @@
     android:id="@+id/layout_raisedPrice"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/background_total_price"
+
     android:orientation="horizontal">
 
     <LinearLayout
@@ -95,6 +95,7 @@
                 android:padding="7dp"
                 android:id="@+id/txt_targetAmt"
                 android:textSize="12sp"
+
                 android:layout_gravity="center_vertical|end"
                 android:gravity="center_vertical|end"
                 android:textStyle="bold"

@@ -68,7 +68,7 @@ public class NewsDetailAdapter extends BaseAdapter {
 
         txt_name.setText(productResponses.get(position).getName());
         //selling_price.setText("Selling Price:"+ productResponses.get(position).getPrice());
-        selling_price.setText("Selling Price: $ "+ String.format("%.2f" , Double.parseDouble(productResponses.get(position).getPrice())));
+        selling_price.setText("Selling Price:$"+ String.format("%.2f" , Double.parseDouble(productResponses.get(position).getPrice())));
         txt_comment.setText(productResponses.get(position).getDescription());
 
 

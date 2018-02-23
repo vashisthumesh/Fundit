@@ -10,7 +10,7 @@ import java.util.List;
 
 public class NotificationCampaignModel extends AppModel implements Serializable {
 
-    CampaignData data = new CampaignData();
+    /*CampaignData data = new CampaignData();
 
     public CampaignData getData() {
         return data;
@@ -42,7 +42,12 @@ public class NotificationCampaignModel extends AppModel implements Serializable 
             return CampaignProduct;
         }
 
+    }*/
+
+
+    CampaignListResponse.CampaignList data = new CampaignListResponse.CampaignList();
+
+    public CampaignListResponse.CampaignList getData() {
+        return data;
     }
-
-
 }

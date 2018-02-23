@@ -21,6 +21,7 @@ import com.fundit.OrderPlaceActivity;
 import com.fundit.R;
 import com.fundit.a.AppPreference;
 import com.fundit.a.C;
+import com.fundit.a.J;
 import com.fundit.apis.AdminAPI;
 import com.fundit.apis.ServiceGenerator;
 import com.fundit.helper.CustomDialog;
@@ -293,7 +294,7 @@ public class ShowOrderDetailsAdapter extends BaseAdapter {
         btn_decline.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                orderLists.remove(position);
+
                 DeclineCouponRequest(position, view);
 
 
@@ -313,10 +314,12 @@ public class ShowOrderDetailsAdapter extends BaseAdapter {
                         AppModel model = response.body();
                         Log.e("response", "-->" + new Gson().toJson(response.body()));
                         if (model != null) {
-                            C.INSTANCE.showToast(context, model.getMessage());
+                          //  C.INSTANCE.showToast(context, model.getMessage());
+                            orderLists.remove(position);
                             if (model.isStatus()) {
 
                                 Log.e("check", "-->" + position);
+
 
                             }
                         } else {
@@ -325,6 +328,7 @@ public class ShowOrderDetailsAdapter extends BaseAdapter {
                         }
 
                         notifyDataSetChanged();
+                        J.GetNotificationCountGlobal(preference.getUserID() , preference.getTokenHash() , preference , context , activity);
                     }
 
                     @Override

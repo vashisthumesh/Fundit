@@ -619,5 +619,10 @@ public class OrganizationProfileActivity extends AppCompatActivity {
         spn_city.setSelection(pos);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        System.gc();
+    }
 
 }

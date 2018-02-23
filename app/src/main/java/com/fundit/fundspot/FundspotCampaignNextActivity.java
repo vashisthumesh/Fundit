@@ -76,7 +76,7 @@ public class FundspotCampaignNextActivity extends AppCompatActivity {
 
     String maxAmount = "";
 
-    int amount = 0;
+    int amount = 1;
 
     boolean isProfileMode = false ;
 
@@ -281,13 +281,17 @@ public class FundspotCampaignNextActivity extends AppCompatActivity {
                         }else {
                             detailObject.put("all_member", "0");
                         }
-                        if(chk_maxAmount.isChecked()){
 
-                            detailObject.put("target_amount" , amount);
+                        if(edt_amount.getVisibility()==View.VISIBLE && chk_maxAmount.isChecked()){
+                            detailObject.put("target_amount" , maxLimitCoupon);
+                        } else if(edt_amount.getVisibility()==View.VISIBLE && !chk_maxAmount.isChecked()){
+                            detailObject.put("target_amount" , maxLimitCoupon);
                         }else{
-
-                            detailObject.put("target_amount" , amount);
+                            detailObject.put("target_amount" , maxLimitCoupon);
                         }
+
+
+
                         campaignDetailArray.put(detailObject);
 
 

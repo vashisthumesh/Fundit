@@ -17,6 +17,7 @@ import com.fundit.Bean.MemberRequestBean;
 import com.fundit.R;
 import com.fundit.a.AppPreference;
 import com.fundit.a.C;
+import com.fundit.a.J;
 import com.fundit.a.W;
 import com.fundit.adapter.MemberRequestAdapter;
 import com.fundit.apis.AdminAPI;
@@ -41,7 +42,7 @@ import java.util.List;
  * Created by NWSPL-17 on 03-Aug-17.
  */
 
-public class MemberRequestFragment extends Fragment {
+public class MemberRequestFragment extends Fragment implements MemberRequestAdapter.RespondRequest {
 
     View view;
     AppPreference preference;
@@ -63,6 +64,7 @@ public class MemberRequestFragment extends Fragment {
     LinearLayout layout_request;
     TextView txt_count;
 
+    boolean isRefereshTimes  = false ;
 
 
 
@@ -90,6 +92,7 @@ public class MemberRequestFragment extends Fragment {
         } catch (Exception e) {
             Log.e("Exception", e.getMessage());
         }
+        preference.setMemberTimes(false);
         fetchIDs();
 
 
@@ -103,7 +106,7 @@ public class MemberRequestFragment extends Fragment {
 
 
         list_mrequest = (ListView) view.findViewById(R.id.list_mrequest);
-        memberRequestAdapter = new MemberRequestAdapter(requestBeen, getActivity());
+        memberRequestAdapter = new MemberRequestAdapter(requestBeen, getActivity() , this);
         list_mrequest.setAdapter(memberRequestAdapter);
 
         int getCount = preference.getMemberCount();
@@ -122,19 +125,32 @@ public class MemberRequestFragment extends Fragment {
 
     }
 
+    @Override
+    public void onClick() {
+
+        Log.e("letsCheckClick" , "-->");
+        isRefereshTimes = true ;
+        new GetMemberRequests().execute();
+
+
+    }
+
 
     public class GetMemberRequests extends AsyncTask<Void, Void, String> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            try {
+            if(isRefereshTimes==false) {
+                try {
 
-                dialog.show();
-                dialog.setCancelable(false);
 
-            } catch (Exception e) {
+                    dialog.show();
+                    dialog.setCancelable(false);
 
-                e.printStackTrace();
+                } catch (Exception e) {
+
+                    e.printStackTrace();
+                }
             }
         }
 
@@ -170,6 +186,7 @@ public class MemberRequestFragment extends Fragment {
 
         @Override
         protected void onPostExecute(String s) {
+            requestBeen.clear();
             super.onPostExecute(s);
             dialog.dismiss();
 
@@ -189,6 +206,7 @@ public class MemberRequestFragment extends Fragment {
                     message = mainObject.getString("message");
                     Log.e("Letssee" , "-->" + mainObject.getBoolean("status"));
                     if (status==true) {
+
 
                         JSONArray dataAraay = mainObject.getJSONArray("data");
                         Log.e("Letssee" , "-->" + mainObject.getJSONArray("data"));
@@ -230,18 +248,36 @@ public class MemberRequestFragment extends Fragment {
                             requestBeen.add(memberRequestBean);
 
                         }
-                        memberRequestAdapter.notifyDataSetChanged();
+
                     }else {
 
-                       // C.INSTANCE.showToast(getContext() , message);
-
                     }
+
+
+                    memberRequestAdapter.notifyDataSetChanged();
+
+                    if(isRefereshTimes==true){
+                        J.GetNotificationCountGlobal(preference.getUserID() , preference.getTokenHash() , preference , getContext() , getActivity());
+                    }
+
+                    isRefereshTimes = false;
+
+                    RefreshLayout();
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
 
+        }
+    }
+
+    private void RefreshLayout() {
+        Log.e("seeChecking" , "--->" + preference.getMemberCount());
+        if(requestBeen.size()==0){
+            layout_request.setVisibility(View.GONE);
+        }else {
+            layout_request.setVisibility(View.VISIBLE);
         }
     }
 

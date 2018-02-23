@@ -221,7 +221,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Coupons Expiration:"
+                        android:text="Coupon Expiration:"
                         android:textSize="16sp" />
 
                     <EditText
@@ -266,7 +266,7 @@
                     android:layout_gravity="start"
                     android:background="@color/colorButton"
                     android:gravity="center"
-                    android:text="Countinue"
+                    android:text="Continue"
                     android:textAllCaps="false"
                     android:textColor="#000"
                     android:textSize="18sp" />

@@ -71,12 +71,16 @@ public class OrderProductTimeAdapter  extends BaseAdapter {
         TextView txt_price = (TextView) view.findViewById(R.id.txt_price);
         TextView txt_type = (TextView) view.findViewById(R.id.txt_type);
         TextView txt_typ = (TextView) view.findViewById(R.id.txt_typ);
+        TextView txt_nameLabel = (TextView) view.findViewById(R.id.txt_nameLabel);
+        TextView txt_descriptionLabel = (TextView) view.findViewById(R.id.txt_descriptionLabel);
         final ImageView img_plus = (ImageView) view.findViewById(R.id.img_plus);
         final ImageView img_minus = (ImageView) view.findViewById(R.id.img_minus);
         final EditText edt_qty = (EditText) view.findViewById(R.id.edt_qty);
         CheckBox check_product = (CheckBox) view.findViewById(R.id.check_product);
         txt_type.setVisibility(View.GONE);
         txt_typ.setVisibility(View.GONE);
+        txt_nameLabel.setVisibility(View.GONE);
+        txt_descriptionLabel.setVisibility(View.GONE);
         TextView txt_productDescription = (TextView) view.findViewById(R.id.txt_productDescription);
 
         CircleImageView img_productImage = (CircleImageView) view.findViewById(R.id.img_productImage);
@@ -155,7 +159,7 @@ public class OrderProductTimeAdapter  extends BaseAdapter {
 
                     if(quantity>0){
                         productList.get(position).setQty(Integer.parseInt(qty));
-                        float totalPrice = Integer.parseInt(productList.get(position).getPrice()) *
+                        float totalPrice = Float.parseFloat(productList.get(position).getPrice()) *
                                 productList.get(position).getQty();
 
                         productList.get(position).setTotal_price(String.valueOf(totalPrice));
@@ -186,20 +190,22 @@ public class OrderProductTimeAdapter  extends BaseAdapter {
                     img_minus.setEnabled(true);
                     edt_qty.setText("1");
                     productList.get(position).setQty(1);
-                    edt_qty.setEnabled(true);
+                    edt_qty.setEnabled(false);
                     img_plus.setClickable(true);
                     img_minus.setClickable(true);
 
 
                 } else {
 
-                    edt_qty.setText("");
+                    edt_qty.setText("0");
                     edt_qty.setHint("0");
                     productList.get(position).setQty(0);
+                    productList.get(position).setTotal_price("0");
                     edt_qty.setEnabled(false);
                     img_plus.setClickable(false);
                     img_minus.setClickable(false);
 
+                    onClick.UpdateTotalPrice(0);
 
                 }
 

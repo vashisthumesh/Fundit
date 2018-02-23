@@ -1,23 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.Toolbar
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/toolbarCenterText"
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
     android:background="@color/toolbar_back"
     android:gravity="center"
-    android:textAlignment="center"
     app:contentInsetStart="0dp">
 
-    <TextView
-        android:id="@+id/actionTitle"
-        style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:layout_weight="1"
-        android:text=""/>
+        android:orientation="horizontal"
+        app:contentInsetStart="0dp">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/actionTitle"
+                style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginLeft="-55dp"
+                android:gravity="center"
+                android:text="" />
 
 
+            <FrameLayout
+                android:id="@+id/toolbar_add_to_cart"
+                android:layout_width="wrap_content"
+                android:layout_gravity="right"
+                android:visibility="gone"
+                android:layout_height="match_parent"
+                android:layout_marginRight="5dp">
+
+                <ImageView
+                    android:id="@+id/img_notification"
+                    android:layout_width="45dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center|right"
+                    android:layout_marginLeft="5dp"
+                    android:clickable="true"
+                    android:paddingBottom="5dp"
+                    android:paddingRight="5dp"
+                    android:paddingTop="10dp"
+                    android:src="@drawable/notification"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/cartTotal"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="top|center"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/rounded_textview_cart"
+                    android:gravity="center"
+                    android:textColor="#fff"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:visibility="gone" />
+            </FrameLayout>
+
+
+        </FrameLayout>
+
+
+
+    </LinearLayout>
 </android.support.v7.widget.Toolbar>

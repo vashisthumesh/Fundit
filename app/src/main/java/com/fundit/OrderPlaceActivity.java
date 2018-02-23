@@ -8,6 +8,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -16,8 +18,11 @@ import com.fundit.a.AppPreference;
 import com.fundit.a.C;
 import com.fundit.adapter.ListproductAdapter;
 import com.fundit.apis.AdminAPI;
+import com.fundit.helper.AdjustableListView;
 import com.fundit.model.CampaignListResponse;
 import com.fundit.model.VerifyResponse;
+
+import org.w3c.dom.Text;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -30,7 +35,7 @@ public class OrderPlaceActivity extends AppCompatActivity {
 
     CampaignListResponse.CampaignList campaignList;
     List<CampaignListResponse.CampaignList> campaignList1 = new ArrayList<>();
-    ListView list_product;
+    AdjustableListView list_product;
     TextView txt_campaignName, txt_description, txt_partnerLabel, txt_partnerName, txt_item, txt_goal, txt_split, txt_date, txt_members, txt_addMember, txt_message, txt_back, txt_raised, txt_targetAmt, txt_statistic, txt_labeldate, txt_msgtype, txt_organizationName;
 
     Button btn_placeOrder, btn_placeOrder1;
@@ -47,6 +52,7 @@ public class OrderPlaceActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_place);
 
+        Log.e("finally im here" , "-->");
 
         Intent intent = getIntent();
         campaignList = (CampaignListResponse.CampaignList) intent.getSerializableExtra("Details");
@@ -63,6 +69,32 @@ public class OrderPlaceActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         TextView actionTitle = (TextView) findViewById(R.id.actionTitle);
+        FrameLayout toolbar_add_to_cart = (FrameLayout) findViewById(R.id.toolbar_add_to_cart);
+        TextView cartTotal = (TextView) findViewById(R.id.cartTotal);
+        ImageView imgNotofication = (ImageView) findViewById(R.id.img_notification);
+
+        toolbar_add_to_cart.setVisibility(View.VISIBLE);
+
+        int unReadMessage = 0;
+        unReadMessage = preference.getUnReadCount();
+
+        if(unReadMessage==0){
+            cartTotal.setVisibility(View.GONE);
+        }else {
+            cartTotal.setVisibility(View.VISIBLE);
+            cartTotal.setText(String.valueOf(unReadMessage));
+        }
+
+
+        imgNotofication.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext() , NotificationActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            }
+        });
+
 
         actionTitle.setText("");
         setSupportActionBar(toolbar);
@@ -81,7 +113,7 @@ public class OrderPlaceActivity extends AppCompatActivity {
     }
 
     private void fetchIds() {
-        list_product = (ListView) findViewById(R.id.listproduct);
+        list_product = (AdjustableListView) findViewById(R.id.listproduct);
 
 
         txt_campaignName = (TextView) findViewById(R.id.txt_campaignName);
@@ -231,7 +263,9 @@ public class OrderPlaceActivity extends AppCompatActivity {
         Date today = c.getTime();
 
 
-        if (enddate.before(today) || enddate.equals(today)) {
+
+
+        if (enddate.before(today) /*|| enddate.equals(today)*/) {
             layout_both.setVisibility(View.GONE);
         } else {
             layout_both.setVisibility(View.VISIBLE);
@@ -240,12 +274,12 @@ public class OrderPlaceActivity extends AppCompatActivity {
 
         if (preference.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)) {
 
-            txt_msgtype.setText("Message To Redeemer :");
+            txt_msgtype.setText("Message To Redeemer:");
             txt_message.setText(campaignList.getCampaign().getMessage());
 
         }
         if (preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION)) {
-            txt_msgtype.setText("Message To Sellers :");
+            txt_msgtype.setText("Message To Sellers:");
             txt_message.setText(campaignList.getCampaign().getMsg_seller());
         }
         if (preference.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)) {
@@ -358,4 +392,21 @@ public class OrderPlaceActivity extends AppCompatActivity {
     public static int getScreenWidth() {
         return Resources.getSystem().getDisplayMetrics().widthPixels;
     }
+
+    @Override
+    public void onBackPressed() {
+
+        Intent i=new Intent(getApplicationContext(),HomeActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(i);
+        finishAffinity();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        System.gc();
+    }
+
+
 }

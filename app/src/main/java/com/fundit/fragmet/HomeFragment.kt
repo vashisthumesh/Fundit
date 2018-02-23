@@ -111,6 +111,12 @@ class HomeFragment : Fragment() {
         {
             setMyCampaignFragment()
             navigation.getMenu().getItem(2).setChecked(true);
+        }else if(preferences?.userRoleID.equals(C.GENERAL_MEMBER) && preferences?.isCampaignBack==true){
+
+            setMyCampaignFragment()
+            navigation.getMenu().getItem(2).setChecked(true);
+            preferences?.setCampaignBack(false)
+
         }
         else
         {

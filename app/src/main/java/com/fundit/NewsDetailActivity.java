@@ -8,6 +8,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -17,6 +19,7 @@ import com.fundit.a.C;
 import com.fundit.adapter.NewsDetailAdapter;
 import com.fundit.apis.AdminAPI;
 import com.fundit.apis.ServiceGenerator;
+import com.fundit.helper.AdjustableListView;
 import com.fundit.helper.CustomDialog;
 import com.fundit.model.CampaignListResponse;
 import com.fundit.model.MultipleProductResponse;
@@ -33,8 +36,8 @@ public class NewsDetailActivity extends AppCompatActivity {
     AppPreference preference;
     AdminAPI adminAPI;
     CustomDialog dialog;
-    ListView list_products;
-    TextView txt_description,txt_partnerName,txt_goal,txt_date,txt_campaignName,txt_organizationname,date_label;
+    AdjustableListView list_products;
+    TextView txt_description,txt_partnerName,txt_goal,txt_date,txt_campaignName,txt_organizationname,date_label,txt_message,txt_msgtype;
     CampaignListResponse.CampaignList campaignList;
     List<MultipleProductResponse> productList = new ArrayList<>();
     NewsDetailAdapter productAdapter;
@@ -63,6 +66,38 @@ public class NewsDetailActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         TextView actionTitle = (TextView) findViewById(R.id.actionTitle);
 
+
+        FrameLayout toolbar_add_to_cart = (FrameLayout) findViewById(R.id.toolbar_add_to_cart);
+        TextView cartTotal = (TextView) findViewById(R.id.cartTotal);
+        ImageView imgNotofication = (ImageView) findViewById(R.id.img_notification);
+
+        toolbar_add_to_cart.setVisibility(View.VISIBLE);
+
+        int unReadMessage = 0;
+        unReadMessage = preference.getUnReadCount();
+
+        if(unReadMessage==0){
+            cartTotal.setVisibility(View.GONE);
+        }else {
+            cartTotal.setVisibility(View.VISIBLE);
+            cartTotal.setText(String.valueOf(unReadMessage));
+        }
+
+
+        imgNotofication.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext() , NotificationActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            }
+        });
+
+
+
+
+
+
         actionTitle.setText("");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -90,11 +125,13 @@ public class NewsDetailActivity extends AppCompatActivity {
         txt_organizationname= (TextView) findViewById(R.id.txt_organizationname);
         TextView txt_raised = (TextView) findViewById(R.id.txt_raised);
         TextView txt_targetAmt = (TextView) findViewById(R.id.txt_targetAmt);
-        list_products = (ListView) findViewById(R.id.list_products);
+        list_products = (AdjustableListView) findViewById(R.id.list_products);
         btn_place_order= (Button) findViewById(R.id.btn_placeOrder);
         date_label= (TextView) findViewById(R.id.date_label);
         org_partner= (LinearLayout) findViewById(R.id.org_partner);
         fund_partner= (LinearLayout) findViewById(R.id.fund_partner);
+        txt_message = (TextView) findViewById(R.id.txt_message);
+        txt_msgtype = (TextView) findViewById(R.id.txt_msgtype);
 
         txt_campaignName.setText(campaignList.getCampaign().getTitle());
 
@@ -104,6 +141,10 @@ public class NewsDetailActivity extends AppCompatActivity {
             btn_place_order.setVisibility(View.GONE);
         }
 
+        if (preference.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER)) {
+            txt_msgtype.setText("Message To Sellers:");
+            txt_message.setText(campaignList.getCampaign().getMsg_seller());
+        }
 
 
 
@@ -303,4 +344,21 @@ public class NewsDetailActivity extends AppCompatActivity {
     public static int getScreenWidth() {
         return Resources.getSystem().getDisplayMetrics().widthPixels;
     }
+
+
+    @Override
+    public void onBackPressed() {
+        Intent i=new Intent(getApplicationContext(),HomeActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(i);
+        finishAffinity();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        System.gc();
+    }
+
+
 }
