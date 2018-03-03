@@ -95,7 +95,7 @@ public class PresentCampaignFragment extends Fragment {
                     if(campaignList.isStatus()){
                         campaignArrayList.addAll(campaignList.getData());
                     }else {
-                        C.INSTANCE.showToast(getActivity(), "No Campaign Found");
+//                        C.INSTANCE.showToast(getContext(), "No Campaign Found");
                     }
 
                     campaignAdapter.notifyDataSetChanged();
