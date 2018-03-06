@@ -174,7 +174,7 @@ public class MemberRequestFragment extends Fragment implements MemberRequestAdap
             }
 
 
-            json = new ServiceHandler().makeServiceCall(W.BASE_URL + W.MemberRequest, ServiceHandler.POST, pairs);
+            json = new ServiceHandler(getContext()).makeServiceCall(W.ASYNC_BASE_URL + W.MemberRequest, ServiceHandler.POST, pairs);
 
 
             Log.e("paramters" ,"" + pairs);

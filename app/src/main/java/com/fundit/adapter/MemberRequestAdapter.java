@@ -164,7 +164,7 @@ public class MemberRequestAdapter extends BaseAdapter {
             pairs.add(new BasicNameValuePair("member_id", getMemberId));
             pairs.add(new BasicNameValuePair("status", getStatus));
 
-            json = new ServiceHandler().makeServiceCall(W.BASE_URL + "Member/app_respond_member_request", ServiceHandler.POST, pairs);
+            json = new ServiceHandler(context).makeServiceCall(W.ASYNC_BASE_URL + "Member/app_respond_member_request", ServiceHandler.POST, pairs);
 
             Log.e("parameters", "" + pairs);
 

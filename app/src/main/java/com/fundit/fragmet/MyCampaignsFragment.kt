@@ -21,6 +21,7 @@ import com.fundit.R
 import com.fundit.SignInActivity
 import com.fundit.a.AppPreference
 import com.fundit.a.C
+import com.fundit.a.J
 import com.fundit.a.W
 import com.fundit.apis.ServiceHandler
 import com.fundit.fundspot.AddProductActivity
@@ -168,7 +169,9 @@ class MyCampaignsFragment : Fragment() {
 
         //setPastCampaignFragment()
 
-        GetNotificationCount().execute()
+      //  GetNotificationCount().execute()
+
+        J.GetNotificationCountGlobal(preference?.getUserID(), preference?.getTokenHash(), preference, context, activity)
 
         return view
     }
@@ -238,7 +241,7 @@ class MyCampaignsFragment : Fragment() {
             parameters.add(BasicNameValuePair("tokenhash", preference?.tokenHash))
 
 
-            val json = ServiceHandler().makeServiceCall(W.BASE_URL + W.GetNotificationCount, ServiceHandler.POST, parameters)
+            val json = ServiceHandler(context).makeServiceCall(W.ASYNC_BASE_URL + W.GetNotificationCount, ServiceHandler.POST, parameters)
 
 
 
@@ -316,7 +319,9 @@ class MyCampaignsFragment : Fragment() {
         } catch (e: Exception) {
             Log.e("Exception", e.message)
         }
-        GetNotificationCount().execute()
+        //GetNotificationCount().execute()
+
+        J.GetNotificationCountGlobal(preference?.getUserID(), preference?.getTokenHash(), preference, context, activity)
     }
 
 }// Required empty public constructor

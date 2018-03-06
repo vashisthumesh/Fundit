@@ -254,7 +254,7 @@ public class RedeemActivity extends AppCompatActivity {
             pairs.add(new BasicNameValuePair(W.KEY_ROLEID, roleId));
             pairs.add(new BasicNameValuePair("coupon_data", dataFromQR));
 
-            String json = new ServiceHandler().makeServiceCall(W.BASE_URL + "Order/app_validate_coupon", ServiceHandler.POST, pairs);
+            String json = new ServiceHandler(getApplicationContext()).makeServiceCall(W.ASYNC_BASE_URL + "Order/app_validate_coupon", ServiceHandler.POST, pairs);
 
             Log.e("parameters", "-->" + pairs);
             Log.e("json", "-->" + json);
@@ -348,7 +348,7 @@ public class RedeemActivity extends AppCompatActivity {
                 pairs.add(new BasicNameValuePair("left_qty", qty));
             }
 
-            String json = new ServiceHandler().makeServiceCall(W.BASE_URL + "Order/App_Update_Qty", ServiceHandler.POST, pairs);
+            String json = new ServiceHandler(getApplicationContext()).makeServiceCall(W.ASYNC_BASE_URL + "Order/App_Update_Qty", ServiceHandler.POST, pairs);
 
             Log.e("parameters", "-->" + pairs);
             Log.e("json", "-->" + json);

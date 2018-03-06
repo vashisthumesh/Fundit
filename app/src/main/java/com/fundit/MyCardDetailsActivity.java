@@ -306,7 +306,7 @@ public class MyCardDetailsActivity extends AppCompatActivity {
             pairs.add(new BasicNameValuePair(W.KEY_TOKEN, preference.getTokenHash()));
 
 
-            String json = new ServiceHandler().makeServiceCall(W.BASE_URL + "User/b_card_month_year", ServiceHandler.POST, pairs);
+            String json = new ServiceHandler(getApplicationContext()).makeServiceCall(W.ASYNC_BASE_URL + "User/b_card_month_year", ServiceHandler.POST, pairs);
 
 
             Log.e("parameters", "-->" + pairs);
@@ -435,7 +435,7 @@ public class MyCardDetailsActivity extends AppCompatActivity {
             pairs.add(new BasicNameValuePair("bexp_year", exYear));
             pairs.add(new BasicNameValuePair("zip_code", zipCode));
 
-            String json = new ServiceHandler().makeServiceCall(W.BASE_URL + "BankCard/app_add_card", ServiceHandler.POST, pairs);
+            String json = new ServiceHandler(getApplicationContext()).makeServiceCall(W.ASYNC_BASE_URL + "BankCard/app_add_card", ServiceHandler.POST, pairs);
 
             Log.e("parameters", "-->" + pairs);
             Log.e("json", json);
@@ -523,7 +523,7 @@ public class MyCardDetailsActivity extends AppCompatActivity {
             pairs.add(new BasicNameValuePair("id", editedId));
 
 
-            String json = new ServiceHandler().makeServiceCall(W.BASE_URL + "BankCard/app_edit_card", ServiceHandler.POST, pairs);
+            String json = new ServiceHandler(getApplicationContext()).makeServiceCall(W.ASYNC_BASE_URL + "BankCard/app_edit_card", ServiceHandler.POST, pairs);
 
             Log.e("parameters", "-->" + pairs);
             Log.e("json", json);

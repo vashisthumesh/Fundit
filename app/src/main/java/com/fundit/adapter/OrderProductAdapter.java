@@ -75,7 +75,7 @@ public class OrderProductAdapter extends BaseAdapter {
         LinearLayout layout_main = (LinearLayout) view.findViewById(R.id.layout_main);
         ImageView img_qr = (ImageView) view.findViewById(R.id.img_qrScan) ;
 
-       final String QRSCAN = W.BASE_URL + orderedProductses.get(position).getQr_code_img();
+       final String QRSCAN = W.ASYNC_BASE_URL + orderedProductses.get(position).getQr_code_img();
 
       final String  productName = orderedProductses.get(position).getName() + " $ " + orderedProductses.get(position).getSelling_price();
       final String Name=orderedProductses.get(position).getName();

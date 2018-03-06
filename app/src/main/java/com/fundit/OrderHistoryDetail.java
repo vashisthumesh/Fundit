@@ -342,7 +342,7 @@ public class OrderHistoryDetail extends AppCompatActivity {
 
             for(int i=0 ; i < historyResponse.getOrderProduct().size() ; i++){
 
-              QRSCAN = W.BASE_URL + historyResponse.getOrderProduct().get(i).getQr_code_img();
+              QRSCAN = W.ASYNC_BASE_URL + historyResponse.getOrderProduct().get(i).getQr_code_img();
                 productName = historyResponse.getOrderProduct().get(i).getName() + " $ " + historyResponse.getOrderProduct().get(i).getSelling_price();
 
             }

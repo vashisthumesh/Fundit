@@ -132,7 +132,7 @@ public class NotificationDetailActivity extends AppCompatActivity {
         final CustomDialog loadingView = new CustomDialog(NotificationDetailActivity.this, "");
         loadingView.setCancelable(false);
         loadingView.show();
-        StringRequest request = new StringRequest(W.POST, W.BASE_URL + "Organization/app_get_single_organization",
+        StringRequest request = new StringRequest(W.POST, W.ASYNC_BASE_URL + "Organization/app_get_single_organization",
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String json) {
@@ -215,7 +215,7 @@ public class NotificationDetailActivity extends AppCompatActivity {
         final CustomDialog loadingView = new CustomDialog(NotificationDetailActivity.this, "");
         loadingView.setCancelable(false);
         loadingView.show();
-        StringRequest request = new StringRequest(W.POST, W.BASE_URL + "Fundspot/app_get_single_fundspot",
+        StringRequest request = new StringRequest(W.POST, W.ASYNC_BASE_URL + "Fundspot/app_get_single_fundspot",
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String json) {

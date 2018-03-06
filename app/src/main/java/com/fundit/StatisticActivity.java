@@ -133,7 +133,7 @@ public class StatisticActivity extends AppCompatActivity {
 
             pairs.add(new BasicNameValuePair("campaign_id", campaignId));
 
-            String json = new ServiceHandler().makeServiceCall(W.BASE_URL + "Campaign/app_get_campaign_stats", ServiceHandler.POST, pairs);
+            String json = new ServiceHandler(getApplicationContext()).makeServiceCall(W.ASYNC_BASE_URL + "Campaign/app_get_campaign_stats", ServiceHandler.POST, pairs);
 
             Log.e("parameters", "-->" + pairs);
             Log.e("json", json);

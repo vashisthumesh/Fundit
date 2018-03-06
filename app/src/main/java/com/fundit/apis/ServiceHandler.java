@@ -4,6 +4,7 @@ package com.fundit.apis;
  * Created by S!D on 28-03-2016.
  */
 
+import android.content.Context;
 import android.util.Log;
 
 import org.apache.http.HttpEntity;
@@ -15,11 +16,16 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URLEncodedUtils;
+import org.apache.http.conn.scheme.Scheme;
+import org.apache.http.conn.scheme.SchemeRegistry;
+import org.apache.http.conn.ssl.SSLSocketFactory;
+import org.apache.http.conn.ssl.X509HostnameVerifier;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.conn.SingleClientConnManager;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.protocol.HttpContext;
@@ -32,6 +38,9 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+
 /**
  * Created by S!D on 28-03-2016.
  */
@@ -41,8 +50,10 @@ public class ServiceHandler {
     static String response = null;
     public final static int GET = 1;
     public final static int POST = 2;
+    Context context ;
 
-    public ServiceHandler() {
+    public ServiceHandler(Context context) {
+        this.context = context;
 
     }
 
@@ -115,7 +126,21 @@ public class ServiceHandler {
                                   List<NameValuePair> params, boolean multiMedia) {
 
         try {
+
+            HostnameVerifier hostnameVerifier = org.apache.http.conn.ssl.SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER;
+
+
             HttpClient httpClient = new DefaultHttpClient();
+
+            SchemeRegistry registry = new SchemeRegistry();
+            SSLSocketFactory socketFactory = SSLSocketFactory.getSocketFactory();
+            socketFactory.setHostnameVerifier((X509HostnameVerifier) hostnameVerifier);
+            registry.register(new Scheme("https", socketFactory, 443));
+            SingleClientConnManager mgr = new SingleClientConnManager(httpClient.getParams(), registry);
+            DefaultHttpClient client = new DefaultHttpClient(mgr, httpClient.getParams());
+
+            HttpsURLConnection.setDefaultHostnameVerifier(hostnameVerifier);
+
             HttpContext localContext = new BasicHttpContext();
 
             MultipartEntityBuilder builder=MultipartEntityBuilder.create();
@@ -199,7 +224,25 @@ public class ServiceHandler {
                                   List<NameValuePair> params,int multimedia) {
 
         try {
+
+            HostnameVerifier hostnameVerifier = org.apache.http.conn.ssl.SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER;
+
+
             HttpClient httpClient = new DefaultHttpClient();
+
+
+            SchemeRegistry registry = new SchemeRegistry();
+            SSLSocketFactory socketFactory = SSLSocketFactory.getSocketFactory();
+            socketFactory.setHostnameVerifier((X509HostnameVerifier) hostnameVerifier);
+            registry.register(new Scheme("https", socketFactory, 443));
+            SingleClientConnManager mgr = new SingleClientConnManager(httpClient.getParams(), registry);
+            DefaultHttpClient client = new DefaultHttpClient(mgr, httpClient.getParams());
+
+            HttpsURLConnection.setDefaultHostnameVerifier(hostnameVerifier);
+
+
+
+
             HttpContext localContext = new BasicHttpContext();
 
             MultipartEntityBuilder builder=MultipartEntityBuilder.create();
@@ -296,8 +339,22 @@ public class ServiceHandler {
 
         Log.e("URL",url);
         try {
-
+            HostnameVerifier hostnameVerifier = org.apache.http.conn.ssl.SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER;
             DefaultHttpClient httpClient = new DefaultHttpClient();
+
+
+            SchemeRegistry registry = new SchemeRegistry();
+            SSLSocketFactory socketFactory = SSLSocketFactory.getSocketFactory();
+            socketFactory.setHostnameVerifier((X509HostnameVerifier) hostnameVerifier);
+            registry.register(new Scheme("https", socketFactory, 443));
+            SingleClientConnManager mgr = new SingleClientConnManager(httpClient.getParams(), registry);
+            DefaultHttpClient client = new DefaultHttpClient(mgr, httpClient.getParams());
+
+            HttpsURLConnection.setDefaultHostnameVerifier(hostnameVerifier);
+
+
+
+
             HttpEntity httpEntity = null;
             HttpResponse httpResponse = null;
 

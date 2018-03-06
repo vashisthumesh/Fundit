@@ -481,7 +481,7 @@ public class CreateCampaignActivity extends AppCompatActivity {
             pairs.add(new BasicNameValuePair("fundspot_id", selectedFundSpotID));
 
 
-            json = new ServiceHandler().makeServiceCall(W.BASE_URL + W.GetProductsFundspotProducts, ServiceHandler.POST, pairs);
+            json = new ServiceHandler(getApplicationContext()).makeServiceCall(W.ASYNC_BASE_URL + W.GetProductsFundspotProducts, ServiceHandler.POST, pairs);
 
 
             Log.e("parameters", "" + pairs);

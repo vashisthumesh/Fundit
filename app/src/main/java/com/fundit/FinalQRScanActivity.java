@@ -29,6 +29,7 @@ import com.fundit.apis.AdminAPI;
 import com.fundit.apis.ServiceGenerator;
 import com.fundit.apis.ServiceHandler;
 import com.fundit.helper.CustomDialog;
+import com.fundit.model.AppModel;
 import com.fundit.model.Fundspot;
 import com.fundit.model.Member;
 import com.fundit.model.QRScanModel;
@@ -250,7 +251,7 @@ public class FinalQRScanActivity extends AppCompatActivity implements QRCodeRead
             public void onResponse(Call<QRScanModel> call, Response<QRScanModel> response) {
                 customDialog.dismiss();
                 QRScanModel qrScanModel = response.body();
-                Log.e("response" , "--->" + new Gson().toJson(response));
+                Log.e("response", "--->" + new Gson().toJson(response));
                 if (qrScanModel != null) {
                     if (qrScanModel.isStatus()) {
 
@@ -275,9 +276,9 @@ public class FinalQRScanActivity extends AppCompatActivity implements QRCodeRead
                         startActivity(intent);
 */
                     } else {
-                      //  C.INSTANCE.showToast(getApplicationContext(), qrScanModel.getMessage());
+                        //  C.INSTANCE.showToast(getApplicationContext(), qrScanModel.getMessage());
 
-                        showInvalidDialog(qrScanModel.getMessage() , qrScanModel.getPop_up_title());
+                        showInvalidDialog(qrScanModel.getMessage(), qrScanModel.getPop_up_title());
                     }
                 } else {
                     C.INSTANCE.defaultError(getApplicationContext());
@@ -381,7 +382,9 @@ public class FinalQRScanActivity extends AppCompatActivity implements QRCodeRead
                 } else if (finalQuantities == 0) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter valid buying amount");
                 } else {
-                    new RedeemQuantity(qrScanModel.getOrder_product_id(), remainingQty, qrScanModel.getProduct_type_id()).execute();
+                   // new RedeemQuantity(qrScanModel.getOrder_product_id(), remainingQty, qrScanModel.getProduct_type_id()).execute();
+
+                    RedeemCouponQuantity(qrScanModel.getOrder_product_id(), remainingQty, qrScanModel.getProduct_type_id());
                 }
             }
         });
@@ -487,7 +490,9 @@ public class FinalQRScanActivity extends AppCompatActivity implements QRCodeRead
                 } else if (finalQuantities == 0) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please enter Valid buying QTY");
                 } else {
-                    new RedeemQuantity(qrScanModel.getOrder_product_id(), remainingQty, qrScanModel.getProduct_type_id()).execute();
+                  //  new RedeemQuantity(qrScanModel.getOrder_product_id(), remainingQty, qrScanModel.getProduct_type_id()).execute();
+
+                    RedeemCouponQuantity(qrScanModel.getOrder_product_id(), remainingQty, qrScanModel.getProduct_type_id());
                 }
             }
         });
@@ -503,7 +508,77 @@ public class FinalQRScanActivity extends AppCompatActivity implements QRCodeRead
         dialog.show();
     }
 
-    public class RedeemQuantity extends AsyncTask<Void, Void, String> {
+    private void RedeemCouponQuantity(String order_product_id, final String remainingQty, String product_type_id) {
+
+        String leftMoney = null, leftQty = null;
+        if (product_type_id.equalsIgnoreCase("2")) {
+            leftMoney = remainingQty;
+        } else {
+            leftQty = remainingQty;
+        }
+        customDialog.show();
+        Call<AppModel> modelCall = adminAPI.UpdateQuantity(order_product_id, leftMoney, leftQty);
+        modelCall.enqueue(new Callback<AppModel>() {
+            @Override
+            public void onResponse(Call<AppModel> call, Response<AppModel> response) {
+                customDialog.dismiss();
+                AppModel model = response.body();
+                if (model != null) {
+
+                    C.INSTANCE.showToast(getApplicationContext(), "This coupon was successfully redeemed");
+                    Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+
+                } else {
+                    C.INSTANCE.defaultError(getApplicationContext());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AppModel> call, Throwable t) {
+                customDialog.dismiss();
+                C.INSTANCE.errorToast(getApplicationContext(), t);
+            }
+        });
+
+    }
+
+    private void showInvalidDialog(String message, String pop_up_title) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(pop_up_title);
+        builder.setMessage(message);
+        builder.setCancelable(false);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+                qrCodeReaderView.startCamera();
+            }
+        });
+        AlertDialog bDialog = builder.create();
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(bDialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        lp.gravity = Gravity.CENTER;
+
+        bDialog.getWindow().setAttributes(lp);
+        bDialog.show();
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        System.gc();
+    }
+
+
+    // Following are the ASYNCTASK Services that are already converted to retrofit . If you find any issues in Retrofit API please refer the following.
+
+
+    /*public class RedeemQuantity extends AsyncTask<Void, Void, String> {
 
         String productId = "";
         String qty = "";
@@ -541,7 +616,7 @@ public class FinalQRScanActivity extends AppCompatActivity implements QRCodeRead
                 pairs.add(new BasicNameValuePair("left_qty", qty));
             }
 
-            String json = new ServiceHandler().makeServiceCall(W.BASE_URL + "Order/App_Update_Qty", ServiceHandler.POST, pairs);
+            String json = new ServiceHandler(getApplicationContext()).makeServiceCall(W.ASYNC_BASE_URL + "Order/App_Update_Qty", ServiceHandler.POST, pairs);
 
             Log.e("parameters", "-->" + pairs);
             Log.e("json", "-->" + json);
@@ -574,35 +649,5 @@ public class FinalQRScanActivity extends AppCompatActivity implements QRCodeRead
                 }
             }
         }
-    }
-
-    private void showInvalidDialog(String message, String pop_up_title) {
-        AlertDialog.Builder builder=new AlertDialog.Builder(this);
-        builder.setTitle(pop_up_title);
-        builder.setMessage(message);
-        builder.setCancelable(false);
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
-                qrCodeReaderView.startCamera();
-            }
-        });
-        AlertDialog bDialog=builder.create();
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        lp.copyFrom(bDialog.getWindow().getAttributes());
-        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        lp.gravity = Gravity.CENTER;
-
-        bDialog.getWindow().setAttributes(lp);
-        bDialog.show();
-
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        System.gc();
-    }
+    }*/
 }

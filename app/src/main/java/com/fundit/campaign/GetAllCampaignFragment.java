@@ -134,7 +134,7 @@ public class GetAllCampaignFragment extends Fragment {
             }
 
 
-            json = new ServiceHandler().makeServiceCall(W.BASE_URL + W.CAMPAIGN_LIST , ServiceHandler.POST , parameters);
+            json = new ServiceHandler(getContext()).makeServiceCall(W.ASYNC_BASE_URL + W.CAMPAIGN_LIST , ServiceHandler.POST , parameters);
 
 
             Log.e("parameters" , "" + parameters);

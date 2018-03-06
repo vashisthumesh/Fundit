@@ -19,6 +19,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.fundit.Bean.Bean_Notification_history;
 import com.fundit.a.AppPreference;
 import com.fundit.a.C;
+import com.fundit.a.J;
 import com.fundit.a.W;
 import com.fundit.adapter.Notification_Adapter;
 import com.fundit.apis.ServiceHandler;
@@ -86,7 +87,7 @@ public class NotificationActivity extends AppCompatActivity {
         final CustomDialog loadingView = new CustomDialog(NotificationActivity.this, "");
         loadingView.setCancelable(false);
         loadingView.show();
-        StringRequest request = new StringRequest(W.POST, W.BASE_URL + "Notification/app_get_notification",
+        StringRequest request = new StringRequest(W.POST, W.ASYNC_BASE_URL + "Notification/app_get_notification",
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String json) {
@@ -138,7 +139,9 @@ public class NotificationActivity extends AppCompatActivity {
                         }
                         order_history_adapter1.notifyDataSetChanged();
 
-                        new GetNotificationCount().execute();
+                      //  new GetNotificationCount().execute();
+
+                        J.GetNotificationCountGlobal(prefs.getUserID(), prefs.getTokenHash(), prefs, getApplicationContext(), NotificationActivity.this);
 
                     }
                 },
@@ -181,7 +184,7 @@ public class NotificationActivity extends AppCompatActivity {
     }
 
 
-    public class GetNotificationCount extends AsyncTask<Void, Void, String> {
+    /*public class GetNotificationCount extends AsyncTask<Void, Void, String> {
         CustomDialog loadingView = null;
 
         @Override
@@ -207,7 +210,7 @@ public class NotificationActivity extends AppCompatActivity {
             pairList.add(new BasicNameValuePair("tokenhash", prefs.getTokenHash()));
 
 
-            String json = new ServiceHandler().makeServiceCall(W.BASE_URL + W.GetNotificationCount, ServiceHandler.POST, pairList);
+            String json = new ServiceHandler(getApplicationContext()).makeServiceCall(W.ASYNC_BASE_URL + W.GetNotificationCount, ServiceHandler.POST, pairList);
 
             return json;
         }
@@ -249,7 +252,7 @@ public class NotificationActivity extends AppCompatActivity {
             }
 
         }
-    }
+    }*/
 
     @Override
     protected void onResume() {

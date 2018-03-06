@@ -480,7 +480,7 @@ public class CardPaymentActivity extends AppCompatActivity {
             pairs.add(new BasicNameValuePair(W.KEY_TOKEN, preference.getTokenHash()));
 
 
-            String json = new ServiceHandler().makeServiceCall(W.BASE_URL + "User/b_card_month_year", ServiceHandler.POST, pairs);
+            String json = new ServiceHandler(getApplicationContext()).makeServiceCall(W.ASYNC_BASE_URL + "User/b_card_month_year", ServiceHandler.POST, pairs);
 
 
             Log.e("parameters", "-->" + pairs);

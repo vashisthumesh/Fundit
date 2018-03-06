@@ -298,7 +298,7 @@ public class CreateCampaignTermsActivity extends AppCompatActivity {
 
             Log.e("parameters", "--->" + parameters);
 
-            String json = new ServiceHandler().makeServiceCall(W.BASE_URL + W.CAMPAIGN_LIST, ServiceHandler.POST, parameters);
+            String json = new ServiceHandler(getApplicationContext()).makeServiceCall(W.ASYNC_BASE_URL + W.CAMPAIGN_LIST, ServiceHandler.POST, parameters);
 
             return json;
         }

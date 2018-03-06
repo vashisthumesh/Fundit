@@ -2,6 +2,7 @@ package com.fundit
 
 import android.app.Activity
 import android.app.Dialog
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.AsyncTask
@@ -24,6 +25,7 @@ import com.fundit.a.AppPreference
 import com.fundit.a.C
 import com.fundit.a.W
 import com.fundit.apis.Internet
+import com.fundit.apis.ServiceGenerator
 import com.fundit.apis.ServiceHandler
 import com.fundit.fragmet.*
 import com.fundit.model.*
@@ -35,6 +37,9 @@ import org.apache.http.NameValuePair
 import org.apache.http.message.BasicNameValuePair
 import org.json.JSONException
 import org.json.JSONObject
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.util.ArrayList
 
 class HomeActivity : AppCompatActivity() {
@@ -72,8 +77,8 @@ class HomeActivity : AppCompatActivity() {
     lateinit var getintent: Intent
 
     lateinit var thisActivity: Activity
-    var toolbar_add_to_cart : FrameLayout ?= null
-    var txt_count : TextView? = null
+    var toolbar_add_to_cart: FrameLayout? = null
+    var txt_count: TextView? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
@@ -304,7 +309,8 @@ class HomeActivity : AppCompatActivity() {
 
         navigationAdapter = LeftNavigationAdapter(this, menuList, preference)
         list_navigation?.adapter = navigationAdapter
-        list_navigation?.setOnItemClickListener { _, _, i, _ -> handleClicks(i)
+        list_navigation?.setOnItemClickListener { _, _, i, _ ->
+            handleClicks(i)
 
         }
 
@@ -312,7 +318,8 @@ class HomeActivity : AppCompatActivity() {
 
 
         if (Internet.isConnectingToInternet(applicationContext))
-            GetNotificationCount().execute()
+            //GetNotificationCount().execute()
+            GetNotificationCountGlobal(preference?.userID!!, preference?.tokenHash!!)
         else
             Internet.noInternet(applicationContext)
     }
@@ -533,7 +540,7 @@ class HomeActivity : AppCompatActivity() {
 
         if (typeID.equals("1") || typeID.equals("3")) {
 
-            if(typeID.equals(3)){
+            if (typeID.equals(3)) {
                 preference?.setMemberTimes(true)
             }
 
@@ -734,7 +741,7 @@ class HomeActivity : AppCompatActivity() {
 
     }
 
-    inner class GetNotificationCount : AsyncTask<Void, Void, String>() {
+    /*inner class GetNotificationCount : AsyncTask<Void, Void, String>() {
 
         override fun doInBackground(vararg params: Void): String {
 
@@ -745,8 +752,10 @@ class HomeActivity : AppCompatActivity() {
             parameters.add(BasicNameValuePair("tokenhash", preference?.tokenHash))
 
 
-            val json = ServiceHandler().makeServiceCall(W.BASE_URL + W.GetNotificationCount, ServiceHandler.POST, parameters)
+            val json = ServiceHandler(applicationContext).makeServiceCall(W.ASYNC_BASE_URL + W.GetNotificationCount, ServiceHandler.POST, parameters)
 
+            Log.e("parameters" , "-->" + parameters);
+            Log.e("json" , "--->" + json)
 
 
             return json
@@ -811,7 +820,7 @@ class HomeActivity : AppCompatActivity() {
 
 
 
-                        if (preference?.userRoleID.equals(C.FUNDSPOT) /*|| (preference?.userRoleID.equals(C.GENERAL_MEMBER) && member.redeemer.equals("1")) || preference?.getRedeemer()!!.equals("1")*/) {
+                        if (preference?.userRoleID.equals(C.FUNDSPOT) *//*|| (preference?.userRoleID.equals(C.GENERAL_MEMBER) && member.redeemer.equals("1")) || preference?.getRedeemer()!!.equals("1")*//*) {
                             Log.e("totalReddermer", "1")
 
                             img_qrscan?.visibility = View.VISIBLE
@@ -841,9 +850,83 @@ class HomeActivity : AppCompatActivity() {
 
         }
     }
+*/
+
+    fun GetNotificationCountGlobal(userId: String, tokenHash: String) {
+
+        val adminAPI = ServiceGenerator.getAPIClass()
+        val countModelCall = adminAPI.NOTIFICATION_COUNT_MODEL_CALL(userId, tokenHash)
+        countModelCall.enqueue(object : Callback<NotificationCountModel> {
+            override fun onResponse(call: Call<NotificationCountModel>, response: Response<NotificationCountModel>) {
+                val countModel = response.body()
+                if (countModel != null) {
+                    if (countModel.isStatus) {
+
+                        var totalRequest = 0
+                        var memberRequest = 0
+                        var campaignRequestCount = 0
+
+                        memberRequest = Integer.parseInt(countModel.total_request_count)
+                        campaignRequestCount = Integer.parseInt(countModel.total_member_request_count)
+
+                        totalRequest = memberRequest + campaignRequestCount
+
+                        preference?.messageCount = Integer.parseInt(countModel.total_unread_msg)
+                        preference?.setfundspot_product_count(Integer.parseInt(countModel.fundspot_product_count))
+                        preference?.redeemer = Integer.parseInt(countModel.is_redeemer)
+                        preference?.seller = Integer.parseInt(countModel.is_seller)
+                        preference?.couponCount = Integer.parseInt(countModel.total_coupon_count)
+                        preference?.campaignCount = campaignRequestCount
+                        preference?.memberCount = memberRequest
+                        preference?.totalCount = totalRequest
+                        preference?.unReadCount = Integer.parseInt(countModel.total_unread_msg)
+
+                        Log.e("GlobalSuccess", "---->")
+
+
+                        navigationAdapter?.notifyDataSetChanged()
+
+
+                        if (isResume == false) {
+                            Log.e("cartCount" , "-->" + cartCount?.text.toString())
+                            if (cartCount?.text.toString().equals("0") || cartCount?.text.toString().equals("") || cartCount?.text.toString().isEmpty()) {
+                                cartCount?.visibility = View.GONE
+                            } else {
+                                cartCount?.visibility = View.VISIBLE
+                            }
 
 
 
+                            if (preference?.userRoleID.equals(C.FUNDSPOT)) //*|| (preference?.userRoleID.equals(C.GENERAL_MEMBER) && member.redeemer.equals("1")) || preference?.getRedeemer()!!.equals("1")*//*) {
+                                Log.e("totalReddermer", "1")
+
+                            img_qrscan?.visibility = View.VISIBLE
+                        } else if (preference?.getRedeemer() == 1) {
+                            Log.e("totalReddermer", "2")
+                            img_qrscan?.visibility = View.VISIBLE
+                        } else {
+                            Log.e("totalReddermer", "3")
+                            img_qrscan?.visibility = View.GONE
+                        }
+
+
+
+
+                        isResume = false
+
+                        Log.e("count", "" + preference?.messageCount)
+
+
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<NotificationCountModel>, t: Throwable) {
+
+            }
+        })
+
+    }
 
 
     override fun onResume() {
@@ -851,6 +934,11 @@ class HomeActivity : AppCompatActivity() {
         System.gc()
         isResume = true
         Log.e("checking", "--->")
-        GetNotificationCount().execute()
+        // GetNotificationCount().execute()
+
+        GetNotificationCountGlobal(preference?.userID!!, preference?.tokenHash!!)
+
     }
+
+
 }

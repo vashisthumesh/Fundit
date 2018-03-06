@@ -17,6 +17,7 @@ import android.widget.TextView
 import com.fundit.R
 import com.fundit.a.AppPreference
 import com.fundit.a.C
+import com.fundit.a.J
 import com.fundit.a.W
 import com.fundit.apis.ServiceHandler
 import org.apache.http.NameValuePair
@@ -125,7 +126,7 @@ class HomeFragment : Fragment() {
         }
         // Inflate the layout for this fragment
 
-        GetNotificationCount().execute()
+        J.GetNotificationCountGlobal(preferences?.getUserID(), preferences?.getTokenHash(), preferences, context, activity)
 
         return view
     }
@@ -148,7 +149,7 @@ class HomeFragment : Fragment() {
         transaction.commit()
     }
 
-    inner class GetNotificationCount : AsyncTask<Void, Void, String>() {
+   /* inner class GetNotificationCount : AsyncTask<Void, Void, String>() {
 
         override fun doInBackground(vararg params: Void): String {
 
@@ -159,7 +160,7 @@ class HomeFragment : Fragment() {
             parameters.add(BasicNameValuePair("tokenhash", preferences?.tokenHash))
 
 
-            val json = ServiceHandler().makeServiceCall(W.BASE_URL + W.GetNotificationCount, ServiceHandler.POST, parameters)
+            val json = ServiceHandler(context).makeServiceCall(W.ASYNC_BASE_URL + W.GetNotificationCount, ServiceHandler.POST, parameters)
 
 
 
@@ -227,6 +228,6 @@ class HomeFragment : Fragment() {
 
 
         }
-    }
+    }*/
 
 }

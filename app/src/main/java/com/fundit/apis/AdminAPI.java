@@ -419,7 +419,30 @@ public interface AdminAPI {
     Call<NotificationCountModel> NOTIFICATION_COUNT_MODEL_CALL(@Field(W.KEY_USERID) String userId , @Field(W.KEY_TOKEN) String tokenHash);
 
 
+    @FormUrlEncoded
+    @POST(W.LEAVE_MEMBER)
+    Call<AppModel> LeaveMemberFromMyList(@Field(W.KEY_USERID) String userId , @Field(W.KEY_ROLEID) String roleId , @Field("member_id") String memberId);
+
+    @FormUrlEncoded
+    @POST(W.JoinMember)
+    Call<AppModel> JoinMember (@Field(W.KEY_USERID) String userId , @Field("member_id") String memberId , @Field(W.KEY_ROLEID) String roleId , @Field(W.KEY_TOKEN) String tokenHash , @Field("fundspot_id") String fundspotId , @Field("organization_id") String organizationId);
+
+    @FormUrlEncoded
+    @POST(W.ADD_MEMBER_TO_CAMPAIGN)
+    Call<AppModel> AddCampaignMember(@Field(W.KEY_USERID) String userId , @Field("member_id") String memberId , @Field("campaign_id") String campaignId , @Field(W.KEY_ROLEID) String roleId);
 
 
+    @FormUrlEncoded
+    @POST(W.AddGeneralMember)
+    Call<AppModel> AddGeneralMember(@Field(W.KEY_USERID) String userId , @Field(W.KEY_TOKEN) String tokenHash , @Field("member_id") String memberId, @Field("organization_id") String organizationId , @Field("fundspot_id") String fundspotId);
+
+    @FormUrlEncoded
+    @POST(W.UpdateQTY)
+    Call<AppModel> UpdateQuantity (@Field("order_product_id") String productId , @Field("left_money") String leftMoney , @Field("left_qty") String leftQty);
+
+
+    @FormUrlEncoded
+    @POST(W.RespondRequest)
+    Call<AppModel> RespondRequest (@Field(W.KEY_USERID) String userId , @Field(W.KEY_TOKEN) String tokenHash , @Field("member_id") String memberId , @Field("status") String status);
 
 }

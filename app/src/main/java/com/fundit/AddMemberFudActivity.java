@@ -23,6 +23,7 @@ import com.fundit.apis.ServiceHandler;
 import com.fundit.fundspot.AddProductActivity;
 import com.fundit.helper.CustomDialog;
 import com.fundit.model.Address;
+import com.fundit.model.AppModel;
 import com.fundit.model.App_Single_Fundspot;
 import com.fundit.model.App_Single_Organization;
 import com.fundit.model.Fundspot;
@@ -66,14 +67,14 @@ public class AddMemberFudActivity extends AppCompatActivity {
 
 
     String memberId = "";
-    String Flag="";
-    String location="";
-    String city_name="";
-    String state_code="";
-    String Zipcode="";
+    String Flag = "";
+    String location = "";
+    String city_name = "";
+    String state_code = "";
+    String Zipcode = "";
     String checkMemberId = "";
     String userRoleId = "";
-    String userID="";
+    String userID = "";
 
 
     int isMemberJoined = 0;
@@ -83,13 +84,12 @@ public class AddMemberFudActivity extends AppCompatActivity {
     Member member = new Member();
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_member_fud);
 
-        Log.e("addMemberFund" , "-->");
+        Log.e("addMemberFund", "-->");
 
         preference = new AppPreference(getApplicationContext());
         dialog = new CustomDialog(this);
@@ -98,7 +98,7 @@ public class AddMemberFudActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         memberId = intent.getStringExtra("memberId");
-        Flag=intent.getStringExtra("Flag");
+        Flag = intent.getStringExtra("Flag");
 
         try {
 
@@ -109,8 +109,6 @@ public class AddMemberFudActivity extends AppCompatActivity {
         } catch (Exception e) {
             Log.e("Exception", e.getMessage());
         }
-
-
 
 
         setupToolbar();
@@ -202,15 +200,11 @@ public class AddMemberFudActivity extends AppCompatActivity {
         btnrequest = (Button) findViewById(R.id.btnrequest);
 
 
-        if(Flag.equalsIgnoreCase("fund"))
-        {
+        if (Flag.equalsIgnoreCase("fund")) {
             Fundspot_Data(memberId);
-        }
-        else if(Flag.equalsIgnoreCase("org"))
-        {
+        } else if (Flag.equalsIgnoreCase("org")) {
             Organization_Data(memberId);
         }
-
 
 
         btnJoin.setOnClickListener(new View.OnClickListener() {
@@ -222,36 +216,36 @@ public class AddMemberFudActivity extends AppCompatActivity {
                 Log.e("checking", "-->");
                 if (preference.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER)) {
                     membersssIdss = member.getId();
-                }else if(preference.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)){
+                } else if (preference.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)) {
                     membersssIdss = fundspot.getId();
-                }else if(preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION)){
+                } else if (preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION)) {
                     membersssIdss = organization.getId();
                 }
 
 
-
-
-
-
-
-
-                if(Flag.equalsIgnoreCase("fund")){
+                if (Flag.equalsIgnoreCase("fund")) {
                     selectedUserRoleId = C.FUNDSPOT;
-                }else if(Flag.equalsIgnoreCase("org")) {
+                } else if (Flag.equalsIgnoreCase("org")) {
                     selectedUserRoleId = C.ORGANIZATION;
-                }else {
+                } else {
                     selectedUserRoleId = preference.getUserRoleID();
                 }
 
 
                 if (isMemberJoined == 0) {
-                    new  JoinMember(membersssIdss, memberId).execute();
-                } else if(isMemberJoined==1) {
-                    new  LeaveMember(memberId, selectedUserRoleId, membersssIdss).execute();
-                }else if(isMemberJoined==2){
+                    // new  JoinMember(membersssIdss, memberId).execute();
+
+                    JoinGeneralMember(membersssIdss, memberId);
+
+                } else if (isMemberJoined == 1) {
+                    //   new  LeaveMember(memberId, selectedUserRoleId, membersssIdss).execute();
+
+
+                    LeaveGeneralMember(memberId, selectedUserRoleId, membersssIdss);
+                } else if (isMemberJoined == 2) {
 
                     if (isDialogOpen == 1) {
-                        RespondForMemberRequest("", "Respond to Request", "" , selectedUserRoleId);
+                        RespondForMemberRequest("", "Respond to Request", "", selectedUserRoleId);
                     } else {
                         C.INSTANCE.showToast(getApplicationContext(), "Your request to add " + txt_name.getText().toString().trim() + " is pending.");
                     }
@@ -260,22 +254,18 @@ public class AddMemberFudActivity extends AppCompatActivity {
         });
 
 
-
         btnMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
 
-                if(Flag.equalsIgnoreCase("fund"))
-                {
+                if (Flag.equalsIgnoreCase("fund")) {
                     Intent intent = new Intent(getApplicationContext(), FinalSendMessage.class);
                     intent.putExtra("name", app_fund_list.getData().getUser().getTitle());
                     intent.putExtra("id", app_fund_list.getData().getUser().getId());
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
-                }
-                else if(Flag.equalsIgnoreCase("org"))
-                {
+                } else if (Flag.equalsIgnoreCase("org")) {
                     Intent intent = new Intent(getApplicationContext(), FinalSendMessage.class);
                     intent.putExtra("name", app_single_org_list.getData().getUser().getTitle());
                     intent.putExtra("id", app_single_org_list.getData().getUser().getId());
@@ -286,8 +276,6 @@ public class AddMemberFudActivity extends AppCompatActivity {
 
             }
         });
-
-
 
 
         btnrequest.setOnClickListener(new View.OnClickListener() {
@@ -406,52 +394,41 @@ public class AddMemberFudActivity extends AppCompatActivity {
     }
 
 
-
-    public void Fundspot_Data(String user_id)
-    {
+    public void Fundspot_Data(String user_id) {
 
 
         dialog.show();
-        Call<App_Single_Fundspot> app_single_fundspotCall=null;
-        app_single_fundspotCall=adminAPI.GetAllFundspot(user_id);
-        Log.e("user_id","--->"+user_id);
+        Call<App_Single_Fundspot> app_single_fundspotCall = null;
+        app_single_fundspotCall = adminAPI.GetAllFundspot(user_id);
+        Log.e("user_id", "--->" + user_id);
 
         app_single_fundspotCall.enqueue(new Callback<App_Single_Fundspot>() {
             @Override
             public void onResponse(Call<App_Single_Fundspot> call, Response<App_Single_Fundspot> response) {
                 dialog.dismiss();
-                 app_fund_list=response.body();
-                if(app_fund_list != null)
-                {
-                    if(app_fund_list.isStatus())
-                    {
+                app_fund_list = response.body();
+                if (app_fund_list != null) {
+                    if (app_fund_list.isStatus()) {
 
-                        if(preference.getUserID().equalsIgnoreCase(memberId))
-                        {
+                        if (preference.getUserID().equalsIgnoreCase(memberId)) {
                             layout_buttons.setVisibility(View.GONE);
                             btnrequest.setVisibility(View.GONE);
                             btnMessage.setVisibility(View.GONE);
-                        }
-                        else if(preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION))
-                        {
+                        } else if (preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION)) {
                             layout_buttons.setVisibility(View.VISIBLE);
                             btnrequest.setVisibility(View.VISIBLE);
                             btnFollow.setVisibility(View.VISIBLE);
                             btnJoin.setVisibility(View.GONE);
                             btnMessage.setVisibility(View.VISIBLE);
                             btnFollow.setText("Follow");
-                        }
-                        else if(preference.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT))
-                        {
+                        } else if (preference.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)) {
                             btnrequest.setVisibility(View.GONE);
                             layout_buttons.setVisibility(View.VISIBLE);
                             btnFollow.setVisibility(View.VISIBLE);
                             btnJoin.setVisibility(View.GONE);
                             btnMessage.setVisibility(View.VISIBLE);
                             btnFollow.setText("Follow");
-                        }
-                        else if(preference.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER))
-                        {
+                        } else if (preference.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER)) {
                             layout_buttons.setVisibility(View.VISIBLE);
                             btnrequest.setVisibility(View.GONE);
                             btnFollow.setVisibility(View.VISIBLE);
@@ -461,13 +438,9 @@ public class AddMemberFudActivity extends AppCompatActivity {
                             checkMemberId = member.getId();
 
                             userRoleId = app_fund_list.getData().getUser().getRole_id();
-                            userID=app_fund_list.getData().getUser().getId();
-                            CheckMemberIsjoined(checkMemberId , userRoleId,userID);
+                            userID = app_fund_list.getData().getUser().getId();
+                            CheckMemberIsjoined(checkMemberId, userRoleId, userID);
                         }
-
-
-
-
 
 
                         String imagePath = W.FILE_URL + app_fund_list.getData().getFundspot().getImage();
@@ -476,51 +449,39 @@ public class AddMemberFudActivity extends AppCompatActivity {
                                 .load(imagePath)
                                 .into(circleImageView);
 
-                        if(app_fund_list.getData().getFundspot().getSplit_visibility().equalsIgnoreCase("1"))
-                        {
+                        if (app_fund_list.getData().getFundspot().getSplit_visibility().equalsIgnoreCase("1")) {
                             layout_fundraiser.setVisibility(View.VISIBLE);
                             txt_fundtitle.setText("% Split ( Fundspot/Organization ):");
                             txt_fundraiser_split.setText(app_fund_list.getData().getFundspot().getFundspot_percent() + " / " + app_fund_list.getData().getFundspot().getOrganization_percent());
 
-                        }
-                        else {
+                        } else {
                             layout_fundraiser.setVisibility(View.GONE);
                         }
 
 
-
                         txt_name.setText(app_fund_list.getData().getFundspot().getTitle());
 
-                        if(app_fund_list.getData().getFundspot().getLocation() != null)
-                        {
-                            location =app_fund_list.getData().getFundspot().getLocation();
+                        if (app_fund_list.getData().getFundspot().getLocation() != null) {
+                            location = app_fund_list.getData().getFundspot().getLocation();
 
                         }
-                        if(app_fund_list.getData().getFundspot().getCity_name() != null)
-                        {
-                            city_name=app_fund_list.getData().getFundspot().getCity_name();
+                        if (app_fund_list.getData().getFundspot().getCity_name() != null) {
+                            city_name = app_fund_list.getData().getFundspot().getCity_name();
                         }
-                        if(app_fund_list.getData().getState().getState_code() != null)
-                        {
-                            state_code=app_fund_list.getData().getState().getState_code();
+                        if (app_fund_list.getData().getState().getState_code() != null) {
+                            state_code = app_fund_list.getData().getState().getState_code();
                         }
-                        if(app_fund_list.getData().getFundspot().getZip_code() != null)
-                        {
-                            Zipcode=app_fund_list.getData().getFundspot().getZip_code();
+                        if (app_fund_list.getData().getFundspot().getZip_code() != null) {
+                            Zipcode = app_fund_list.getData().getFundspot().getZip_code();
                         }
 
-                        if(app_fund_list.getData().getFundspot().getDescription() == null || app_fund_list.getData().getFundspot().getDescription().equalsIgnoreCase(""))
-                        {
+                        if (app_fund_list.getData().getFundspot().getDescription() == null || app_fund_list.getData().getFundspot().getDescription().equalsIgnoreCase("")) {
                             layout_contact.setVisibility(View.GONE);
-                        }
-
-                        else
-                        {
+                        } else {
                             layout_contact.setVisibility(View.VISIBLE);
                             txt_contct.setText(app_fund_list.getData().getFundspot().getDescription());
                         }
-                        txt_address.setText(location+'\n'+city_name+", "+state_code+" "+Zipcode);
-
+                        txt_address.setText(location + '\n' + city_name + ", " + state_code + " " + Zipcode);
 
 
                         if (app_fund_list.getData().getFundspot().getContact_info_email() == null || app_fund_list.getData().getFundspot().getContact_info_email().equalsIgnoreCase("")) {
@@ -532,18 +493,15 @@ public class AddMemberFudActivity extends AppCompatActivity {
 
                         }
 
-                        if(app_fund_list.getData().getFundspot().getContact_info_mobile() == null  || app_fund_list.getData().getFundspot().getContact_info_mobile().equalsIgnoreCase(""))
-                        {
+                        if (app_fund_list.getData().getFundspot().getContact_info_mobile() == null || app_fund_list.getData().getFundspot().getContact_info_mobile().equalsIgnoreCase("")) {
                             layout_contact_info_mobile.setVisibility(View.GONE);
-                        }
-                        else {
+                        } else {
                             layout_contact_info_mobile.setVisibility(View.VISIBLE);
                             txt_con_info_mobile.setText(app_fund_list.getData().getFundspot().getContact_info_mobile());
                         }
 
 
-                    }
-                    else {
+                    } else {
                         C.INSTANCE.showToast(getApplicationContext(), app_fund_list.getMessage());
                     }
                 }
@@ -558,42 +516,34 @@ public class AddMemberFudActivity extends AppCompatActivity {
     }
 
 
-    public void Organization_Data(final String user_id)
-    {
+    public void Organization_Data(final String user_id) {
         dialog.show();
-        Call<App_Single_Organization> app_single_organizationCall=null;
-        app_single_organizationCall=adminAPI.GetAllOrganization(user_id);
-        Log.e("user_id","--->"+user_id);
+        Call<App_Single_Organization> app_single_organizationCall = null;
+        app_single_organizationCall = adminAPI.GetAllOrganization(user_id);
+        Log.e("user_id", "--->" + user_id);
 
         app_single_organizationCall.enqueue(new Callback<App_Single_Organization>() {
             @Override
             public void onResponse(Call<App_Single_Organization> call, Response<App_Single_Organization> response) {
                 dialog.dismiss();
-                 app_single_org_list=response.body();
-                if(app_single_org_list != null)
-                {
-                    if(app_single_org_list.isStatus())
-                    {
-                        Log.e("user_idAdd","--->"+preference.getUserID() + "-->" + memberId);
+                app_single_org_list = response.body();
+                if (app_single_org_list != null) {
+                    if (app_single_org_list.isStatus()) {
+                        Log.e("user_idAdd", "--->" + preference.getUserID() + "-->" + memberId);
 
-                        if(preference.getUserID().equalsIgnoreCase(memberId))
-                        {
+                        if (preference.getUserID().equalsIgnoreCase(memberId)) {
                             layout_buttons.setVisibility(View.GONE);
                             btnrequest.setVisibility(View.GONE);
                             btnMessage.setVisibility(View.GONE);
 
-                        }
-                        else if(preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION))
-                        {
+                        } else if (preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION)) {
                             layout_buttons.setVisibility(View.VISIBLE);
                             btnrequest.setVisibility(View.GONE);
                             btnFollow.setVisibility(View.VISIBLE);
                             btnJoin.setVisibility(View.GONE);
                             btnMessage.setVisibility(View.VISIBLE);
                             btnFollow.setText("Follow");
-                        }
-                        else if(preference.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT))
-                        {
+                        } else if (preference.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)) {
 
                             layout_buttons.setVisibility(View.VISIBLE);
                             btnrequest.setVisibility(View.VISIBLE);
@@ -601,9 +551,7 @@ public class AddMemberFudActivity extends AppCompatActivity {
                             btnJoin.setVisibility(View.GONE);
                             btnMessage.setVisibility(View.VISIBLE);
                             btnFollow.setText("Follow");
-                        }
-                        else if(preference.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER))
-                        {
+                        } else if (preference.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER)) {
                             layout_buttons.setVisibility(View.VISIBLE);
                             btnrequest.setVisibility(View.GONE);
                             btnFollow.setVisibility(View.VISIBLE);
@@ -613,13 +561,9 @@ public class AddMemberFudActivity extends AppCompatActivity {
                             checkMemberId = member.getId();
 
                             userRoleId = app_single_org_list.getData().getUser().getRole_id();
-                            userID=app_single_org_list.getData().getUser().getId();
-                            CheckMemberIsjoined(checkMemberId , userRoleId,userID);
+                            userID = app_single_org_list.getData().getUser().getId();
+                            CheckMemberIsjoined(checkMemberId, userRoleId, userID);
                         }
-
-
-
-
 
 
                         String imagePath = W.FILE_URL + app_single_org_list.getData().getOrganization().getImage();
@@ -629,43 +573,32 @@ public class AddMemberFudActivity extends AppCompatActivity {
                                 .into(circleImageView);
 
 
-                            layout_fundraiser.setVisibility(View.GONE);
-
-
+                        layout_fundraiser.setVisibility(View.GONE);
 
 
                         txt_name.setText(app_single_org_list.getData().getOrganization().getTitle());
 
-                        if(app_single_org_list.getData().getOrganization().getLocation() != null)
-                        {
-                            location =app_single_org_list.getData().getOrganization().getLocation();
+                        if (app_single_org_list.getData().getOrganization().getLocation() != null) {
+                            location = app_single_org_list.getData().getOrganization().getLocation();
 
                         }
-                        if(app_single_org_list.getData().getOrganization().getCity_name() != null)
-                        {
-                            city_name=app_single_org_list.getData().getOrganization().getCity_name();
+                        if (app_single_org_list.getData().getOrganization().getCity_name() != null) {
+                            city_name = app_single_org_list.getData().getOrganization().getCity_name();
                         }
-                        if(app_single_org_list.getData().getState().getState_code() != null)
-                        {
-                            state_code=app_single_org_list.getData().getState().getState_code();
+                        if (app_single_org_list.getData().getState().getState_code() != null) {
+                            state_code = app_single_org_list.getData().getState().getState_code();
                         }
-                        if(app_single_org_list.getData().getOrganization().getZip_code() != null)
-                        {
-                            Zipcode=app_single_org_list.getData().getOrganization().getZip_code();
+                        if (app_single_org_list.getData().getOrganization().getZip_code() != null) {
+                            Zipcode = app_single_org_list.getData().getOrganization().getZip_code();
                         }
 
-                        if(app_single_org_list.getData().getOrganization().getDescription() == null || app_single_org_list.getData().getOrganization().getDescription().equalsIgnoreCase(""))
-                        {
+                        if (app_single_org_list.getData().getOrganization().getDescription() == null || app_single_org_list.getData().getOrganization().getDescription().equalsIgnoreCase("")) {
                             layout_contact.setVisibility(View.GONE);
-                        }
-
-                        else
-                        {
+                        } else {
                             layout_contact.setVisibility(View.VISIBLE);
                             txt_contct.setText(app_single_org_list.getData().getOrganization().getDescription());
                         }
-                        txt_address.setText(location+'\n'+city_name+", "+state_code+" "+Zipcode);
-
+                        txt_address.setText(location + '\n' + city_name + ", " + state_code + " " + Zipcode);
 
 
                         if (app_single_org_list.getData().getOrganization().getContact_info_email() == null || app_single_org_list.getData().getOrganization().getContact_info_email().equalsIgnoreCase("")) {
@@ -677,22 +610,16 @@ public class AddMemberFudActivity extends AppCompatActivity {
 
                         }
 
-                        if(app_single_org_list.getData().getOrganization().getContact_info_mobile() == null  || app_single_org_list.getData().getOrganization().getContact_info_mobile().equalsIgnoreCase(""))
-                        {
+                        if (app_single_org_list.getData().getOrganization().getContact_info_mobile() == null || app_single_org_list.getData().getOrganization().getContact_info_mobile().equalsIgnoreCase("")) {
                             layout_contact_info_mobile.setVisibility(View.GONE);
-                        }
-                        else {
+                        } else {
                             layout_contact_info_mobile.setVisibility(View.VISIBLE);
                             txt_con_info_mobile.setText(app_single_org_list.getData().getOrganization().getContact_info_mobile());
                         }
 
 
-
-
-
-                    }
-                    else {
-                        C.INSTANCE.showToast(getApplicationContext(),app_single_org_list.getMessage());
+                    } else {
+                        C.INSTANCE.showToast(getApplicationContext(), app_single_org_list.getMessage());
                     }
                 }
 
@@ -700,16 +627,16 @@ public class AddMemberFudActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<App_Single_Organization> call, Throwable t) {
-                C.INSTANCE.errorToast(getApplicationContext(),t);
+                C.INSTANCE.errorToast(getApplicationContext(), t);
             }
         });
     }
 
-    private void CheckMemberIsjoined(String checkMemberId , String userRoleId,String userID) {
+    private void CheckMemberIsjoined(String checkMemberId, String userRoleId, String userID) {
 
         dialog.show();
         Call<JoinMemberModel> appModelCall = adminAPI.checkJoinMember(checkMemberId, /*preference.getUserRoleID()*/ userRoleId, /*preference.getUserID()*/  userID);
-        Log.e("parameters" , "-->" + checkMemberId + "-->" + userRoleId + "--->" + userID);
+        Log.e("parameters", "-->" + checkMemberId + "-->" + userRoleId + "--->" + userID);
         appModelCall.enqueue(new Callback<JoinMemberModel>() {
             @Override
             public void onResponse(Call<JoinMemberModel> call, Response<JoinMemberModel> response) {
@@ -722,26 +649,25 @@ public class AddMemberFudActivity extends AppCompatActivity {
                             btnJoin.setText("Leave Us");
                             btnFollow.setText("Unfollow");
                             isMemberJoined = 1;
-                        }
-                        else if (appModel.getData() == 2) {
+                        } else if (appModel.getData() == 2) {
 
                             /*if (preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION) || preference.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)) {
 */
-                                if (appModel.getOwner_role_id() == 0) {
+                            if (appModel.getOwner_role_id() == 0) {
 
-                                    btnJoin.setText("Respond To Request");
-                                    btnFollow.setText("Unfollow");
-                                    isDialogOpen = 1;
-                                    isMemberJoined = 2;
+                                btnJoin.setText("Respond To Request");
+                                btnFollow.setText("Unfollow");
+                                isDialogOpen = 1;
+                                isMemberJoined = 2;
 
-                                } else {
+                            } else {
                                     /*C.INSTANCE.showToast(getApplicationContext(), "Your request to add " + txt_name.getText().toString().trim() + " is pending.");*/
-                                    btnJoin.setText("Pending");
-                                    btnFollow.setText("Unfollow");
-                                    isMemberJoined = 2;
-                                }
+                                btnJoin.setText("Pending");
+                                btnFollow.setText("Unfollow");
+                                isMemberJoined = 2;
+                            }
 
-                            } /*else {
+                        } /*else {
                                 *//*C.INSTANCE.showToast(getApplicationContext(), "Your request to add " + txt_name.getText().toString().trim() + " is pending.");*//*
                                 btnJoin.setText("Pending");
                                 btnFollow.setText("Unfollow");
@@ -749,8 +675,7 @@ public class AddMemberFudActivity extends AppCompatActivity {
                             }
 
 
-                        }*/
-                        else {
+                        }*/ else {
 
                             btnJoin.setText("Join Us");
                             btnFollow.setText("Follow");
@@ -773,8 +698,182 @@ public class AddMemberFudActivity extends AppCompatActivity {
 
     }
 
+    private void JoinGeneralMember(String membersssIdss, String memberId) {
+        String fundspotsId = null;
+        String organizationsId = null;
+        dialog.show();
+        if (Flag.equalsIgnoreCase("fund")) {
+            fundspotsId = memberId;
+        } else if (Flag.equalsIgnoreCase("org")) {
+            organizationsId = memberId;
+        }
+        Call<AppModel> appModelCall = adminAPI.JoinMember(preference.getUserID(), membersssIdss, preference.getUserRoleID(), preference.getTokenHash(), fundspotsId, organizationsId);
 
-    public class JoinMember extends AsyncTask<Void, Void, String> {
+        appModelCall.enqueue(new Callback<AppModel>() {
+            @Override
+            public void onResponse(Call<AppModel> call, Response<AppModel> response) {
+                dialog.dismiss();
+                AppModel model = response.body();
+                if (model != null) {
+                    if (model.isStatus()) {
+                        btnJoin.setText("Leave Us");
+                        btnFollow.setText("Unfollow");
+                        isMemberJoined = 1;
+                    }
+                } else {
+                    C.INSTANCE.defaultError(getApplicationContext());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AppModel> call, Throwable t) {
+                dialog.dismiss();
+                C.INSTANCE.errorToast(getApplicationContext(), t);
+            }
+        });
+    }
+
+    private void LeaveGeneralMember(String memberId, String selectedUserRoleId, String membersssIdss) {
+        dialog.show();
+        Call<AppModel> appModelCall = adminAPI.LeaveMemberFromMyList(memberId, selectedUserRoleId, membersssIdss);
+        appModelCall.enqueue(new Callback<AppModel>() {
+            @Override
+            public void onResponse(Call<AppModel> call, Response<AppModel> response) {
+                dialog.dismiss();
+                AppModel model = response.body();
+                if (model != null) {
+                    if (model.isStatus()) {
+                        btnJoin.setText("Join Us");
+                        btnFollow.setText("Follow");
+                        isMemberJoined = 0;
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AppModel> call, Throwable t) {
+                dialog.dismiss();
+                C.INSTANCE.errorToast(getApplicationContext(), t);
+            }
+        });
+    }
+
+    private void RespondForMemberRequest(final String userID, String message, String title, final String selectedUserRoleId) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        //builder.setTitle(title.isEmpty() ? "Member Request Pending" : title);
+        builder.setMessage(message);
+        builder.setCancelable(false);
+        String checkMemberId = "";
+        String userRoleId = "";
+
+        if (preference.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)) {
+            checkMemberId = fundspot.getId();
+
+
+        }
+        if (preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION)) {
+            checkMemberId = organization.getId();
+
+        }
+        if (preference.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER)) {
+            checkMemberId = member.getId();
+        }
+
+        final String finalUserRoleId = userRoleId;
+        final String finalCheckMemberId = checkMemberId;
+        builder.setPositiveButton("Accept", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+
+                //  new RespondMemberRequest(memberId, selectedUserRoleId, "1", finalCheckMemberId).execute();
+
+                RespondGeneralMembersRequest(memberId, selectedUserRoleId, "1", finalCheckMemberId);
+
+
+            }
+        });
+
+        builder.setNegativeButton("Decline", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+                // new RespondMemberRequest(memberId, selectedUserRoleId, "2", finalCheckMemberId).execute();
+
+                RespondGeneralMembersRequest(memberId, selectedUserRoleId, "2", finalCheckMemberId);
+            }
+        });
+
+
+        AlertDialog bDialog = builder.create();
+        bDialog.show();
+
+
+    }
+
+    private void RespondGeneralMembersRequest(final String memberId, final String selectedUserRoleId, String s, String finalCheckMemberId) {
+        dialog.show();
+        Call<AppModel> appModelCall = adminAPI.Acc_Decline_Request(memberId, finalCheckMemberId, s, selectedUserRoleId);
+        appModelCall.enqueue(new Callback<AppModel>() {
+            @Override
+            public void onResponse(Call<AppModel> call, Response<AppModel> response) {
+                dialog.dismiss();
+                AppModel model = response.body();
+                if (model != null) {
+                    if (model.isStatus()) {
+                        if (preference.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER)) {
+
+                            checkMemberId = member.getId();
+
+                            userRoleId = selectedUserRoleId;
+                            userID = memberId;
+                            CheckMemberIsjoined(checkMemberId, userRoleId, userID);
+                        } else {
+                            finish();
+                            overridePendingTransition(0, 0);
+                            startActivity(getIntent());
+                            overridePendingTransition(0, 0);
+                        }
+                    }
+
+                } else {
+                    C.INSTANCE.defaultError(getApplicationContext());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AppModel> call, Throwable t) {
+                dialog.dismiss();
+                C.INSTANCE.errorToast(getApplicationContext(), t);
+            }
+        });
+
+
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        System.gc();
+        try {
+            member = new Gson().fromJson(preference.getMemberData(), Member.class);
+            fundspot = new Gson().fromJson(preference.getMemberData(), Fundspot.class);
+            Log.e("userData", preference.getUserData());
+        } catch (Exception e) {
+            Log.e("Exception", e.getMessage());
+        }
+        J.GetNotificationCountGlobal(preference.getUserID(), preference.getTokenHash(), preference, getApplicationContext(), this);
+    }
+
+
+    // Following are the ASYNCTASK Services that are already converted to retrofit . If you find any issues in Retrofit API please refer the following.
+
+
+
+
+    /*public class JoinMember extends AsyncTask<Void, Void, String> {
 
         String member = "";
         String selectedUserIdss = "";
@@ -820,7 +919,7 @@ public class AddMemberFudActivity extends AppCompatActivity {
             }
 
 
-            String json = new ServiceHandler().makeServiceCall(W.BASE_URL + "Member/app_request_join_member", ServiceHandler.POST, pairs);
+            String json = new ServiceHandler(getApplicationContext()).makeServiceCall(W.ASYNC_BASE_URL + "Member/app_request_join_member", ServiceHandler.POST, pairs);
 
             Log.e("parameters", "-->" + pairs);
             Log.e("json", json);
@@ -853,9 +952,9 @@ public class AddMemberFudActivity extends AppCompatActivity {
 
 
 
-                        /*Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(intent);*/
+                        startActivity(intent);
 
                         //recreate();
 
@@ -863,9 +962,9 @@ public class AddMemberFudActivity extends AppCompatActivity {
                         btnFollow.setText("Unfollow");
                         isMemberJoined = 1;
 
-                        /*finish();
-                        overridePendingTransition(0,m
-                        overridePendingTransition(0, 0);*/
+                        finish();
+                        overridePendingTransition(0 , 0);
+                        overridePendingTransition(0, 0);
 
                     }
 
@@ -910,7 +1009,7 @@ public class AddMemberFudActivity extends AppCompatActivity {
             valuePairs.add(new BasicNameValuePair("role_id", roleId));
             valuePairs.add(new BasicNameValuePair("member_id", memberId));
 
-            String json = new ServiceHandler().makeServiceCall(W.BASE_URL + W.LEAVE_MEMBER, ServiceHandler.POST, valuePairs);
+            String json = new ServiceHandler(getApplicationContext()).makeServiceCall(W.ASYNC_BASE_URL + W.LEAVE_MEMBER, ServiceHandler.POST, valuePairs);
 
             Log.e("parameters", "-->" + valuePairs.toString());
             Log.e("response", "--->" + json);
@@ -943,56 +1042,6 @@ public class AddMemberFudActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
-    }
-
-    private void RespondForMemberRequest(final String userID, String message, String title, final String selectedUserRoleId) {
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        //builder.setTitle(title.isEmpty() ? "Member Request Pending" : title);
-        builder.setMessage(message);
-        builder.setCancelable(false);
-        String checkMemberId = "";
-        String userRoleId = "";
-
-        if (preference.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)) {
-            checkMemberId = fundspot.getId();
-
-
-        }
-        if (preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION)) {
-            checkMemberId = organization.getId();
-
-        }
-        if (preference.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER)) {
-            checkMemberId = member.getId();
-        }
-
-        final String finalUserRoleId = userRoleId;
-        final String finalCheckMemberId = checkMemberId;
-        builder.setPositiveButton("Accept", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
-
-                new RespondMemberRequest(memberId, selectedUserRoleId, "1", finalCheckMemberId).execute();
-
-
-            }
-        });
-
-        builder.setNegativeButton("Decline", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
-                new RespondMemberRequest(memberId, selectedUserRoleId, "2", finalCheckMemberId).execute();
-            }
-        });
-
-
-        AlertDialog bDialog = builder.create();
-        bDialog.show();
-
-
     }
 
     public class RespondMemberRequest extends AsyncTask<Void, Void, String> {
@@ -1034,7 +1083,7 @@ public class AddMemberFudActivity extends AppCompatActivity {
             pairs.add(new BasicNameValuePair("member_id", getMemberId));
             pairs.add(new BasicNameValuePair("status", getStatus));
 
-            String json = new ServiceHandler().makeServiceCall(W.BASE_URL + "Member/app_respond_other_request", ServiceHandler.POST, pairs);
+            String json = new ServiceHandler(getApplicationContext()).makeServiceCall(W.ASYNC_BASE_URL + "Member/app_respond_other_request", ServiceHandler.POST, pairs);
 
             Log.e("parameters", "" + pairs);
 
@@ -1062,28 +1111,24 @@ public class AddMemberFudActivity extends AppCompatActivity {
                     status = mainObject.getBoolean("status");
                     message = mainObject.getString("message");
 
-                   // C.INSTANCE.showToast(getApplicationContext(), message);
+                    // C.INSTANCE.showToast(getApplicationContext(), message);
                     if (status == true) {
-                        /*Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-                        startActivity(intent);*/
+                        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                        startActivity(intent);
                         //recreate();
-                        if(preference.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER))
-                        {
+                        if (preference.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER)) {
 
                             checkMemberId = member.getId();
 
                             userRoleId = roleId;
-                            userID=userId;
-                            CheckMemberIsjoined(checkMemberId , userRoleId,userID);
-                        }else {
+                            userID = userId;
+                            CheckMemberIsjoined(checkMemberId, userRoleId, userID);
+                        } else {
                             finish();
                             overridePendingTransition(0, 0);
                             startActivity(getIntent());
                             overridePendingTransition(0, 0);
                         }
-
-
-
 
 
                     }
@@ -1097,21 +1142,5 @@ public class AddMemberFudActivity extends AppCompatActivity {
 
         }
     }
-
-
-
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        System.gc();
-        try {
-            member = new Gson().fromJson(preference.getMemberData(), Member.class);
-            fundspot = new Gson().fromJson(preference.getMemberData(), Fundspot.class);
-            Log.e("userData", preference.getUserData());
-        } catch (Exception e) {
-            Log.e("Exception", e.getMessage());
-        }
-        J.GetNotificationCountGlobal(preference.getUserID() , preference.getTokenHash() , preference , getApplicationContext() , this);
-    }
+*/
 }

@@ -153,7 +153,7 @@ public class SendFeedbackActivity extends AppCompatActivity {
             parameters.add(new BasicNameValuePair("email_id" , userMail));
 
 
-            String json = new ServiceHandler().makeServiceCall(W.BASE_URL + "User/App_Feedback" , ServiceHandler.POST , parameters);
+            String json = new ServiceHandler(getApplicationContext()).makeServiceCall(W.ASYNC_BASE_URL + "User/App_Feedback" , ServiceHandler.POST , parameters);
 
             Log.e("parameters" , "--->" + parameters);
             Log.e("json" , json);

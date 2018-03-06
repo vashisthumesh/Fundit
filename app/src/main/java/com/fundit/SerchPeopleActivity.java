@@ -20,6 +20,7 @@ import com.fundit.apis.AdminAPI;
 import com.fundit.apis.ServiceGenerator;
 import com.fundit.apis.ServiceHandler;
 import com.fundit.helper.CustomDialog;
+import com.fundit.model.AppModel;
 import com.fundit.model.Fundspot;
 import com.fundit.model.GetDataResponses;
 import com.fundit.model.GetSearchPeople;
@@ -79,14 +80,14 @@ public class SerchPeopleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_search_people);
 
-        Log.e("searchPeople" , "-->");
+        Log.e("searchPeople", "-->");
 
 
         preference = new AppPreference(getApplicationContext());
         dialog = new CustomDialog(this);
         adminAPI = ServiceGenerator.getAPIClass();
 
-        Log.e("notiSearch" , "-->" + preference.getUserRoleID());
+        Log.e("notiSearch", "-->" + preference.getUserRoleID());
         Intent intent = getIntent();
         Id = intent.getStringExtra("id");
         flag = intent.getBooleanExtra("flag", false);
@@ -120,7 +121,7 @@ public class SerchPeopleActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-       // actionTitle.setText("Profile");
+        // actionTitle.setText("Profile");
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -181,9 +182,9 @@ public class SerchPeopleActivity extends AppCompatActivity {
 
                 String ids = "";
 
-                if(flag==true || flag==false){
+                if (flag == true || flag == false) {
                     ids = Id;
-                }else {
+                } else {
                     ids = getResponse.getUser_id();
                 }
 
@@ -205,11 +206,11 @@ public class SerchPeopleActivity extends AppCompatActivity {
                 String checkMemberId = "";
 
 
-                if(flag==true || false==false){
+                if (flag == true || false == false) {
 
                     checkMemberId = Id;
 
-                }else {
+                } else {
 
                     if (preference.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)) {
                         checkMemberId = getResponse.getId();
@@ -226,9 +227,15 @@ public class SerchPeopleActivity extends AppCompatActivity {
                 }
 
                 if (isMemberJoined == 0) {
-                    new AddMember().execute();
+                    // new AddMember().execute();
+
+                    AddGeneralMember();
+
                 } else if (isMemberJoined == 1) {
-                    new RespondMemberRequest("2", checkMemberId).execute();
+                  //  new RespondMemberRequest("2", checkMemberId).execute();
+
+                    RespondGeneralMembersRequest("2", checkMemberId);
+
                 } else if (isMemberJoined == 2) {
 
                     if (isDialogOpen == 1) {
@@ -250,6 +257,7 @@ public class SerchPeopleActivity extends AppCompatActivity {
 
     }
 
+
     private void RespondForMemberRequest(final String userID, String message, String title) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -259,9 +267,9 @@ public class SerchPeopleActivity extends AppCompatActivity {
 
         String checkMemberId = "";
 
-        if(flag==true || flag==false){
+        if (flag == true || flag == false) {
             checkMemberId = Id;
-        }else {
+        } else {
 
             if (preference.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)) {
                 checkMemberId = getResponse.getId();
@@ -283,7 +291,9 @@ public class SerchPeopleActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
 
-                new RespondMemberRequest("1", finalCheckMemberId).execute();
+               // new RespondMemberRequest("1", finalCheckMemberId).execute();
+
+                RespondGeneralMembersRequest("1", finalCheckMemberId);
             }
         });
 
@@ -291,7 +301,9 @@ public class SerchPeopleActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
-                new RespondMemberRequest("2", finalCheckMemberId).execute();
+              //  new RespondMemberRequest("2", finalCheckMemberId).execute();
+
+                RespondGeneralMembersRequest("2", finalCheckMemberId);
             }
         });
 
@@ -329,7 +341,7 @@ public class SerchPeopleActivity extends AppCompatActivity {
 
                             } else {
 
-                            //    C.INSTANCE.showToast(getApplicationContext(), "Your request to add " + txt_name.getText().toString().trim() + " is pending.");
+                                //    C.INSTANCE.showToast(getApplicationContext(), "Your request to add " + txt_name.getText().toString().trim() + " is pending.");
 
                                 btnAdd.setText("Pending");
                                 isMemberJoined = 2;
@@ -387,7 +399,7 @@ public class SerchPeopleActivity extends AppCompatActivity {
             pairs.add(new BasicNameValuePair("member_id", Id));
 
 
-            String json = new ServiceHandler().makeServiceCall(W.BASE_URL + "Member/app_view_member_profile", ServiceHandler.POST, pairs);
+            String json = new ServiceHandler(getApplicationContext()).makeServiceCall(W.ASYNC_BASE_URL + "Member/app_view_member_profile", ServiceHandler.POST, pairs);
 
             Log.e("parameters", "-->" + pairs);
             Log.e("json", json);
@@ -488,15 +500,12 @@ public class SerchPeopleActivity extends AppCompatActivity {
                             }
 
                             CheckMemberIsjoined(checkMemberId, preference.getUserRoleID());
-                        }else {
+                        } else {
 
-                            checkMemberId = Id ;
+                            checkMemberId = Id;
 
                             CheckMemberIsjoined(checkMemberId, preference.getUserRoleID());
                         }
-
-
-
 
 
                     }
@@ -511,7 +520,109 @@ public class SerchPeopleActivity extends AppCompatActivity {
         }
     }
 
-    public class AddMember extends AsyncTask<Void, Void, String> {
+    private void AddGeneralMember() {
+
+        String organizationsIds = null, fundspotsIds = null;
+        if (preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION)) {
+            organizationsIds = preference.getUserID();
+        }
+        if (preference.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)) {
+            fundspotsIds = preference.getUserID();
+        }
+        dialog.show();
+        Call<AppModel> modelCall = adminAPI.AddGeneralMember(preference.getUserID(), preference.getTokenHash(), Id, organizationsIds, fundspotsIds);
+        modelCall.enqueue(new Callback<AppModel>() {
+            @Override
+            public void onResponse(Call<AppModel> call, Response<AppModel> response) {
+                dialog.dismiss();
+                AppModel model = response.body();
+                if (model != null) {
+                    if (model.isStatus()) {
+
+                        String checkMemberId = "";
+
+                        if (flag == true || flag == false) {
+                            checkMemberId = Id;
+                        } else {
+
+                            if (preference.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)) {
+                                checkMemberId = getResponse.getId();
+
+                            }
+                            if (preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION)) {
+                                checkMemberId = getResponse.getId();
+
+                            }
+                            if (preference.getUserRoleID().equalsIgnoreCase(C.GENERAL_MEMBER)) {
+                                checkMemberId = getResponse.getId();
+
+                            }
+                        }
+
+                        CheckMemberIsjoined(checkMemberId, preference.getUserRoleID());
+//                        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+//                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                        startActivity(intent);
+
+
+                    }
+
+                } else {
+                    C.INSTANCE.defaultError(getApplicationContext());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AppModel> call, Throwable t) {
+                dialog.dismiss();
+                C.INSTANCE.errorToast(getApplicationContext(), t);
+            }
+        });
+
+
+    }
+
+    private void RespondGeneralMembersRequest(String s, String finalCheckMemberId) {
+        dialog.show();
+        Call<AppModel> appModelCall = adminAPI.RespondRequest(preference.getUserID(), preference.getTokenHash(), finalCheckMemberId, s);
+        appModelCall.enqueue(new Callback<AppModel>() {
+            @Override
+            public void onResponse(Call<AppModel> call, Response<AppModel> response) {
+                dialog.dismiss();
+                AppModel model = response.body();
+                if (model != null) {
+                    if (model.isStatus()) {
+                        finish();
+                        overridePendingTransition(0, 0);
+                        startActivity(getIntent());
+                        overridePendingTransition(0, 0);
+                    }
+
+                } else {
+                    C.INSTANCE.defaultError(getApplicationContext());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AppModel> call, Throwable t) {
+                dialog.dismiss();
+                C.INSTANCE.errorToast(getApplicationContext(), t);
+            }
+        });
+
+
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        System.gc();
+    }
+
+    // Following are the ASYNCTASK Services that are already converted to retrofit . If you find any issues in Retrofit API please refer the following.
+
+    /*public class AddMember extends AsyncTask<Void, Void, String> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -547,7 +658,7 @@ public class SerchPeopleActivity extends AppCompatActivity {
 
             }
 
-            String json = new ServiceHandler().makeServiceCall(W.BASE_URL + "Member/app_add_member", ServiceHandler.POST, pairs);
+            String json = new ServiceHandler(getApplicationContext()).makeServiceCall(W.ASYNC_BASE_URL + "Member/app_add_member", ServiceHandler.POST, pairs);
 
             Log.e("parameters", "-->" + pairs);
             Log.e("json", json);
@@ -575,14 +686,14 @@ public class SerchPeopleActivity extends AppCompatActivity {
                     status = mainObject.getBoolean("status");
                     message = mainObject.getString("message");
 
-                  //  C.INSTANCE.showToast(getApplicationContext(), message);
+                    //  C.INSTANCE.showToast(getApplicationContext(), message);
                     if (status) {
 
                         String checkMemberId = "";
 
-                        if(flag==true||flag==false){
-                            checkMemberId=Id;
-                        }else {
+                        if (flag == true || flag == false) {
+                            checkMemberId = Id;
+                        } else {
 
                             if (preference.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)) {
                                 checkMemberId = getResponse.getId();
@@ -649,7 +760,7 @@ public class SerchPeopleActivity extends AppCompatActivity {
             pairs.add(new BasicNameValuePair("member_id", getMemberId));
             pairs.add(new BasicNameValuePair("status", getStatus));
 
-            json = new ServiceHandler().makeServiceCall(W.BASE_URL + "Member/app_respond_member_request", ServiceHandler.POST, pairs);
+            json = new ServiceHandler(getApplicationContext()).makeServiceCall(W.ASYNC_BASE_URL + "Member/app_respond_member_request", ServiceHandler.POST, pairs);
 
             Log.e("parameters", "" + pairs);
 
@@ -677,18 +788,17 @@ public class SerchPeopleActivity extends AppCompatActivity {
                     status = mainObject.getBoolean("status");
                     message = mainObject.getString("message");
 
-                   // C.INSTANCE.showToast(getApplicationContext(), message);
+                    // C.INSTANCE.showToast(getApplicationContext(), message);
                     if (status == true) {
-                        /*Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-                        startActivity(intent);*/
-                       // onBackPressed();
-                      //  recreate();
+                        *//*Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                        startActivity(intent);*//*
+                        // onBackPressed();
+                        //  recreate();
 
                         finish();
                         overridePendingTransition(0, 0);
                         startActivity(getIntent());
                         overridePendingTransition(0, 0);
-
 
 
                     }
@@ -702,11 +812,6 @@ public class SerchPeopleActivity extends AppCompatActivity {
 
         }
     }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        System.gc();
-    }
+*/
 
 }

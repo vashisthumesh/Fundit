@@ -16,8 +16,11 @@ import com.fundit.SerchPeopleActivity;
 import com.fundit.a.AppPreference;
 import com.fundit.a.C;
 import com.fundit.a.W;
+import com.fundit.apis.AdminAPI;
+import com.fundit.apis.ServiceGenerator;
 import com.fundit.apis.ServiceHandler;
 import com.fundit.helper.CustomDialog;
+import com.fundit.model.AppModel;
 import com.fundit.model.Member;
 
 import org.apache.http.NameValuePair;
@@ -27,6 +30,10 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by NWSPL-17 on 01-Sep-17.
@@ -38,11 +45,13 @@ public class AccountMemberAdapter extends BaseAdapter {
     List<Member> memberList = new ArrayList<>();
     Activity activity;
     LayoutInflater inflater = null;
+    AdminAPI adminAPI ;
 
     public AccountMemberAdapter(List<Member> memberList, Activity activity) {
         this.memberList = memberList;
         this.activity = activity;
         this.inflater = activity.getLayoutInflater();
+        this.adminAPI = ServiceGenerator.getAPIClass();
     }
 
     @Override
@@ -71,7 +80,9 @@ public class AccountMemberAdapter extends BaseAdapter {
         img_remove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new RemoveFromMyList(memberList.get(position).getId() , position).execute();
+               // new RemoveFromMyList(memberList.get(position).getId() , position).execute();
+
+                RemoveFromList(memberList.get(position).getId() , position);
 
                 Log.e("check123" , "--->");
             }
@@ -108,6 +119,8 @@ public class AccountMemberAdapter extends BaseAdapter {
         return view;
     }
 
+
+
     public void addMember(Member member) {
         boolean isExist = false;
 
@@ -131,7 +144,7 @@ public class AccountMemberAdapter extends BaseAdapter {
 
 
 
-    public class RemoveFromMyList extends AsyncTask<Void , Void , String>{
+    /*public class RemoveFromMyList extends AsyncTask<Void , Void , String>{
 
         AppPreference preference = new AppPreference(activity);
 
@@ -170,7 +183,7 @@ public class AccountMemberAdapter extends BaseAdapter {
             pairs.add(new BasicNameValuePair("member_id" , memberId));
 
 
-            String json = new ServiceHandler().makeServiceCall(W.BASE_URL + "Member/app_delete_member_for_account" , ServiceHandler.POST , pairs);
+            String json = new ServiceHandler(activity.getApplicationContext()).makeServiceCall(W.ASYNC_BASE_URL + "Member/app_delete_member_for_account" , ServiceHandler.POST , pairs);
 
             Log.e("parameters" , "-->" + pairs);
             Log.e("json" , json);
@@ -218,7 +231,40 @@ public class AccountMemberAdapter extends BaseAdapter {
 
 
         }
+    }*/
+
+
+    private void RemoveFromList(String id, final int position) {
+        AppPreference preference = new AppPreference(activity);
+        final CustomDialog dialog ;
+        dialog = new CustomDialog(activity , "");
+        dialog.show();
+        Call<AppModel> modelCall = adminAPI.LeaveMemberFromMyList(preference.getUserID() , preference.getUserRoleID() , id);
+        modelCall.enqueue(new Callback<AppModel>() {
+            @Override
+            public void onResponse(Call<AppModel> call, Response<AppModel> response) {
+                dialog.dismiss();
+
+                AppModel model = response.body();
+                if(model!=null){
+                    C.INSTANCE.showToast(activity , model.getMessage());
+                    if(model.isStatus()){
+                        memberList.remove(position);
+                        notifyDataSetChanged();
+                    }
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<AppModel> call, Throwable t) {
+                dialog.dismiss();
+                C.INSTANCE.errorToast(activity , t);
+            }
+        });
     }
+
+
 
 
 

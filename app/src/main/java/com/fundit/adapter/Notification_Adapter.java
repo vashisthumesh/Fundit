@@ -155,7 +155,7 @@ public class Notification_Adapter extends BaseAdapter {
                     final CustomDialog loadingView = new CustomDialog(context, "");
                     loadingView.setCancelable(false);
                     loadingView.show();
-                    final StringRequest request = new StringRequest(W.POST, W.BASE_URL + "Notification/app_read_notification",
+                    final StringRequest request = new StringRequest(W.POST, W.ASYNC_BASE_URL + "Notification/app_read_notification",
                             new Response.Listener<String>() {
                                 @Override
                                 public void onResponse(String json) {
@@ -424,7 +424,7 @@ public class Notification_Adapter extends BaseAdapter {
         final CustomDialog loadingView = new CustomDialog(context, "");
         loadingView.setCancelable(false);
         loadingView.show();
-        final StringRequest request = new StringRequest(W.POST, W.BASE_URL + "Notification/app_read_notification",
+        final StringRequest request = new StringRequest(W.POST, W.ASYNC_BASE_URL + "Notification/app_read_notification",
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String json) {
