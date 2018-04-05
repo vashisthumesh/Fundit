@@ -29,6 +29,7 @@ import com.fundit.model.AreaItem;
 import com.fundit.model.BankCardResponse;
 import com.fundit.model.CampaignListResponse;
 import com.fundit.model.Member;
+import com.fundit.model.MonthYearModel;
 import com.fundit.model.User;
 import com.google.gson.Gson;
 
@@ -122,8 +123,8 @@ public class CardPaymentActivity extends AppCompatActivity {
         firstName = intent.getStringExtra("firstName");
         lastName = intent.getStringExtra("lastName");
         emailId = intent.getStringExtra("emailId");
-        isOrderTimes = intent.getBooleanExtra("orderTimes" , false);
-        isFundTimes = intent.getBooleanExtra("fundTimes" , false);
+        isOrderTimes = intent.getBooleanExtra("orderTimes", false);
+        isFundTimes = intent.getBooleanExtra("fundTimes", false);
 
 
         Log.e("userId", "--->" + userId);
@@ -197,12 +198,11 @@ public class CardPaymentActivity extends AppCompatActivity {
         spn_year.setAdapter(yearAdapter);
 
 
-        if(isFundTimes){
+        if (isFundTimes) {
             spn_savedcard.setVisibility(View.GONE);
             chk_save.setVisibility(View.GONE);
             txt_titleSavedCard.setVisibility(View.GONE);
         }
-
 
 
         // dialog.show();
@@ -361,9 +361,9 @@ public class CardPaymentActivity extends AppCompatActivity {
 
                     } else {
 
-                        addOrder = adminAPI.AddCardOrder(userId, roleId, preference.getTokenHash(), campaignList.getCampaign().getId(), firstName , lastName , emailId, member.getContact_info(), member.getLocation(), /*member.getCity().getName()*/ member.getCity_name(), member.getZip_code(), member.getState().getName(), "2", allPrice, preference.getUserID(), "0.0", "0.0", organizationId, fundspotId, selectedProductArray, cardNumber, cardType, getSpinnerMonth, getSpinnerYear, cvv, selectedCardId, checked, onBehalfOf, orderRequest, otherUser);
+                        addOrder = adminAPI.AddCardOrder(userId, roleId, preference.getTokenHash(), campaignList.getCampaign().getId(), firstName, lastName, emailId, member.getContact_info(), member.getLocation(), /*member.getCity().getName()*/ member.getCity_name(), member.getZip_code(), member.getState().getName(), "2", allPrice, preference.getUserID(), "0.0", "0.0", organizationId, fundspotId, selectedProductArray, cardNumber, cardType, getSpinnerMonth, getSpinnerYear, cvv, selectedCardId, checked, onBehalfOf, orderRequest, otherUser);
 
-                        Log.e("check", "-->" + onBehalfOf + "-->" + orderRequest + "--->" + otherUser + "--->" +userId +"--->" + firstName + "--->"+ lastName + "--->" + preference.getUserID());
+                        Log.e("check", "-->" + onBehalfOf + "-->" + orderRequest + "--->" + otherUser + "--->" + userId + "--->" + firstName + "--->" + lastName + "--->" + preference.getUserID());
 
                     }
                     addOrder.enqueue(new Callback<AppModel>() {
@@ -377,21 +377,20 @@ public class CardPaymentActivity extends AppCompatActivity {
                                     if (isCouponTimes) {
                                         Intent intent = new Intent(getApplicationContext(), Thankyou.class);
                                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                        intent.putExtra("selectedUserId" , "");
-                                        intent.putExtra("isCouponTimes" , isCouponTimes);
+                                        intent.putExtra("selectedUserId", "");
+                                        intent.putExtra("isCouponTimes", isCouponTimes);
                                         startActivity(intent);
-                                    }else if(isOrderTimes){
+                                    } else if (isOrderTimes) {
                                         Intent intent = new Intent(getApplicationContext(), Thankyou.class);
                                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                        intent.putExtra("isOtherUser" , isOtherUser);
-                                        intent.putExtra("name" , firstName);
-                                        intent.putExtra("selectedUserId" , userId);
+                                        intent.putExtra("isOtherUser", isOtherUser);
+                                        intent.putExtra("name", firstName);
+                                        intent.putExtra("selectedUserId", userId);
                                         intent.putExtra("org", campaignList.getUserOrganization().getTitle());
                                         intent.putExtra("fundspot", campaignList.getUserFundspot().getTitle());
-                                        intent.putExtra("fundTimes" , isFundTimes);
+                                        intent.putExtra("fundTimes", isFundTimes);
                                         startActivity(intent);
-                                    }
-                                    else {
+                                    } else {
                                         Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                         startActivity(intent);
@@ -419,8 +418,11 @@ public class CardPaymentActivity extends AppCompatActivity {
             }
         });
 
-        new GetMonthsAndYear().execute();
+       // new GetMonthsAndYear().execute();
+
+        MonthAndYears();
     }
+
 
     private void checkForSelectedMonth(String getSelectedItemMonth, String getSelectedItemYear) {
         int pos = 0;
@@ -459,7 +461,58 @@ public class CardPaymentActivity extends AppCompatActivity {
     }
 
 
-    public class GetMonthsAndYear extends AsyncTask<Void, Void, String> {
+
+
+
+    private void MonthAndYears() {
+        dialog.show();
+        Call<MonthYearModel> monthYearModelCall = adminAPI.GetMonthandYear(preference.getUserID(), preference.getTokenHash());
+        monthYearModelCall.enqueue(new Callback<MonthYearModel>() {
+            @Override
+            public void onResponse(Call<MonthYearModel> call, Response<MonthYearModel> response) {
+                dialog.dismiss();
+                months.clear();
+                year.clear();
+                MonthYearModel monthYearModel = response.body();
+                if (monthYearModel != null) {
+                    if (monthYearModel.isStatus()) {
+                        for (int i = 0; i < monthYearModel.getData().getMonths().size(); i++) {
+                            String getMonthsString = monthYearModel.getData().getMonths().get(i).toString();
+                            months.add(getMonthsString);
+                            Log.e("monthsString", "-->" + getMonthsString);
+                        }
+                        monthAdapter.notifyDataSetChanged();
+                        for (int j = 0; j < monthYearModel.getData().getYears().size(); j++) {
+                            String getYearsString = monthYearModel.getData().getYears().get(j).toString();
+                            year.add(getYearsString);
+                            Log.e("yearString", "-->" + getYearsString);
+                        }
+                        yearAdapter.notifyDataSetChanged();
+                    }
+                } else {
+                    C.INSTANCE.defaultError(getApplicationContext());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MonthYearModel> call, Throwable t) {
+                dialog.dismiss();
+                C.INSTANCE.errorToast(getApplicationContext(), t);
+            }
+        });
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        System.gc();
+    }
+
+
+// Following are the ASYNCTASK Services that are already converted to retrofit . If you found any issues in Retrofit API please refer the following.
+
+    /*public class GetMonthsAndYear extends AsyncTask<Void, Void, String> {
 
         @Override
         protected void onPreExecute() {
@@ -537,12 +590,7 @@ public class CardPaymentActivity extends AppCompatActivity {
                 }
             }
         }
-    }
+    }*/
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        System.gc();
-    }
 
 }

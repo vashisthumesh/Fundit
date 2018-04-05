@@ -18,8 +18,11 @@ import com.fundit.R;
 import com.fundit.a.AppPreference;
 import com.fundit.a.C;
 import com.fundit.a.W;
+import com.fundit.apis.AdminAPI;
+import com.fundit.apis.ServiceGenerator;
 import com.fundit.apis.ServiceHandler;
 import com.fundit.helper.CustomDialog;
+import com.fundit.model.AppModel;
 import com.squareup.picasso.Picasso;
 
 import org.apache.http.NameValuePair;
@@ -31,6 +34,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by NWSPL-17 on 03-Aug-17.
@@ -49,6 +55,7 @@ public class MemberRequestAdapter extends BaseAdapter {
     String json = "";
 
     CustomDialog dialog;
+    AdminAPI adminAPI;
 
 
     public MemberRequestAdapter(List<MemberRequestBean> memberRequestBeen, Activity activity, RespondRequest respondRequest) {
@@ -57,6 +64,7 @@ public class MemberRequestAdapter extends BaseAdapter {
         this.respondRequest = respondRequest;
         this.inflater = activity.getLayoutInflater();
         this.preference = new AppPreference(activity);
+        this.adminAPI = ServiceGenerator.getAPIClass();
 
     }
 
@@ -107,7 +115,9 @@ public class MemberRequestAdapter extends BaseAdapter {
             public void onClick(View v) {
                 String status = "1";
 
-                new RespondMemberRequest(status, memberId, position).execute();
+              //  new RespondMemberRequest(status, memberId, position).execute();
+
+                RespondGeneralMembersRequest(status , memberId , position);
 
 
             }
@@ -118,7 +128,9 @@ public class MemberRequestAdapter extends BaseAdapter {
             public void onClick(View v) {
                 String status = "2";
 
-                new RespondMemberRequest(status, memberId, position).execute();
+               // new RespondMemberRequest(status, memberId, position).execute();
+
+                RespondGeneralMembersRequest(status , memberId , position);
             }
         });
 
@@ -126,8 +138,59 @@ public class MemberRequestAdapter extends BaseAdapter {
         return view;
     }
 
+    private void RespondGeneralMembersRequest(String status, String memberId, int position) {
+        dialog = new CustomDialog(activity);
+        dialog.show();
+        dialog.setCancelable(false);
+        Call<AppModel> appModelCall = adminAPI.RespondRequest(preference.getUserID(), preference.getTokenHash(), memberId, status);
+        appModelCall.enqueue(new Callback<AppModel>() {
+            @Override
+            public void onResponse(Call<AppModel> call, Response<AppModel> response) {
+                dialog.dismiss();
+                AppModel model = response.body();
+                if (model != null) {
+                    if (model.isStatus()) {
 
-    public class RespondMemberRequest extends AsyncTask<Void, Void, String> {
+                        respondRequest.onClick();
+
+
+
+                    }
+
+                } else {
+                    C.INSTANCE.defaultError(context);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AppModel> call, Throwable t) {
+                dialog.dismiss();
+                C.INSTANCE.errorToast(context, t);
+            }
+        });
+
+
+
+
+
+
+    }
+
+
+
+
+
+    public interface RespondRequest {
+
+         void onClick();
+
+    }
+
+
+
+
+
+    /*public class RespondMemberRequest extends AsyncTask<Void, Void, String> {
 
         String getStatus = "";
         String getMemberId = "";
@@ -194,10 +257,10 @@ public class MemberRequestAdapter extends BaseAdapter {
 
                     C.INSTANCE.showToast(activity, message);
                     if (status == true) {
-                        /*Intent intent = new Intent(activity , HomeActivity.class);
-                        activity.startActivity(intent);*/
+                        *//*Intent intent = new Intent(activity , HomeActivity.class);
+                        activity.startActivity(intent);*//*
 
-                       // memberRequestBeen.remove(position);
+                        // memberRequestBeen.remove(position);
 
                         Log.e("yessClick" , "-->");
 
@@ -206,7 +269,7 @@ public class MemberRequestAdapter extends BaseAdapter {
                     }
                 }
 
-               // notifyDataSetChanged();
+                // notifyDataSetChanged();
 
 
             } catch (JSONException e) {
@@ -215,12 +278,5 @@ public class MemberRequestAdapter extends BaseAdapter {
 
 
         }
-    }
-
-
-    public interface RespondRequest {
-
-         void onClick();
-
-    }
+    }*/
 }

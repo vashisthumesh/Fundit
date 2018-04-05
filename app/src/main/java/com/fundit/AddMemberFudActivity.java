@@ -868,7 +868,7 @@ public class AddMemberFudActivity extends AppCompatActivity {
     }
 
 
-    // Following are the ASYNCTASK Services that are already converted to retrofit . If you find any issues in Retrofit API please refer the following.
+    // Following are the ASYNCTASK Services that are already converted to retrofit . If you found any issues in Retrofit API please refer the following.
 
 
 

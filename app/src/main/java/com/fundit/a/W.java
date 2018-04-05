@@ -17,7 +17,7 @@ public class W {
    // public static final String BASE_URL = "http://app.nivida.in/bita_fundit/"; //Online URL
     //public static final String BASE_URL = "http://192.168.1.110/fundit/"; // Local URL
     public static final String BASE_URL = "https://ifundit.us/"; // US URL
-    public static final String ASYNC_BASE_URL = "http://ifundit.us/"; // US URL
+    public static final String ASYNC_BASE_URL = "https://ifundit.us/"; // US URL
     public static final String FILE_URL = BASE_URL + "files/";
 
 
@@ -136,6 +136,11 @@ public class W {
     public static final String AddGeneralMember = "Member/app_add_member";
     public static final String UpdateQTY = "Order/App_Update_Qty";
     public static final String RespondRequest = "Member/app_respond_member_request";
+    public static final String AppFeedback = "User/App_Feedback";
+    public static final String MonthAndYear = "User/b_card_month_year";
+    public static final String AddCard = "BankCard/app_add_card";
+    public static final String EditCard = "BankCard/app_edit_card";
+    public static final String Statistic = "Campaign/app_get_campaign_stats";
 
 
 

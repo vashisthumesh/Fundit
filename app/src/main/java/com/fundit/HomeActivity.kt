@@ -143,6 +143,7 @@ class HomeActivity : AppCompatActivity() {
         Log.e("redemerId", "-->" + member.redeemer.toString())
         Log.e("redemerIdss", "-->" + preference?.getRedeemer())
 
+
         if (preference?.userRoleID.equals(C.FUNDSPOT) /*|| (preference?.userRoleID.equals(C.GENERAL_MEMBER) && member.redeemer.equals("1")) || preference?.getRedeemer()!!.equals("1")*/) {
             Log.e("totalReddermer", "4")
             img_qrscan?.visibility = View.VISIBLE
@@ -318,7 +319,7 @@ class HomeActivity : AppCompatActivity() {
 
 
         if (Internet.isConnectingToInternet(applicationContext))
-            //GetNotificationCount().execute()
+        //GetNotificationCount().execute()
             GetNotificationCountGlobal(preference?.userID!!, preference?.tokenHash!!)
         else
             Internet.noInternet(applicationContext)
@@ -344,6 +345,7 @@ class HomeActivity : AppCompatActivity() {
                     fragment = HomeFragment()
                 }
                 C.FUNDSPOT -> {
+                    Log.e("totalReddermer", "25")
                     img_qrscan?.visibility = View.VISIBLE
                     fragment = HomeFragment()
                 }
@@ -366,6 +368,7 @@ class HomeActivity : AppCompatActivity() {
             actionTitle?.visibility = View.VISIBLE
             img_edit?.visibility = View.VISIBLE
             img_qrscan?.visibility = View.GONE
+            Log.e("totalReddermer", "10")
             toolbar_add_to_cart?.visibility = View.GONE
             img_notification.visibility = View.GONE
             cartCount?.visibility = View.GONE
@@ -378,6 +381,7 @@ class HomeActivity : AppCompatActivity() {
             actionTitle?.visibility = View.VISIBLE
             img_edit?.visibility = View.GONE
             img_qrscan?.visibility = View.GONE
+            Log.e("totalReddermer", "11")
             toolbar_add_to_cart?.visibility = View.GONE
             img_notification?.visibility = View.GONE
             cartCount?.visibility = View.GONE
@@ -441,6 +445,7 @@ class HomeActivity : AppCompatActivity() {
 
         } else if (position == 6) {
             img_qrscan?.visibility = View.INVISIBLE
+            Log.e("totalReddermer", "12")
             actionTitle?.visibility = View.VISIBLE
             img_edit?.visibility = View.GONE
             toolbar_add_to_cart?.visibility = View.GONE
@@ -507,6 +512,7 @@ class HomeActivity : AppCompatActivity() {
             actionTitle?.visibility = View.VISIBLE
             img_edit?.visibility = View.GONE
             img_qrscan?.visibility = View.GONE
+            Log.e("totalReddermer", "13")
             toolbar_add_to_cart?.visibility = View.GONE
             img_notification?.visibility = View.GONE
             cartCount?.visibility = View.GONE
@@ -548,6 +554,7 @@ class HomeActivity : AppCompatActivity() {
             actionTitle?.visibility = View.VISIBLE
             img_edit?.visibility = View.GONE
             img_qrscan?.visibility = View.GONE
+            Log.e("totalReddermer", "14")
             toolbar_add_to_cart?.visibility = View.GONE
             img_notification?.visibility = View.GONE
             cartCount?.visibility = View.GONE
@@ -560,6 +567,7 @@ class HomeActivity : AppCompatActivity() {
             actionTitle?.visibility = View.VISIBLE
             img_edit?.visibility = View.GONE
             img_qrscan?.visibility = View.GONE
+            Log.e("totalReddermer", "15")
             toolbar_add_to_cart?.visibility = View.GONE
             img_notification?.visibility = View.GONE
             cartCount?.visibility = View.GONE
@@ -579,6 +587,7 @@ class HomeActivity : AppCompatActivity() {
             actionTitle?.visibility = View.VISIBLE
             img_edit?.visibility = View.VISIBLE
             img_qrscan?.visibility = View.GONE
+            Log.e("totalReddermer", "16")
             toolbar_add_to_cart?.visibility = View.GONE
             img_notification.visibility = View.GONE
             cartCount?.visibility = View.GONE
@@ -590,6 +599,7 @@ class HomeActivity : AppCompatActivity() {
             transaction?.commit()
         } else if (preference?.getRedirection().equals("6")) {
             img_qrscan?.visibility = View.INVISIBLE
+            Log.e("totalReddermer", "17")
             actionTitle?.visibility = View.VISIBLE
             img_edit?.visibility = View.GONE
             toolbar_add_to_cart?.visibility = View.GONE
@@ -866,8 +876,8 @@ class HomeActivity : AppCompatActivity() {
                         var memberRequest = 0
                         var campaignRequestCount = 0
 
-                        memberRequest = Integer.parseInt(countModel.total_request_count)
-                        campaignRequestCount = Integer.parseInt(countModel.total_member_request_count)
+                        campaignRequestCount = Integer.parseInt(countModel.total_request_count)
+                        memberRequest = Integer.parseInt(countModel.total_member_request_count)
 
                         totalRequest = memberRequest + campaignRequestCount
 
@@ -884,21 +894,21 @@ class HomeActivity : AppCompatActivity() {
                         Log.e("GlobalSuccess", "---->")
 
 
+
                         navigationAdapter?.notifyDataSetChanged()
 
-
                         if (isResume == false) {
-                            Log.e("cartCount" , "-->" + cartCount?.text.toString())
+                            Log.e("cartCount", "-->" + cartCount?.text.toString())
                             if (cartCount?.text.toString().equals("0") || cartCount?.text.toString().equals("") || cartCount?.text.toString().isEmpty()) {
                                 cartCount?.visibility = View.GONE
                             } else {
                                 cartCount?.visibility = View.VISIBLE
                             }
 
+                        }
 
-
-                            if (preference?.userRoleID.equals(C.FUNDSPOT)) //*|| (preference?.userRoleID.equals(C.GENERAL_MEMBER) && member.redeemer.equals("1")) || preference?.getRedeemer()!!.equals("1")*//*) {
-                                Log.e("totalReddermer", "1")
+                        if (preference?.userRoleID.equals(C.FUNDSPOT)) { //*|| (preference?.userRoleID.equals(C.GENERAL_MEMBER) && member.redeemer.equals("1")) || preference?.getRedeemer()!!.equals("1")*//*) {
+                            Log.e("totalReddermer", "1")
 
                             img_qrscan?.visibility = View.VISIBLE
                         } else if (preference?.getRedeemer() == 1) {
@@ -911,6 +921,7 @@ class HomeActivity : AppCompatActivity() {
 
 
 
+                        Log.e("checkVisibility", "-->" + img_qrscan.visibility)
 
                         isResume = false
 

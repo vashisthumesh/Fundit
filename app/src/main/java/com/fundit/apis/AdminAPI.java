@@ -3,6 +3,7 @@ package com.fundit.apis;
 import android.provider.ContactsContract;
 
 import com.fundit.a.W;
+import com.fundit.model.AddCardModel;
 import com.fundit.model.Address;
 import com.fundit.model.AppModel;
 import com.fundit.model.App_Single_Fundspot;
@@ -19,12 +20,15 @@ import com.fundit.model.Fundspot;
 import com.fundit.model.FundspotListResponse;
 import com.fundit.model.FundspotListResponseFundspot;
 import com.fundit.model.GeneralMemberProfileResponse;
+import com.fundit.model.GetAllCampaignModel;
 import com.fundit.model.GetDataResponses;
 import com.fundit.model.GetSearchPeople;
 import com.fundit.model.InboxMessagesResponse;
 import com.fundit.model.JoinMemberModel;
 import com.fundit.model.MemberListResponse;
+import com.fundit.model.MemberRequestModel;
 import com.fundit.model.MemberResponse;
+import com.fundit.model.MonthYearModel;
 import com.fundit.model.News_model;
 import com.fundit.model.NotificationCampaignModel;
 import com.fundit.model.NotificationCountModel;
@@ -34,6 +38,7 @@ import com.fundit.model.OrganizationResponse;
 import com.fundit.model.ProductListResponse;
 import com.fundit.model.QRScanModel;
 import com.fundit.model.RegisterResponse;
+import com.fundit.model.StatisticModel;
 import com.fundit.model.UniqueEmailResponse;
 import com.fundit.model.VerifyResponse;
 
@@ -444,5 +449,38 @@ public interface AdminAPI {
     @FormUrlEncoded
     @POST(W.RespondRequest)
     Call<AppModel> RespondRequest (@Field(W.KEY_USERID) String userId , @Field(W.KEY_TOKEN) String tokenHash , @Field("member_id") String memberId , @Field("status") String status);
+
+
+    @FormUrlEncoded
+    @POST(W.AppFeedback)
+    Call<AppModel> SendUsersFeedback (@Field(W.KEY_USERID) String userId , @Field("full_name") String fullName , @Field("comment") String comment , @Field("email_id") String emailId);
+
+
+    @FormUrlEncoded
+    @POST(W.MonthAndYear)
+    Call<MonthYearModel> GetMonthandYear (@Field(W.KEY_USERID) String userId , @Field(W.KEY_TOKEN) String tokenHash);
+
+    @FormUrlEncoded
+    @POST(W.AddCard)
+    Call<AddCardModel> AddCard (@Field("first_name") String firstName , @Field("last_name") String lastName , @Field("address") String address , @Field("city") String city , @Field("state") String state , @Field("country") String country , @Field("phone") String phone , @Field("is_card_save") String isCardSave , @Field(W.KEY_USERID) String userId , @Field(W.KEY_TOKEN) String tokenHash , @Field("bcard_type") String cardType , @Field("bcard_number") String cardNumber , @Field("bexp_month") String expMonth , @Field("bexp_year") String expYear , @Field("zip_code") String zipCode);
+
+
+    @FormUrlEncoded
+    @POST(W.AppFeedback)
+    Call<AppModel> EditCard (@Field(W.KEY_USERID) String userId , @Field(W.KEY_TOKEN) String tokenHash , @Field("bcard_type") String cardType , @Field("bcard_number") String cardNumber , @Field("bexp_month") String expMonth , @Field("bexp_year") String expYear , @Field("zip_code") String zipCode , @Field("id") String editedId);
+
+
+    @FormUrlEncoded
+    @POST(W.GetProductsFundspotProducts)
+    Call<GetAllCampaignModel> CampaignProductsModel (@Field(W.KEY_USERID) String userId , @Field(W.KEY_TOKEN) String tokenHash , @Field("product_id") String productId , @Field("fundspot_id") String fundspotId);
+
+    @FormUrlEncoded
+    @POST(W.Statistic)
+    Call<StatisticModel> STATISTIC_MODEL_CALL (@Field("campaign_id") String campaignId);
+
+
+    @FormUrlEncoded
+    @POST(W.MemberRequest)
+    Call<MemberRequestModel> MEMBER_REQUEST_MODEL_CALL (@Field(W.KEY_USERID) String userId , @Field(W.KEY_TOKEN) String tokenHash , @Field("status") String status , @Field("organization_id") String organizationId , @Field("fundspot_id") String fundspotId);
 
 }

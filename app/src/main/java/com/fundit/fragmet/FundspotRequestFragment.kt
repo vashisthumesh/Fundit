@@ -84,6 +84,8 @@ class FundspotRequestFragment : Fragment() {
 
         var getTotalCount = preference?.campaignCount
 
+        Log.e("campaignCount" , "--->" + getTotalCount)
+
         if(getTotalCount!! <= 0){
             requestLayout?.visibility = View.GONE
         }

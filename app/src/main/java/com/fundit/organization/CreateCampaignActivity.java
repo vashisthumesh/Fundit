@@ -32,6 +32,7 @@ import com.fundit.apis.ServiceGenerator;
 import com.fundit.apis.ServiceHandler;
 import com.fundit.helper.CustomDialog;
 import com.fundit.model.FundspotListResponse;
+import com.fundit.model.GetAllCampaignModel;
 import com.fundit.model.ProductListResponse;
 import com.fundit.model.VerifyResponse;
 import com.google.gson.Gson;
@@ -299,7 +300,7 @@ public class CreateCampaignActivity extends AppCompatActivity {
                     intent.putExtra("couponExpiry", couponExpiry);
                     //intent.putExtra("couponFinePrint", couponFinePrint);
                     intent.putStringArrayListExtra("products", selectedProducts);
-                    intent.putExtra("isProfileMode" , isProfileMode);
+                    intent.putExtra("isProfileMode", isProfileMode);
                     startActivityForResult(intent, NEXT_STEP);
                 }
             }
@@ -336,11 +337,15 @@ public class CreateCampaignActivity extends AppCompatActivity {
 
             }
             Log.e("selectedProducts", "-->" + selectedProducts);
-            new GetAllDatas().execute();
+          //  new GetAllDatas().execute();
+
+            GetAllProductsdatas();
+
 //             auto_searchFundspot.setText("");
         }
 
     }
+
 
     private void setupToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarCenterText);
@@ -393,7 +398,9 @@ public class CreateCampaignActivity extends AppCompatActivity {
 
 
             Log.e("selectedProducts", "-->" + selectedProducts);
-            new GetAllDatas().execute();
+           // new GetAllDatas().execute();
+
+            GetAllProductsdatas();
 
             auto_searchFundspot.setText("");
             //fillupSelectedData();
@@ -450,7 +457,72 @@ public class CreateCampaignActivity extends AppCompatActivity {
     }
 
 
-    public class GetAllDatas extends AsyncTask<Void, Void, String> {
+
+
+
+    private void GetAllProductsdatas() {
+        dialog.show();
+        Call<GetAllCampaignModel> campaignModelCall = adminAPI.CampaignProductsModel(preference.getUserID(), preference.getTokenHash(), jsonArrayProductId.toString(), selectedFundSpotID);
+        campaignModelCall.enqueue(new Callback<GetAllCampaignModel>() {
+            @Override
+            public void onResponse(Call<GetAllCampaignModel> call, Response<GetAllCampaignModel> response) {
+                dialog.dismiss();
+                GetAllCampaignModel getAllCampaignModel = response.body();
+                if (getAllCampaignModel != null) {
+                    if (getAllCampaignModel.isStatus()) {
+
+                        auto_searchFundspot.setText(getAllCampaignModel.getData().getFundspot().getTitle());
+                        edt_organizationSplit.setText(getAllCampaignModel.getData().getFundspot().getOrganization_percent());
+                        edt_couponExpireDay.setText(getAllCampaignModel.getData().getFundspot().getCoupon_expire_day());
+                        edt_campaignDuration.setText(getAllCampaignModel.getData().getFundspot().getCampaign_duration());
+                        edt_maxLimitCoupon.setText("$" + String.format("%.2f", Double.parseDouble(getAllCampaignModel.getData().getFundspot().getMax_limit_of_coupon_price())));
+
+
+                        if (edt_campaignDuration.getText().toString().trim().equalsIgnoreCase("0")) {
+                            chk_indefinite.setChecked(true);
+                        }
+
+                        auto_searchFundspot.setEnabled(false);
+                        edt_organizationSplit.setEnabled(false);
+                        edt_couponExpireDay.setEnabled(false);
+                        edt_campaignDuration.setEnabled(false);
+                        //edt_maxLimitCoupon.setEnabled(false);
+
+                        fundspotBeen.clear();
+                        fundspotBeen.addAll(getAllCampaignModel.getData().getProduct());
+
+
+                        listSelectedProducts.setVisibility(View.VISIBLE);
+                        productListAdapter.notifyDataSetChanged();
+
+
+                    }
+
+                } else {
+                    C.INSTANCE.defaultError(getApplicationContext());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetAllCampaignModel> call, Throwable t) {
+                dialog.dismiss();
+                C.INSTANCE.errorToast(getApplicationContext(), t);
+            }
+        });
+
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
+
+
+// Following are the ASYNCTASK Services that are already converted to retrofit . If you found any issues in Retrofit API please refer the following.
+
+
+    /*public class GetAllDatas extends AsyncTask<Void, Void, String> {
 
         @Override
         protected void onPreExecute() {
@@ -484,7 +556,7 @@ public class CreateCampaignActivity extends AppCompatActivity {
             json = new ServiceHandler(getApplicationContext()).makeServiceCall(W.ASYNC_BASE_URL + W.GetProductsFundspotProducts, ServiceHandler.POST, pairs);
 
 
-            Log.e("parameters", "" + pairs);
+            Log.e("parametersCreate", "" + pairs);
             Log.e("json", json);
 
             return json;
@@ -572,12 +644,7 @@ public class CreateCampaignActivity extends AppCompatActivity {
 
 
         }
-    }
-
-    @Override
-    public void onBackPressed() {
-        finish();
-    }
+    }*/
 
 
 }

@@ -25,6 +25,7 @@ import com.fundit.apis.ServiceGenerator;
 import com.fundit.apis.ServiceHandler;
 import com.fundit.helper.CustomDialog;
 import com.fundit.model.Member;
+import com.fundit.model.MemberRequestModel;
 import com.fundit.model.Organization;
 import com.fundit.model.User;
 import com.google.gson.Gson;
@@ -37,6 +38,10 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by NWSPL-17 on 03-Aug-17.
@@ -64,8 +69,7 @@ public class MemberRequestFragment extends Fragment implements MemberRequestAdap
     LinearLayout layout_request;
     TextView txt_count;
 
-    boolean isRefereshTimes  = false ;
-
+    boolean isRefereshTimes = false;
 
 
     public MemberRequestFragment() {
@@ -83,11 +87,11 @@ public class MemberRequestFragment extends Fragment implements MemberRequestAdap
             member = new Gson().fromJson(preference.getMemberData(), Member.class);
             organization = new Gson().fromJson(preference.getMemberData(), Organization.class);
             Log.e("userData", preference.getUserData());
-            Log.e("memberData" , preference.getMemberData());
+            Log.e("memberData", preference.getMemberData());
 
-            Log.e("orgid" , "1" + member.getOrganization().getId());
-            Log.e("orgid" , "2" + member.getOrganization().getOrganization_id());
-            Log.e("orgid" , "3" + member.getId());
+            Log.e("orgid", "1" + member.getOrganization().getId());
+            Log.e("orgid", "2" + member.getOrganization().getOrganization_id());
+            Log.e("orgid", "3" + member.getId());
 
         } catch (Exception e) {
             Log.e("Exception", e.getMessage());
@@ -101,26 +105,28 @@ public class MemberRequestFragment extends Fragment implements MemberRequestAdap
 
     private void fetchIDs() {
 
-        layout_request = (LinearLayout) view.findViewById(R.id.layout_request) ;
-        txt_count = (TextView) view.findViewById(R.id.txt_count) ;
+        layout_request = (LinearLayout) view.findViewById(R.id.layout_request);
+        txt_count = (TextView) view.findViewById(R.id.txt_count);
 
 
         list_mrequest = (ListView) view.findViewById(R.id.list_mrequest);
-        memberRequestAdapter = new MemberRequestAdapter(requestBeen, getActivity() , this);
+        memberRequestAdapter = new MemberRequestAdapter(requestBeen, getActivity(), this);
         list_mrequest.setAdapter(memberRequestAdapter);
 
         int getCount = preference.getMemberCount();
 
-        if(getCount <=0){
+        Log.e("count" , "-->" + getCount);
+
+        if (getCount <= 0) {
             layout_request.setVisibility(View.GONE);
-        }else {
+        } else {
             txt_count.setText(String.valueOf(getCount));
         }
 
 
+       // new GetMemberRequests().execute();
 
-
-        new GetMemberRequests().execute();
+        GetAllMemberRequest();
 
 
     }
@@ -128,19 +134,111 @@ public class MemberRequestFragment extends Fragment implements MemberRequestAdap
     @Override
     public void onClick() {
 
-        Log.e("letsCheckClick" , "-->");
-        isRefereshTimes = true ;
-        new GetMemberRequests().execute();
+        Log.e("letsCheckClick", "-->");
+        isRefereshTimes = true;
+       // new GetMemberRequests().execute();
 
+        GetAllMemberRequest();
 
     }
 
 
-    public class GetMemberRequests extends AsyncTask<Void, Void, String> {
+
+
+
+    private void GetAllMemberRequest() {
+        String organizationsId = null, fundspotsId = null;
+        if (preference.getUserRoleID().equalsIgnoreCase(C.ORGANIZATION)) {
+            organizationsId = preference.getUserID();
+        }
+        if (preference.getUserRoleID().equalsIgnoreCase(C.FUNDSPOT)) {
+            fundspotsId = preference.getUserID();
+        }
+        dialog.show();
+        final Call<MemberRequestModel> requestModelCall = adminAPI.MEMBER_REQUEST_MODEL_CALL(preference.getUserID(), preference.getTokenHash(), "0", organizationsId, fundspotsId);
+        requestModelCall.enqueue(new Callback<MemberRequestModel>() {
+            @Override
+            public void onResponse(Call<MemberRequestModel> call, Response<MemberRequestModel> response) {
+                dialog.dismiss();
+                requestBeen.clear();
+                MemberRequestModel requestModel = response.body();
+                if (requestModel != null) {
+                    if (requestModel.isStatus()) {
+
+                        for (int i = 0; i < requestModel.getData().size(); i++) {
+
+                            MemberRequestBean memberRequestBean = new MemberRequestBean();
+
+                            memberRequestBean.setMemberId(requestModel.getData().get(i).getMember().getId());
+                            memberRequestBean.setLocation(requestModel.getData().get(i).getMember().getLocation());
+                            memberRequestBean.setZip_code(requestModel.getData().get(i).getMember().getZip_code());
+                            memberRequestBean.setContact_info(requestModel.getData().get(i).getMember().getContact_info());
+                            memberRequestBean.setImage(requestModel.getData().get(i).getMember().getImage());
+                            memberRequestBean.setFirst_name(requestModel.getData().get(i).getMember().getFirst_name());
+                            memberRequestBean.setLast_name(requestModel.getData().get(i).getMember().getLast_name());
+
+
+                            memberRequestBean.setUserId(requestModel.getData().get(i).getUser().getId());
+                            memberRequestBean.setRole_id(requestModel.getData().get(i).getUser().getRole_id());
+                            memberRequestBean.setTitle(requestModel.getData().get(i).getUser().getTitle());
+                            memberRequestBean.setEmail_id(requestModel.getData().get(i).getUser().getEmail_id());
+
+
+                            memberRequestBean.setState_name(requestModel.getData().get(i).getState().getName());
+
+                            memberRequestBean.setCity_name(requestModel.getData().get(i).getCity().getName());
+
+
+                            requestBeen.add(memberRequestBean);
+
+                        }
+                    }
+
+                    memberRequestAdapter.notifyDataSetChanged();
+
+                    if (isRefereshTimes == true) {
+                        J.GetNotificationCountGlobal(preference.getUserID(), preference.getTokenHash(), preference, getContext(), getActivity());
+                    }
+
+                    isRefereshTimes = false;
+
+                    RefreshLayout();
+
+
+                } else {
+                    C.INSTANCE.defaultError(getActivity());
+                }
+
+
+            }
+
+            @Override
+            public void onFailure(Call<MemberRequestModel> call, Throwable t) {
+                dialog.dismiss();
+                C.INSTANCE.errorToast(getActivity(), t);
+            }
+        });
+
+
+    }
+
+    private void RefreshLayout() {
+        Log.e("seeChecking", "--->" + preference.getMemberCount());
+        if (requestBeen.size() == 0 || preference.getMemberCount()<=0) {
+            layout_request.setVisibility(View.GONE);
+        } else {
+            layout_request.setVisibility(View.VISIBLE);
+        }
+    }
+
+// Following are the ASYNCTASK Services that are already converted to retrofit . If you found any issues in Retrofit API please refer the following.
+
+
+    /*public class GetMemberRequests extends AsyncTask<Void, Void, String> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            if(isRefereshTimes==false) {
+            if (isRefereshTimes == false) {
                 try {
 
 
@@ -177,8 +275,8 @@ public class MemberRequestFragment extends Fragment implements MemberRequestAdap
             json = new ServiceHandler(getContext()).makeServiceCall(W.ASYNC_BASE_URL + W.MemberRequest, ServiceHandler.POST, pairs);
 
 
-            Log.e("paramters" ,"" + pairs);
-            Log.e("json" , json);
+            Log.e("paramtersMember", "" + pairs);
+            Log.e("json", json);
 
 
             return json;
@@ -204,12 +302,12 @@ public class MemberRequestFragment extends Fragment implements MemberRequestAdap
 
                     status = mainObject.getBoolean("status");
                     message = mainObject.getString("message");
-                    Log.e("Letssee" , "-->" + mainObject.getBoolean("status"));
-                    if (status==true) {
+                    Log.e("Letssee", "-->" + mainObject.getBoolean("status"));
+                    if (status == true) {
 
 
                         JSONArray dataAraay = mainObject.getJSONArray("data");
-                        Log.e("Letssee" , "-->" + mainObject.getJSONArray("data"));
+                        Log.e("Letssee", "-->" + mainObject.getJSONArray("data"));
                         for (int i = 0; i < dataAraay.length(); i++) {
 
 
@@ -244,20 +342,19 @@ public class MemberRequestFragment extends Fragment implements MemberRequestAdap
                             memberRequestBean.setCity_name(cityObject.getString("name"));
 
 
-
                             requestBeen.add(memberRequestBean);
 
                         }
 
-                    }else {
+                    } else {
 
                     }
 
 
                     memberRequestAdapter.notifyDataSetChanged();
 
-                    if(isRefereshTimes==true){
-                        J.GetNotificationCountGlobal(preference.getUserID() , preference.getTokenHash() , preference , getContext() , getActivity());
+                    if (isRefereshTimes == true) {
+                        J.GetNotificationCountGlobal(preference.getUserID(), preference.getTokenHash(), preference, getContext(), getActivity());
                     }
 
                     isRefereshTimes = false;
@@ -270,15 +367,7 @@ public class MemberRequestFragment extends Fragment implements MemberRequestAdap
 
 
         }
-    }
+    }*/
 
-    private void RefreshLayout() {
-        Log.e("seeChecking" , "--->" + preference.getMemberCount());
-        if(requestBeen.size()==0){
-            layout_request.setVisibility(View.GONE);
-        }else {
-            layout_request.setVisibility(View.VISIBLE);
-        }
-    }
 
 }

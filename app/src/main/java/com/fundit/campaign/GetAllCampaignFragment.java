@@ -94,7 +94,7 @@ public class GetAllCampaignFragment extends Fragment {
     }
 
 
-    public class GetAllCampaign extends AsyncTask<Void, Void, String> {
+   /* public class GetAllCampaign extends AsyncTask<Void, Void, String> {
 
 
         @Override
@@ -182,7 +182,7 @@ public class GetAllCampaignFragment extends Fragment {
 
 
         }
-    }
+    }*/
 
 
 

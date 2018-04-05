@@ -186,7 +186,7 @@ public class RedeemActivity extends AppCompatActivity {
                 } else if (finalQuantities == 0) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please Enter Quantity Atleast 1 Quantity");
                 } else {
-                    new RedeemQuantity(productId, remainingQty).execute();
+                  //  new RedeemQuantity(productId, remainingQty).execute();
                 }
             }
         });
@@ -218,6 +218,103 @@ public class RedeemActivity extends AppCompatActivity {
             }
         });
     }
+
+
+
+
+    //This Activity has no longer useage in Application So the following AsyncTask Service is not necessary to convert to retrofit.
+
+    /*public class RedeemQuantity extends AsyncTask<Void, Void, String> {
+
+        String productId = "";
+        String qty = "";
+
+        public RedeemQuantity(String productId, String qty) {
+            this.productId = productId;
+            this.qty = qty;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            try {
+
+                dialog.show();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            }
+        }
+
+
+        @Override
+        protected String doInBackground(Void... params) {
+
+            List<NameValuePair> pairs = new ArrayList<>();
+
+            pairs.add(new BasicNameValuePair("order_product_id", productId));
+            if (product_type_id.equalsIgnoreCase("2")) {
+                pairs.add(new BasicNameValuePair("left_money", qty));
+            } else {
+                pairs.add(new BasicNameValuePair("left_qty", qty));
+            }
+
+            String json = new ServiceHandler(getApplicationContext()).makeServiceCall(W.ASYNC_BASE_URL + "Order/App_Update_Qty", ServiceHandler.POST, pairs);
+
+            Log.e("parameters", "-->" + pairs);
+            Log.e("json", "-->" + json);
+
+
+            return json;
+        }
+
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
+
+            if (s.isEmpty()) {
+
+
+                C.INSTANCE.defaultError(getApplicationContext());
+
+
+            } else {
+
+                try {
+                    JSONObject mainObject = new JSONObject(s);
+
+                    boolean status = false;
+                    String message = "";
+
+
+                    status = mainObject.getBoolean("status");
+                    message = mainObject.getString("message");
+
+                    if (status) {
+                        C.INSTANCE.showToast(getApplicationContext(), "This coupon was successfully redeemed");
+
+                        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+
+
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+
+
+        }
+    }
+
 
     public class CheckQRDetails extends AsyncTask<Void, Void, String> {
 
@@ -312,96 +409,14 @@ public class RedeemActivity extends AppCompatActivity {
         }
     }
 
-    public class RedeemQuantity extends AsyncTask<Void, Void, String> {
-
-        String productId = "";
-        String qty = "";
-
-        public RedeemQuantity(String productId, String qty) {
-            this.productId = productId;
-            this.qty = qty;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            try {
-
-                dialog.show();
-
-            } catch (Exception e) {
-                e.printStackTrace();
-
-            }
-        }
 
 
-        @Override
-        protected String doInBackground(Void... params) {
-
-            List<NameValuePair> pairs = new ArrayList<>();
-
-            pairs.add(new BasicNameValuePair("order_product_id", productId));
-            if (product_type_id.equalsIgnoreCase("2")) {
-                pairs.add(new BasicNameValuePair("left_money", qty));
-            } else {
-                pairs.add(new BasicNameValuePair("left_qty", qty));
-            }
-
-            String json = new ServiceHandler(getApplicationContext()).makeServiceCall(W.ASYNC_BASE_URL + "Order/App_Update_Qty", ServiceHandler.POST, pairs);
-
-            Log.e("parameters", "-->" + pairs);
-            Log.e("json", "-->" + json);
 
 
-            return json;
-        }
 
 
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
 
-
-            if (s.isEmpty()) {
-
-
-                C.INSTANCE.defaultError(getApplicationContext());
-
-
-            } else {
-
-                try {
-                    JSONObject mainObject = new JSONObject(s);
-
-                    boolean status = false;
-                    String message = "";
-
-
-                    status = mainObject.getBoolean("status");
-                    message = mainObject.getString("message");
-
-                    if (status) {
-                        C.INSTANCE.showToast(getApplicationContext(), "This coupon was successfully redeemed");
-
-                        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(intent);
-
-
-                    }
-
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-
-            }
-
-
-        }
-    }
+    */
 
     @Override
     protected void onResume() {

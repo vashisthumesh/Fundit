@@ -32,9 +32,13 @@ import com.fundit.fragmet.MyCardsFragment;
 import com.fundit.helper.CreditCardPattern;
 import com.fundit.helper.CustomDialog;
 import com.fundit.helper.DatePickerDialogWithTitle;
+import com.fundit.model.AddCardModel;
+import com.fundit.model.AppModel;
 import com.fundit.model.AreaItem;
 import com.fundit.model.AreaResponse;
+import com.fundit.model.CompleteOrderModel;
 import com.fundit.model.Member;
+import com.fundit.model.MonthYearModel;
 import com.google.gson.Gson;
 
 import org.apache.http.NameValuePair;
@@ -106,7 +110,7 @@ public class MyCardDetailsActivity extends AppCompatActivity {
         adminAPI = ServiceGenerator.getAPIClass();
 
         preference = new AppPreference(getApplicationContext());
-        dialog = new CustomDialog(getApplicationContext());
+        dialog = new CustomDialog(MyCardDetailsActivity.this);
 
         creditCardPattern = new CreditCardPattern(getApplicationContext());
 
@@ -141,28 +145,28 @@ public class MyCardDetailsActivity extends AppCompatActivity {
 
     private void fetchIds() {
 
-            textview_credit_card = (CreditCardEditText) findViewById(R.id.textview_credit_card);
-            textview_credit_card.setCreditCardEditTextListener(creditCardPattern);
-            btn_continue = (Button) findViewById(R.id.btn_continue);
+        textview_credit_card = (CreditCardEditText) findViewById(R.id.textview_credit_card);
+        textview_credit_card.setCreditCardEditTextListener(creditCardPattern);
+        btn_continue = (Button) findViewById(R.id.btn_continue);
 
-            spn_month = (Spinner) findViewById(R.id.spn_month);
-            spn_year = (Spinner) findViewById(R.id.spn_year);
-            spn_state = (Spinner) findViewById(R.id.sp_state);
-            edt_firstname = (EditText) findViewById(R.id.edt_firstname);
-            edt_lastname = (EditText) findViewById(R.id.edt_lastname);
-            edt_city = (EditText) findViewById(R.id.edt_city);
-            edt_address = (EditText) findViewById(R.id.edt_address);
+        spn_month = (Spinner) findViewById(R.id.spn_month);
+        spn_year = (Spinner) findViewById(R.id.spn_year);
+        spn_state = (Spinner) findViewById(R.id.sp_state);
+        edt_firstname = (EditText) findViewById(R.id.edt_firstname);
+        edt_lastname = (EditText) findViewById(R.id.edt_lastname);
+        edt_city = (EditText) findViewById(R.id.edt_city);
+        edt_address = (EditText) findViewById(R.id.edt_address);
 
-            stateAdapter = new ArrayAdapter<String>(this, R.layout.spinner_textview, stateNames);
-            spn_state.setAdapter(stateAdapter);
-            monthAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_textview, months);
-            spn_month.setAdapter(monthAdapter);
+        stateAdapter = new ArrayAdapter<String>(this, R.layout.spinner_textview, stateNames);
+        spn_state.setAdapter(stateAdapter);
+        monthAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_textview, months);
+        spn_month.setAdapter(monthAdapter);
 
-            yearAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_textview, year);
-            spn_year.setAdapter(yearAdapter);
+        yearAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_textview, year);
+        spn_year.setAdapter(yearAdapter);
 
-            edtZip = (EditText) findViewById(R.id.edt_zip);
-            edtZip.setText(member.getZip_code());
+        edtZip = (EditText) findViewById(R.id.edt_zip);
+        edtZip.setText(member.getZip_code());
 
 
         if (editMode == true) {
@@ -268,10 +272,15 @@ public class MyCardDetailsActivity extends AppCompatActivity {
 
                     if (editMode == true) {
 
-                        new EditCard(cardType, cardNumber, getSpinnerMonth, getSpinnerYear, getZipCode).execute();
+                        //  new EditCard(cardType, cardNumber, getSpinnerMonth, getSpinnerYear, getZipCode).execute();
+
+                        EditUsersCard(cardType, cardNumber, getSpinnerMonth, getSpinnerYear, getZipCode);
                     } else {
 
-                        new AddCard(firstname, lastname, address, city, state, cardType, cardNumber, getSpinnerMonth, getSpinnerYear, getZipCode).execute();
+                        //  new AddCard(firstname, lastname, address, city, state, cardType, cardNumber, getSpinnerMonth, getSpinnerYear, getZipCode).execute();
+
+                        AddUsersCard(firstname, lastname, address, city, state, cardType, cardNumber, getSpinnerMonth, getSpinnerYear, getZipCode);
+
                     }
 
 
@@ -280,11 +289,174 @@ public class MyCardDetailsActivity extends AppCompatActivity {
             }
         });
 
-        new GetMonthsAndYear().execute();
+        // new GetMonthsAndYear().execute();
+
+        MonthAndYears();
+    }
+
+    private void AddUsersCard(String firstname, String lastname, String address, String city, String state, String cardType, String cardNumber, String getSpinnerMonth, String getSpinnerYear, String getZipCode) {
+        dialog.show();
+        Call<AddCardModel> addCardModelCall = adminAPI.AddCard(firstname, lastname, address, city, state, "", "", "1", preference.getUserID(), preference.getTokenHash(), cardType, cardNumber, getSpinnerMonth, getSpinnerYear, getZipCode);
+
+        addCardModelCall.enqueue(new Callback<AddCardModel>() {
+            @Override
+            public void onResponse(Call<AddCardModel> call, Response<AddCardModel> response) {
+                dialog.dismiss();
+                AddCardModel cardModel = response.body();
+                if (cardModel != null) {
+                    if (cardModel.isStatus()) {
+                        onBackPressed();
+                    } else {
+                        C.INSTANCE.showToast(getApplicationContext(), cardModel.getMessage());
+                    }
+
+                } else {
+                    C.INSTANCE.defaultError(getApplicationContext());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AddCardModel> call, Throwable t) {
+                dialog.dismiss();
+                C.INSTANCE.errorToast(getApplicationContext(), t);
+            }
+        });
+
+
+    }
+
+    private void EditUsersCard(String cardType, String cardNumber, String getSpinnerMonth, String getSpinnerYear, String getZipCode) {
+        dialog.show();
+        Call<AppModel> modelCall = adminAPI.EditCard(preference.getUserID(), preference.getTokenHash(), cardType, cardNumber, getSpinnerMonth, getSpinnerYear, getZipCode, editedId);
+        modelCall.enqueue(new Callback<AppModel>() {
+            @Override
+            public void onResponse(Call<AppModel> call, Response<AppModel> response) {
+                dialog.dismiss();
+                AppModel model = response.body();
+                if(model!=null){
+                    if(model.isStatus()){
+                        editMode = false;
+                        /*Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                        startActivity(intent);*/
+
+                        onBackPressed();
+                    }
+
+                }else {
+                    C.INSTANCE.defaultError(getApplicationContext());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AppModel> call, Throwable t) {
+                dialog.dismiss();
+                C.INSTANCE.errorToast(getApplicationContext() , t);
+            }
+        });
+
+
+    }
+
+    private void MonthAndYears() {
+        dialog.show();
+        Call<MonthYearModel> monthYearModelCall = adminAPI.GetMonthandYear(preference.getUserID(), preference.getTokenHash());
+        monthYearModelCall.enqueue(new Callback<MonthYearModel>() {
+            @Override
+            public void onResponse(Call<MonthYearModel> call, Response<MonthYearModel> response) {
+                dialog.dismiss();
+                months.clear();
+                year.clear();
+                Log.e("responses", "--->" + new Gson().toJson(response));
+                MonthYearModel monthYearModel = response.body();
+                if (monthYearModel != null) {
+                    if (monthYearModel.isStatus()) {
+                        for (int i = 0; i < monthYearModel.getData().getMonths().size(); i++) {
+                            String getMonthsString = monthYearModel.getData().getMonths().get(i).toString();
+                            months.add(getMonthsString);
+                        }
+                        monthAdapter.notifyDataSetChanged();
+                        for (int j = 0; j < monthYearModel.getData().getYears().size(); j++) {
+                            String getYearsString = monthYearModel.getData().getYears().get(j).toString();
+                            year.add(getYearsString);
+                        }
+                        yearAdapter.notifyDataSetChanged();
+
+                        if (editMode == true) {
+                            checkForSelectedMonth();
+
+                        }
+                    }
+                } else {
+                    C.INSTANCE.defaultError(getApplicationContext());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MonthYearModel> call, Throwable t) {
+                dialog.dismiss();
+                C.INSTANCE.errorToast(getApplicationContext(), t);
+            }
+        });
+    }
+
+    private void checkForSelectedMonth() {
+        int pos = 0;
+
+        Log.e("getSelectedPductMonths", "-->" + editedmonth);
+        for (int i = 0; i < months.size(); i++) {
+            if (months.get(i).equals(editedmonth)) {
+                pos = i;
+                break;
+            }
+        }
+
+
+        //inEditModeFirstTime=false;
+
+        spn_month.setSelection(pos);
+        checkForSelectedYear();
+    }
+
+    private void checkForSelectedYear() {
+        int pos = 0;
+        Log.e("getSelectedPductyear", "-->" + editedyear);
+        for (int i = 0; i < year.size(); i++) {
+            if (year.get(i).equals(editedyear)) {
+                pos = i;
+                break;
+            }
+        }
+
+
+        spn_year.setSelection(pos);
     }
 
 
-    public class GetMonthsAndYear extends AsyncTask<Void, Void, String> {
+    private void clearStates() {
+        stateNames.clear();
+        stateItems.clear();
+
+        stateItems.add(new AreaItem("Select State"));
+        stateNames.add("Select State");
+
+        stateAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        editMode = false;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        System.gc();
+    }
+
+// Following are the ASYNCTASK Services that are already converted to retrofit . If you found any issues in Retrofit API please refer the following.
+
+    /*public class GetMonthsAndYear extends AsyncTask<Void, Void, String> {
 
         @Override
         protected void onPreExecute() {
@@ -372,9 +544,9 @@ public class MyCardDetailsActivity extends AppCompatActivity {
             }
         }
     }
+    */
 
-
-    public class AddCard extends AsyncTask<Void, Void, String> {
+    /*public class AddCard extends AsyncTask<Void, Void, String> {
 
         String type = "";
         String number = "";
@@ -464,8 +636,8 @@ public class MyCardDetailsActivity extends AppCompatActivity {
 
                     C.INSTANCE.showToast(getApplicationContext(), message);
                     if (status == true) {
-                        /*Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-                        startActivity(intent);*/
+                        *//*Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                        startActivity(intent);*//*
                         onBackPressed();
                     }
                 } catch (JSONException e) {
@@ -476,9 +648,10 @@ public class MyCardDetailsActivity extends AppCompatActivity {
             }
 
         }
-    }
+    }*/
 
-    public class EditCard extends AsyncTask<Void, Void, String> {
+
+    /*public class EditCard extends AsyncTask<Void, Void, String> {
 
         String type = "";
         String number = "";
@@ -553,8 +726,8 @@ public class MyCardDetailsActivity extends AppCompatActivity {
                     C.INSTANCE.showToast(getApplicationContext(), message);
                     if (status == true) {
                         editMode = false;
-                        /*Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-                        startActivity(intent);*/
+                        *//*Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                        startActivity(intent);*//*
 
                         onBackPressed();
                     }
@@ -566,61 +739,6 @@ public class MyCardDetailsActivity extends AppCompatActivity {
             }
 
         }
-    }
+    }*/
 
-
-    private void checkForSelectedMonth() {
-        int pos = 0;
-
-        Log.e("getSelectedPductMonths", "-->" + editedmonth);
-        for (int i = 0; i < months.size(); i++) {
-            if (months.get(i).equals(editedmonth)) {
-                pos = i;
-                break;
-            }
-        }
-
-
-        //inEditModeFirstTime=false;
-
-        spn_month.setSelection(pos);
-        checkForSelectedYear();
-    }
-
-    private void checkForSelectedYear() {
-        int pos = 0;
-        Log.e("getSelectedPductyear", "-->" + editedyear);
-        for (int i = 0; i < year.size(); i++) {
-            if (year.get(i).equals(editedyear)) {
-                pos = i;
-                break;
-            }
-        }
-
-
-        spn_year.setSelection(pos);
-    }
-
-
-    private void clearStates() {
-        stateNames.clear();
-        stateItems.clear();
-
-        stateItems.add(new AreaItem("Select State"));
-        stateNames.add("Select State");
-
-        stateAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        editMode = false;
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        System.gc();
-    }
 }

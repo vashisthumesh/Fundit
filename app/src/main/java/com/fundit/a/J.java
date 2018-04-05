@@ -49,8 +49,8 @@ public class J {
 
                         int totalRequest = 0 , memberRequest = 0 , campaignRequestCount = 0 ;
 
-                        memberRequest = Integer.parseInt(countModel.getTotal_request_count());
-                        campaignRequestCount = Integer.parseInt(countModel.getTotal_member_request_count());
+                        campaignRequestCount = Integer.parseInt(countModel.getTotal_request_count());
+                        memberRequest = Integer.parseInt(countModel.getTotal_member_request_count());
 
                         totalRequest = memberRequest + campaignRequestCount ;
 
@@ -64,7 +64,8 @@ public class J {
                         appPreference.setTotalCount(totalRequest);
                         appPreference.setUnReadCount(Integer.parseInt(countModel.getTotal_unread_msg()));
 
-                        Log.e("GlobalSuccess" , "---->" );
+                        Log.e("GlobalSuccessFrag" , "---->" );
+                        Log.e("Redeemer" , "---->" +  countModel.getIs_redeemer());
                     }
                 }
             }

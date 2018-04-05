@@ -24,11 +24,13 @@ import com.fundit.apis.ServiceGenerator;
 import com.fundit.apis.ServiceHandler;
 import com.fundit.helper.CreditCardPattern;
 import com.fundit.helper.CustomDialog;
+import com.fundit.model.AddCardModel;
 import com.fundit.model.AppModel;
 import com.fundit.model.AreaItem;
 import com.fundit.model.AreaResponse;
 import com.fundit.model.CompleteOrderModel;
 import com.fundit.model.Member;
+import com.fundit.model.MonthYearModel;
 import com.google.gson.Gson;
 
 import org.apache.http.NameValuePair;
@@ -162,7 +164,7 @@ public class CreateCardActivity extends AppCompatActivity {
         adminAPI = ServiceGenerator.getAPIClass();
 
         preference = new AppPreference(getApplicationContext());
-        dialog = new CustomDialog(getApplicationContext());
+        dialog = new CustomDialog(this);
 
         creditCardPattern = new CreditCardPattern(getApplicationContext());
 
@@ -354,19 +356,240 @@ public class CreateCardActivity extends AppCompatActivity {
                 } else if (getSpinnerYear.isEmpty()) {
                     C.INSTANCE.showToast(getApplicationContext(), "Please select year");
                 } else {
-                    new AddCard(firstname, lastname, address, city, state, cardType, cardNumber, getSpinnerMonth, getSpinnerYear, getZipCode).execute();
+                 //   new AddCard(firstname, lastname, address, city, state, cardType, cardNumber, getSpinnerMonth, getSpinnerYear, getZipCode).execute();
 
-
+                    AddUsersCard(firstname, lastname, address, city, state, cardType, cardNumber, getSpinnerMonth, getSpinnerYear, getZipCode);
                 }
 
             }
         });
 
-        new GetMonthsAndYear().execute();
+      //  new GetMonthsAndYear().execute();
+
+        MonthAndYears();
     }
 
 
-    public class GetMonthsAndYear extends AsyncTask<Void, Void, String> {
+
+    private void MonthAndYears() {
+        dialog.show();
+        Call<MonthYearModel> monthYearModelCall = adminAPI.GetMonthandYear(preference.getUserID(), preference.getTokenHash());
+        monthYearModelCall.enqueue(new Callback<MonthYearModel>() {
+            @Override
+            public void onResponse(Call<MonthYearModel> call, Response<MonthYearModel> response) {
+                dialog.dismiss();
+                months.clear();
+                year.clear();
+                Log.e("responses" , "--->"+new Gson().toJson(response));
+                MonthYearModel monthYearModel = response.body();
+                if (monthYearModel != null) {
+                    if (monthYearModel.isStatus()) {
+                        for (int i = 0; i < monthYearModel.getData().getMonths().size(); i++) {
+                            String getMonthsString = monthYearModel.getData().getMonths().get(i).toString();
+                            months.add(getMonthsString);
+                        }
+                        monthAdapter.notifyDataSetChanged();
+                        for (int j = 0; j < monthYearModel.getData().getYears().size(); j++) {
+                            String getYearsString = monthYearModel.getData().getYears().get(j).toString();
+                            year.add(getYearsString);
+                        }
+                        yearAdapter.notifyDataSetChanged();
+                    }
+                } else {
+                    C.INSTANCE.defaultError(getApplicationContext());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MonthYearModel> call, Throwable t) {
+                dialog.dismiss();
+                C.INSTANCE.errorToast(getApplicationContext(), t);
+            }
+        });
+    }
+
+
+    private void AddUsersCard(String firstname, String lastname, String address, String city, String state, String cardType, String cardNumber, String getSpinnerMonth, String getSpinnerYear, String getZipCode) {
+        dialog.show();
+        Call<AddCardModel> addCardModelCall = adminAPI.AddCard(firstname , lastname , address , city , state , "","",is_card_save , preference.getUserID() , preference.getTokenHash() , cardType , cardNumber , getSpinnerMonth , getSpinnerYear , getZipCode );
+
+        addCardModelCall.enqueue(new Callback<AddCardModel>() {
+            @Override
+            public void onResponse(Call<AddCardModel> call, Response<AddCardModel> response) {
+                dialog.dismiss();
+                AddCardModel cardModel = response.body();
+                if(cardModel!=null){
+                    if(cardModel.isStatus()){
+
+                        auth_cust_paymnet_profile_id = cardModel.getData().getAuth_cust_paymnet_profile_id();
+                        customerProfileId = cardModel.getData().getProfile_id();
+                        card_Id = cardModel.getData().getCard_id();
+
+                        AddOrder();
+
+
+                    }else {
+                        C.INSTANCE.showToast(getApplicationContext(), cardModel.getMessage());
+                    }
+
+                }else {
+                    C.INSTANCE.defaultError(getApplicationContext());
+                }
+            }
+
+
+            private void AddOrder() {
+                dialog.show();
+
+                if (isCouponTimes) {
+
+                    Call<CompleteOrderModel> couponRequest = adminAPI.CouponAccpet(orderId, preference.getUserID(), "1", card_Id, cvv, auth_cust_paymnet_profile_id, customerProfileId, is_card_save, is_card_save);
+                    couponRequest.enqueue(new Callback<CompleteOrderModel>() {
+                        @Override
+                        public void onResponse(Call<CompleteOrderModel> call, Response<CompleteOrderModel> response) {
+
+                            CompleteOrderModel appModel = response.body();
+                            if (appModel != null) {
+                                if (appModel.isStatus()) {
+                                    Intent i = new Intent(getApplicationContext(), Thankyou.class);
+                                    i.putExtra("isCouponTimes", isCouponTimes);
+                                    i.putExtra("campaignName", appModel.getData().getCampaign_name());
+                                    i.putExtra("name", appModel.getData().getCustomer_name());
+                                    i.putExtra("expiryDate", appModel.getData().getExpiry_date());
+                                    i.putExtra("fundspot", appModel.getData().getFundspot_name());
+                                    i.putExtra("org", appModel.getData().getOrganization_name());
+                                    i.putExtra("total", appModel.getData().getTotal());
+                                    startActivity(i);
+
+
+                                } else {
+                                    C.INSTANCE.showToast(getApplicationContext(), appModel.getMessage());
+                                }
+                            } else {
+                                C.INSTANCE.defaultError(getApplicationContext());
+                            }
+
+
+                        }
+
+                        @Override
+                        public void onFailure(Call<CompleteOrderModel> call, Throwable t) {
+
+                        }
+                    });
+
+
+                } else {
+
+                    String sendUserId = "";
+                    if (selectedFundsUserId.isEmpty()) {
+                        sendUserId = preference.getUserID();
+                    } else {
+                        sendUserId = selectedFundsUserId;
+                    }
+
+
+                    Call<CompleteOrderModel> addOrder = null;
+
+                    addOrder = adminAPI.CompleteOrder(sendUserId, preference.getUserRoleID(), preference.getTokenHash(), campaign_id, firstName, lastName, email, mobile, payment_address_1, payment_city, payment_postcode, payment_state, payment_method, total, preference.getUserID(), "", "", organization_id, fundspot_id, selectedProductArray, auth_cust_paymnet_profile_id, customerProfileId, cvv, card_Id, save_card, on_behalf_of, order_request, other_user, is_card_save);
+
+
+                    Log.e("userid", "--->" + preference.getUserID());
+                    Log.e("roleid", "--->" + preference.getUserRoleID());
+                    Log.e("token", "--->" + preference.getTokenHash());
+                    Log.e("campaign_id", "-->" + campaign_id);
+                    Log.e("firstName", "--->" + firstName);
+                    Log.e("lastName", "--->" + lastName);
+                    Log.e("email", "--->" + email);
+                    Log.e("mobile", "-->" + mobile);
+                    Log.e("payment_address_1", "--->" + payment_address_1);
+                    Log.e("payment_city", "--->" + payment_city);
+                    Log.e("payment_postcode", "--->" + payment_postcode);
+                    Log.e("payment_state", "-->" + payment_state);
+                    Log.e("payment_method", "--->" + payment_method);
+                    Log.e("total", "--->" + total);
+                    Log.e("organization_id", "--->" + organization_id);
+                    Log.e("fundspot_id", "-->" + fundspot_id);
+                    Log.e("selectedProductArray", "-->" + selectedProductArray);
+                    Log.e("auth_cust_paymnet", "-->" + auth_cust_paymnet_profile_id);
+                    Log.e("is_card_saveEDEDEDEDE", "-->" + is_card_save);
+
+
+                    Log.e("customerProfileId", "-->" + customerProfileId);
+
+
+                    addOrder.enqueue(new Callback<CompleteOrderModel>() {
+                        @Override
+                        public void onResponse(Call<CompleteOrderModel> call, Response<CompleteOrderModel> response) {
+                            dialog.dismiss();
+                            CompleteOrderModel appModel = response.body();
+                            Log.e("model", "-->" + new Gson().toJson(appModel));
+                            if (appModel != null) {
+                                if (appModel.isStatus()) {
+
+
+                                    Intent i = new Intent(getApplicationContext(), Thankyou.class);
+                                    i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    i.putExtra("campaignName", appModel.getData().getCampaign_name());
+                                    i.putExtra("name", appModel.getData().getCustomer_name());
+                                    i.putExtra("expiryDate", appModel.getData().getExpiry_date());
+                                    i.putExtra("fundspot", appModel.getData().getFundspot_name());
+                                    i.putExtra("org", appModel.getData().getOrganization_name());
+                                    i.putExtra("total", appModel.getData().getTotal());
+                                    i.putExtra("newsFeedTimes", newsFeedTimes);
+                                    i.putExtra("isOtherTimes", isotherTimes);
+                                    i.putExtra("email", email);
+                                    i.putExtra("name", combineName);
+
+                                    Log.e("isother5", "-->" + isotherTimes);
+
+                                    //i.putExtra("org", organization_name);
+                                    startActivity(i);
+
+                                }
+
+                            } else {
+
+                                C.INSTANCE.defaultError(getApplicationContext());
+                            }
+
+                        }
+
+                        @Override
+                        public void onFailure(Call<CompleteOrderModel> call, Throwable t) {
+                            dialog.dismiss();
+                            C.INSTANCE.errorToast(getApplicationContext(), t);
+
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AddCardModel> call, Throwable t) {
+                dialog.dismiss();
+                C.INSTANCE.errorToast(getApplicationContext() , t);
+            }
+        });
+
+
+
+
+    }
+
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        System.gc();
+    }
+
+
+
+// Following are the ASYNCTASK Services that are already converted to retrofit . If you found any issues in Retrofit API please refer the following.
+
+    /*public class GetMonthsAndYear extends AsyncTask<Void, Void, String> {
 
         @Override
         protected void onPreExecute() {
@@ -448,9 +671,11 @@ public class CreateCardActivity extends AppCompatActivity {
             }
         }
     }
+    */
 
 
-    public class AddCard extends AsyncTask<Void, Void, String> {
+
+   /* public class AddCard extends AsyncTask<Void, Void, String> {
 
         String type = "";
         String number = "";
@@ -513,7 +738,7 @@ public class CreateCardActivity extends AppCompatActivity {
 
             String json = new ServiceHandler(getApplicationContext()).makeServiceCall(W.ASYNC_BASE_URL + "BankCard/app_add_card", ServiceHandler.POST, pairs);
 
-            Log.e("parameters", "-->" + pairs);
+            Log.e("parametersAddCard", "-->" + pairs);
             Log.e("json", json);
 
             return json;
@@ -538,7 +763,7 @@ public class CreateCardActivity extends AppCompatActivity {
                     status = mainObject.getBoolean("status");
                     message = mainObject.getString("message");
 
-                  //  C.INSTANCE.showToast(getApplicationContext(), message);
+                    //  C.INSTANCE.showToast(getApplicationContext(), message);
                     if (status == true) {
 
                         JSONObject object = mainObject.getJSONObject("data");
@@ -548,8 +773,8 @@ public class CreateCardActivity extends AppCompatActivity {
                         card_Id = object.getString("card_id");
 
                         AddOrder();
-                        /*Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-                        startActivity(intent);*/
+                        *//*Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                        startActivity(intent);*//*
                     }else {
                         C.INSTANCE.showToast(getApplicationContext(), message);
                     }
@@ -690,12 +915,7 @@ public class CreateCardActivity extends AppCompatActivity {
                 });
             }
         }
-    }
+    }*/
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        System.gc();
-    }
 
 }

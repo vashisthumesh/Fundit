@@ -25,6 +25,7 @@ import com.fundit.fundspot.AddProductActivity;
 import com.fundit.helper.CustomDialog;
 import com.fundit.model.AppModel;
 import com.fundit.model.Fundspot;
+import com.fundit.model.GeneralMemberProfileResponse;
 import com.fundit.model.GetDataResponses;
 import com.fundit.model.JoinMemberModel;
 import com.fundit.model.Member;
@@ -581,7 +582,9 @@ public class AddMembersActivity extends AppCompatActivity {
             btnJoin.setVisibility(View.GONE);
             btnFollow.setVisibility(View.GONE);
             btnMessage.setVisibility(View.VISIBLE);
-            new GetAllDetails().execute();
+          //  new GetAllDetails().execute();
+
+            GetAllMemberDetails();
 
         }
 
@@ -711,75 +714,25 @@ public class AddMembersActivity extends AppCompatActivity {
 
     }
 
-    public class GetAllDetails extends AsyncTask<Void, Void, String> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            try {
-                dialog.setCancelable(false);
-                dialog.show();
-
-
-            } catch (Exception e) {
-
-                e.printStackTrace();
-            }
-        }
-
-        @Override
-        protected String doInBackground(Void... params) {
-
-            List<NameValuePair> pairs = new ArrayList<>();
-
-            pairs.add(new BasicNameValuePair(W.KEY_USERID, preference.getUserID()));
-            pairs.add(new BasicNameValuePair("member_id", memberId));
-
-
-            String json = new ServiceHandler(getApplicationContext()).makeServiceCall(W.ASYNC_BASE_URL + "Member/app_view_member_profile", ServiceHandler.POST, pairs);
-
-            Log.e("parameters", "-->" + pairs);
-            Log.e("json", json);
-            return json;
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            dialog.dismiss();
-
-
-            if (s.isEmpty()) {
-
-                C.INSTANCE.defaultError(getApplicationContext());
-            } else {
-
-                try {
-                    JSONObject mainObject = new JSONObject(s);
-
-                    boolean status = false;
-                    String message = "";
-
-
-                    status = mainObject.getBoolean("status");
-
-                    if (status) {
-
-
-                        JSONObject dataObject = mainObject.getJSONObject("data");
-                        JSONObject memberObject = dataObject.getJSONObject("Member");
-                        JSONObject userObject = dataObject.getJSONObject("User");
-                        JSONObject stateObject = dataObject.getJSONObject("State");
-                        JSONObject cityObject = dataObject.getJSONObject("City");
+    private void GetAllMemberDetails() {
+        dialog.show();
+        Call<GeneralMemberProfileResponse> memberProfileResponseCall = adminAPI.ViewGeneralMemberProfile(preference.getUserID(), preference.getTokenHash(), memberId);
+        memberProfileResponseCall.enqueue(new Callback<GeneralMemberProfileResponse>() {
+            @Override
+            public void onResponse(Call<GeneralMemberProfileResponse> call, Response<GeneralMemberProfileResponse> response) {
+                dialog.dismiss();
+                GeneralMemberProfileResponse memberProfileResponse = response.body();
+                if (memberProfileResponse != null) {
+                    if (memberProfileResponse.isStatus()) {
 
                         String name = "", emailids = "", contact = "", contactinfoMobile = "", contactinfoEmail = "", organizationName = "", fundspotName = "";
-                        name = userObject.getString("title");
-                        emailids = userObject.getString("email_id");
-                        contact = memberObject.getString("contact_info");
-                        contactinfoMobile = memberObject.getString("contact_info_mobile");
-                        contactinfoEmail = memberObject.getString("contact_info_email");
-                        organizationName = memberObject.getString("organization_names");
-                        fundspotName = memberObject.getString("fundspot_names");
+                        name = memberProfileResponse.getData().getUser().getTitle();
+                        emailids = memberProfileResponse.getData().getUser().getEmail_id();
+                        contact = memberProfileResponse.getData().getMember().getContact_info();
+                        contactinfoMobile = memberProfileResponse.getData().getMember().getContact_info_mobile();
+                        contactinfoEmail = memberProfileResponse.getData().getMember().getContact_info_email();
+                        organizationName = memberProfileResponse.getData().getMember().getOrganization_names();
+                        fundspotName = memberProfileResponse.getData().getMember().getFundspot_names();
 
 
                         txt_name.setText(name);
@@ -829,10 +782,10 @@ public class AddMembersActivity extends AppCompatActivity {
                         }
 
 
-                        txt_address.setText(memberObject.getString("location") + "\n" + memberObject.getString("city_name") + ", " + stateObject.getString("state_code") + " " + memberObject.getString("zip_code"));
+                        txt_address.setText(memberProfileResponse.getData().getMember().getLocation() + "\n" + memberProfileResponse.getData().getMember().getCity_name() + ", " + memberProfileResponse.getData().getState().getState_code() + " " + memberProfileResponse.getData().getMember().getZip_code());
 
 
-                        String getURL = W.FILE_URL + memberObject.getString("image");
+                        String getURL = W.FILE_URL + memberProfileResponse.getData().getMember().getImage();
 
                         Picasso.with(getApplicationContext())
                                 .load(getURL)
@@ -840,17 +793,19 @@ public class AddMembersActivity extends AppCompatActivity {
 
 
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                } else {
+                    C.INSTANCE.defaultError(getApplicationContext());
                 }
-
 
             }
 
-
-        }
+            @Override
+            public void onFailure(Call<GeneralMemberProfileResponse> call, Throwable t) {
+                dialog.dismiss();
+                C.INSTANCE.errorToast(getApplicationContext(), t);
+            }
+        });
     }
-
 
     private void AddGeneralMember() {
 
@@ -1060,7 +1015,7 @@ public class AddMembersActivity extends AppCompatActivity {
     }
 
 
-    // Following are the ASYNCTASK Services that are already converted to retrofit . If you find any issues in Retrofit API please refer the following.
+    // Following are the ASYNCTASK Services that are already converted to retrofit . If you found any issues in Retrofit API please refer the following.
 
 
 
@@ -1506,10 +1461,147 @@ public class AddMembersActivity extends AppCompatActivity {
 
         }
     }
-
-
-
-
 */
+
+
+    /*public class GetAllDetails extends AsyncTask<Void, Void, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            try {
+                dialog.setCancelable(false);
+                dialog.show();
+
+
+            } catch (Exception e) {
+
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+
+            List<NameValuePair> pairs = new ArrayList<>();
+
+            pairs.add(new BasicNameValuePair(W.KEY_USERID, preference.getUserID()));
+            pairs.add(new BasicNameValuePair("member_id", memberId));
+
+
+            String json = new ServiceHandler(getApplicationContext()).makeServiceCall(W.ASYNC_BASE_URL + "Member/app_view_member_profile", ServiceHandler.POST, pairs);
+
+            Log.e("parametersAddMembers", "-->" + pairs);
+            Log.e("json", json);
+            return json;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            dialog.dismiss();
+
+
+            if (s.isEmpty()) {
+
+                C.INSTANCE.defaultError(getApplicationContext());
+            } else {
+
+                try {
+                    JSONObject mainObject = new JSONObject(s);
+
+                    boolean status = false;
+                    String message = "";
+
+
+                    status = mainObject.getBoolean("status");
+
+                    if (status) {
+
+
+                        JSONObject dataObject = mainObject.getJSONObject("data");
+                        JSONObject memberObject = dataObject.getJSONObject("Member");
+                        JSONObject userObject = dataObject.getJSONObject("User");
+                        JSONObject stateObject = dataObject.getJSONObject("State");
+                        JSONObject cityObject = dataObject.getJSONObject("City");
+
+                        String name = "", emailids = "", contact = "", contactinfoMobile = "", contactinfoEmail = "", organizationName = "", fundspotName = "";
+                        name = userObject.getString("title");
+                        emailids = userObject.getString("email_id");
+                        contact = memberObject.getString("contact_info");
+                        contactinfoMobile = memberObject.getString("contact_info_mobile");
+                        contactinfoEmail = memberObject.getString("contact_info_email");
+                        organizationName = memberObject.getString("organization_names");
+                        fundspotName = memberObject.getString("fundspot_names");
+
+
+                        txt_name.setText(name);
+
+
+                        if (emailids == null || emailids.equalsIgnoreCase("")) {
+                            txt_emailID.setVisibility(View.GONE);
+                            layout_mail.setVisibility(View.GONE);
+                        } else {
+                            txt_emailID.setText(emailids);
+                            layout_mail.setVisibility(View.GONE);
+                        }
+
+
+                        if (contact == null || contact.equalsIgnoreCase("") || contact.equalsIgnoreCase("null") || contact.equalsIgnoreCase(null)) {
+                            layout_contact.setVisibility(View.GONE);
+                        } else {
+                            txt_contct.setText(contact);
+                        }
+
+
+                        if (contactinfoMobile == null || contactinfoMobile.equalsIgnoreCase("") || contactinfoMobile.equalsIgnoreCase("null") || contactinfoMobile.equalsIgnoreCase(null)) {
+                            layout_contact_info_mobile.setVisibility(View.GONE);
+                        } else {
+                            txt_con_info_mobile.setText(contactinfoMobile);
+                        }
+
+                        if (contactinfoEmail == null || contactinfoEmail.equalsIgnoreCase("") || contactinfoEmail.equalsIgnoreCase("null") || contactinfoEmail.equalsIgnoreCase(null)) {
+                            layout_contact_info_email.setVisibility(View.GONE);
+                        } else {
+                            txt_con_info_email.setText(contactinfoEmail);
+                        }
+
+                        Log.e("check", "-->" + organizationName + "-->" + fundspotName + "-->" + layout_org.getVisibility() + "-->");
+                        if (organizationName == null || organizationName.equalsIgnoreCase("") || organizationName.equalsIgnoreCase("null") || organizationName.equalsIgnoreCase(null)) {
+                            layout_org.setVisibility(View.GONE);
+                        } else {
+                            layout_org.setVisibility(View.VISIBLE);
+                            txt_organizations.setText(organizationName);
+                        }
+
+                        if (fundspotName == null || fundspotName.equalsIgnoreCase("") || fundspotName.equalsIgnoreCase("null") || fundspotName.equalsIgnoreCase(null)) {
+                            layout_fun.setVisibility(View.GONE);
+                        } else {
+                            layout_fun.setVisibility(View.VISIBLE);
+                            txt_fundspots.setText(fundspotName);
+                        }
+
+
+                        txt_address.setText(memberObject.getString("location") + "\n" + memberObject.getString("city_name") + ", " + stateObject.getString("state_code") + " " + memberObject.getString("zip_code"));
+
+
+                        String getURL = W.FILE_URL + memberObject.getString("image");
+
+                        Picasso.with(getApplicationContext())
+                                .load(getURL)
+                                .into(circleImageView);
+
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+
+
+        }
+    }*/
 
 }
